@@ -13,6 +13,9 @@
     "lint:css": "npm run lint:css:scss",
     "lint:css:scss": "stylelint 'src/**/*.scss'"
   },
+  "staticFiles": {
+    "staticPath": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meodai/raumgleiter.git"
@@ -25,6 +28,18 @@
   },
   "homepage": "https://github.com/meodai/raumgleiter#readme",
   "dependencies": {
+    "parcel-plugin-static-files-copy": "^2.4.3",
     "pixi.js": "^5.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.5",
+    "git-cz": "^4.7.0",
+    "modern-css-reset": "^1.1.1",
+    "sass": "^1.26.10"
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
   }
 }

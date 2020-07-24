@@ -1,0 +1,30 @@
+{
+  "name": "raumgleiter",
+  "version": "1.0.0",
+  "description": "Raumgleiter Website",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./src/index.html",
+    "build": "parcel build ./src/*.html --public-url https://www.raumgleiter.ch",
+    "test": "npm run build",
+    "pretest": "npm run lint",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint --ext .js",
+    "lint:css": "npm run lint:css:scss",
+    "lint:css:scss": "stylelint 'src/**/*.scss'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meodai/raumgleiter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meodai/raumgleiter/issues"
+  },
+  "homepage": "https://github.com/meodai/raumgleiter#readme",
+  "dependencies": {
+    "pixi.js": "^5.3.0"
+  }
+}

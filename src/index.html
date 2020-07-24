@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <!-- Primary Meta Tags -->
+  <title>{{ pageTitle }}</title>
+  <meta name="title" content="{{ pageTitle }}">
+  <meta name="description" content="Frontend Developer. {{ intro }}">
+  <meta name="keywords" content="{{{ buzzwords }}}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://raumgleiter.ch/">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="Frontend Developer. {{ intro }}">
+  <meta property="og:image" content="https://www.raumgleiter.ch/logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://raumgleiter.ch/">
+  <meta property="twitter:title" content="{{ pageTitle }}">
+  <meta property="twitter:description" content="Frontend Developer: {{ intro }}">
+  <meta property="twitter:image" content="https://www.raumgleiter.ch/logo.png">
+
+  <link type="text/plain" rel="author" href="https://www.raumgleiter.ch/humans.txt">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap&subset=latin"
+    rel="stylesheet">
+  <link href="/main.scss" rel="stylesheet">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "raumgleiter",
+      "legalName": "Raumgleiter GmbH",
+      "url": "https://raumgleiter.ch/",
+      "logo": "https://raumgleiter.ch/logo.png",
+      "foundingDate": "2016",
+      "founders": [{
+        "@type": "Person",
+        "name": "David Aerne"
+      }],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Zentralstrasse 43",
+        "addressLocality": "Zürich",
+        "addressRegion": "Zürich",
+        "postalCode": "8003",
+        "addressCountry": "CH"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Owner / Webmaster",
+        "telephone": "[+41788958119]",
+        "email": "david@raumgleiter.ch"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/Raumgleiter/",
+        "https://www.facebook.com/Raumgleiter/"
+      ]
+    }
+  </script>
+</head>
+
+<body>
+ <h1>Raumgleiter</h1>
+
+  <script src="/index.js"></script>
+</body>
+
+</html>

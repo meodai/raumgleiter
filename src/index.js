@@ -36,11 +36,11 @@ const videoSprites = [];
 const partSize = 1 / videoPartContainers.length;
 
 videoPartContainers.forEach((container, i) => {
+
   const rect = new PIXI.Graphics();
 
   // create a new Sprite using the video texture (yes it's that easy)
   const videoSprite = new PIXI.Sprite(texture);
-
   videoSprites.push(videoSprite);
 
   // Stetch the fullscreen
@@ -57,12 +57,14 @@ videoPartContainers.forEach((container, i) => {
   );
   rect.endFill();
 
-  container.position.x = partSize * app.screen.width * i;
+  container.position.x = app.screen.width * 3;
   videoSprite.position.x = partSize * app.screen.width * -i;
 
-  videoSprite.setTransform(
+  /*videoSprite.setTransform(
     -200 * i
-  );
+  );*/
+
+  //container.toLocal(new PIXI.Point(0, 0), videoSprite, videoSprite.position);
 
   container.addChild(videoSprite);
   container.mask = rect;
@@ -70,20 +72,18 @@ videoPartContainers.forEach((container, i) => {
   app.stage.addChild(container);
 });
 
-
 ticker.start();
 
-
+const acceleration = 0.025;
 
 setTimeout(() => {
   ticker.add((time) => {
-    videoSprites.forEach((videoSprite, i) => {
-      videoSprite.setTransform(
-        Math.min(
-          0,
-          videoSprite.transform.position.x + 10
-        )
-      );
+    videoPartContainers.forEach((videoSprite, i) => {
+      //videoSprite.position.x -= 5
+      const goal = partSize * app.screen.width * i;
+      const diffx = goal - videoSprite.position.x;
+
+      videoSprite.position.x += diffx * acceleration;
     });
   });
 }, 1000);

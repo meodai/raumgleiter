@@ -35,6 +35,7 @@
     "autoprefixer": "^9.8.5",
     "git-cz": "^4.7.0",
     "modern-css-reset": "^1.1.1",
+    "parcel-bundler": "^1.12.4",
     "sass": "^1.26.10"
   },
   "config": {

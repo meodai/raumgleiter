@@ -3,3 +3,61 @@
 :root {
   --ok: ok;
 }
+
+.header-video {
+  height: 0;
+  overflow: hidden;
+}
+
+.video-header.is-open .video-header--slice {
+  transform: translateX(0);
+  transition-duration: 400ms;
+
+  &:nth-child(2) {
+    transition-duration: 300ms;
+  }
+  &:nth-child(3) {
+    transition-duration: 200ms;
+  }
+}
+
+.video-header {
+  height: 100vh;
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100vw;
+  }
+
+  &--slice {
+    position: absolute;
+    width: 33.33vw;
+
+    height: 100vh;
+
+    transform: translateX(100vw);
+    //outline: 10px solid rgba(255,0,0,.5);
+    overflow: hidden;
+    transition: 200ms transform cubic-bezier(0.42, 0, 0, 1);
+
+    &:nth-child(2) {
+      left: 33.33vw;
+      video {
+        left: -33.33vw;
+      }
+
+      transition-duration: 300ms;
+    }
+    &:nth-child(3) {
+      left: 66.66vw;
+
+      video {
+        left: -66.66vw;
+      }
+
+      transition-duration: 400ms;
+    }
+  }
+}

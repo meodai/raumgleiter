@@ -25,7 +25,10 @@ const texture = PIXI.Texture.from(
   video
 );
 
+const slide = new PIXI.Container();
+
 const videoPartContainers = [
+  new PIXI.Container(),
   new PIXI.Container(),
   new PIXI.Container(),
   new PIXI.Container()
@@ -34,6 +37,14 @@ const videoPartContainers = [
 const videoSprites = [];
 
 const partSize = 1 / videoPartContainers.length;
+
+app.stage.addChild(slide);
+
+const displacementTexture = PIXI.Texture.from('disp.png');
+const displacementSprite = new PIXI.Sprite(displacementTexture);
+const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite, 20);
+
+slide.filters = [displacementFilter];
 
 videoPartContainers.forEach((container, i) => {
 
@@ -68,9 +79,11 @@ videoPartContainers.forEach((container, i) => {
 
   container.addChild(videoSprite);
   container.mask = rect;
+  slide.addChild(container);
 
-  app.stage.addChild(container);
 });
+
+
 
 ticker.start();
 

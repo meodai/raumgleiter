@@ -33,6 +33,7 @@ export default {
     },
     data () {
         return {
+            hasEnteredSite: this.$route.path !== '/',
             allowTouchSwipe: true,
         };
     },
@@ -49,6 +50,9 @@ export default {
                 keyboard: true,
             };
         },
+        currentSection () {
+            return this.sections[this.swiperIndexByPath];
+        },
     },
     mounted() {
         window.addEventListener('scroll', this.handleScroll);
@@ -59,14 +63,30 @@ export default {
     methods: {
         slideChange(swiper) {
             // Update route on slide change
+            // only if not on home
+            if (this.hasEnteredSite) {
+                this.$router.push(this.sections[swiper.realIndex].path);
+            }
         },
         handleScroll: debounce(200, function() {
-            this.allowTouchSwipe = (window.scrollY < 10 );
+            this.allowTouchSwipe = (window.scrollY < 10);
+
+            if(window.scrollY > 10) {
+                if(!this.hasEnteredSite) {
+                    this.$router.push(this.sections[this.$refs.mySwiper.$swiper.realIndex].path);
+                }
+                this.hasEnteredSite = true;
+            }
         }),
     },
     watch: {
-        allowTouchSwipe(value) {
-            this.$refs.mySwiper.$swiper.allowTouchMove = value;
+        allowTouchSwipe(allowTouchSwipe) {
+            this.$refs.mySwiper.$swiper.allowTouchMove = allowTouchSwipe;
+        },
+        hasEnteredSite(hasEnteredSite) {
+            if (hasEnteredSite) {
+                // this.$refs.mySwiper.$swiper.autoplay.stop();
+            }
         }
     },
 }

@@ -1,16 +1,18 @@
 module.exports = {
-  parser: "vue-eslint-parser",
-  extends: [
-    // add more generic rulesets here, such as:
-    // 'eslint:recommended',
-    'plugin:vue/recommended'
-  ],
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: "module"
+  root: true,
+  env: {
+    browser: true,
+    node: true
   },
-  rules: {
-    // override/add rules settings here, such as:
-    // 'vue/no-unused-vars': 'error'
-  }
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  extends: [
+    '@nuxtjs',
+    'plugin:nuxt/recommended'
+  ],
+  plugins: [
+  ],
+  // add your custom rules here
+  rules: {}
 }

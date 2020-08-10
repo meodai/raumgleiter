@@ -1,73 +1,127 @@
+<script>
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { debounce } from 'throttle-debounce';
+
+export default {
+    key: '_index',
+    components: {
+        Swiper,
+        SwiperSlide,
+    },
+    async asyncData ({ $axios }) {
+
+        // Fetching the data from the cms here
+        const sections = [
+            {
+                name: 'Virtual Real Estate',
+                path: '/virtual-real-estate',
+                color: '#4c64e5',
+            },
+            {
+                name: 'Virtuelle Vermarktung',
+                path: '/virtuelle-vermarktung',
+                color: '#68be8d',
+            },
+            {
+                name: 'Virtueller Wettbewerb',
+                path: '/virtueller-wettbewerb',
+                color: '#b09737',
+            },
+        ];
+
+        return { sections };
+    },
+    data () {
+        return {
+            allowTouchSwipe: true,
+        };
+    },
+    computed: {
+        swiperIndexByPath () {
+            return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
+        },
+        swiperOptions () {
+            return {
+                loop: true,
+                autoHeight: true,
+                initialSlide: this.swiperIndexByPath,
+                preloadImages: false,
+                keyboard: true,
+            };
+        },
+    },
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+    methods: {
+        slideChange(swiper) {
+            // Update route on slide change
+        },
+        handleScroll: debounce(200, function() {
+            this.allowTouchSwipe = (window.scrollY < 10 );
+        }),
+    },
+    watch: {
+        allowTouchSwipe(value) {
+            this.$refs.mySwiper.$swiper.allowTouchMove = value;
+        }
+    },
+}
+</script>
+
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        Raumgleiter
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+        <client-only>
+            <swiper
+                ref="mySwiper"
+                :options="swiperOptions"
+                @slideChange="slideChange"
+            >
+                <swiper-slide
+                    v-for="(section, index) in sections"
+                    :key="section.path"
+                >
+                    <div
+                        class="sectionHeader"
+                        :style="{ backgroundColor: section.color }"
+                    >
+                        <h2>Video Teaser {{ section.name }}</h2>
+                    </div>
+                    <div class="sectionContent">
+                        <p>
+                            Lobortis vitae vestibulum consequat sed justo himenaeos, pellentesque tortor sollicitudin dis diam pharetra, euismod senectus nisl ligula class. Consequat rhoncus semper aptent duis a integer arcu commodo, pellentesque fusce tempus sociosqu laoreet mauris cum ante, in eleifend felis nunc senectus potenti nisi. Metus turpis pulvinar nisl neque lacinia tempor elit mauris interdum, senectus dictumst id etiam primis tristique curae lacus, ac dis amet adipiscing nunc purus congue per.
+                        </p>
+                    </div>
+                </swiper-slide>
+            </swiper>
+        </client-only>
   </div>
 </template>
 
-<script>
-export default {}
-</script>
+<style lang="postcss">
+@import 'swiper/swiper-bundle.css';
 
-<style>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.sectionHeader {
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.sectionContent {
+    height: 200vh;
+    background-color: #cfcfd2;
+    max-width: 100vw;
 }
 
-.links {
-  padding-top: 15px;
+.sectionContent p {
+    margin: 0 auto;
+    padding: 30px;
+    max-width: 400px;
 }
 </style>

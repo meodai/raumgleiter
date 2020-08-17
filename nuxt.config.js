@@ -62,27 +62,16 @@ export default {
     ** See https://nuxtjs.org/api/configuration-build/
     */
     build: {},
-
     /*
     ** Add routes
     */
-    router: {
-        extendRoutes(routes, resolve) {
-            routes.push({
-                name: 'Virtual Real Estate',
-                path: '/virtual-real-estate',
-                component: resolve(__dirname, 'pages/index.vue')
-            });
-            routes.push({
-                name: 'Virtuelle Vermarktung',
-                path: '/virtuelle-vermarktung',
-                component: resolve(__dirname, 'pages/index.vue')
-            });
-            routes.push({
-                name: 'Virtueller Wettbewerb',
-                path: '/virtueller-wettbewerb',
-                component: resolve(__dirname, 'pages/index.vue')
-            });
-        }
-    }
+    router: {},
+    /*
+    ** Static site generation config
+    */
+    generate: {
+        // routes () {
+        //    Loading dynamic routes here
+        // },
+    },
 }

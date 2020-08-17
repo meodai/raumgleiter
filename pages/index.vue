@@ -9,23 +9,25 @@ export default {
         SwiperSlide,
     },
     async asyncData ({ $axios }) {
-
         // Fetching the data from the cms here
         const sections = [
             {
                 name: 'Virtual Real Estate',
                 path: '/virtual-real-estate',
                 color: '#4c64e5',
+                pagebuilder: [],
             },
             {
                 name: 'Virtuelle Vermarktung',
                 path: '/virtuelle-vermarktung',
                 color: '#68be8d',
+                pagebuilder: [],
             },
             {
                 name: 'Virtueller Wettbewerb',
                 path: '/virtueller-wettbewerb',
                 color: '#b09737',
+                pagebuilder: [],
             },
         ];
 
@@ -56,6 +58,7 @@ export default {
     },
     mounted() {
         window.addEventListener('scroll', this.handleScroll);
+        // todo: start swiper autoplay
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -69,11 +72,12 @@ export default {
             }
         },
         handleScroll: debounce(200, function() {
+            // Disable swiper when entering a page
             this.allowTouchSwipe = (window.scrollY < 10);
 
             if(window.scrollY > 10) {
                 if(!this.hasEnteredSite) {
-                    this.$router.push(this.sections[this.$refs.mySwiper.$swiper.realIndex].path);
+                    this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
                 }
                 this.hasEnteredSite = true;
             }
@@ -81,11 +85,12 @@ export default {
     },
     watch: {
         allowTouchSwipe(allowTouchSwipe) {
-            this.$refs.mySwiper.$swiper.allowTouchMove = allowTouchSwipe;
+            this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
         },
         hasEnteredSite(hasEnteredSite) {
             if (hasEnteredSite) {
-                // this.$refs.mySwiper.$swiper.autoplay.stop();
+                // todo: stop autoplay of swiper
+                // this.$refs.sectionSwiper.$swiper.autoplay.stop();
             }
         }
     },
@@ -93,27 +98,28 @@ export default {
 </script>
 
 <template>
-  <div class="container">
+  <div>
         <client-only>
             <swiper
-                ref="mySwiper"
+                ref="sectionSwiper"
                 :options="swiperOptions"
                 @slideChange="slideChange"
             >
                 <swiper-slide
                     v-for="(section, index) in sections"
-                    :key="section.path"
+                    :key="'section'+index"
                 >
+                    <!-- Video Header -->
                     <div
                         class="sectionHeader"
                         :style="{ backgroundColor: section.color }"
                     >
                         <h2>Video Teaser {{ section.name }}</h2>
                     </div>
+
+                    <!-- Page Content -->
                     <div class="sectionContent">
-                        <p>
-                            Lobortis vitae vestibulum consequat sed justo himenaeos, pellentesque tortor sollicitudin dis diam pharetra, euismod senectus nisl ligula class. Consequat rhoncus semper aptent duis a integer arcu commodo, pellentesque fusce tempus sociosqu laoreet mauris cum ante, in eleifend felis nunc senectus potenti nisi. Metus turpis pulvinar nisl neque lacinia tempor elit mauris interdum, senectus dictumst id etiam primis tristique curae lacus, ac dis amet adipiscing nunc purus congue per.
-                        </p>
+                        <Pagebuilder :blocks="section.pagebuilder" />
                     </div>
                 </swiper-slide>
             </swiper>
@@ -123,9 +129,6 @@ export default {
 
 <style lang="postcss">
 @import 'swiper/swiper-bundle.css';
-
-.container {
-}
 
 .sectionHeader {
     display: flex;

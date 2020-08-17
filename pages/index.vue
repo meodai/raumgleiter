@@ -94,6 +94,12 @@ export default {
             }
         }
     },
+    head () {
+        return {
+            title: this.currentSection.name,
+            titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
+        }
+    }
 }
 </script>
 

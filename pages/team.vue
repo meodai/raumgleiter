@@ -6,6 +6,6 @@ export default {
 
 <template>
     <div>
-        Projekte
+        Team
     </div>
 </template>

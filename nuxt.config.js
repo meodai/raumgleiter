@@ -51,7 +51,8 @@ export default {
     */
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios'
+        '@nuxtjs/axios',
+        'nuxt-i18n',
     ],
     /*
     ** Axios module configuration
@@ -59,6 +60,19 @@ export default {
     */
     axios: {
         baseURL: process.env.CMS_URL || 'https://cms.raumgleiter.noo.work',
+    },
+    /*
+    ** Multi-language config
+    ** See https://i18n.nuxtjs.org/
+    */
+    i18n: {
+        strategy: 'prefix_except_default',
+        locales: ['de', 'fr', 'en'],
+        defaultLocale: 'de',
+        vueI18n: {
+            fallbackLocale: 'en',
+            messages: {},
+        },
     },
     /*
     ** Build configuration

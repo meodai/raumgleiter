@@ -10,21 +10,34 @@ export default {
         }
     },
     async asyncData ({ $axios }) {
+        // Load all projects when building static site
         const allProjectEntries = collect(await $axios.$get('/projects.json').then(data => data.data))
         .groupBy('lang').all();
         return { allProjectEntries };
     },
     computed: {
         projects () {
+            // Get localized project entries
             return this.allProjectEntries[this.$i18n.locale];
         },
-    }
+    },
 }
 </script>
 
 <template>
     <div>
         Projekt-Übersicht
-        <pre>{{ projects }}</pre>
+        <ul>
+            <li
+                v-for="project in projects"
+                :key="'project'+project.slug"
+            >
+                <nuxt-link
+                    :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
+                >
+                    {{ project.title }}
+                </nuxt-link>
+            </li>
+        </ul>
     </div>
 </template>

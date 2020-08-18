@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
     /*
     ** Nuxt rendering mode
@@ -25,6 +27,10 @@ export default {
             {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
         ]
     },
+    /*
+    ** Disable loading indicator
+    */
+    loader: false,
     /*
     ** Global CSS
     */
@@ -87,8 +93,6 @@ export default {
     ** Static site generation config
     */
     generate: {
-        // routes () {
-        //    Loading dynamic routes here
-        // },
+        // routes () {},
     },
 }

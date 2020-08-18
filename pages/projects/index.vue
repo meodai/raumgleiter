@@ -31,6 +31,25 @@ export default {
             return this.$route.query.offer.split(',');
         }
     },
+    methods: {
+        queryStringForCategory(category, slug) {
+            if (! this.$route.query[category]) {
+                return slug;
+            }
+            const currentQuery = this.$route.query[category].split(',');
+            if (currentQuery.includes(slug)) {
+                return currentQuery.filter(query => query !== slug).join(',');
+            }
+            return [...currentQuery, slug].join(',');
+        },
+        categoryFilterIsEnabled(category, slug) {
+            if (! this.$route.query[category]) {
+                return false;
+            }
+            const currentQuery = this.$route.query[category].split(',');
+            return currentQuery.includes(slug);
+        },
+    },
 }
 </script>
 
@@ -44,9 +63,9 @@ export default {
                 v-for="offer in categoriesInCurrentLanguage.offers"
             >
                 <nuxt-link
-                    :to="localePath({ query: { offer: offer.slug } })"
+                    :to="localePath({ query: { offer: queryStringForCategory('offer', offer.slug) } })"
                 >
-                    {{ offer.title }}
+                    {{ offer.title }} {{ categoryFilterIsEnabled('offer', offer.slug) ? 'Aktiviert' : 'Deaktiviert' }}
                 </nuxt-link>
             </li>
         </ul>

@@ -1,5 +1,6 @@
 <script>
 import collect from 'collect.js';
+import FilterButton from "../../components/ProjectFilter/FilterButton";
 
 export default {
     nuxtI18n: {
@@ -8,6 +9,9 @@ export default {
             fr: '/projets', // -> accessible at /fr/projets
             en: '/projects', // -> accessible at /en/projects
         }
+    },
+    components: {
+        FilterButton,
     },
     async asyncData ({ $axios }) {
 
@@ -26,29 +30,6 @@ export default {
             // Get localized project entries
             return this.allProjectEntries[this.$i18n.locale];
         },
-        offerCategories () {
-            // We could add the filter query to the url
-            return this.$route.query.offer.split(',');
-        }
-    },
-    methods: {
-        queryStringForCategory(category, slug) {
-            if (! this.$route.query[category]) {
-                return slug;
-            }
-            const currentQuery = this.$route.query[category].split(',');
-            if (currentQuery.includes(slug)) {
-                return currentQuery.filter(query => query !== slug).join(',');
-            }
-            return [...currentQuery, slug].join(',');
-        },
-        categoryFilterIsEnabled(category, slug) {
-            if (! this.$route.query[category]) {
-                return false;
-            }
-            const currentQuery = this.$route.query[category].split(',');
-            return currentQuery.includes(slug);
-        },
     },
 }
 </script>
@@ -57,19 +38,19 @@ export default {
     <div>
         Projekt-Übersicht
         <hr>
+
+        <!-- Filter -->
         <h2>Angebote</h2>
         <ul>
             <li
                 v-for="offer in categoriesInCurrentLocale.offers"
             >
-                <nuxt-link
-                    :to="localePath({ query: { offer: queryStringForCategory('offer', offer.slug) } })"
-                >
-                    {{ offer.title }} {{ categoryFilterIsEnabled('offer', offer.slug) ? '(Aktiviert)' : '(Deaktiviert)' }}
-                </nuxt-link>
+                <FilterButton :category="offer" />
             </li>
         </ul>
         <hr>
+
+        <!-- Gefilterte Projekte -->
         <ul>
             <li
                 v-for="project in projectsInCurrentLocale"

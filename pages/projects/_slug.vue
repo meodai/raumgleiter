@@ -10,14 +10,14 @@ export default {
         }
     },
     async asyncData ({ $axios, params }) {
-        const projectEntries = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
+        const projectEntry = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
         .groupBy('lang').all();
-        return { projectEntries };
+        return { projectEntry };
     },
     computed: {
-        project () {
+        projectInCurrentLocale () {
             // Get localized project entry
-            return collect(this.projectEntries[this.$i18n.locale]).first();
+            return collect(this.projectEntry[this.$i18n.locale]).first();
         },
     }
 }
@@ -26,6 +26,6 @@ export default {
 <template>
     <div>
         <nuxt-link :to="localePath('projects')">Zurück zu Projekten</nuxt-link>
-        <h1>{{ project.title }}</h1>
+        <h1>{{ projectInCurrentLocale.title }}</h1>
     </div>
 </template>

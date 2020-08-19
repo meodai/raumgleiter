@@ -93,6 +93,17 @@ export default {
     ** Static site generation config
     */
     generate: {
-        // routes () {},
+        // routes () {
+        //     return axios.get((process.env.CMS_URL || 'https://cms.raumgleiter.noo.work') + '/projects.json').then((res) => {
+        //         return res.data.data
+        //         .filter(entry => entry.url !== false)
+        //         .map((entry) => {
+        //             return {
+        //                 route: entry.url,
+        //                 payload: entry,
+        //             };
+        //         });
+        //     });
+        // },
     },
 }

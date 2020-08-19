@@ -19,10 +19,10 @@ export default {
         return { allProjectEntries, allCategories };
     },
     computed: {
-        categoriesInCurrentLanguage () {
+        categoriesInCurrentLocale () {
             return this.allCategories[this.$i18n.locale];
         },
-        projectsInCurrentLanguage () {
+        projectsInCurrentLocale () {
             // Get localized project entries
             return this.allProjectEntries[this.$i18n.locale];
         },
@@ -60,19 +60,19 @@ export default {
         <h2>Angebote</h2>
         <ul>
             <li
-                v-for="offer in categoriesInCurrentLanguage.offers"
+                v-for="offer in categoriesInCurrentLocale.offers"
             >
                 <nuxt-link
                     :to="localePath({ query: { offer: queryStringForCategory('offer', offer.slug) } })"
                 >
-                    {{ offer.title }} {{ categoryFilterIsEnabled('offer', offer.slug) ? 'Aktiviert' : 'Deaktiviert' }}
+                    {{ offer.title }} {{ categoryFilterIsEnabled('offer', offer.slug) ? '(Aktiviert)' : '(Deaktiviert)' }}
                 </nuxt-link>
             </li>
         </ul>
         <hr>
         <ul>
             <li
-                v-for="project in projectsInCurrentLanguage"
+                v-for="project in projectsInCurrentLocale"
                 :key="'project'+project.slug"
             >
                 <nuxt-link

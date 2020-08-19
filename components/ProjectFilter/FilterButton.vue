@@ -20,9 +20,10 @@
                 return [...this.queryString, this.category.slug].join(',');
             },
             queryPathObject() {
-                let path = {};
-                path[this.category.group] = this.queryStringToToggleCategory;
-                return path;
+                let query = JSON.parse(JSON.stringify(this.$route.query));
+                query[this.category.group] = this.queryStringToToggleCategory;
+                Object.keys(query).forEach((key) => (query[key] === '') && delete query[key]);
+                return query;
             }
         },
     };

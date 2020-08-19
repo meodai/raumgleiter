@@ -1,6 +1,6 @@
 <script>
 import collect from 'collect.js';
-import FilterButton from "../../components/ProjectFilter/FilterButton";
+import ProjectFilter from "../../components/ProjectFilter/ProjectFilter";
 
 export default {
     nuxtI18n: {
@@ -11,7 +11,7 @@ export default {
         }
     },
     components: {
-        FilterButton,
+        ProjectFilter,
     },
     async asyncData ({ $axios }) {
 
@@ -34,12 +34,16 @@ export default {
             return this.$store.state.projectMixer;
         },
         filterClass() {
-            // Filter only by offer category for now
-            if (! this.$route.query.offers) {
-                return 'all';
-            }
-            let query = this.$route.query.offers.split(',')
-            return query.map(c => `.offers-${c}`).join(', ');
+            // TODO: For now, all matched projects are shown
+            // should they be constrained by group?
+            let filterClasses = [];
+            Object.keys(this.categoriesInCurrentLocale).forEach((category) => {
+                if (this.$route.query[category]) {
+                    let query = this.$route.query[category].split(',')
+                    filterClasses = [...filterClasses, ...query.map(c => `.${category}-${c}`)];
+                }
+            });
+            return filterClasses.length ? filterClasses.join(', ') : 'all';
         }
     },
     watch: {
@@ -65,19 +69,11 @@ export default {
 
 <template>
     <div>
-        Projekt-Übersicht
+        <h1>Projekt-Übersicht</h1>
         <hr>
 
         <!-- Filter -->
-        <h2>Angebote</h2>
-        <ul>
-            <li
-                v-for="offer in categoriesInCurrentLocale.offers"
-            >
-                <FilterButton :category="offer" />
-            </li>
-        </ul>
-        <hr>
+        <ProjectFilter :categories="categoriesInCurrentLocale" />
 
         <!-- Gefilterte Projekte -->
         <ul ref="projectContainer">
@@ -85,7 +81,12 @@ export default {
                 v-for="project in projectsInCurrentLocale"
                 :key="'project'+project.slug"
                 class="mix"
-                :class="[ project.categories.offers ? 'offers-'+project.categories.offers[0] : null ]"
+                :class="[
+                    // temp. assign classes -> move to computed
+                    project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
+                    project.categories.services ? 'services-'+project.categories.services[0] : null,
+                    project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
+                 ]"
             >
                 <nuxt-link
                     :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"

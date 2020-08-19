@@ -30,6 +30,35 @@ export default {
             // Get localized project entries
             return this.allProjectEntries[this.$i18n.locale];
         },
+        mixer () {
+            return this.$store.state.projectMixer;
+        },
+        filterClass() {
+            // Filter only by offer category for now
+            if (! this.$route.query.offers) {
+                return 'all';
+            }
+            let query = this.$route.query.offers.split(',')
+            return query.map(c => `.offers-${c}`).join(', ');
+        }
+    },
+    watch: {
+        '$route.query' () {
+            this.mixer.filter(this.filterClass);
+        },
+    },
+    mounted () {
+        this.initMixer();
+    },
+    methods: {
+        initMixer () {
+            const mixer = this.mixitup(this.$refs.projectContainer, {
+                load: {
+                    filter: this.filterClass,
+                },
+            });
+            this.$store.commit('setProjectMixer', mixer);
+        },
     },
 }
 </script>
@@ -51,10 +80,12 @@ export default {
         <hr>
 
         <!-- Gefilterte Projekte -->
-        <ul>
+        <ul ref="projectContainer">
             <li
                 v-for="project in projectsInCurrentLocale"
                 :key="'project'+project.slug"
+                class="mix"
+                :class="[ project.categories.offers ? 'offers-'+project.categories.offers[0] : null ]"
             >
                 <nuxt-link
                     :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"

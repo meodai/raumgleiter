@@ -2,6 +2,13 @@ console.clear();
 
 import * as PIXI from 'pixi.js';
 
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+//import { CustomEase } from "gsap/CustomEase";
+
+gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+
 const ticker = PIXI.Ticker.shared;
 ticker.autoStart = false;
 ticker.stop();
@@ -44,7 +51,7 @@ const displacementTexture = PIXI.Texture.from('disp.png');
 const displacementSprite = new PIXI.Sprite(displacementTexture);
 const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite, 20);
 
-slide.filters = [displacementFilter];
+//slide.filters = [displacementFilter];
 
 videoPartContainers.forEach((container, i) => {
 
@@ -87,16 +94,21 @@ videoPartContainers.forEach((container, i) => {
 
 ticker.start();
 
+
 const acceleration = 0.025;
 
 setTimeout(() => {
-  ticker.add((time) => {
+  //ticker.add((time) => {
     videoPartContainers.forEach((videoSprite, i) => {
       //videoSprite.position.x -= 5
-      const goal = partSize * app.screen.width * i;
+
+      /*const goal = partSize * app.screen.width * i;
       const diffx = goal - videoSprite.position.x;
 
-      videoSprite.position.x += diffx * acceleration;
+      videoSprite.position.x += diffx * acceleration;*/
+      gsap.to(videoSprite.position, 2, { x: partSize * app.screen.width * i });
+
     });
-  });
+  //});
 }, 1000);
+

@@ -20,6 +20,7 @@ export default {
         // Load all projects when building static site
         const allProjectEntries = collect(await $axios.$get('/projects.json').then(data => data.data))
         .groupBy('lang').all();
+
         return { allProjectEntries, allCategories };
     },
     computed: {

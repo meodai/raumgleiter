@@ -51,6 +51,7 @@ export default {
     ** Nuxt.js dev-modules
     */
     buildModules: [
+        ['./modules/cache-data', { baseUrl: 'https://cms.raumgleiter.noo.work' }],
         // Doc: https://github.com/nuxt-community/eslint-module
         // '@nuxtjs/eslint-module'
     ],
@@ -67,7 +68,7 @@ export default {
     ** See https://axios.nuxtjs.org/options
     */
     axios: {
-        baseURL: process.env.CMS_URL || 'https://cms.raumgleiter.noo.work',
+        baseURL: process.env.CMS_URL || 'http://localhost:3000/api',
     },
     /*
     ** Multi-language config

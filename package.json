@@ -13,12 +13,19 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.1",
     "collect.js": "^4.28.2",
+    "gsap": "^3.5.0",
     "mixitup": "^3.3.1",
+    "modern-css-reset": "^1.1.1",
     "nuxt": "^2.14.3",
     "nuxt-i18n": "^6.13.10",
+    "pixi.js": "^5.3.3",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "swiper": "^6.1.2",
     "throttle-debounce": "^2.3.0",
-    "vue-awesome-swiper": "^4.1.1"
+    "vue": "^2.6.12",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

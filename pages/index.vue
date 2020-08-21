@@ -104,7 +104,7 @@ export default {
 </script>
 
 <template>
-  <div>
+    <div>
         <client-only>
             <swiper
                 ref="sectionSwiper"
@@ -130,7 +130,7 @@ export default {
                 </swiper-slide>
             </swiper>
         </client-only>
-  </div>
+    </div>
 </template>
 
 <style lang="postcss">

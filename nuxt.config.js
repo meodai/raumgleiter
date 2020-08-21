@@ -30,7 +30,7 @@ export default {
     /*
     ** Disable loading indicator
     */
-    loader: false,
+    loading: false,
     /*
     ** Global CSS
     */

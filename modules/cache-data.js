@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import collect from 'collect.js';
 
 export default async function (moduleOptions) {
-  if (process.env.CMS_URL === undefined) {
+  if (process.env.NODE_ENV === 'development' && ! process.env.CMS_URL) {
 
     console.log('Fetching Data from CMS...')
     await fs.emptyDir('./static/api');

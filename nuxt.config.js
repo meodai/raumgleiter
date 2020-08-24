@@ -68,7 +68,8 @@ export default {
     ** See https://axios.nuxtjs.org/options
     */
     axios: {
-        baseURL: process.env.CMS_URL || 'http://localhost:3000/api',
+        // Setting CMS_URL takes precedence, otherwise it falls back to the local cache or the production cms
+        baseURL: process.env.CMS_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'https://cms.raumgleiter.noo.work'),
     },
     /*
     ** Multi-language config

@@ -106,13 +106,13 @@ export default {
 <template>
     <div>
         <client-only>
-
+            <VideoTeaser></VideoTeaser>
             <swiper
                 ref="sectionSwiper"
                 :options="swiperOptions"
                 @slideChange="slideChange"
             >
-            <VideoTeaser></VideoTeaser>
+
                 <swiper-slide
                     v-for="(section, index) in sections"
                     :key="'section'+index"

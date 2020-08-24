@@ -1,6 +1,6 @@
 <script>
   export default {
-    mounted(){
+    mounted () {
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
       ticker.stop();
@@ -11,12 +11,12 @@
         height: window.innerHeight,
       });
 
-      document.body.appendChild(app.view);
+      this.$refs.canvas.appendChild(app.view);
 
       var video = document.createElement("video");
       video.preload = "auto";
       video.muted = true;
-      video.src = "01-digitaleVermarktung-preview-v006-nosound.mp4";
+      video.src = "video/01-DigitaleVermarktung-preview-v006.mp4";
       video.loop = true;
 
       // create a video texture from a path
@@ -46,7 +46,6 @@
       //slide.filters = [displacementFilter];
 
       videoPartContainers.forEach((container, i) => {
-
         const rect = new PIXI.Graphics();
 
         // create a new Sprite using the video texture (yes it's that easy)
@@ -70,16 +69,24 @@
         container.position.x = app.screen.width * 3;
         videoSprite.position.x = partSize * app.screen.width * -i;
 
-        /*videoSprite.setTransform(
-          -200 * i
-        );*/
+        /*
+          videoSprite.setTransform(
+            -200 * i
+          );
+        */
 
         //container.toLocal(new PIXI.Point(0, 0), videoSprite, videoSprite.position);
 
         container.addChild(videoSprite);
         container.mask = rect;
         slide.addChild(container);
+      });
 
+      window.addEventListener('resize', () => {
+        app.width = window.innerWidth;
+        app.height = window.innerHeight;
+
+        app.queueResize();
       });
 
       ticker.start();
@@ -107,7 +114,29 @@
 </script>
 
 <template>
-  <div>
+  <div class="video-teaser">
 
+    <div ref="canvas" class="video-teaser__canvas">
+
+    </div>
   </div>
 </template>
+
+<style lang="scss">
+  .video-teaser {
+    position: relative;
+    display: block;
+    width: 100vw;
+    height: -webkit-fill-available;
+    height: 100vh;
+    //overflow: hidden;
+
+    &__canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+</style>

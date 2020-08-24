@@ -1,115 +1,113 @@
 <script>
-  import * as PIXI from 'pixi.js';
+  export default {
+    mounted(){
+      const ticker = PIXI.Ticker.shared;
+      ticker.autoStart = false;
+      ticker.stop();
 
-  import { gsap } from 'gsap';
-  import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  //import { CustomEase } from "gsap/CustomEase";
-  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+      const app = new PIXI.Application({
+        transparent: false,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
 
-  const ticker = PIXI.Ticker.shared;
-  ticker.autoStart = false;
-  ticker.stop();
+      document.body.appendChild(app.view);
 
-  const app = new PIXI.Application({
-    transparent: false,
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+      var video = document.createElement("video");
+      video.preload = "auto";
+      video.muted = true;
+      video.src = "01-digitaleVermarktung-preview-v006-nosound.mp4";
+      video.loop = true;
 
-  document.body.appendChild(app.view);
+      // create a video texture from a path
+      const texture = PIXI.Texture.from(
+        video,
+      );
 
-  var video = document.createElement("video");
-  video.preload = "auto";
-  video.muted = true;
-  video.src = "01-digitaleVermarktung-preview-v006-nosound.mp4";
-  video.loop = true;
+      const slide = new PIXI.Container();
 
-  // create a video texture from a path
-  const texture = PIXI.Texture.from(
-    video
-  );
+      const videoPartContainers = [
+        new PIXI.Container(),
+        new PIXI.Container(),
+        new PIXI.Container(),
+        new PIXI.Container()
+      ];
 
-  const slide = new PIXI.Container();
+      const videoSprites = [];
 
-  const videoPartContainers = [
-    new PIXI.Container(),
-    new PIXI.Container(),
-    new PIXI.Container(),
-    new PIXI.Container()
-  ];
+      const partSize = 1 / videoPartContainers.length;
 
-  const videoSprites = [];
+      app.stage.addChild(slide);
 
-  const partSize = 1 / videoPartContainers.length;
+      const displacementTexture = PIXI.Texture.from('disp.png');
+      const displacementSprite = new PIXI.Sprite(displacementTexture);
+      const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite, 20);
 
-  app.stage.addChild(slide);
+      //slide.filters = [displacementFilter];
 
-  const displacementTexture = PIXI.Texture.from('disp.png');
-  const displacementSprite = new PIXI.Sprite(displacementTexture);
-  const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite, 20);
+      videoPartContainers.forEach((container, i) => {
 
-  //slide.filters = [displacementFilter];
+        const rect = new PIXI.Graphics();
 
-  videoPartContainers.forEach((container, i) => {
+        // create a new Sprite using the video texture (yes it's that easy)
+        const videoSprite = new PIXI.Sprite(texture);
+        videoSprites.push(videoSprite);
 
-    const rect = new PIXI.Graphics();
+        // Stetch the fullscreen
+        videoSprite.width = app.screen.width;
+        videoSprite.height = app.screen.height;
 
-    // create a new Sprite using the video texture (yes it's that easy)
-    const videoSprite = new PIXI.Sprite(texture);
-    videoSprites.push(videoSprite);
+        // Rectangle
+        rect.beginFill(0xffffff);
+        rect.drawRect(
+          partSize * app.screen.width * i,
+          0,
+          partSize * app.screen.width + 1,
+          app.screen.height
+        );
+        rect.endFill();
 
-    // Stetch the fullscreen
-    videoSprite.width = app.screen.width;
-    videoSprite.height = app.screen.height;
+        container.position.x = app.screen.width * 3;
+        videoSprite.position.x = partSize * app.screen.width * -i;
 
-    // Rectangle
-    rect.beginFill(0xffffff);
-    rect.drawRect(
-      partSize * app.screen.width * i,
-      0,
-      partSize * app.screen.width + 1,
-      app.screen.height
-    );
-    rect.endFill();
+        /*videoSprite.setTransform(
+          -200 * i
+        );*/
 
-    container.position.x = app.screen.width * 3;
-    videoSprite.position.x = partSize * app.screen.width * -i;
+        //container.toLocal(new PIXI.Point(0, 0), videoSprite, videoSprite.position);
 
-    /*videoSprite.setTransform(
-      -200 * i
-    );*/
-
-    //container.toLocal(new PIXI.Point(0, 0), videoSprite, videoSprite.position);
-
-    container.addChild(videoSprite);
-    container.mask = rect;
-    slide.addChild(container);
-
-  });
-
-  ticker.start();
-
-  const acceleration = 0.025;
-
-  setTimeout(() => {
-    //ticker.add((time) => {
-      videoPartContainers.forEach((videoSprite, i) => {
-        //videoSprite.position.x -= 5
-
-        /*const goal = partSize * app.screen.width * i;
-        const diffx = goal - videoSprite.position.x;
-        videoSprite.position.x += diffx * acceleration;*/
-        gsap.to(videoSprite.position, 2, { x: partSize * app.screen.width * i });
+        container.addChild(videoSprite);
+        container.mask = rect;
+        slide.addChild(container);
 
       });
-    //});
-  }, 1000);
+
+      ticker.start();
+
+      const acceleration = 0.025;
+
+      setTimeout(() => {
+        //ticker.add((time) => {
+          videoPartContainers.forEach((videoSprite, i) => {
+            //videoSprite.position.x -= 5
+
+            /*const goal = partSize * app.screen.width * i;
+            const diffx = goal - videoSprite.position.x;
+            videoSprite.position.x += diffx * acceleration;*/
+            gsap.to(videoSprite.position, 2, { x: partSize * app.screen.width * i });
+
+          });
+        //});
+      }, 1000);
+
+
+    }
+  }
 
 </script>
 
 <template>
-    <div>
+  <div>
 
-    </div>
+  </div>
 </template>

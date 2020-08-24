@@ -1,11 +1,11 @@
 <script>
 export default {
-    props: {
-        fields: {
-            type: Object,
-            required: true,
-        },
+  props: {
+    fields: {
+      type: Object,
+      required: true,
     },
+  },
 };
 </script>
 

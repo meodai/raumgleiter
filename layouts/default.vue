@@ -6,6 +6,7 @@
 </template>
 
 <style lang="scss">
+
 html {
   @import 'modern-css-reset/dist/reset';
 
@@ -13,11 +14,12 @@ html {
     'Source Sans Pro',
     -apple-system,
     sans-serif;
+
   font-size: 16px;
 }
 
 html, body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 </style>

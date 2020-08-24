@@ -1,111 +1,116 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import VideoTeaser from '../components/VideoTeaser.vue';
 import { debounce } from 'throttle-debounce';
+import { component } from 'vue/types/umd';
 
 export default {
-    key: '_index',
-    components: {
-        Swiper,
-        SwiperSlide,
-    },
-    async asyncData ({ $axios }) {
-        // Fetching the data from the cms here
-        const sections = [
-            {
-                name: 'Virtual Real Estate',
-                path: '/virtual-real-estate',
-                color: '#4c64e5',
-                pagebuilder: [],
-            },
-            {
-                name: 'Virtuelle Vermarktung',
-                path: '/virtuelle-vermarktung',
-                color: '#68be8d',
-                pagebuilder: [],
-            },
-            {
-                name: 'Virtueller Wettbewerb',
-                path: '/virtueller-wettbewerb',
-                color: '#b09737',
-                pagebuilder: [],
-            },
-        ];
+  key: '_index',
+  components: {
+    Swiper,
+    SwiperSlide,
+    VideoTeaser,
+  },
+  async asyncData ({ $axios }) {
+    // Fetching the data from the cms here
+    const sections = [
+      {
+        name: 'Virtual Real Estate',
+        path: '/virtual-real-estate',
+        color: '#4c64e5',
+        pagebuilder: [],
+      },
+      {
+        name: 'Virtuelle Vermarktung',
+        path: '/virtuelle-vermarktung',
+        color: '#68be8d',
+        pagebuilder: [],
+      },
+      {
+        name: 'Virtueller Wettbewerb',
+        path: '/virtueller-wettbewerb',
+        color: '#b09737',
+        pagebuilder: [],
+      },
+    ];
 
-        return { sections };
-    },
-    data () {
-        return {
-            hasEnteredSite: this.$route.path !== '/',
-            allowTouchSwipe: true,
-        };
-    },
-    computed: {
-        swiperIndexByPath () {
-            return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
-        },
-        swiperOptions () {
-            return {
-                loop: true,
-                autoHeight: true,
-                initialSlide: this.swiperIndexByPath,
-                preloadImages: false,
-                keyboard: true,
-            };
-        },
-        currentSection () {
-            return this.sections[this.swiperIndexByPath];
-        },
-    },
-    mounted() {
-        window.addEventListener('scroll', this.handleScroll);
-        // todo: start swiper autoplay
-    },
-    beforeDestroy() {
-        window.removeEventListener('scroll', this.handleScroll);
-    },
-    methods: {
-        slideChange(swiper) {
-            // Update route on slide change
-            // only if not on home
-            if (this.hasEnteredSite) {
-                this.$router.push(this.sections[swiper.realIndex].path);
-            }
-        },
-        handleScroll: debounce(200, function() {
-            // Disable swiper when entering a page
-            this.allowTouchSwipe = (window.scrollY < 10);
+    return { sections };
+  },
+  data () {
+    return {
+      hasEnteredSite: this.$route.path !== '/',
+      allowTouchSwipe: true,
+    };
+  },
+  computed: {
+      swiperIndexByPath () {
+          return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
+      },
+      swiperOptions () {
+          return {
+              loop: true,
+              autoHeight: true,
+              initialSlide: this.swiperIndexByPath,
+              preloadImages: false,
+              keyboard: true,
+          };
+      },
+      currentSection () {
+          return this.sections[this.swiperIndexByPath];
+      },
+  },
+  mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+      // todo: start swiper autoplay
+  },
+  beforeDestroy() {
+      window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+      slideChange(swiper) {
+          // Update route on slide change
+          // only if not on home
+          if (this.hasEnteredSite) {
+              this.$router.push(this.sections[swiper.realIndex].path);
+          }
+      },
+      handleScroll: debounce(200, function() {
+          // Disable swiper when entering a page
+          this.allowTouchSwipe = (window.scrollY < 10);
 
-            if(window.scrollY > 10) {
-                if(!this.hasEnteredSite) {
-                    this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
-                }
-                this.hasEnteredSite = true;
-            }
-        }),
-    },
-    watch: {
-        allowTouchSwipe(allowTouchSwipe) {
-            this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
-        },
-        hasEnteredSite(hasEnteredSite) {
-            if (hasEnteredSite) {
-                // todo: stop autoplay of swiper
-                // this.$refs.sectionSwiper.$swiper.autoplay.stop();
-            }
-        }
-    },
-    head () {
-        return {
-            title: this.currentSection.name,
-            titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
-        }
-    }
+          if(window.scrollY > 10) {
+              if(!this.hasEnteredSite) {
+                  this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
+              }
+              this.hasEnteredSite = true;
+          }
+      }),
+  },
+  watch: {
+      allowTouchSwipe(allowTouchSwipe) {
+          this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
+      },
+      hasEnteredSite(hasEnteredSite) {
+          if (hasEnteredSite) {
+              // todo: stop autoplay of swiper
+              // this.$refs.sectionSwiper.$swiper.autoplay.stop();
+          }
+      }
+  },
+  head () {
+      return {
+          title: this.currentSection.name,
+          titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
+      }
+  }
 }
 </script>
 
 <template>
     <div>
         <client-only>
+            <video-teaser></video-teaser>
+
             <swiper
                 ref="sectionSwiper"
                 :options="swiperOptions"
@@ -125,7 +130,7 @@ export default {
 
                     <!-- Page Content -->
                     <div class="sectionContent">
-                        <Pagebuilder :blocks="section.pagebuilder" />
+                      <Pagebuilder :blocks="section.pagebuilder" />
                     </div>
                 </swiper-slide>
             </swiper>

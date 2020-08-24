@@ -104,35 +104,58 @@ export default {
 </script>
 
 <template>
-    <div>
-        <client-only>
-            <VideoTeaser></VideoTeaser>
-            <swiper
-                ref="sectionSwiper"
-                :options="swiperOptions"
-                @slideChange="slideChange"
-            >
+  <div>
+    <client-only>
+      <VideoTeaser
+        :entries="[
+          {
+            video: 'video/Teaser_Weltenbummler_RawCut_v2.mp4',
+            title: 'pimmel',
+          },
+          {
+            video: 'video/Teaser_Neu_Bewerten_RawCut_v2.mp4',
+            title: 'titte',
+          },
+          {
+            video: 'video/Teaser_Die_Da_Die_Da_RawCut_v2.mp4',
+            title: 'vajeyjay',
+          },
+          {
+            video: 'video/Teaser_Space_Gliders_RawCut_v2.mp4',
+            title: 'dini mueter',
+          },
+          {
+            video: 'video/01-DigitaleVermarktung-preview-v006.mp4',
+            title: 'satan',
+          },
+        ]"
+      />
 
-                <swiper-slide
-                    v-for="(section, index) in sections"
-                    :key="'section'+index"
-                >
-                    <!-- Video Header -->
-                    <div
-                        class="sectionHeader"
-                        :style="{ backgroundColor: section.color }"
-                    >
-                        <h2>Video Teaser {{ section.name }}</h2>
-                    </div>
+      <swiper
+        ref="sectionSwiper"
+        :options="swiperOptions"
+        @slideChange="slideChange"
+      >
+        <swiper-slide
+          v-for="(section, index) in sections"
+          :key="'section'+index"
+        >
+          <!-- Video Header -->
+          <div
+            class="sectionHeader"
+            :style="{ backgroundColor: section.color }"
+          >
+            <h2>Video Teaser {{ section.name }}</h2>
+          </div>
 
-                    <!-- Page Content -->
-                    <div class="sectionContent">
-                      <Pagebuilder :blocks="section.pagebuilder" />
-                    </div>
-                </swiper-slide>
-            </swiper>
-        </client-only>
-    </div>
+          <!-- Page Content -->
+          <div class="sectionContent">
+            <Pagebuilder :blocks="section.pagebuilder" />
+          </div>
+        </swiper-slide>
+      </swiper>
+    </client-only>
+  </div>
 </template>
 
 <style lang="postcss">

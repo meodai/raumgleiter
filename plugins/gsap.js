@@ -11,4 +11,6 @@ import {
 //import { CustomEase } from "gsap/CustomEase";
 gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
+global.gsap = gsap;
+
 export default gsap;

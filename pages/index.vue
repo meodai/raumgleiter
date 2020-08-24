@@ -1,15 +1,12 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import VideoTeaser from '../components/VideoTeaser.vue';
 import { debounce } from 'throttle-debounce';
-import { component } from 'vue/types/umd';
 
 export default {
   key: '_index',
   components: {
     Swiper,
     SwiperSlide,
-    VideoTeaser,
   },
   async asyncData ({ $axios }) {
     // Fetching the data from the cms here
@@ -109,13 +106,13 @@ export default {
 <template>
     <div>
         <client-only>
-            <video-teaser></video-teaser>
 
             <swiper
                 ref="sectionSwiper"
                 :options="swiperOptions"
                 @slideChange="slideChange"
             >
+            <VideoTeaser></VideoTeaser>
                 <swiper-slide
                     v-for="(section, index) in sections"
                     :key="'section'+index"

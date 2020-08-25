@@ -1,30 +1,29 @@
 <script>
 import FilterButton from './FilterButton';
+
 export default {
-    components: {
-        FilterButton,
+  components: {
+    FilterButton,
+  },
+  props: {
+    categories: {
+      type: Object,
+      required: true,
     },
-    props: {
-        categories: {
-            type: Object,
-            required: true,
-        },
-    },
+  },
 };
 </script>
 
 <template>
-    <div>
-        <template v-for="(group, groupName) in categories">
-            <h3>{{ groupName }}</h3>
-            <ul>
-                <li v-for="category in group">
-                    <FilterButton
-                        :category="category"
-                    />
-                </li>
-            </ul>
-            <hr>
-        </template>
-    </div>
+  <div>
+    <template v-for="(group, groupName) in categories">
+      <h3>{{ groupName }}</h3>
+      <ul>
+        <li v-for="category in group">
+          <FilterButton :category="category"/>
+        </li>
+      </ul>
+      <hr>
+    </template>
+  </div>
 </template>

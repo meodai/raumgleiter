@@ -14,10 +14,9 @@ export default {
         ProjectFilter,
     },
     async asyncData ({ $axios }) {
-
         const allCategories = collect(await $axios.$get('/categories.json').then(data => data.data))
         .groupBy('lang').map((cat) => cat.groupBy('group').all()).all();
-        // Load all projects when building static site
+
         const allProjectEntries = collect(await $axios.$get('/projects.json').then(data => data.data))
         .groupBy('lang').all();
 
@@ -28,23 +27,24 @@ export default {
             return this.allCategories[this.$i18n.locale];
         },
         projectsInCurrentLocale () {
-            // Get localized project entries
             return this.allProjectEntries[this.$i18n.locale];
         },
         mixer () {
             return this.$store.state.projectMixer;
         },
         filterClass() {
-            // TODO: For now, all matched projects are shown
-            // should they be constrained by group?
-            let filterClasses = [];
+            let filterClasses = collect([]);
             Object.keys(this.categoriesInCurrentLocale).forEach((category) => {
                 if (this.$route.query[category]) {
                     let query = this.$route.query[category].split(',')
-                    filterClasses = [...filterClasses, ...query.map(c => `.${category}-${c}`)];
+                    let queryClasses = query.map(c => `.${category}-${c}`);
+                    filterClasses = filterClasses.count()
+                      ? filterClasses.crossJoin(queryClasses).map(v => v.join(''))
+                      : filterClasses.merge(queryClasses);
                 }
             });
-            return filterClasses.length ? filterClasses.join(', ') : 'all';
+
+            return filterClasses.count() ? filterClasses.join(', ') : 'all';
         }
     },
     watch: {

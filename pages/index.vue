@@ -1,6 +1,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { debounce } from 'throttle-debounce';
+import collect from "collect.js";
 
 export default {
   key: '_index',
@@ -10,28 +11,10 @@ export default {
   },
   async asyncData ({ $axios }) {
     // Fetching the data from the cms here
-    const sections = [
-      {
-        name: 'Virtual Real Estate',
-        path: '/virtual-real-estate',
-        color: '#4c64e5',
-        pagebuilder: [],
-      },
-      {
-        name: 'Virtuelle Vermarktung',
-        path: '/virtuelle-vermarktung',
-        color: '#68be8d',
-        pagebuilder: [],
-      },
-      {
-        name: 'Virtueller Wettbewerb',
-        path: '/virtueller-wettbewerb',
-        color: '#b09737',
-        pagebuilder: [],
-      },
-    ];
+    const allPages = collect(await $axios.$get('/pages.json').then(data => data.data))
+    .groupBy('lang').all();
 
-    return { sections };
+    return { allPages };
   },
   data () {
     return {
@@ -40,64 +23,73 @@ export default {
     };
   },
   computed: {
-      swiperIndexByPath () {
-          return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
+      pagesInCurrentLanguage () {
+        return this.allPages[this.$i18n.locale];
       },
-      swiperOptions () {
+      videoTeasers () {
+        return this.pagesInCurrentLanguage.map((page) => {
           return {
-              loop: true,
-              autoHeight: true,
-              initialSlide: this.swiperIndexByPath,
-              preloadImages: false,
-              keyboard: true,
-          };
+            video: page.headerVideo.mp4,
+            title: page.header,
+          }
+        });
       },
-      currentSection () {
-          return this.sections[this.swiperIndexByPath];
-      },
+      // swiperIndexByPath () {
+      //     return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
+      // },
+      // swiperOptions () {
+      //     return {
+      //         loop: true,
+      //         autoHeight: true,
+      //         initialSlide: this.swiperIndexByPath,
+      //         preloadImages: false,
+      //         keyboard: true,
+      //     };
+      // },
+      // currentSection () {
+      //     return this.sections[this.swiperIndexByPath];
+      // },
   },
   mounted() {
-      window.addEventListener('scroll', this.handleScroll);
-      // todo: start swiper autoplay
+      // window.addEventListener('scroll', this.handleScroll);
   },
   beforeDestroy() {
-      window.removeEventListener('scroll', this.handleScroll);
+      // window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-      slideChange(swiper) {
-          // Update route on slide change
-          // only if not on home
-          if (this.hasEnteredSite) {
-              this.$router.push(this.sections[swiper.realIndex].path);
-          }
-      },
-      handleScroll: debounce(200, function() {
-          // Disable swiper when entering a page
-          this.allowTouchSwipe = (window.scrollY < 10);
-
-          if(window.scrollY > 10) {
-              if(!this.hasEnteredSite) {
-                  this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
-              }
-              this.hasEnteredSite = true;
-          }
-      }),
+      // slideChange(swiper) {
+      //     // Update route on slide change
+      //     // only if not on home
+      //     if (this.hasEnteredSite) {
+      //         this.$router.push(this.sections[swiper.realIndex].path);
+      //     }
+      // },
+      // handleScroll: debounce(200, function() {
+      //     // Disable swiper when entering a page
+      //     this.allowTouchSwipe = (window.scrollY < 10);
+      //
+      //     if(window.scrollY > 10) {
+      //         if(!this.hasEnteredSite) {
+      //             this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
+      //         }
+      //         this.hasEnteredSite = true;
+      //     }
+      // }),
   },
   watch: {
-      allowTouchSwipe(allowTouchSwipe) {
-          this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
-      },
-      hasEnteredSite(hasEnteredSite) {
-          if (hasEnteredSite) {
-              // todo: stop autoplay of swiper
-              // this.$refs.sectionSwiper.$swiper.autoplay.stop();
-          }
-      }
+      // allowTouchSwipe(allowTouchSwipe) {
+      //     this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
+      // },
+      // hasEnteredSite(hasEnteredSite) {
+      //     if (hasEnteredSite) {
+      //         // this.$refs.sectionSwiper.$swiper.autoplay.stop();
+      //     }
+      // }
   },
   head () {
       return {
-          title: this.currentSection.name,
-          titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
+          // title: this.currentSection.name,
+          // titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
       }
   }
 }
@@ -131,26 +123,19 @@ export default {
         ]"
       />
 
-      <swiper
-        ref="sectionSwiper"
-        :options="swiperOptions"
-        @slideChange="slideChange"
-      >
+      <swiper ref="sectionSwiper">
         <swiper-slide
-          v-for="(section, index) in sections"
-          :key="'section'+index"
+          v-for="(page, index) in pagesInCurrentLanguage"
+          :key="'page'+index"
         >
           <!-- Video Header -->
-          <div
-            class="sectionHeader"
-            :style="{ backgroundColor: section.color }"
-          >
-            <h2>Video Teaser {{ section.name }}</h2>
+          <div class="sectionHeader">
+            <h2>{{ page.title }}</h2>
           </div>
 
           <!-- Page Content -->
           <div class="sectionContent">
-            <Pagebuilder :blocks="section.pagebuilder" />
+            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
           </div>
         </swiper-slide>
       </swiper>
@@ -164,18 +149,12 @@ export default {
 .sectionHeader {
     display: flex;
     justify-content: space-around;
-    height: 100vh;
+    min-height: 20vh;
 }
 
 .sectionContent {
-    height: 200vh;
+    height: 100vh;
     background-color: #cfcfd2;
     max-width: 100vw;
-}
-
-.sectionContent p {
-    margin: 0 auto;
-    padding: 30px;
-    max-width: 400px;
 }
 </style>

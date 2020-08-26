@@ -1,10 +1,29 @@
 <script>
-import Offers from './Offers';
+/**
+ * "Intro"-Block: Grosser Text mit Hintergrund (optional)
+ *
+ * erster Block auf der About-Seite
+ *
+ *
+ fields = {
+    body: 'plaintext' || null,
+    background: {}
+    // or:
+    background: {
+      type: 'video',
+      mp4: 'https://url-to-video.mp4',
+    }
+    // or:
+    background: {
+      type: 'image',
+      image: {
+        // image object
+        width, height, srcSet, ....
+      },
+    }
+ *
+ */
 export default {
-  name: 'IntroText',
-  components: {
-    Offers,
-  },
   props: {
     fields: {
       type: Object,
@@ -15,15 +34,7 @@ export default {
 </script>
 
 <template>
-    <div>
-      <h1>{{ fields.header }}</h1>
-      <p>{{ fields.lead }}</p>
-      <p>{{ fields.body }}</p>
-      <!-- Angebot Liste -->
-      <Offers
-        v-for="(offers, index) in fields.offers"
-        :bind="'offers'+index"
-        :fields="offers"
-      />
-    </div>
+  <div>
+    {{ fields.body }}
+  </div>
 </template>

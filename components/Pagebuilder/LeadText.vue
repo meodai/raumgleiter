@@ -44,7 +44,7 @@ export default {
       <!-- Angebot Liste -->
       <Offers
         v-for="(offers, index) in fields.offers"
-        :bind="'offers'+index"
+        :key="'offers'+index"
         :fields="offers"
       />
     </div>

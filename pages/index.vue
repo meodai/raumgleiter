@@ -104,7 +104,6 @@ export default {
           v-for="(page, index) in pagesInCurrentLanguage"
           :key="'page'+index"
         >
-          <!-- Video Header -->
           <div class="sectionHeader">
             <h2>{{ page.title }}</h2>
           </div>

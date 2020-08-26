@@ -19,21 +19,20 @@ export default {
   data () {
     return {
       hasEnteredSite: this.$route.path !== '/',
-      allowTouchSwipe: true,
     };
   },
   computed: {
-      pagesInCurrentLanguage () {
-        return this.allPages[this.$i18n.locale];
-      },
-      videoTeasers () {
-        return this.pagesInCurrentLanguage.map((page) => {
-          return {
-            video: page.headerVideo.mp4,
-            title: page.header,
-          }
-        });
-      },
+    pagesInCurrentLanguage () {
+      return this.allPages[this.$i18n.locale];
+    },
+    videoTeasers () {
+      return this.pagesInCurrentLanguage.map((page) => {
+        return {
+          video: page.headerVideo.mp4,
+          title: page.header,
+        }
+      });
+    },
       // swiperIndexByPath () {
       //     return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
       // },
@@ -98,30 +97,7 @@ export default {
 <template>
   <div>
     <client-only>
-      <VideoTeaser
-        :entries="[
-          {
-            video: 'video/Teaser_Weltenbummler_RawCut_v2.mp4',
-            title: 'pimmel',
-          },
-          {
-            video: 'video/Teaser_Neu_Bewerten_RawCut_v2.mp4',
-            title: 'titte',
-          },
-          {
-            video: 'video/Teaser_Die_Da_Die_Da_RawCut_v2.mp4',
-            title: 'vajeyjay',
-          },
-          {
-            video: 'video/Teaser_Space_Gliders_RawCut_v2.mp4',
-            title: 'dini mueter',
-          },
-          {
-            video: 'video/01-DigitaleVermarktung-preview-v006.mp4',
-            title: 'satan',
-          },
-        ]"
-      />
+      <VideoTeaser :entries="videoTeasers" />
 
       <swiper ref="sectionSwiper">
         <swiper-slide

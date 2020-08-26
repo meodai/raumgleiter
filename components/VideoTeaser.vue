@@ -37,6 +37,7 @@
       },
       createVideoTexture: function createVideoElement (src) {
         const $video = document.createElement('video');
+        $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
         $video.loop = true;

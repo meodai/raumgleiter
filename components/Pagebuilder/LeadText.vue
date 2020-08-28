@@ -1,7 +1,29 @@
 <script>
+/**
+ * Lead Text
+ *
+ * ein Titel, zwei Textblöcke, optional mit "Angebots"-Listen
+ *
+ *
+  fields = {
+    header: 'plaintext' || null,
+    lead: 'plaintext' || null,
+    body: 'plaintext' || null,
+    offers: []
+    // or:
+    offers: [
+      {
+        header: 'plaintext' || null,
+        services: ['plaintext', 'plaintext', ...],
+      },
+      ...
+    ]
+  };
+ *
+ */
 import Offers from './Offers';
 export default {
-  name: 'IntroText',
+  name: 'LeadText',
   components: {
     Offers,
   },
@@ -22,7 +44,7 @@ export default {
       <!-- Angebot Liste -->
       <Offers
         v-for="(offers, index) in fields.offers"
-        :bind="'offers'+index"
+        :key="'offers'+index"
         :fields="offers"
       />
     </div>

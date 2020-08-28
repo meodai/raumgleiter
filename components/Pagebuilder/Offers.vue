@@ -1,4 +1,16 @@
 <script>
+/**
+ * angebots-Liste
+ *
+ * ein Titel, eine Liste von Angeboten
+ *
+ *
+ fields = {
+  header: 'plaintext' || null,
+  services: ['plaintext', 'plaintext', ...],
+ };
+ *
+ */
 export default {
   props: {
     fields: {
@@ -13,7 +25,10 @@ export default {
   <div>
     <h3>{{ fields.header }}</h3>
     <ul>
-      <li v-for="service in fields.services">
+      <li
+        v-for="service in fields.services"
+        :key="'service'+service"
+      >
         {{ service }}
       </li>
     </ul>

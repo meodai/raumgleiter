@@ -84,9 +84,8 @@ export default {
                 class="mix"
                 :class="[
                     // temp. assign classes -> move to computed
-                    project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
-                    project.categories.services ? 'services-'+project.categories.services[0] : null,
                     project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
+                    project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
                  ]"
             >
                 <nuxt-link

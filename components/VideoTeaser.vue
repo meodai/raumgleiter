@@ -3,6 +3,7 @@
     data () {
       return {
         app: null,
+        pixiSlides: [],
       };
     },
 
@@ -40,24 +41,28 @@
         $video.preload = 'auto';
         $video.muted = true;
         $video.loop = true;
+        $video.autoplay = false;
         $video.src = src;
 
         return PIXI.Texture.from($video);
       },
+
       createSlide: function createSlide (texture, width, height) {
         const slide = new PIXI.Container();
-        const videoPartContainers = new Array(this.$props.slices).fill('').map(e => new PIXI.Container());
-        const partSize = 1 / videoPartContainers.length;
+        const slices = new Array(this.$props.slices).fill('').map(e => new PIXI.Container());
+        const partSize = 1 / slices.length;
         const videoSprites = [];
 
-        videoPartContainers.forEach((container, i) => {
+        slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
           videoSprites.push(videoSprite);
+          const videoScale = Math.max(1080 / width, 920 / height);
 
-          // Stetch the fullscreen
-          videoSprite.width = width;
-          videoSprite.height = height;
+          //console.log(texture.baseTexture.width, texture.baseTexture.height);
+          // Stetch to fullscreen
+          videoSprite.width = videoScale * width;
+          videoSprite.height = videoScale * height;
 
           // Rectangle
           rect.beginFill(0xFFFFFF);
@@ -78,7 +83,10 @@
           slide.addChild(container);
         });
 
-        return {slide, videoPartContainers, partSize};
+        return {slide, slices, partSize};
+      },
+      slide: function slide () {
+
       },
     },
     mounted () {
@@ -94,22 +102,45 @@
         loader.add(entry.title, entry.video);
       });
 
-      loader.onProgress.add((event, resource) => {
-        console.log({...event}, {...resource});
-      });
 
-      loader.load();
+      loader.onProgress.add((event, resource) => {
+        const texture = this.createVideoTexture(resource.url);
+
+        const {
+          slide,
+          slices,
+          partSize,
+        } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+
+        console.log(slices)
+
+        this.pixiSlides.push({
+          slide,
+          slices,
+          partSize,
+          texture,
+        });
+
+        this.app.stage.addChild(slide);
+
+        setTimeout(() => {
+          slices.forEach((videoSprite, i) => {
+            gsap.to(videoSprite.position, 2, { x: partSize * this.app.screen.width * i });
+          });
+        }, 1000);
+      });
 
       this.app = this.createPIXIApp();
 
       this.$refs.canvas.appendChild(this.app.view);
 
       // create a video texture from a path
-      const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
+      // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
 
+      /*
       const {
         slide,
-        videoPartContainers,
+        slices,
         partSize,
       } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
@@ -121,23 +152,10 @@
 
         this.app.queueResize();
       });
+      */
 
+      loader.load();
       ticker.start();
-
-      const acceleration = 0.025;
-
-      setTimeout(() => {
-        // ticker.add((time) => {
-        videoPartContainers.forEach((videoSprite, i) => {
-          // videoSprite.position.x -= 5
-
-          /* const goal = partSize * this.app.screen.width * i;
-            const diffx = goal - videoSprite.position.x;
-            videoSprite.position.x += diffx * acceleration; */
-          gsap.to(videoSprite.position, 2, { x: partSize * this.app.screen.width * i });
-        });
-        // });
-      }, 1000);
     },
   };
 

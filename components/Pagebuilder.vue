@@ -1,13 +1,13 @@
 <script>
 import LeadText from './Pagebuilder/LeadText';
 import Offers from './Pagebuilder/Offers';
-import IntroText from './Pagebuilder/IntroText';
+import Quote from './Pagebuilder/Quote';
 export default {
   name: 'Pagebuilder',
   components: {
     LeadText,
     Offers,
-    IntroText,
+    Quote,
   },
   props: {
     blocks: {

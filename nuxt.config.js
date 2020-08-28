@@ -120,5 +120,12 @@ export default {
     //         });
     //     });
     // },
+  },
+  // Available at { $config: { cmsURL } }
+  publicRuntimeConfig: {
+    // cmsURL: process.env.CMS_URL || 'https://cms.raumgleiter.noo.work',
+  },
+  privateRuntimeConfig: {
+    // apiSecret: process.env.API_SECRET
   }
 };

@@ -1,12 +1,5 @@
 <script>
   export default {
-    data () {
-      return {
-        app: null,
-        pixiSlides: [],
-      };
-    },
-
     props: {
       startEq: {
         type: Number,
@@ -22,6 +15,13 @@
         type: Array,
         required: true,
       },
+    },
+    data () {
+      return {
+        app: null,
+        pixiSlides: [],
+        loader: new PIXI.Loader(),
+      };
     },
     computed: {
       videoList () {
@@ -42,10 +42,15 @@
         $video.preload = 'auto';
         $video.muted = true;
         $video.loop = true;
-        $video.autoplay = false;
         $video.src = src;
 
-        return PIXI.Texture.from($video);
+        $video.pause();
+        $video.currentTime = 0;
+
+        const texture = PIXI.Texture.from($video);
+        texture.baseTexture.resource.autoPlay = false;
+
+        return texture;
       },
 
       createSlide: function createSlide (texture, width, height) {
@@ -54,15 +59,18 @@
         const partSize = 1 / slices.length;
         const videoSprites = [];
 
-
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
+
           videoSprites.push(videoSprite);
 
           let videoScale = 1;
 
-          let moveDelta = {x:0, y:0};
+          const moveDelta = {
+            x: 0, y: 0,
+          };
+
           if (width / height > 1920 / 1080) {
             // videoScale = Math.max(width / 1920, height / 1080);
             videoScale = width / 1920;
@@ -74,7 +82,6 @@
           }
 
           //console.log(texture.baseTexture.width, texture.baseTexture.height);
-
 
           // Stetch to fullscreen
           videoSprite.width = videoScale * 1920;
@@ -102,10 +109,10 @@
           slide.addChild(container);
         });
 
-        return {slide, slices, partSize};
+        return { slide, slices, partSize };
       },
-      slide: function slide () {
-
+      slide: function slide (eq = 0) {
+        console.log('slide to: ' + eq);
       },
     },
     mounted () {
@@ -113,9 +120,7 @@
       ticker.autoStart = false;
       ticker.stop();
 
-      const loader = new PIXI.Loader();
-
-      this.createPIXIApp();
+      const loader = this.loader;
 
       this.$props.entries.forEach(entry => {
         loader.add(entry.title, entry.video);
@@ -130,8 +135,6 @@
           slices,
           partSize,
         } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
-
-        console.log(slices)
 
         this.pixiSlides.push({
           slide,
@@ -175,6 +178,14 @@
 
       loader.load();
       ticker.start();
+      console.log('started')
+    },
+    beforeDestroy () {
+      this.loader.reset();
+      if (this.app) {
+        this.app.stop();
+      }
+      this.pixiSlides = [];
     },
   };
 

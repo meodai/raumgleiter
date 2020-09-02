@@ -54,16 +54,31 @@
         const partSize = 1 / slices.length;
         const videoSprites = [];
 
+
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
           videoSprites.push(videoSprite);
-          const videoScale = Math.max(1080 / width, 920 / height);
+
+          let videoScale = 1;
+
+          let moveDelta = {x:0, y:0};
+          if (width / height > 1920 / 1080) {
+            // videoScale = Math.max(width / 1920, height / 1080);
+            videoScale = width / 1920;
+            moveDelta.y = videoScale * 1080 - height;
+          } else {
+            // videoScale = Math.max(1920 / width, 1080 / height);
+            videoScale = height / 1080;
+            moveDelta.x = videoScale * 1920 - width;
+          }
 
           //console.log(texture.baseTexture.width, texture.baseTexture.height);
+
+
           // Stetch to fullscreen
-          videoSprite.width = videoScale * width;
-          videoSprite.height = videoScale * height;
+          videoSprite.width = videoScale * 1920;
+          videoSprite.height = videoScale * 1080;
 
           // Rectangle
           rect.beginFill(0xFFFFFF);
@@ -77,6 +92,9 @@
 
           container.position.x = width * 3;
           videoSprite.position.x = partSize * width * -i;
+
+          videoSprite.position.x -= moveDelta.x / 2;
+          videoSprite.position.y -= moveDelta.y / 2;
 
           container.addChild(videoSprite);
           container.mask = rect;

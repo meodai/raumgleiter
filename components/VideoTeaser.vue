@@ -126,7 +126,6 @@
         loader.add(entry.title, entry.video);
       });
 
-
       loader.onProgress.add((event, resource) => {
         const texture = this.createVideoTexture(resource.url);
 
@@ -178,12 +177,20 @@
 
       loader.load();
       ticker.start();
-      console.log('started')
     },
-    beforeDestroy () {
+    destory () {
       this.loader.reset();
       if (this.app) {
+        while(this.app.children[0]) {
+          this.app.removeChild(this.app.children[0]);
+        }
         this.app.stop();
+        this.app.destory(false, {
+          children: true,
+          texture: true,
+          baseTexture: true,
+        });
+        this.app = null;
       }
       this.pixiSlides = [];
     },

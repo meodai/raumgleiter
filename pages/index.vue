@@ -122,14 +122,14 @@ export default {
 @import 'swiper/swiper-bundle.css';
 
 .sectionHeader {
-    display: flex;
-    justify-content: space-around;
-    min-height: 20vh;
+  display: flex;
+  justify-content: space-around;
+  min-height: 20vh;
 }
 
 .sectionContent {
-    height: 100vh;
-    background-color: #cfcfd2;
-    max-width: 100vw;
+  height: 100vh;
+  background-color: #cfcfd2;
+  max-width: 100vw;
 }
 </style>

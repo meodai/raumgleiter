@@ -64,6 +64,28 @@
 // because we mix it with % it only works for font-sizes
 //
 
+// 1) Settings
+
+  :root {
+    --size-mouse: 3.2rem; // small title
+    --size-rat: 4.2rem;
+    --size-cat: 6.2rem; // title
+    --size-dog: 8.6rem;
+    --size-pony: 13rem; // large title
+    --size-horse: 20rem;
+
+    --typography-title: {
+      font-size: var(--size-mouse);
+    };
+    --typography-title--page: {
+      font-size: var(--size-cat);
+    };
+    --typography-title--hero: {
+      font-size: var(--size-pony);
+    };
+  }
+
+
 @function screen-ratio-mix(
   $screen-width-ratio: 0.1, // adds 10% of screen-width
   $design-width: 1440, // the target width (artboard width)

@@ -53,18 +53,16 @@
 
         return texture;
       },
+      
 
       createSlide: function createSlide (texture, width, height) {
         const slide = new PIXI.Container();
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = 1 / slices.length;
-        const videoSprites = [];
 
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
-
-          videoSprites.push(videoSprite);
 
           let videoScale = 1;
 

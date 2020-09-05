@@ -1,30 +1,30 @@
 <script>
-import collect from "collect.js";
+  import collect from "collect.js";
 
-export default {
-  nuxtI18n: {
-    paths: {
-      de: '/projekte/:slug',
-      fr: '/projets/:slug',
-      en: '/projects/:slug',
-    }
-  },
-  async asyncData({$axios, params, store}) {
-    let projectEntry = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
-    .keyBy('lang');
-    await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
-
-    return { projectEntry: projectEntry.all() };
-  },
-  computed: {
-    projectInCurrentLocale()
-    {
-      return this.projectEntry[this.$i18n.locale]
-        // Fallback for dev environment
-        || this.projectEntry[Object.keys(this.projectEntry)[0]];
+  export default {
+    nuxtI18n: {
+      paths: {
+        de: '/projekte/:slug',
+        fr: '/projets/:slug',
+        en: '/projects/:slug',
+      }
     },
-  },
-}
+    async asyncData({$axios, params, store}) {
+      let projectEntry = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
+        .keyBy('lang');
+      await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+
+      return { projectEntry: projectEntry.all() };
+    },
+    computed: {
+      projectInCurrentLocale()
+      {
+        return this.projectEntry[this.$i18n.locale]
+          // Fallback for dev environment
+          || this.projectEntry[Object.keys(this.projectEntry)[0]];
+      },
+    },
+  }
 </script>
 
 <template>

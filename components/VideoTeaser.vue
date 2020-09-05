@@ -21,6 +21,7 @@
         app: null,
         pixiSlides: [],
         loader: new PIXI.Loader(),
+        currentSlideEq: 0,
       };
     },
     computed: {
@@ -55,7 +56,7 @@
 
       createSlide: function createSlide (texture, width, height) {
         const slide = new PIXI.Container();
-        const slices = new Array(this.$props.slices).fill('').map(e => new PIXI.Container());
+        const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = 1 / slices.length;
         const videoSprites = [];
 
@@ -81,9 +82,9 @@
             moveDelta.x = videoScale * 1920 - width;
           }
 
-          //console.log(texture.baseTexture.width, texture.baseTexture.height);
+          // console.log(texture.baseTexture.width, texture.baseTexture.height);
 
-          // Stetch to fullscreen
+          // Stretch to fullscreen
           videoSprite.width = videoScale * 1920;
           videoSprite.height = videoScale * 1080;
 
@@ -112,19 +113,31 @@
         return { slide, slices, partSize };
       },
       slide: function slide (eq = 0) {
-        console.log('slide to: ' + eq);
+        const oldSlide = this.pixiSlides[this.currentSlideEq];
+        const newSlide = this.pixiSlides[eq];
 
-        const {
-          slide,
-          slices,
-          partSize
-        } = this.pixiSlides[eq];
-
-        slide.zOrder = 10 + eq;
-        slices.forEach((videoSprite, i) => {
-          videoSprite.children[0].texture.baseTexture.resource.source.play();
-          gsap.to(videoSprite.position, 1.5, { x: partSize * this.app.screen.width * i });
+        oldSlide.slide.zOrder = 1;
+        oldSlide.slices.forEach((videoSprite, i) => {
+          gsap.to(videoSprite.position, 1.75, {
+            x: -this.app.screen.width,
+            ease: 'power4.out',
+            onComplete: () => {
+              videoSprite.children[0].texture.baseTexture.resource.source.pause();
+              videoSprite.children[0].texture.baseTexture.resource.source.currentTime = 0;
+            }
+          });
         });
+
+        newSlide.slide.zOrder = 2;
+        newSlide.slices.forEach((videoSprite, i) => {
+          videoSprite.children[0].texture.baseTexture.resource.source.play();
+          gsap.to(videoSprite.position, 1.5, {
+            x: newSlide.partSize * this.app.screen.width * i,
+            ease: 'power4.out',
+          });
+        });
+
+        this.currentSlideEq = eq;
       },
     },
     mounted () {
@@ -134,8 +147,8 @@
 
       const loader = this.loader;
 
-      this.$props.entries.forEach(entry => {
-        if ( entry.title && entry.video) {
+      this.$props.entries.forEach((entry) => {
+        if (entry.title && entry.video) {
           loader.add(entry.title, entry.video);
         } else {
           console.error('VIDEO TEASER: missing resources for video teasers');
@@ -161,13 +174,14 @@
         this.app.stage.addChild(slide);
       });
 
-      setTimeout(() => {
-        this.slide(3)
-      }, 3000);
-      setTimeout(() => {
-        this.slide(4)
-      }, 6000);
+      setInterval(() => {
+        let nextEq = this.currentSlideEq + 1;
+        if (nextEq > this.pixiSlides.length - 1) {
+          nextEq = 0;
+        }
 
+        this.slide(nextEq);
+      }, 5000)
 
       this.app = this.createPIXIApp();
 
@@ -196,10 +210,10 @@
       loader.load();
       ticker.start();
     },
-    destory () {
+    destroy () {
       this.loader.reset();
       if (this.app) {
-        while(this.app.children[0]) {
+        while (this.app.children[0]) {
           this.app.removeChild(this.app.children[0]);
         }
         this.app.stop();

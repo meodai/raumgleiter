@@ -113,6 +113,18 @@
       },
       slide: function slide (eq = 0) {
         console.log('slide to: ' + eq);
+
+        const {
+          slide,
+          slices,
+          partSize
+        } = this.pixiSlides[eq];
+
+        slide.zOrder = 10 + eq;
+        slices.forEach((videoSprite, i) => {
+          videoSprite.children[0].texture.baseTexture.resource.source.play();
+          gsap.to(videoSprite.position, 1.5, { x: partSize * this.app.screen.width * i });
+        });
       },
     },
     mounted () {
@@ -123,7 +135,11 @@
       const loader = this.loader;
 
       this.$props.entries.forEach(entry => {
-        loader.add(entry.title, entry.video);
+        if ( entry.title && entry.video) {
+          loader.add(entry.title, entry.video);
+        } else {
+          console.error('VIDEO TEASER: missing resources for video teasers');
+        }
       });
 
       loader.onProgress.add((event, resource) => {
@@ -143,13 +159,15 @@
         });
 
         this.app.stage.addChild(slide);
-
-        setTimeout(() => {
-          slices.forEach((videoSprite, i) => {
-            gsap.to(videoSprite.position, 2, { x: partSize * this.app.screen.width * i });
-          });
-        }, 1000);
       });
+
+      setTimeout(() => {
+        this.slide(3)
+      }, 3000);
+      setTimeout(() => {
+        this.slide(4)
+      }, 6000);
+
 
       this.app = this.createPIXIApp();
 

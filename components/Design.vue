@@ -74,8 +74,17 @@
   --size-pony: 13rem; // large title
   --size-horse: 20rem;
 
-  --size-gutter: var(--size-mouse);
+  --size-gutter: var(--size-rat);
   --size-design-bezel: var(--size-dog);
+
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-text: var(--color-black);
+  --color-text--inverted: var(--color-white);
+
+  --color-layout--background: var(--color-white);
+  --color-layout--background-inverted: var(--color-black);
 }
 
 $dialog-typo: (
@@ -85,6 +94,7 @@ $dialog-typo: (
       font-family: unquote('MatterSQ, -apple-system, sans-serif'),
       font-weight: 300,
       line-height: 1.22,
+      color: var(--color-text),
     ),
     title: (
       font-size: var(--size-mouse),
@@ -172,10 +182,20 @@ body {
   @include typo('default');
   font-size: 2.2rem;
   line-height: 1.22;
+  background: var(--color-layout--background);
 }
 
 .l-design-width {
   padding: var(--size-design-bezel);
+}
+
+.c-design {
+  color: var(--color-text);
+  background: var(--color-layout--background);
+}
+.c-design--inverted {
+  color: var(--color-text--inverted);
+  background: var(--color-layout--background-inverted);
 }
 
 // sass-lint:disable space-around-operator, mixin-name-format, function-name-format, mixins-before-declarations

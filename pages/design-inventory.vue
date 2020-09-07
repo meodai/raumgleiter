@@ -13,18 +13,18 @@
 <template>
   <div>
     <div class="l-design-width">
-      <h1>Design Inventroy</h1>
-      <h2>Sizes</h2>
+      <h1 class="t-title t-title--hero">Design Inventroy</h1>
+      <h2 class="t-title t-title--page t-title--inventory">Sizes</h2>
       <div class="sizes">
         <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}">{{size}}</div>
       </div>
 
-      <h2>Typography</h2>
+      <h2 class="t-title t-title--page t-title--inventory">Typography</h2>
       <div class="typo">
         <span v-for="(typo, i) in types" :key="i" v-bind:class="`t-${typo}`">t-{{typo}}</span>
       </div>
 
-      <h2>Grid</h2>
+      <h2 class="t-title t-title--page t-title--inventory">Grid</h2>
       <div class="l-grid">
         <div class="debug l-grid__cell l-grid__cell--1/2">
           <h3>Width 1/2</h3>
@@ -94,11 +94,12 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-end;
+    justify-content: flex-end;
   }
   .size {
     width: var(--size);
     height: var(--size);
-    background: palegoldenrod;
+    background: #f04e45;
   }
   .typo {
     span {
@@ -107,6 +108,9 @@
   }
   .debug {
     padding: 1rem;
-    background: palegoldenrod;
+    background: #f04e45;
+  }
+  .t-title--inventory {
+    margin: 2em 0 1em;
   }
 </style>

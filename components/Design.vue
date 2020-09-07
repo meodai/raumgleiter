@@ -66,25 +66,66 @@
 
 // 1) Settings
 
-  :root {
-    --size-mouse: 3.2rem; // small title
-    --size-rat: 4.2rem;
-    --size-cat: 6.2rem; // title
-    --size-dog: 8.6rem;
-    --size-pony: 13rem; // large title
-    --size-horse: 20rem;
+:root {
+  --size-mouse: 3.2rem; // small title
+  --size-rat: 4.2rem;
+  --size-cat: 6.2rem; // title
+  --size-dog: 8.6rem;
+  --size-pony: 13rem; // large title
+  --size-horse: 20rem;
 
-    --typography-title: {
-      font-size: var(--size-mouse);
-    };
-    --typography-title--page: {
-      font-size: var(--size-cat);
-    };
-    --typography-title--hero: {
-      font-size: var(--size-pony);
-    };
+  --size-gutter: var(--size-mouse);
+  --size-design-bezel: var(--size-dog);
+}
+
+$dialog-typo: (
+  desktop: (
+    default: (
+      font-size: 2.2rem,
+      font-family: unquote('MatterSQ, -apple-system, sans-serif'),
+      font-weight: 300,
+      line-height: 1.22,
+    ),
+    title: (
+      font-size: var(--size-mouse),
+      font-weight: 900,
+    ),
+    title--page: (
+      font-size: var(--size-cat),
+      line-height: 1.12,
+      font-weight: 900,
+    ),
+    title--hero: (
+      font-size: var(--size-pony),
+      line-height: 1.12,
+      font-weight: 900,
+    ),
+  ),
+  phone: (
+    default: (
+      font-size: 1.8rem,
+      line-height: 1.3,
+    ),
+  )
+);
+
+$dialog-breakpoints: (
+  desktop: 'min-width: 769px',
+  tablet: 'max-width: 768px',
+  phone: 'max-width: 415px'
+);
+
+@mixin bp($name) {
+  @if map-has-key($dialog-breakpoints, $name) {
+    @media (#{map-get($dialog-breakpoints, $name)}) {
+      @content;
+    }
+  } @else {
+    @error 'there is no breakpoint called #{$name}';
   }
+}
 
+@import 'dialog-typography/dist/dialog-typography';
 
 @function screen-ratio-mix(
   $screen-width-ratio: 0.1, // adds 10% of screen-width
@@ -127,29 +168,170 @@
   );
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-html {
-
-  font-family:
-    MatterSQ,
-    -apple-system,
-    sans-serif;
-}
-
 body {
+  @include typo('default');
   font-size: 2.2rem;
   line-height: 1.22;
 }
 
-.t-title {
-  font-weight: bold;
+.l-design-width {
+  padding: var(--size-design-bezel);
 }
 
-.t-title--main {
+// sass-lint:disable space-around-operator, mixin-name-format, function-name-format, mixins-before-declarations
+/*!
+FIRST OF ALL
+- CSS grids are great for building the bigger picture. They makes it really easy to manage the layout of the page, and can even handle more unorthodox and asymmetrical designs.
+- Flexbox is great at aligning the content inside elements. Use flex to position the smaller details of a design.
+- Use CSS grids for 2D layouts (rows AND columns).
+- Flexbox works better in one dimension only (rows OR columns).
+- There is no reason to use only CSS grids or only flexbox. Learn both and use them together.
+CODE EXAMPLES
+- zweite, 3. und 4. Spalte
+    - grid-column: 2 / span 3
+    - grid-column-start: 2; grid-column-end: span 3;
+    - grid-column: 2 / 5
+- grid-row-start und -end gibt es auch --> alle 5 Zeilen, 1 Spalte Offset und 4 Spalten umfasst
+    - grid-row: 1/6; grid-column: 2/6;
+- grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end
+- order definieren wenn Markup Aufteilung vorgibt
+    - order beginnt bei 0
+    - darf auch negativ definiert werden z.B. order: -1;
+BROWSER SUPPORT
+- CSS Grid does not support all browsers
+- use width and % for unsupported browsers
+*/
 
+$grid-fractions: (
+  '1\\/1': 1/1,
+  '1\\/2': 1/2,
+  '1\\/3': 1/3,
+  '2\\/3': 2/3,
+  '1\\/4': 1/4,
+  '3\\/4': 3/4,
+  '1\\/5': 1/5,
+  '2\\/5': 2/5,
+  '3\\/5': 3/5,
+  '1\\/6': 1/6,
+  '1\\/8': 1/8,
+  '6\\/8': 6/8,
+);
+
+// add cell 1 - 24 aliases
+//@for $i from 1 through 24 {
+//  $grid-fractions: map-merge($grid-fractions, ($i: $i/24));
+//}
+
+// needed breakpoints for grid cell modifier classes (actual breakpoint: modifier class)
+$grid-breakpoints: (
+  'tablet': 'tablet',
+  'phone': 'phone',
+);
+
+// desktop or mobile first
+$grid-default-breakpoint: 'desktop';
+
+// grid cell mixin
+@mixin grid__cell($breakpoint-name: null) {
+  @each $fraction-key, $fraction-value in $grid-fractions {
+    $selector: --#{$fraction-key};
+
+    @if ($breakpoint-name) {
+      $selector: --#{$fraction-key}\@#{$breakpoint-name};
+    }
+
+    &#{$selector} {
+      width: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} - var(--size-gutter-x));
+      flex: 0 0 auto;
+    }
+
+    &--push#{$selector} {
+      margin-left: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} + var(--size-gutter-x));
+    }
+
+    &--pull#{$selector} {
+      margin-right: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} + var(--size-gutter-x));
+    }
+  }
+
+  $selector: '--none';
+
+  @if ($breakpoint-name) {
+    $selector: --#{'none'}\@#{$breakpoint-name};
+  }
+
+  &--push#{$selector} {
+    left: 0;
+  }
+
+  &--pull#{$selector} {
+    right: 0;
+  }
+
+}
+
+.l-grid {
+  --size-gutter-x: var(--size-gutter);
+  --size-gutter-y: calc(var(--size-gutter) * 0.5);
+
+  display: flex;
+  width: calc(100% + var(--size-gutter-x));
+  margin-left: calc(-1 * var(--size-gutter-x));
+  margin-bottom: calc(-1 * var(--size-gutter-y));
+  flex-wrap: wrap;
+  padding: 0;
+
+  &__cell {
+    flex: 1 0 auto;
+
+    margin-left: var(--size-gutter-x);
+    margin-bottom: var(--size-gutter-y);
+    box-sizing: border-box;
+
+    // sass-lint:disable-all
+    &[class*='--pull-'],
+    &[class*='--push-'] {
+      // push and pull classes only work
+      // when relatively positioned
+      position: relative;
+    }
+    // sass-lint:enable-all
+
+    @include grid__cell();
+    @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
+      @include bp($breakpoint-name) {
+        @include grid__cell($breakpoint-name: $breakpoint-value);
+      }
+    }
+
+    &--align-right {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &--align-bottom {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    &--align-centered {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &--break {
+      flex-grow: 1;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &--no-gap {
+    --size-gutter: 0rem; //sass-lint:disable-line zero-unit Needed because otherwise calc does not work with %
+    --size-gutter-x: var(--size-gutter);
+    --size-gutter-y: var(--size-gutter);
+  }
 }
 </style>

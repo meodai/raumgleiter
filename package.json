@@ -30,6 +30,7 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "babel-eslint": "^10.1.0",
+    "dialog-typography": "^1.2.0",
     "eslint": "^7.7.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "git-cz": "^4.7.0"

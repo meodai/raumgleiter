@@ -16,7 +16,7 @@
       <h1 class="t-title t-title--hero">Design Inventroy</h1>
       <h2 class="t-title t-title--page t-title--inventory">Sizes</h2>
       <div class="sizes">
-        <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}">{{size}}</div>
+        <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}"><span>{{size}}</span></div>
       </div>
 
       <h2 class="t-title t-title--page t-title--inventory">Typography</h2>
@@ -97,9 +97,19 @@
     justify-content: flex-end;
   }
   .size {
+    position: relative;
     width: var(--size);
     height: var(--size);
-    background: #f04e45;
+    background: turquoise;
+    margin-right: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    span {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 1.5em);
+    }
   }
   .typo {
     span {
@@ -108,9 +118,10 @@
   }
   .debug {
     padding: 1rem;
-    background: #f04e45;
+    background: turquoise;
   }
   .t-title--inventory {
     margin: 2em 0 1em;
+    color: #f04e45;
   }
 </style>

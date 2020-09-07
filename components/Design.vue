@@ -5,7 +5,6 @@
 </script>
 
 <template>
-
 </template>
 
 <style lang="scss">
@@ -48,7 +47,7 @@
   1) Settings:             Global variables, config switches.
   2) Tools:                Default mixins and functions.
   3) Generic:              Ground-zero styles (Normalize.css, resets, box-sizing).
-  4) Base:                 Un-classed HTML elements (type selectors).
+  4) Elements:             Un-classed HTML elements (type selectors).
   5) Objects:              Cosmetic-free design patterns
   6) Components:           Designed components, chunks of UI.
   7) Utilities/Trumps:     Helpers and overrides.
@@ -67,6 +66,35 @@
 //
 
 // 1) Settings
+
+$grid-fractions: (
+  '1\\/1': 1/1,
+  '1\\/2': 1/2,
+  '1\\/3': 1/3,
+  '2\\/3': 2/3,
+  '1\\/4': 1/4,
+  '3\\/4': 3/4,
+  '1\\/5': 1/5,
+  '2\\/5': 2/5,
+  '3\\/5': 3/5,
+  '1\\/6': 1/6,
+  '1\\/8': 1/8,
+  '6\\/8': 6/8,
+);
+
+// add cell 1 - 24 aliases
+//@for $i from 1 through 24 {
+//  $grid-fractions: map-merge($grid-fractions, ($i: $i/24));
+//}
+
+// needed breakpoints for grid cell modifier classes (actual breakpoint: modifier class)
+$grid-breakpoints: (
+  'tablet': 'tablet',
+  'phone': 'phone',
+);
+
+// desktop or mobile first
+$grid-default-breakpoint: 'desktop';
 
 :root {
   --size-mouse: 3.2rem; // small title
@@ -88,7 +116,6 @@
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);
 }
-
 
 $dialog-typo: (
   desktop: (
@@ -132,6 +159,8 @@ $dialog-breakpoints: (
   phone: 'max-width: 415px'
 );
 
+// 2) Tools
+
 @mixin bp($name) {
   @if map-has-key($dialog-breakpoints, $name) {
     @media (#{map-get($dialog-breakpoints, $name)}) {
@@ -152,6 +181,8 @@ $dialog-breakpoints: (
   $percent-size: $target-px-size / 16% * 100%;
   @return calc(#{$percent-size - $percent-size * $screen-width-ratio}% + #{$screen-width-ratio * (100 / $design-width) * 10}vw);
 }
+
+// 3) Generic
 
 @import 'modern-css-reset/dist/reset';
 
@@ -176,6 +207,8 @@ $dialog-breakpoints: (
   font-style: normal;
 }
 
+// 4) Elements
+
 :root {
   font-size: screen-ratio-mix(
     .3, // 20% of the the font-size is relative to the screen width
@@ -192,16 +225,9 @@ body {
   background: var(--color-layout--background);
 }
 
+// 5) Objects
 .l-design-width {
   padding: var(--size-design-bezel);
-}
-.c-design {
-  color: var(--color-text);
-  background: var(--color-layout--background);
-}
-.c-design--inverted {
-  color: var(--color-text--inverted);
-  background: var(--color-layout--background-inverted);
 }
 
 // sass-lint:disable space-around-operator, mixin-name-format, function-name-format, mixins-before-declarations
@@ -227,35 +253,6 @@ BROWSER SUPPORT
 - CSS Grid does not support all browsers
 - use width and % for unsupported browsers
 */
-
-$grid-fractions: (
-  '1\\/1': 1/1,
-  '1\\/2': 1/2,
-  '1\\/3': 1/3,
-  '2\\/3': 2/3,
-  '1\\/4': 1/4,
-  '3\\/4': 3/4,
-  '1\\/5': 1/5,
-  '2\\/5': 2/5,
-  '3\\/5': 3/5,
-  '1\\/6': 1/6,
-  '1\\/8': 1/8,
-  '6\\/8': 6/8,
-);
-
-// add cell 1 - 24 aliases
-//@for $i from 1 through 24 {
-//  $grid-fractions: map-merge($grid-fractions, ($i: $i/24));
-//}
-
-// needed breakpoints for grid cell modifier classes (actual breakpoint: modifier class)
-$grid-breakpoints: (
-  'tablet': 'tablet',
-  'phone': 'phone',
-);
-
-// desktop or mobile first
-$grid-default-breakpoint: 'desktop';
 
 // grid cell mixin
 @mixin grid__cell($breakpoint-name: null) {
@@ -314,15 +311,6 @@ $grid-default-breakpoint: 'desktop';
     margin-bottom: var(--size-gutter-y);
     box-sizing: border-box;
 
-    // sass-lint:disable-all
-    &[class*='--pull-'],
-    &[class*='--push-'] {
-      // push and pull classes only work
-      // when relatively positioned
-      position: relative;
-    }
-    // sass-lint:enable-all
-
     @include grid__cell();
     @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
       @include bp($breakpoint-name) {
@@ -361,15 +349,24 @@ $grid-default-breakpoint: 'desktop';
   }
 }
 
+// 6) Components
+
+.c-design {
+  color: var(--color-text);
+  background: var(--color-layout--background);
+}
+.c-design--inverted {
+  color: var(--color-text--inverted);
+  background: var(--color-layout--background-inverted);
+}
+
 // generic font classes
 
 $textStyles: map.get($dialog-typo, $grid-default-breakpoint);
-
 
 @each $textStyleName, $textStyle in $textStyles {
   .t-#{$textStyleName} {
     @include typo($textStyleName);
   }
 }
-
 </style>

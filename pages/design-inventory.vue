@@ -4,7 +4,7 @@
       return {
         sizes: ['mouse', 'rat', 'cat', 'dog', 'pony', 'horse'],
         sizesTypo: ['typography-title', 'typography-title--page', 'typography-title--hero'],
-        types: ['default', 'title', 'title--page', 'title--hero'],
+        types: ['default', 'title', 'title--page', 'title--hero', 'lead'],
       };
     },
   };
@@ -18,6 +18,12 @@
       <div class="sizes">
         <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}">{{size}}</div>
       </div>
+
+      <h2>Typography</h2>
+      <div class="typo">
+        <span v-for="(typo, i) in types" :key="i" v-bind:class="`t-${typo}`">t-{{typo}}</span>
+      </div>
+
       <h2>Grid</h2>
       <div class="l-grid">
         <div class="debug l-grid__cell l-grid__cell--1/2">
@@ -93,6 +99,11 @@
     width: var(--size);
     height: var(--size);
     background: palegoldenrod;
+  }
+  .typo {
+    span {
+      display: block;
+    }
   }
   .debug {
     padding: 1rem;

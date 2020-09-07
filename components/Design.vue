@@ -9,6 +9,8 @@
 </template>
 
 <style lang="scss">
+@use 'sass:map';
+
   /*
                                      __  _____  __    __   __
                                     | |  | |  / /`  ( (` ( (`
@@ -87,6 +89,7 @@
   --color-layout--background-inverted: var(--color-black);
 }
 
+
 $dialog-typo: (
   desktop: (
     default: (
@@ -110,6 +113,10 @@ $dialog-typo: (
       line-height: 1.12,
       font-weight: 900,
     ),
+    lead: (
+      font-size: var(--size-mouse),
+      font-weight: bold,
+    )
   ),
   phone: (
     default: (
@@ -188,7 +195,6 @@ body {
 .l-design-width {
   padding: var(--size-design-bezel);
 }
-
 .c-design {
   color: var(--color-text);
   background: var(--color-layout--background);
@@ -354,4 +360,16 @@ $grid-default-breakpoint: 'desktop';
     --size-gutter-y: var(--size-gutter);
   }
 }
+
+// generic font classes
+
+$textStyles: map.get($dialog-typo, $grid-default-breakpoint);
+
+
+@each $textStyleName, $textStyle in $textStyles {
+  .t-#{$textStyleName} {
+    @include typo($textStyleName);
+  }
+}
+
 </style>

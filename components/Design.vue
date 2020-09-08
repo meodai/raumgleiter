@@ -106,6 +106,8 @@ $grid-default-breakpoint: 'desktop';
 
   --size-gutter: var(--size-rat);
   --size-design-bezel: var(--size-dog);
+  --size-design-bezel--wide: var(--size-horse);
+  --size-stack: var(--size-dog);
 
   --color-black: #000;
   --color-white: #fff;
@@ -143,6 +145,11 @@ $dialog-typo: (
     lead: (
       font-size: var(--size-mouse),
       font-weight: bold,
+    ),
+    paragraph: (
+      font-size: 2.2rem,
+      font-weight: 300,
+      line-height: 1.22,
     )
   ),
   phone: (
@@ -228,6 +235,10 @@ body {
 // 5) Objects
 .l-design-width {
   padding: var(--size-design-bezel);
+}
+
+.l-design-width--wide {
+  padding: var(--size-design-bezel--wide);
 }
 
 // sass-lint:disable space-around-operator, mixin-name-format, function-name-format, mixins-before-declarations
@@ -367,6 +378,12 @@ $textStyles: map.get($dialog-typo, $grid-default-breakpoint);
 @each $textStyleName, $textStyle in $textStyles {
   .t-#{$textStyleName} {
     @include typo($textStyleName);
+
+    margin-top: 1em;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 </style>

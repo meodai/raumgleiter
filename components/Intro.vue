@@ -1,8 +1,5 @@
 <script>
-  // import Intersect from 'vue-intersect';
-
   export default {
-    //components: { Intersect },
     props: {
       title: {
         type: String,
@@ -42,9 +39,9 @@
   .intro__lead {
     width: 60%;
 
-    /*@include bp(tablet) {
+    @include bp(tablet) {
       width: auto;
-    }*/
+    }
   }
 
   .intro__leadtext,

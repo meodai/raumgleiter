@@ -32,7 +32,16 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '@/assets/scss/settings.scss',
+    '@/assets/scss/tools.scss',
+  ],
+  styleResources: {
+    scss: [
+      '@/assets/scss/settings.scss',
+      '@/assets/scss/tools.scss',
+    ]
+  },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -61,6 +70,7 @@ export default {
     ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
+
   ],
   /*
    ** Nuxt.js modules
@@ -68,7 +78,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "nuxt-i18n"
+    "nuxt-i18n",
+    "@nuxtjs/style-resources",
   ],
   /*
    ** Axios module configuration

@@ -20,7 +20,6 @@
     "nuxt-i18n": "^6.13.10",
     "pixi.js": "^5.3.3",
     "sass": "^1.26.10",
-    "sass-loader": "^9.0.3",
     "swiper": "^6.1.2",
     "throttle-debounce": "^2.3.0",
     "vue-awesome-swiper": "^4.1.1",
@@ -29,11 +28,14 @@
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
     "eslint": "^7.7.0",
     "eslint-plugin-nuxt": "^1.0.0",
-    "git-cz": "^4.7.0"
+    "git-cz": "^4.7.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^9.0.3"
   },
   "config": {
     "commitizen": {

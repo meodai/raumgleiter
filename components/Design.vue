@@ -8,7 +8,6 @@
 </template>
 
 <style lang="scss">
-@use 'sass:map';
 
   /*
                                      __  _____  __    __   __
@@ -54,47 +53,8 @@
 
 */
 
-//
-// Mixes the base-font-size with a given view-width ratio
-//
-// $screenWidthRatio: @float [0-1] .1 means 10% of the font size is relative to the browser width
-// $designWidth: @int reference resolution, mostly the width of the sketch / photoshop file or the current breakpoint
-// $targetPXSize: @int PX value at $designWidth
-//
-// @return @string calc that mixes VW with %
-// because we mix it with % it only works for font-sizes
-//
 
 // 1) Settings
-
-$grid-fractions: (
-  '1\\/1': 1/1,
-  '1\\/2': 1/2,
-  '1\\/3': 1/3,
-  '2\\/3': 2/3,
-  '1\\/4': 1/4,
-  '3\\/4': 3/4,
-  '1\\/5': 1/5,
-  '2\\/5': 2/5,
-  '3\\/5': 3/5,
-  '1\\/6': 1/6,
-  '1\\/8': 1/8,
-  '6\\/8': 6/8,
-);
-
-// add cell 1 - 24 aliases
-//@for $i from 1 through 24 {
-//  $grid-fractions: map-merge($grid-fractions, ($i: $i/24));
-//}
-
-// needed breakpoints for grid cell modifier classes (actual breakpoint: modifier class)
-$grid-breakpoints: (
-  'tablet': 'tablet',
-  'phone': 'phone',
-);
-
-// desktop or mobile first
-$grid-default-breakpoint: 'desktop';
 
 :root {
   --size-mouse: 3.2rem; // small title
@@ -119,75 +79,8 @@ $grid-default-breakpoint: 'desktop';
   --color-layout--background-inverted: var(--color-black);
 }
 
-$dialog-typo: (
-  desktop: (
-    default: (
-      font-size: 2.2rem,
-      font-family: unquote('MatterSQ, -apple-system, sans-serif'),
-      font-weight: 300,
-      line-height: 1.22,
-      color: var(--color-text),
-    ),
-    title: (
-      font-size: var(--size-mouse),
-      font-weight: 900,
-    ),
-    title--page: (
-      font-size: var(--size-cat),
-      line-height: 1.12,
-      font-weight: 900,
-    ),
-    title--hero: (
-      font-size: var(--size-pony),
-      line-height: 1.12,
-      font-weight: 900,
-    ),
-    lead: (
-      font-size: var(--size-mouse),
-      font-weight: bold,
-    ),
-    paragraph: (
-      font-size: 2.2rem,
-      font-weight: 300,
-      line-height: 1.22,
-    )
-  ),
-  phone: (
-    default: (
-      font-size: 1.8rem,
-      line-height: 1.3,
-    ),
-  )
-);
-
-$dialog-breakpoints: (
-  desktop: 'min-width: 769px',
-  tablet: 'max-width: 768px',
-  phone: 'max-width: 415px'
-);
-
 // 2) Tools
 
-@mixin bp($name) {
-  @if map-has-key($dialog-breakpoints, $name) {
-    @media (#{map-get($dialog-breakpoints, $name)}) {
-      @content;
-    }
-  } @else {
-    @error 'there is no breakpoint called #{$name}';
-  }
-}
-
-@import 'dialog-typography/dist/dialog-typography';
-
-@function screen-ratio-mix(
-  $screen-width-ratio: 0.1, // adds 10% of screen-width
-  $design-width: 1440, // the target width (artboard width)
-  $target-px-size: 10 // target size in PX
-) {
-  $percent-size: $target-px-size / 16% * 100%;
-  @return calc(#{$percent-size - $percent-size * $screen-width-ratio}% + #{$screen-width-ratio * (100 / $design-width) * 10}vw);
-}
 
 // 3) Generic
 
@@ -239,69 +132,6 @@ body {
 
 .l-design-width--wide {
   padding: var(--size-design-bezel--wide);
-}
-
-// sass-lint:disable space-around-operator, mixin-name-format, function-name-format, mixins-before-declarations
-/*!
-FIRST OF ALL
-- CSS grids are great for building the bigger picture. They makes it really easy to manage the layout of the page, and can even handle more unorthodox and asymmetrical designs.
-- Flexbox is great at aligning the content inside elements. Use flex to position the smaller details of a design.
-- Use CSS grids for 2D layouts (rows AND columns).
-- Flexbox works better in one dimension only (rows OR columns).
-- There is no reason to use only CSS grids or only flexbox. Learn both and use them together.
-CODE EXAMPLES
-- zweite, 3. und 4. Spalte
-    - grid-column: 2 / span 3
-    - grid-column-start: 2; grid-column-end: span 3;
-    - grid-column: 2 / 5
-- grid-row-start und -end gibt es auch --> alle 5 Zeilen, 1 Spalte Offset und 4 Spalten umfasst
-    - grid-row: 1/6; grid-column: 2/6;
-- grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end
-- order definieren wenn Markup Aufteilung vorgibt
-    - order beginnt bei 0
-    - darf auch negativ definiert werden z.B. order: -1;
-BROWSER SUPPORT
-- CSS Grid does not support all browsers
-- use width and % for unsupported browsers
-*/
-
-// grid cell mixin
-@mixin grid__cell($breakpoint-name: null) {
-  @each $fraction-key, $fraction-value in $grid-fractions {
-    $selector: --#{$fraction-key};
-
-    @if ($breakpoint-name) {
-      $selector: --#{$fraction-key}\@#{$breakpoint-name};
-    }
-
-    &#{$selector} {
-      width: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} - var(--size-gutter-x));
-      flex: 0 0 auto;
-    }
-
-    &--push#{$selector} {
-      margin-left: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} + var(--size-gutter-x));
-    }
-
-    &--pull#{$selector} {
-      margin-right: calc(#{$fraction-value * 100% / 10% * (10% - 0.0095%)} + var(--size-gutter-x));
-    }
-  }
-
-  $selector: '--none';
-
-  @if ($breakpoint-name) {
-    $selector: --#{'none'}\@#{$breakpoint-name};
-  }
-
-  &--push#{$selector} {
-    left: 0;
-  }
-
-  &--pull#{$selector} {
-    right: 0;
-  }
-
 }
 
 .l-grid {
@@ -373,7 +203,7 @@ BROWSER SUPPORT
 
 // generic font classes
 
-$textStyles: map.get($dialog-typo, $grid-default-breakpoint);
+$textStyles: map-get($dialog-typo, $grid-default-breakpoint);
 
 @each $textStyleName, $textStyle in $textStyles {
   .t-#{$textStyleName} {

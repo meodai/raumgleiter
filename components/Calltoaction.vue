@@ -38,9 +38,9 @@
         :is-block="true"
       />
       <h3 v-if="ctatitle1" class="cta__title">{{ctatitle1}}</h3>
-      <div class="cta__content">
-        <slot />
-      </div>
+      <p class="cta__content">
+        <slot name="first" />
+      </p>
     </aside>
     <aside class="cta__second">
       <Icon
@@ -48,10 +48,10 @@
         :name="icon1"
         :is-block="true"
       />
-      <h3 v-if="ctatitle1" class="cta__title">{{ctatitle2}}</h3>
-      <div class="cta__content">
+      <h3 v-if="ctatitle2" class="cta__title">{{ctatitle2}}</h3>
+      <p class="cta__content">
         <slot name="second" />
-      </div>
+      </p>
     </aside>
   </article>
 </template>

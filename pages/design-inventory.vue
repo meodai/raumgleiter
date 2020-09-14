@@ -129,11 +129,11 @@
         :icon1="'heart'"
         :title1="'In der Real Virtuality angekommen?'"
       >
-        <p>Dann freuen wir uns auf Ihre Kontaktaufnahme.</p>
-        <p :slot="second">
+        <template v-slot:first>Dann freuen wir uns auf Ihre Kontaktaufnahme.</template>
+        <template v-slot:second>
           <a href="tel:+41(0)442027080">+41 044 202 70 80</a>
           <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
-        </p>
+        </template>
       </calltoaction>
     </intro>
   </div>

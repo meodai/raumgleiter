@@ -17,11 +17,22 @@ export default {
 
     return { page };
   },
+  computed: {
+    videoTeasers () {
+      return [{
+        video: this.page.headerVideo.mp4,
+        title: this.page.header,
+      }]
+    },
+  },
 }
 </script>
 
 <template>
   <div>
-    {{ page.header }}
+    <VideoTeaser :entries="videoTeasers" />
+
+    <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
+
   </div>
 </template>

@@ -1,27 +1,9 @@
 <script>
   export default {
     props: {
-      title: {
-        type: String,
+      fields: {
+        type: Object,
         required: true,
-      },
-      leadText: {
-        type: String,
-        required: true,
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      list: {
-        default: () => [],
-        type: Array,
-        required: false,
-      },
-      listTitle: {
-        default: () => '',
-        type: String,
-        required: false,
       },
     },
     data () {
@@ -34,15 +16,15 @@
 <template>
   <section class="intro l-design-width l-design-width--wide c-design c-design--inverted">
     <div class="intro__lead">
-      <h2 class="intro__title t-title t-title--page">{{title}}</h2>
-      <p class="intro__leadtext t-lead">{{leadText}}</p>
-      <p class="intro__paragraph">{{text}}</p>
+      <h2 class="intro__title t-title t-title--page">{{fields.header}}</h2>
+      <p class="intro__leadtext t-lead">{{fields.lead}}</p>
+      <p class="intro__paragraph">{{fields.body}}</p>
     </div>
-    <aside v-if="list" class="intro__list-wrap" >
-      <h3 class="intro__list-title t-title">{{listTitle}}</h3>
+    <aside v-if="fields.offers" v-for="(offers, index) in fields.offers" :key="'offers'+index" class="intro__list-wrap" >
+      <h3 class="intro__list-title t-title">{{offers.header}}</h3>
       <ul class="intro__list">
         <li
-          v-for="listItem in list"
+          v-for="listItem in offers.services"
           :key="listItem"
           class="intro__list-item"
         >{{listItem}}</li>

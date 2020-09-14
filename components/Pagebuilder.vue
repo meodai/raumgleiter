@@ -1,6 +1,10 @@
 <script>
+import Intro from "./Intro";
 export default {
   name: 'Pagebuilder',
+  components: {
+    Intro,
+  },
   props: {
     blocks: {
       type: Array,

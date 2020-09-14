@@ -1,7 +1,9 @@
 <script>
 import collect from "collect.js";
+import page from '../pages/_slug';
 
 export default {
+  extends: page,
   async asyncData ({ $http, query, store, error, $config }) {
 
     const page = collect(await $http.$get('/pages.json?token=' + query.token).then(data => data.data))
@@ -27,12 +29,3 @@ export default {
   },
 }
 </script>
-
-<template>
-  <div>
-    <VideoTeaser :entries="videoTeasers" />
-
-    <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
-
-  </div>
-</template>

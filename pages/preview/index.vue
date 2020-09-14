@@ -4,11 +4,9 @@ import collect from "collect.js";
 export default {
   async asyncData ({ $http, query, store, error, $config }) {
 
-    // Fetching the data from the cms here
     const page = collect(await $http.$get('/pages.json?token=' + query.token).then(data => data.data))
     .filter(page => page.slug === query.CraftPreviewSlug && page.locale === query.locale)
     .first();
-
 
     if (! $config.livePreview || ! page) {
       error({statusCode: 404, message: 'Page not found'})

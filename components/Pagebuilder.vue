@@ -1,14 +1,6 @@
 <script>
-import LeadText from './Pagebuilder/LeadText';
-import Offers from './Pagebuilder/Offers';
-import Quote from './Pagebuilder/Quote';
 export default {
   name: 'Pagebuilder',
-  components: {
-    LeadText,
-    Offers,
-    Quote,
-  },
   props: {
     blocks: {
       type: Array,

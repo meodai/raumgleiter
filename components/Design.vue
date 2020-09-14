@@ -53,7 +53,6 @@
 
 */
 
-
 // 1) Settings
 
 :root {
@@ -120,9 +119,16 @@
 
 body {
   @include typo('default');
-  font-size: 2.2rem;
-  line-height: 1.22;
   background: var(--color-layout--background);
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 // 5) Objects

@@ -20,7 +20,7 @@
 
 <template>
   <svg class="icon" :class="{'icon--block': isBlock}">
-    <use :xlink:href="name" />
+    <use :xlink:href="`#${name}`" />
   </svg>
 </template>
 
@@ -29,6 +29,7 @@
     display: inline-block;
     width: 5rem;
     height: 5rem;
+    fill: currentColor;
   }
 
   .icon--block {

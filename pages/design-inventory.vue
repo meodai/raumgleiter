@@ -82,20 +82,20 @@
       </div>
     </div>
 
-    <h2 class="t-title t-title--page t-title--inventory">Inverted Section</h2>
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Inverted Section</h2>
     <div class="l-design-width c-design c-design--inverted">
       <h1>Some Inverted Text</h1>
       <p>Lorem Ipsum doror sit amet</p>
     </div>
 
-    <h2 class="t-title t-title--page t-title--inventory">Intro Section</h2>
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Intro Section</h2>
     <intro
       :title="'Virtuelle Vermarktung.'"
       :lead-text="'Kunden fesseln, Begeisterung steigern und Begehrlichkeiten wecken: Wir lassen virtuelle Räume real werden. So schaffen wir einen Sense of Place, der Zukunft fassbar macht, und generieren ein Involvement, das Entscheidungsprozesse deutlich beschleunigt.'"
       :text="'Für Sie heisst das: Mit unseren professionellen Lösungen, reduzieren Sie nicht nur Besuchstermine vor Ort und ermöglichen fundierte Beratungsgespräch schon am Computer. Sondern Sie profitieren auch von einem digitalen Auftritt, der heutigen Anforderungen optimal entspricht. Für eine professionelle Vermarktung. Und für bessere Erfolge.'"
     />
 
-    <h2 class="t-title t-title--page t-title--inventory">Intro Section with List</h2>
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Intro Section with List</h2>
 
     <intro
       :title="'Virtual Real Estate.'"
@@ -110,7 +110,7 @@
       ]"
     />
 
-    <h2 class="t-title t-title--page t-title--inventory">Intro Section with List and CTA</h2>
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Intro Section with List and CTA</h2>
 
     <intro
       :title="'Virtual Real Estate.'"
@@ -124,17 +124,18 @@
         'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
       ]"
     >
-      <cta
+      <calltoaction
         class="intro__cta"
         :icon1="'heart'"
-        :title1="'In der Real Virtuality angekommen?'"
+        :ctatitle1="'In der Real Virtuality angekommen?'"
+        :icon2="'communication'"
       >
-        <p>Dann freuen wir uns auf Ihre Kontaktaufnahme.</p>
-        <p :slot="second">
+        <template v-slot:first>Dann freuen wir uns auf Ihre Kontaktaufnahme.</template>
+        <template v-slot:second>
           <a href="tel:+41(0)442027080">+41 044 202 70 80</a>
           <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
-        </p>
-      </cta>
+        </template>
+      </calltoaction>
     </intro>
   </div>
 </template>

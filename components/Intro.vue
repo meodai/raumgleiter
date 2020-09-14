@@ -87,6 +87,6 @@
 
   .intro__cta {
     clear: both;
-    padding-top: calc(var(--size-stack) * 2);
+    padding: 15%;
   }
 </style>

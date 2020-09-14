@@ -121,16 +121,22 @@
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Intro Section with List and CTA</h2>
 
     <intro
-      :title="'Virtual Real Estate.'"
-      :lead-text="'Den ganzen Immobilienzyklus digitalisieren: Das ist sinnvoll. Und jetzt auch machbar! Denn Raumgleiter bietet nun virtuelle Gesamtlösungen an, die alle Phasen kohärent zusammenbringen: Die Visionsentwicklung, die Vermarkung, die Bewirtschaftung und den Wiederkauf. '"
-      :text="'Für Sie heisst das: Mit unseren professionellen Lösungen, reduzieren Sie nicht nur Besuchstermine vor Ort und ermöglichen fundierte Beratungsgespräch schon am Computer. Sondern Sie profitieren auch von einem digitalen Auftritt, der heutigen Anforderungen optimal entspricht. Für eine professionelle Vermarktung. Und für bessere Erfolge. '"
-      :list-title="'Unsere Leistungen.'"
-      :list="[
-        'Visionen zur Sensibilisierung der Öffentlichkeit',
-        'Virtuelle Vermarktung',
-        'Virtuelle Lösungen und Applikationen für die Bewirtschaftung',
-        'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
-      ]"
+      :fields="{
+        header: 'Virtual Real Estate.',
+        lead: 'Den ganzen Immobilienzyklus digitalisieren: Das ist sinnvoll. Und jetzt auch machbar! Denn Raumgleiter bietet nun virtuelle Gesamtlösungen an, die alle Phasen kohärent zusammenbringen: Die Visionsentwicklung, die Vermarkung, die Bewirtschaftung und den Wiederkauf. ',
+        body: 'Für Sie heisst das: Mit unseren professionellen Lösungen, reduzieren Sie nicht nur Besuchstermine vor Ort und ermöglichen fundierte Beratungsgespräch schon am Computer. Sondern Sie profitieren auch von einem digitalen Auftritt, der heutigen Anforderungen optimal entspricht. Für eine professionelle Vermarktung. Und für bessere Erfolge. ',
+        offers: [
+          {
+            header: 'Unsere Leistungen.',
+            services: [
+              'Visionen zur Sensibilisierung der Öffentlichkeit',
+              'Virtuelle Vermarktung',
+              'Virtuelle Lösungen und Applikationen für die Bewirtschaftung',
+              'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
+            ],
+          },
+        ]
+      }"
     >
       <calltoaction
         class="intro__cta"

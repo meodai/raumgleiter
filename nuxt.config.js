@@ -122,11 +122,9 @@ export default {
     exclude: [
       ...process.env.LIVE_PREVIEW !== 'true' ? [
         '/preview', '/preview/project',
-      ] : [],
-      ...[
         '/en/preview', '/en/preview/project',
         '/fr/preview', '/fr/preview/project',
-      ]
+      ] : [],
     ],
     // routes () {
     //     return axios.get((process.env.CMS_URL || 'https://cms.raumgleiter.noo.work') + '/projects.json').then((res) => {

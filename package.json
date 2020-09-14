@@ -14,6 +14,8 @@
     "@nuxt/http": "^0.5.12",
     "@nuxtjs/axios": "^5.12.1",
     "collect.js": "^4.28.2",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
     "gsap": "^3.5.0",
     "mixitup": "^3.3.1",
     "modern-css-reset": "^1.1.1",

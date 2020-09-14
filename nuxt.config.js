@@ -58,6 +58,8 @@ export default {
       mode: "client"
     }, {
       src: "./plugins/craft.js",
+    }, {
+      src: "./plugins/preview.js",
       mode: "client"
     },
   ],
@@ -151,7 +153,7 @@ export default {
   },
   privateRuntimeConfig: {
     // cmsURL: process.env.CMS_URL,
-    craftApiUrl: process.env.CRAFT_API_URL|| 'https://cms.raumgleiter.noo.work',
+    craftApiUrl: process.env.CRAFT_API_URL|| 'https://cms.raumgleiter.noo.work/api',
     craftAuthToken: process.env.CRAFT_AUTH_TOKEN,
   },
   publicRuntimeConfig: {

@@ -122,6 +122,15 @@ body {
   background: var(--color-layout--background);
 }
 
+a {
+  color: currentColor;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 // 5) Objects
 .l-design-width {
   padding: var(--size-design-bezel);

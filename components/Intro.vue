@@ -85,4 +85,8 @@
     list-style: disc;
   }
 
+  .intro__cta {
+    clear: both;
+    padding-top: calc(var(--size-stack) * 2);
+  }
 </style>

@@ -127,7 +127,8 @@
       <calltoaction
         class="intro__cta"
         :icon1="'heart'"
-        :title1="'In der Real Virtuality angekommen?'"
+        :ctatitle1="'In der Real Virtuality angekommen?'"
+        :icon2="'communication'"
       >
         <template v-slot:first>Dann freuen wir uns auf Ihre Kontaktaufnahme.</template>
         <template v-slot:second>

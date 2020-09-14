@@ -53,7 +53,6 @@
 
 */
 
-
 // 1) Settings
 
 :root {
@@ -120,8 +119,6 @@
 
 body {
   @include typo('default');
-  font-size: 2.2rem;
-  line-height: 1.22;
   background: var(--color-layout--background);
 }
 

@@ -124,7 +124,7 @@
         'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
       ]"
     >
-      <cta
+      <calltoaction
         class="intro__cta"
         :icon1="'heart'"
         :title1="'In der Real Virtuality angekommen?'"
@@ -134,7 +134,7 @@
           <a href="tel:+41(0)442027080">+41 044 202 70 80</a>
           <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
         </p>
-      </cta>
+      </calltoaction>
     </intro>
   </div>
 </template>

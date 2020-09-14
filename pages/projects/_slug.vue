@@ -9,8 +9,8 @@
         en: '/projects/:slug',
       }
     },
-    async asyncData({$axios, params, store}) {
-      let projectEntry = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
+    async asyncData({$http, params, store}) {
+      let projectEntry = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
         .keyBy('lang');
       await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
 

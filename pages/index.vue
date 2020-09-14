@@ -9,10 +9,10 @@ export default {
     Swiper,
     SwiperSlide,
   },
-  async asyncData ({ $axios }) {
+  async asyncData ({ $http }) {
     // Fetching the data from the cms here
-    const allPages = collect(await $axios.$get('/pages.json').then(data => data.data))
-    .groupBy('lang').all();
+    const allPages = collect(await $http.$get('/pages.json').then(data => data.data))
+    .groupBy('locale').all();
 
     return { allPages };
   },

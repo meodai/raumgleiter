@@ -1,11 +1,4 @@
-import axios from 'axios';
-
 export default {
-  /*
-   ** Nuxt rendering mode
-   ** See https://nuxtjs.org/api/configuration-mode
-   */
-  mode: "universal",
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -50,15 +43,16 @@ export default {
     {
       src: "./plugins/mixitup.js",
       mode: "client"
-    }, {
+    },
+    {
       src: "./plugins/pixi.js",
       mode: "client"
-    }, {
+    },
+    {
       src: "./plugins/gsap.js",
       mode: "client"
-    }, {
-      src: "./plugins/craft.js",
-    }, {
+    },
+    {
       src: "./plugins/preview.js",
       mode: "client"
     },
@@ -72,32 +66,18 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
+    // ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
-
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
-    "@nuxtjs/axios",
     "@nuxt/http",
     "nuxt-i18n",
     "@nuxtjs/style-resources",
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    // Setting CMS_URL takes precedence, otherwise it falls back to the local cache or the production cms
-    baseURL:
-      process.env.CMS_URL ||
-      (process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/api"
-        : "https://cms.raumgleiter.noo.work")
-  },
   /*
    ** Multi-language config
    ** See https://i18n.nuxtjs.org/
@@ -152,13 +132,14 @@ export default {
     // },
   },
   privateRuntimeConfig: {
-    // cmsURL: process.env.CMS_URL,
-    craftApiUrl: process.env.CRAFT_API_URL|| 'https://cms.raumgleiter.noo.work/api',
-    craftAuthToken: process.env.CRAFT_AUTH_TOKEN,
+    http: {
+      baseURL: process.env.API_URL || "https://cms.raumgleiter.noo.work",
+    },
   },
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
-    craftApiUrl: process.env.LIVE_PREVIEW === 'true' ? process.env.CRAFT_API_URL : '',
-    craftAuthToken: process.env.LIVE_PREVIEW === 'true' ? process.env.CRAFT_AUTH_TOKEN : '',
+    http: {
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL : ''
+    }
   },
 };

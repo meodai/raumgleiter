@@ -146,11 +146,14 @@ export default {
     //     });
     // },
   },
-  // Available at { $config: { cmsURL } }
-  publicRuntimeConfig: {
-    // cmsURL: process.env.CMS_URL || 'https://cms.raumgleiter.noo.work',
-  },
   privateRuntimeConfig: {
-    // apiSecret: process.env.API_SECRET
-  }
+    // cmsURL: process.env.CMS_URL,
+    craftApiUrl: process.env.CRAFT_API_URL|| 'https://cms.raumgleiter.noo.work',
+    craftAuthToken: process.env.CRAFT_AUTH_TOKEN,
+  },
+  publicRuntimeConfig: {
+    livePreview: process.env.LIVE_PREVIEW === 'true',
+    craftApiUrl: process.env.LIVE_PREVIEW === 'true' ? process.env.CRAFT_API_URL : '',
+    craftAuthToken: process.env.LIVE_PREVIEW === 'true' ? process.env.CRAFT_AUTH_TOKEN : '',
+  },
 };

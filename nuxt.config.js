@@ -56,6 +56,9 @@ export default {
     }, {
       src: "./plugins/gsap.js",
       mode: "client"
+    }, {
+      src: "./plugins/craft.js",
+      mode: "client"
     },
   ],
   /*
@@ -76,8 +79,8 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
+    "@nuxt/http",
     "nuxt-i18n",
     "@nuxtjs/style-resources",
   ],

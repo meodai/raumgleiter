@@ -109,6 +109,33 @@
         'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
       ]"
     />
+
+    <h2 class="t-title t-title--page t-title--inventory">Intro Section with List and CTA</h2>
+
+    <intro
+      :title="'Virtual Real Estate.'"
+      :lead-text="'Den ganzen Immobilienzyklus digitalisieren: Das ist sinnvoll. Und jetzt auch machbar! Denn Raumgleiter bietet nun virtuelle Gesamtlösungen an, die alle Phasen kohärent zusammenbringen: Die Visionsentwicklung, die Vermarkung, die Bewirtschaftung und den Wiederkauf. '"
+      :text="'Für Sie heisst das: Mit unseren professionellen Lösungen, reduzieren Sie nicht nur Besuchstermine vor Ort und ermöglichen fundierte Beratungsgespräch schon am Computer. Sondern Sie profitieren auch von einem digitalen Auftritt, der heutigen Anforderungen optimal entspricht. Für eine professionelle Vermarktung. Und für bessere Erfolge. '"
+      :list-title="'Unsere Leistungen.'"
+      :list="[
+        'Visionen zur Sensibilisierung der Öffentlichkeit',
+        'Virtuelle Vermarktung',
+        'Virtuelle Lösungen und Applikationen für die Bewirtschaftung',
+        'Virtuelle Lösungen für den Wiederverkauf und -Vermietung',
+      ]"
+    >
+      <cta
+        class="intro__cta"
+        :icon1="'heart'"
+        :title1="'In der Real Virtuality angekommen?'"
+      >
+        <p>Dann freuen wir uns auf Ihre Kontaktaufnahme.</p>
+        <p :slot="second">
+          <a href="tel:+41(0)442027080">+41 044 202 70 80</a>
+          <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
+        </p>
+      </cta>
+    </intro>
   </div>
 </template>
 

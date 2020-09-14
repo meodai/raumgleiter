@@ -41,7 +41,11 @@
     <aside v-if="list" class="intro__list-wrap" >
       <h3 class="intro__list-title t-title">{{listTitle}}</h3>
       <ul class="intro__list">
-        <li lass="intro__list-item" v-for="listItem in list" :key="listItem">{{listItem}}</li>
+        <li
+          v-for="listItem in list"
+          :key="listItem"
+          class="intro__list-item"
+        >{{listItem}}</li>
       </ul>
     </aside>
     <slot />
@@ -73,13 +77,12 @@
 
   .intro__list {
     font-weight: bold;
-    list-style: disc;
-    list-style-type: disc;
   }
 
   .intro__list-item {
-    padding-left: 1em;
+    margin-left: 1em;
     margin-top: 1ex;
+    list-style: disc;
   }
 
 </style>

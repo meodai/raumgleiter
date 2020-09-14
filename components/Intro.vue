@@ -88,5 +88,6 @@
   .intro__cta {
     clear: both;
     padding: 15%;
+    padding-bottom: 0;
   }
 </style>

@@ -36,14 +36,14 @@
           x: '-100%',
         }, {
           x: '-220%',
-          ease: 'power4.out',
-          delay: .1,
+          ease: 'power4.inOut',
+          delay: 0.2,
         });
-        gsap.fromTo($nextSlide, 2, {
+        gsap.fromTo($nextSlide, 1.58, {
           x: '20%',
         }, {
           x: '-100%',
-          ease: 'power4.out',
+          ease: 'power4.inOut',
         });
         this.activeSlide = nextNthChild;
       },

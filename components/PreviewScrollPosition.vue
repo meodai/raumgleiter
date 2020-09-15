@@ -16,7 +16,6 @@ export default {
         setTimeout(() => {
           window.addEventListener('scroll', throttle(200, function () {
             sessionStorage.setItem(storageKey, window.scrollY);
-            console.log(window.scrollY)
           }));
         }, 1000);
       }, 200);

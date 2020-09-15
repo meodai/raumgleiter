@@ -14,6 +14,7 @@
             services: ['plaintext', 'plaintext', ...],
           },
         ]
+
       };
      */
       fields: {

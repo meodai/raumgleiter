@@ -149,7 +149,8 @@ export default {
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://cms.raumgleiter.noo.work" : ''
+      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://cms.raumgleiter.noo.work" : ''
+      browserBaseURL: process.env.API_URL || "https://cms.raumgleiter.noo.work",
     }
   },
 };

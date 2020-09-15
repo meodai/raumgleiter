@@ -36,6 +36,10 @@ export default {
 
     <PreviewScrollPosition />
 
+<!--    <client-only>-->
+<!--      <VideoTeaser :entries="videoTeasers" />-->
+<!--    </client-only>-->
+
     <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
 
   </div>

@@ -149,15 +149,15 @@
     >
       <calltoaction
         class="intro__cta"
-        :icon1="'heart'"
-        :ctatitle1="'In der Real Virtuality angekommen?'"
-        :icon2="'communication'"
+        :fields="{
+          icon: 'heart',
+          header: 'In der Real Virtuality angekommen?',
+          text: 'Dann freuen wir uns auf Ihre Kontaktaufnahme.',
+          contactName: null,
+          phone: '+41 044 202 70 80',
+          email: 'realworld@raumgleiter.com',
+        }"
       >
-        <template v-slot:first>Dann freuen wir uns auf Ihre Kontaktaufnahme.</template>
-        <template v-slot:second>
-          <a href="tel:+41(0)442027080">+41 044 202 70 80</a>
-          <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
-        </template>
       </calltoaction>
     </intro>
   </div>

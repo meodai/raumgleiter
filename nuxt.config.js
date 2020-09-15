@@ -126,6 +126,7 @@ export default {
         '/fr/preview', '/fr/preview/project',
       ] : [],
     ],
+    // TODO: add all routes
     // routes () {
     //     return axios.get((process.env.CMS_URL || 'https://cms.raumgleiter.noo.work') + '/projects.json').then((res) => {
     //         return res.data.data
@@ -147,7 +148,7 @@ export default {
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL : ''
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://cms.raumgleiter.noo.work" : ''
     }
   },
 };

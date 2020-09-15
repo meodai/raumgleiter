@@ -34,13 +34,16 @@
         const $nextSlide = this.$refs.slide[nextNthChild];
         gsap.fromTo($currentSlide, 1.25, {
           x: '-100%',
+          rotate: '0deg',
         }, {
           x: '-220%',
+          rotate: `${-10 + Math.random() * 20}deg`,
           ease: 'power4.inOut',
           delay: 0.2,
         });
         gsap.fromTo($nextSlide, 1.58, {
           x: '20%',
+          rotate: '0deg',
         }, {
           x: '-100%',
           ease: 'power4.inOut',

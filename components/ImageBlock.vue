@@ -32,13 +32,14 @@
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const $nextSlide = this.$refs.slide[nextNthChild];
-        gsap.fromTo($currentSlide, 1, {
+        gsap.fromTo($currentSlide, 1.25, {
           x: '-100%',
         }, {
-          x: '-200%',
+          x: '-220%',
           ease: 'power4.out',
+          delay: .1,
         });
-        gsap.fromTo($nextSlide, 1.5, {
+        gsap.fromTo($nextSlide, 2, {
           x: '20%',
         }, {
           x: '-100%',
@@ -112,6 +113,8 @@
     margin-left: calc(-1 * var(--image-block-gutter));
     padding-top: var(--size-pony);
     padding-bottom: calc(var(--size-pony) - var(--image-block-gutter));
+    overflow: hidden;
+
     &:nth-child(2n) {
       background: #f2f2f2;
     }

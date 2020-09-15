@@ -165,8 +165,8 @@
         {'src': 'https://picsum.photos/id/1021/1440/1000/', 'alt': 'people'},
         {'src': 'https://picsum.photos/id/121/1440/1000/', 'alt': 'people'},
         {'src': 'https://picsum.photos/id/1044/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/64/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/920/1440/1000/', 'alt': 'people'},
+        {'src': 'https://picsum.photos/id/1064/1440/1000/', 'alt': 'people'},
+        {'src': 'https://picsum.photos/id/999/1440/1000/', 'alt': 'people'},
       ]"
       :image-position="'background'"
     >

@@ -31,6 +31,8 @@ export default {
 
 <template>
   <div>
+    <PreviewScrollPosition />
+
     <client-only>
       <VideoTeaser :entries="videoTeasers" />
     </client-only>

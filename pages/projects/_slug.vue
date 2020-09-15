@@ -13,7 +13,9 @@
       let projectEntry = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
         .keyBy('locale');
 
-      await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+      if(projectEntry.count()) {
+        await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+      }
 
       return { projectEntry: projectEntry.all() };
     },
@@ -30,6 +32,7 @@
 
 <template>
   <div>
+    <PreviewScrollPosition />
 
 <!--    <nuxt-link :to="localePath('projects')">Zurück zu Projekten</nuxt-link>-->
 

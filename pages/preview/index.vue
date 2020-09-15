@@ -1,31 +1,25 @@
-<script>
-import collect from "collect.js";
-import page from './pages/_slug';
-
-export default {
-  extends: page,
-  async asyncData ({ $http, query, store, error, $config }) {
-
-    const page = collect(await $http.$get('/pages.json?token=' + query.token).then(data => data.data))
-    .filter(page => page.slug === query.CraftPreviewSlug && page.locale === query.locale)
-    .first();
-
-    if (! $config.livePreview || ! page) {
-      error({statusCode: 404, message: 'Page not found'})
-      return {}
-    }
-
-    await store.dispatch('i18n/setRouteParams', page.locale_slugs);
-
-    return { page };
-  },
-  computed: {
-    videoTeasers () {
-      return [{
-        video: this.page.headerVideo.mp4,
-        title: this.page.header,
-      }]
-    },
-  },
-}
-</script>
+<template>
+  <ul>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/about">about</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/virtuelle-vermarktung">Virtuelle Vermarktung</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/virtuelle-lösungen">Virtuelle Lösungen</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/virtual-real-estate">Virtual Real Estate</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/virtuelle-konfiguratoren">Virtuelle Konfiguratoren</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/virtueller-wettbewerb">Virtueller Wettbewerb</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/preview/pagebuilder/applications-development">Applications Development</nuxt-link>
+    </li>
+  </ul>
+</template>

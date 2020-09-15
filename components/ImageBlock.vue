@@ -123,6 +123,7 @@
       background: #f2f2f2;
     }
   }
+
   .image-block__images {
     flex: 0 0 calc(60% - var(--image-block-gutter));
     margin-left: var(--image-block-gutter);
@@ -148,6 +149,7 @@
     top: 0;
     left: 100%;
     width: 100%;
+    will-change: transform;
 
     &:first-child {
       transform: translateX(-100%);

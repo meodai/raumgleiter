@@ -1,6 +1,6 @@
 <script>
 import collect from "collect.js";
-import page from '../pages/_slug';
+import page from './pages/_slug';
 
 export default {
   extends: page,

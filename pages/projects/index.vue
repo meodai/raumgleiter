@@ -13,12 +13,12 @@ export default {
   components: {
     ProjectFilter,
   },
-  async asyncData ({ $axios }) {
-    const allCategories = collect(await $axios.$get('/categories.json').then(data => data.data))
-      .groupBy('lang').map((cat) => cat.groupBy('group').all()).all();
+  async asyncData ({ $http }) {
+    const allCategories = collect(await $http.$get('/categories.json').then(data => data.data))
+      .groupBy('locale').map((cat) => cat.groupBy('group').all()).all();
 
-    const allProjectEntries = collect(await $axios.$get('/projects.json').then(data => data.data))
-      .groupBy('lang').all();
+    const allProjectEntries = collect(await $http.$get('/projects.json').then(data => data.data))
+      .groupBy('locale').all();
 
     return { allProjectEntries, allCategories };
   },

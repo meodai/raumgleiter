@@ -36,6 +36,6 @@ export default {
   <nuxt-link
     :to="localePath({ query: queryPathObject })"
   >
-    {{ category.title }} {{ isEnabled ? '(Aktiviert)' : '(Deaktiviert)' }}
+    {{ category.title }} {{ isEnabled ? '✅' : '' }}
   </nuxt-link>
 </template>

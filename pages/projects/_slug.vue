@@ -9,15 +9,18 @@
         en: '/projects/:slug',
       }
     },
-    async asyncData({$axios, params, store}) {
-      let projectEntry = collect(await $axios.$get(`/projects/${params.slug}.json`).then(data => data.data))
-        .keyBy('lang');
-      await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+    async asyncData({$http, params, store}) {
+      let projectEntry = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
+        .keyBy('locale');
+
+      if(projectEntry.count()) {
+        await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+      }
 
       return { projectEntry: projectEntry.all() };
     },
     computed: {
-      projectInCurrentLocale()
+      project()
       {
         return this.projectEntry[this.$i18n.locale]
           // Fallback for dev environment
@@ -29,7 +32,12 @@
 
 <template>
   <div>
-    <nuxt-link :to="localePath('projects')">Zurück zu Projekten</nuxt-link>
-    <h1>{{ projectInCurrentLocale.title }}</h1>
+    <PreviewScrollPosition />
+
+<!--    <nuxt-link :to="localePath('projects')">Zurück zu Projekten</nuxt-link>-->
+
+    <h1>{{ project.title }}</h1>
+
+
   </div>
 </template>

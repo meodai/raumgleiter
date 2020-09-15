@@ -1,11 +1,4 @@
-import axios from 'axios';
-
 export default {
-  /*
-   ** Nuxt rendering mode
-   ** See https://nuxtjs.org/api/configuration-mode
-   */
-  mode: "universal",
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -51,11 +44,17 @@ export default {
     {
       src: "./plugins/mixitup.js",
       mode: "client"
-    }, {
+    },
+    {
       src: "./plugins/pixi.js",
       mode: "client"
-    }, {
+    },
+    {
       src: "./plugins/gsap.js",
+      mode: "client"
+    },
+    {
+      src: "./plugins/preview.js",
       mode: "client"
     },
   ],
@@ -68,32 +67,18 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
+    // ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
-
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios",
+    "@nuxt/http",
     "nuxt-i18n",
     "@nuxtjs/style-resources",
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    // Setting CMS_URL takes precedence, otherwise it falls back to the local cache or the production cms
-    baseURL:
-      process.env.CMS_URL ||
-      (process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/api"
-        : "https://cms.raumgleiter.noo.work")
-  },
   /*
    ** Multi-language config
    ** See https://i18n.nuxtjs.org/
@@ -134,6 +119,15 @@ export default {
    ** Static site generation config
    */
   generate: {
+
+    exclude: [
+      ...process.env.LIVE_PREVIEW !== 'true' ? [
+        '/preview', '/preview/project', '/preview/pagebuilder',
+        '/en/preview', '/en/preview/project', '/en/preview/pagebuilder',
+        '/fr/preview', '/fr/preview/project', '/fr/preview/pagebuilder'
+      ] : [],
+    ],
+    // TODO: add all routes
     // routes () {
     //     return axios.get((process.env.CMS_URL || 'https://cms.raumgleiter.noo.work') + '/projects.json').then((res) => {
     //         return res.data.data
@@ -147,11 +141,15 @@ export default {
     //     });
     // },
   },
-  // Available at { $config: { cmsURL } }
-  publicRuntimeConfig: {
-    // cmsURL: process.env.CMS_URL || 'https://cms.raumgleiter.noo.work',
-  },
   privateRuntimeConfig: {
-    // apiSecret: process.env.API_SECRET
-  }
+    http: {
+      baseURL: process.env.API_URL || "https://cms.raumgleiter.noo.work",
+    },
+  },
+  publicRuntimeConfig: {
+    livePreview: process.env.LIVE_PREVIEW === 'true',
+    http: {
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://cms.raumgleiter.noo.work" : ''
+    }
+  },
 };

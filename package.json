@@ -11,7 +11,7 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.1",
+    "@nuxt/http": "^0.5.12",
     "collect.js": "^4.28.2",
     "gsap": "^3.5.0",
     "mixitup": "^3.3.1",

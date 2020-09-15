@@ -1,13 +1,9 @@
 <script>
-import LeadText from './Pagebuilder/LeadText';
-import Offers from './Pagebuilder/Offers';
-import Quote from './Pagebuilder/Quote';
+import Intro from "./Intro";
 export default {
   name: 'Pagebuilder',
   components: {
-    LeadText,
-    Offers,
-    Quote,
+    Intro,
   },
   props: {
     blocks: {
@@ -19,13 +15,20 @@ export default {
       default: '',
     },
   },
+  computed: {
+    supportedBlocks() {
+      return this.blocks.filter(block => [
+        'intro',
+      ].includes(block.type))
+    }
+  }
 }
 </script>
 
 <template>
   <div>
     <component
-      v-for="(block, index) in blocks"
+      v-for="(block, index) in supportedBlocks"
       :key="slug+'-pagebuilder-'+index"
       :is="block.type"
       :fields="block.fields"

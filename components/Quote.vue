@@ -1,12 +1,8 @@
 <script>
 /**
- * "Intro"-Block: Grosser Text mit Hintergrund (optional)
- *
- * erster Block auf der About-Seite
- *
- *
  fields = {
     body: 'plaintext' || null,
+    author: 'plaintext' || null,
     background: {}
     // or:
     background: {
@@ -35,6 +31,7 @@ export default {
 
 <template>
   <div>
-    {{ fields.body }}
+    <h2>{{ fields.body }}</h2>
+    <p>{{ fields.author }}</p>
   </div>
 </template>

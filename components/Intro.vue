@@ -1,6 +1,21 @@
 <script>
   export default {
     props: {
+      /*
+      fields = {
+        header: 'plaintext' || null,
+        lead: 'plaintext' || null,
+        body: 'plaintext' || null,
+        offers: []
+        // or:
+        offers: [
+          {
+            header: 'plaintext' || null,
+            services: ['plaintext', 'plaintext', ...],
+          },
+        ]
+      };
+     */
       fields: {
         type: Object,
         required: true,

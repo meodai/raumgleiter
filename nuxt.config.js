@@ -121,9 +121,9 @@ export default {
 
     exclude: [
       ...process.env.LIVE_PREVIEW !== 'true' ? [
-        '/preview', '/preview/project',
-        '/en/preview', '/en/preview/project',
-        '/fr/preview', '/fr/preview/project',
+        '/preview', '/preview/project', '/pages',
+        '/en/preview', '/en/preview/project', '/en/pages',
+        '/fr/preview', '/fr/preview/project', '/fr/pages'
       ] : [],
     ],
     // TODO: add all routes

@@ -15,13 +15,20 @@ export default {
       default: '',
     },
   },
+  computed: {
+    supportedBlocks() {
+      return this.blocks.filter(block => [
+        'intro',
+      ].includes(block.type))
+    }
+  }
 }
 </script>
 
 <template>
   <div>
     <component
-      v-for="(block, index) in blocks"
+      v-for="(block, index) in supportedBlocks"
       :key="slug+'-pagebuilder-'+index"
       :is="block.type"
       :fields="block.fields"

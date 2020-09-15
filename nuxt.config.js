@@ -121,11 +121,11 @@ export default {
   generate: {
 
     exclude: [
-      ...process.env.LIVE_PREVIEW !== 'true' ? [
-        '/preview', '/preview/project', '/preview/pagebuilder',
-        '/en/preview', '/en/preview/project', '/en/preview/pagebuilder',
-        '/fr/preview', '/fr/preview/project', '/fr/preview/pagebuilder'
-      ] : [],
+      // ...process.env.LIVE_PREVIEW !== 'true' ? [
+      //   '/preview', '/preview/project', '/preview/pagebuilder',
+      //   '/en/preview', '/en/preview/project', '/en/preview/pagebuilder',
+      //   '/fr/preview', '/fr/preview/project', '/fr/preview/pagebuilder'
+      // ] : [],
     ],
     // TODO: add all routes
     // routes () {

@@ -2,21 +2,7 @@
   export default {
     /**
       fields = {
-        body: 'plaintext' || null,
-        author: 'plaintext' || null,
-        background: {}
-        // or:
-        background: {
-          type: 'video',
-          mp4: 'https://url-to-video.mp4',
-        }
-        // or:
-        background: {
-          type: 'image',
-          image: {
-            // image object
-            width, height, srcSet, ....
-          },
+
       }
      */
     props: {

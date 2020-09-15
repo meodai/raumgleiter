@@ -62,7 +62,7 @@
 
     beforeDestroy () {
       clearInterval(this.interval);
-    }
+    },
 
     computed: {
       firstImage: function getFirstImage () {

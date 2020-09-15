@@ -82,9 +82,6 @@
 
 
 // 3) Generic
-
-@import 'modern-css-reset/dist/reset';
-
 @font-face {
   font-family: MatterSQ;
   src: url("~assets/fonts/MatterSQTRIAL-Regular.otf") format("opentype");

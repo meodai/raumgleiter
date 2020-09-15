@@ -80,6 +80,15 @@
           <h3>Pulled 1/2</h3>
         </div>
       </div>
+
+      <h2 class="t-title t-title--page t-title--inventory">Image-Block</h2>
+      <ImageBlock
+        :title="'Vision.'"
+        :images="[
+          {'src': 'https://picsum.photos/700/438/', 'alt': 'kitten'},
+        ]">
+        <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
+      </ImageBlock>
     </div>
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Inverted Section</h2>

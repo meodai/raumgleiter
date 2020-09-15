@@ -35,6 +35,7 @@ export default {
   css: [
     '@/assets/scss/settings.scss',
     '@/assets/scss/tools.scss',
+    '@/assets/scss/reset.scss',
   ],
   styleResources: {
     scss: [

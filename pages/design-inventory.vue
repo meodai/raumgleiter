@@ -14,8 +14,8 @@
           mimeType: 'image/jpg',
           title: title,
           alt: title,
-          src: `https://picsum.photos/id/${id}/${width}/${height}/`,
-          srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}/ ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}/ ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}/ ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}/ ${width}w`,
+          src: `https://picsum.photos/id/${id}/${width}/${height}.jpg`,
+          srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.jpg ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.jpg ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.jpg ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.jpg ${width}w`,
           webpSrcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.webp ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.webp ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.webp ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.webp ${width}w`,
         }
       }

@@ -28,7 +28,9 @@ export default {
       :is="block.type"
       :fields="block.fields"
     >
+      <!-- TODO: add classes -->
       <component
+        class="intro__cta"
         v-if="block.children.length"
         v-for="(childBlock, childIndex) in block.children"
         :key="slug+'-pagebuilder-child-'+childIndex"

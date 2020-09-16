@@ -42,6 +42,11 @@
     <hr>
     <ul>
       <li v-for="person in teamPage.people">
+
+        <div style="max-width: 300px">
+          <ResponsiveImage :image="person.image" />
+        </div>
+        <br>
         {{ person.name }} <br>
         {{ person.role }} <br>
         <!-- person.image -->

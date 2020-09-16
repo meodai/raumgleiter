@@ -19,19 +19,27 @@
     }
  *
  */
-export default {
-  props: {
-    fields: {
-      type: Object,
-      required: true,
+  export default {
+    props: {
+      fields: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-};
+  };
 </script>
 
 <template>
-  <div>
-    <h2>{{ fields.body }}</h2>
-    <p>{{ fields.author }}</p>
+  <div class="quote">
+    <blockquote>
+      <p>{{ fields.body }}</p>
+      <footer>{{ fields.author }}</footer>
+    </blockquote>
   </div>
 </template>
+
+<style lang="scss">
+  .quote {
+    padding: var(--size-pony);
+  }
+</style>

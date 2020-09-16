@@ -179,7 +179,7 @@
     pointer-events: none;
   }
   .navigation__drawer:before {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
     transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
   }
   .navigation__drawer-item {

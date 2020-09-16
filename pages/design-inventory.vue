@@ -12,7 +12,7 @@
           width,
           height,
           mimeType: 'image/jpg',
-          title: title,
+          title,
           alt: title,
           src: `https://picsum.photos/id/${id}/${width}/${height}.jpg`,
           srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.jpg ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.jpg ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.jpg ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.jpg ${width}w`,
@@ -137,6 +137,18 @@
         }]"
       />
     </div>
+
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Quote</h2>
+    <Quote
+      :fields="{
+        body: 'Zusammen mit Raumgleiter haben wir anfänglich Neuland betreten. Mittlerweile ist unser ganzes Facility Management täglich auf dem Konfigurator unterwegs. Ein Gewinn an Zeit und ein Gewinn für unser Unternehmen.',
+        author: 'Svetlana Kuster, ZKB',
+        background: {
+          type: 'image',
+          image: exampleImage(1038, 'kitten'),
+        },
+      }"
+    />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block</h2>
     <ImageBlock

@@ -74,7 +74,10 @@ export default {
     <hr>
 
     <!-- Filter -->
-    <ProjectFilter :categories="categoriesInCurrentLocale" />
+    <ProjectFilter :categories="{
+      sector: categoriesInCurrentLocale['sectors'],
+      offer: categoriesInCurrentLocale['offers'],
+    }" />
 
     <!-- Gefilterte Projekte -->
     <ul ref="projectContainer">

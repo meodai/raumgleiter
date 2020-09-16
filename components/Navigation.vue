@@ -125,6 +125,7 @@
     padding: 0;
     line-height: 1;
     outline: none;
+    cursor: pointer;
   }
   .navigation__description {
     @include typo('navigation');

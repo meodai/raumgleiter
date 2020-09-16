@@ -192,8 +192,9 @@
   }
 
   .navigation--isOpen {
-    pointer-events: all;
-
+    .navigation__drawer {
+      pointer-events: all;
+    }
     .navigation__drawer:before {
       transform: translateY(0%);
       transition: 650ms transform cubic-bezier(.7,.3,0,1);

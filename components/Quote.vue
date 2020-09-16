@@ -31,15 +31,38 @@
 
 <template>
   <div class="quote">
-    <blockquote>
+    <blockquote class="quote__block">
       <p>{{ fields.body }}</p>
-      <footer>{{ fields.author }}</footer>
+      <footer v-if="fields.author" class="quote__footer">{{ fields.author }}</footer>
     </blockquote>
   </div>
 </template>
 
 <style lang="scss">
   .quote {
+    @include typo('quote');
     padding: var(--size-pony);
+    text-align: center;
+  }
+  .quote__block {
+    width: 50%;
+    margin: 0 auto;
+
+    p {
+      quotes: "«" "»";
+
+      &::before {
+        content: open-quote;
+        margin-right: .2em;
+      }
+      &::after {
+        content: close-quote;
+        margin-left: .2em;
+      }
+    }
+  }
+  .quote__footer {
+    @include typo('default');
+    margin-top: var(--size-gutter);
   }
 </style>

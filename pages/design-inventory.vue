@@ -150,6 +150,17 @@
       }"
     />
 
+    <Quote
+      class="c-design c-design--inverted"
+      :fields="{
+        body: 'Wer glaubt etwas zu sein, hat aufgehört es zu werden',
+        background: {
+          type: 'image',
+          image: exampleImage(1038, 'kitten'),
+        },
+      }"
+    />
+
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block</h2>
     <ImageBlock
       :title="'Vision.'"

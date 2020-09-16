@@ -41,6 +41,7 @@
     <aside class="calltoaction__first">
       <Icon
         class="calltoaction__icon"
+        v-if="fields.icon"
         :name="fields.icon"
         :is-block="true"
       />

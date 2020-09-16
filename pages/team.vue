@@ -50,5 +50,8 @@ export default {
         </li>
       </ul>
 
+      <hr>
+      <Pagebuilder slug="team" :blocks="teamPage.pagebuilder"></Pagebuilder>
+
     </div>
 </template>

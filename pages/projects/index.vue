@@ -20,7 +20,10 @@ export default {
     const allProjectEntries = collect(await $http.$get('/projects.json').then(data => data.data))
       .groupBy('locale').all();
 
-    return { allProjectEntries, allCategories };
+    const projectIndexPages = collect(await $http.$get('/projectIndex.json').then(data => data.data))
+      .groupBy('locale');
+
+    return { allProjectEntries, allCategories, projectIndexPages: projectIndexPages.all() };
   },
   computed: {
     categoriesInCurrentLocale () {
@@ -28,6 +31,12 @@ export default {
     },
     projectsInCurrentLocale () {
       return this.allProjectEntries[this.$i18n.locale];
+    },
+    projectIndexPage () {
+      // Return page in current Locale
+      return this.projectIndexPages[this.$i18n.locale][0] ||
+        // Fallback for dev environment
+        this.projectIndexPages[Object.keys(this.projectIndexPages)[0]];
     },
     mixer () {
       return this.$store.state.projectMixer;
@@ -70,7 +79,9 @@ export default {
 
 <template>
   <div>
-    <h1>Projekt-Übersicht</h1>
+    <PreviewScrollPosition />
+    <h1>{{ projectIndexPage.header }}</h1>
+    <p>{{ projectIndexPage.lead }}</p>
     <hr>
 
     <!-- Filter -->
@@ -98,5 +109,8 @@ export default {
         </nuxt-link>
       </li>
     </ul>
+
+    <hr>
+    <Pagebuilder slug="projects" :blocks="projectIndexPage.pagebuilder" />
   </div>
 </template>

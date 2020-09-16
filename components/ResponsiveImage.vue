@@ -25,18 +25,18 @@
   <!--        :width="image.width"-->
   <!--        :height="image.height"-->
   <!--    >-->
-  <picture>
+  <picture v-if="image">
     <source
-      :data-srcset="image.webpSrcset"
+      :srcset="image.webpSrcset"
       type="image/webp"
     >
     <source
-      :data-srcset="image.srcset"
+      :srcset="image.srcset"
       :type="image.mimeType"
     >
+    <!-- :src="placeholderSrc" -->
     <img
-      :src="placeholderSrc"
-      :data-src="image.src"
+      :src="image.src"
       data-sizes="auto"
       class=""
       :alt="image.title"

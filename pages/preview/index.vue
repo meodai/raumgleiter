@@ -6,9 +6,9 @@
     <li>
       <nuxt-link to="/preview/pages/virtuelle-vermarktung">Virtuelle Vermarktung</nuxt-link>
     </li>
-<!--    <li>-->
-<!--      <nuxt-link to="/preview/pages/virtuelle-lösungen">Virtuelle Lösungen</nuxt-link>-->
-<!--    </li>-->
+    <li>
+      <nuxt-link to="/virtuelle-lösungen">Virtuelle Lösungen</nuxt-link>
+    </li>
     <li>
       <nuxt-link to="/preview/pages/virtual-real-estate">Virtual Real Estate</nuxt-link>
     </li>
@@ -20,6 +20,12 @@
     </li>
     <li>
       <nuxt-link to="/preview/pages/applications-development">Applications Development</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/projekte">Projekte</nuxt-link>
+    </li>
+    <li>
+      <nuxt-link to="/team">Team</nuxt-link>
     </li>
   </ul>
 </template>

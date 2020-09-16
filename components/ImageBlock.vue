@@ -2,7 +2,17 @@
   export default {
     /**
       fields = {
-
+        header: 'plaintext' || null,
+        body: 'plaintext' || null,
+        imagePosition: 'left' | 'right' | 'center' | 'full',
+        images: [
+          {image}, {image}
+        ],
+        video: {
+          mp4: 'https://url-to-video.mp4'
+        },
+        // either images is []
+        // or video is null
       }
      */
     props: {

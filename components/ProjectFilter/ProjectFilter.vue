@@ -17,7 +17,7 @@ export default {
 <template>
   <div>
     <template v-for="(group, groupName) in categories">
-      <h3>{{ groupName }}</h3>
+      <h3>{{ $t(groupName) }}</h3>
       <ul>
         <li v-for="category in group">
           <FilterButton :category="category"/>

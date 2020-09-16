@@ -89,7 +89,20 @@ export default {
     defaultLocale: "de",
     vueI18n: {
       fallbackLocale: "en",
-      messages: {}
+      messages: {
+        de: {
+          sector: 'Sektor',
+          offer: 'Angebot',
+        },
+        en: {
+          sector: 'Sektor',
+          offer: 'Angebot',
+        },
+        fr: {
+          sector: 'Sektor',
+          offer: 'Angebot',
+        },
+      }
     }
   },
   /*

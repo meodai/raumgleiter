@@ -58,7 +58,15 @@ $dialog-typo: (
       font-size: 2.2rem,
       font-weight: 300,
       line-height: 1.22,
-    )
+    ),
+    navigationTitles: (
+      font-size: 1.6rem,
+      font-weight: bold,
+    ),
+    navigation: (
+      font-size: 1.4rem,
+      font-weight: 300,
+    ),
   ),
   phone: (
     default: (

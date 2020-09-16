@@ -6,6 +6,20 @@
         types: ['default', 'title', 'title--page', 'title--hero', 'lead'],
       };
     },
+    methods: {
+      exampleImage(id, title, width = 1600, height = 900) {
+        return {
+          width,
+          height,
+          mimeType: 'image/jpg',
+          title: title,
+          alt: title,
+          src: `https://picsum.photos/id/${id}/${width}/${height}/`,
+          srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}/ ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}/ ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}/ ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}/ ${width}w`,
+          webpSrcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.webp ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.webp ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.webp ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.webp ${width}w`,
+        }
+      }
+    },
   };
 </script>
 
@@ -86,7 +100,7 @@
     <ImageBlock
       :title="'Vision.'"
       :images="[
-        {'src': 'https://picsum.photos/700/438/', 'alt': 'kitten'},
+        exampleImage(1038, 'kitten'),
       ]"
     >
       <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
@@ -95,7 +109,7 @@
     <ImageBlock
       :title="'Evaluationsphase.'"
       :images="[
-        {'src': 'https://picsum.photos/id/1038/700/438/', 'alt': 'kitten'},
+        exampleImage(1038, 'kitten'),
       ]"
       :image-position="'right'"
     >
@@ -105,7 +119,7 @@
     <ImageBlock
       :title="'360° Panorama.'"
       :images="[
-        {'src': 'https://picsum.photos/1250/500/', 'alt': 'houses'},
+        exampleImage(1019, 'sky'),
       ]"
       :image-position="'top'"
     >
@@ -115,7 +129,7 @@
     <ImageBlock
       :title="'Kollaborative Plattform.'"
       :images="[
-        {'src': 'https://picsum.photos/id/1021/1440/1000/', 'alt': 'people'},
+        exampleImage(1021, 'people'),
       ]"
       :image-position="'background'"
     >
@@ -126,10 +140,10 @@
     <ImageBlock
       :title="'Vision.'"
       :images="[
-        {'src': 'https://picsum.photos/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1042/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1047/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1052/700/438/', 'alt': 'kitten'},
+        exampleImage(1042, 'people', 700, 438),
+        exampleImage(1047, 'people', 700, 438),
+        exampleImage(1052, 'people', 700, 438),
+        exampleImage(153, 'people', 700, 438),
       ]"
     >
       <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
@@ -138,10 +152,10 @@
     <ImageBlock
       :title="'Evaluationsphase.'"
       :images="[
-        {'src': 'https://picsum.photos/id/1053/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1060/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1063/700/438/', 'alt': 'kitten'},
-        {'src': 'https://picsum.photos/id/1069/700/438/', 'alt': 'kitten'},
+        exampleImage(1053, 'people', 700, 438),
+        exampleImage(1060, 'people', 700, 438),
+        exampleImage(1063, 'people', 700, 438),
+        exampleImage(1069, 'people', 700, 438),
       ]"
       :image-position="'right'"
     >
@@ -151,8 +165,8 @@
     <ImageBlock
       :title="'360° Panorama.'"
       :images="[
-        {'src': 'https://picsum.photos/1250/500/', 'alt': 'houses'},
-        {'src': 'https://picsum.photos/1250/500/', 'alt': 'houses'},
+        exampleImage(1053, 'people', 1250, 500),
+        exampleImage(1060, 'people', 1250, 500),
       ]"
       :image-position="'top'"
     >
@@ -162,11 +176,11 @@
     <ImageBlock
       :title="'Kollaborative Plattform.'"
       :images="[
-        {'src': 'https://picsum.photos/id/1021/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/121/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/1044/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/1064/1440/1000/', 'alt': 'people'},
-        {'src': 'https://picsum.photos/id/999/1440/1000/', 'alt': 'people'},
+        exampleImage(1021, 'people', 1440, 1000),
+        exampleImage(1022, 'people', 1440, 1000),
+        exampleImage(1044, 'people', 1440, 1000),
+        exampleImage(1064, 'people', 1440, 1000),
+        exampleImage(999, 'people', 1440, 1000),
       ]"
       :image-position="'background'"
     >

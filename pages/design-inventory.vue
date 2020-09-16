@@ -259,6 +259,34 @@
       <p>Lorem Ipsum doror sit amet</p>
     </div>
 
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">CTA</h2>
+
+    <calltoaction
+      class="c-design c-design--inverted"
+      :fields="{
+        icon: 'heart',
+        header: 'In der Real Virtuality angekommen?',
+        text: 'Dann freuen wir uns auf Ihre Kontaktaufnahme.',
+        contactName: null,
+        phone: '+41 044 202 70 80',
+        email: 'realworld@raumgleiter.com',
+        fullwidth: true,
+      }"
+    />
+
+
+    <calltoaction
+      :fields="{
+        icon: 'heart',
+        header: 'In der Real Virtuality angekommen?',
+        text: 'Dann freuen wir uns auf Ihre Kontaktaufnahme.',
+        contactName: null,
+        phone: '+41 044 202 70 80',
+        email: 'realworld@raumgleiter.com',
+        fullwidth: true,
+      }"
+    />
+
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Intro Section</h2>
     <intro
       :fields="{

@@ -37,35 +37,48 @@
 </script>
 
 <template>
-  <article class="calltoaction" aria-label="Contact Us">
-    <aside class="calltoaction__first">
-      <Icon
-        class="calltoaction__icon"
-        v-if="fields.icon"
-        :name="fields.icon"
-        :is-block="true"
-      />
-      <h3 v-if="fields.header" class="calltoaction__title">{{fields.header}}</h3>
-      <p class="calltoaction__content">
-        {{ fields.text }}
-      </p>
-    </aside>
-    <aside class="calltoaction__second">
-      <Icon
-        class="calltoaction__icon"
-        name="communication"
-        :is-block="true"
-      />
-      <h3 v-if="fields.contactName" class="calltoaction__title">{{fields.contactName}}</h3>
-      <p class="calltoaction__content">
-        <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
-        <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
-      </p>
-    </aside>
+  <article class="calltoaction" aria-label="Contact Us" :class="{'calltoaction--fullwidth': fields.fullwidth}">
+    <div class="calltoaction__content">
+      <aside class="calltoaction__first">
+        <Icon
+          class="calltoaction__icon"
+          v-if="fields.icon"
+          :name="fields.icon"
+          :is-block="true"
+        />
+        <h3 v-if="fields.header" class="calltoaction__title">{{fields.header}}</h3>
+        <p class="calltoaction__content">
+          {{ fields.text }}
+        </p>
+      </aside>
+      <aside class="calltoaction__second">
+        <Icon
+          class="calltoaction__icon"
+          name="communication"
+          :is-block="true"
+        />
+        <h3 v-if="fields.contactName" class="calltoaction__title">{{fields.contactName}}</h3>
+        <p class="calltoaction__content">
+          <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
+          <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
+        </p>
+      </aside>
+    </div>
   </article>
 </template>
 
 <style lang="scss">
+  .calltoaction--fullwidth {
+    display: flex;
+    vertical-align: middle;
+    padding-top: 15rem;
+    padding-bottom: 30rem;
+
+    .calltoaction__content {
+      margin: 0 auto;
+    }
+  }
+
   .calltoaction__icon {
     margin-bottom: 0.5rem;
   }

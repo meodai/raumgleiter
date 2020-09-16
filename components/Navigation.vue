@@ -38,6 +38,7 @@
         @click="toggleDrawer"
       >
         Explore
+        <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />
       </button>
       <nav
         class="navigation__company"
@@ -126,7 +127,16 @@
     line-height: 1;
     outline: none;
     cursor: pointer;
+
+    .icon {
+      stroke: #fff;
+      height: 0.7em;
+      width: 1em;
+    }
   }
+
+
+
   .navigation__description {
     @include typo('navigation');
   }
@@ -178,6 +188,9 @@
   .navigation__drawer {
     pointer-events: none;
   }
+  .navigation__trigger-icon {
+      transition: 233ms transform cubic-bezier(.7,.3,.3,1.5);
+  }
   .navigation__drawer:before {
     transform: translateY(-110%);
     transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
@@ -193,6 +206,9 @@
   }
 
   .navigation--isOpen {
+    .navigation__trigger-icon {
+      transform: rotate(90deg);
+    }
     .navigation__drawer {
       pointer-events: all;
     }

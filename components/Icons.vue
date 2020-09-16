@@ -19,18 +19,26 @@
       <path d="M32.5 0A32.5 32.5 0 1 0 65 32.5 32.54 32.54 0 0 0 32.5 0zm0 60A27.5 27.5 0 1 1 60 32.5 27.54 27.54 0 0 1 32.5 60z" />
     </symbol>
     <symbol
+      id="icon_arrow_right"
+      viewBox="0 0 9 15"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1 1l6 6.415-6 6.673" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd"/>
+    </symbol>
+
+    <symbol
       id="icon_flesh_down"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 65 65"
     >
-      <path fill="#010101" d="M13.1 27.43l6.63 7.48 7.77-6.89v24.45h10v-24.4l7.8 6.85 6.6-7.51-19.48-17.12L13.1 27.43z" />
+      <path fill="currentColor" d="M13.1 27.43l6.63 7.48 7.77-6.89v24.45h10v-24.4l7.8 6.85 6.6-7.51-19.48-17.12L13.1 27.43z" />
     </symbol>
     <symbol
       id="icon_flesh_up"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 65 65"
     >
-      <path fill="#010101" d="M37.5 34.74V10.29h-10V34.7l-7.8-6.86-6.6 7.51 19.48 17.12L51.9 35.34l-6.63-7.49-7.77 6.89z" />
+      <path fill="currentColor" d="M37.5 34.74V10.29h-10V34.7l-7.8-6.86-6.6 7.51 19.48 17.12L51.9 35.34l-6.63-7.49-7.77 6.89z" />
     </symbol>
     <symbol
       id="icon_mail_small"

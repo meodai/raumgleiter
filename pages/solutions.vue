@@ -33,6 +33,15 @@ export default {
 
 <template>
     <div>
+      <h1>{{ solutionsPage.header }}</h1>
+      <p>{{ solutionsPage.lead }}</p>
+
+      <hr>
+      <Pagebuilder :slug="solutions" :blocks="solutionsPage.solutions" />
+
+
+      <hr>
+      <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
 
     </div>
 </template>

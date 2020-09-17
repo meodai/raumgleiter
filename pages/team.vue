@@ -55,6 +55,6 @@
     </ul>
 
     <hr>
-    <Pagebuilder slug="team" :blocks="teamPage.pagebuilder" />
+    <Pagebuilder slug="team" :blocks="teamPage.cta" />
   </div>
 </template>

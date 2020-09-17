@@ -2,12 +2,14 @@
 import Intro from "./Intro";
 import Calltoaction from "./Calltoaction";
 import ImageBlock from "./ImageBlock";
+import Quote from "./Quote";
 export default {
   name: 'Pagebuilder',
   components: {
     Intro,
     Calltoaction,
     ImageBlock,
+    Quote,
   },
   props: {
     blocks: {

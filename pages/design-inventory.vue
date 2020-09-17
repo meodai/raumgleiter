@@ -269,7 +269,7 @@
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">CTA</h2>
 
-    <calltoaction
+    <CallToAction
       class="c-design c-design--inverted"
       :fields="{
         icon: 'heart',
@@ -283,7 +283,7 @@
     />
 
 
-    <calltoaction
+    <CallToAction
       :fields="{
         icon: 'heart',
         header: 'In der Real Virtuality angekommen?',
@@ -345,7 +345,7 @@
         ]
       }"
     >
-      <calltoaction
+      <CallToAction
         class="intro__cta"
         :fields="{
           icon: 'heart',

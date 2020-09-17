@@ -73,13 +73,16 @@
         return this.fields.images;
       },
       firstImage: function getFirstImage () {
-        return this.images[0].src;
+        return this.hasImages ? this.images[0].src : null;
       },
       firstAlt: function getFirstAlt () {
-        return this.images[0].alt;
+        return this.hasImages ? this.images[0].alt : null;
       },
       isSlider: function isSlider () {
         return this.images.length > 1;
+      },
+      hasImages() {
+        return this.images.length > 0;
       },
     },
   };

@@ -34,9 +34,38 @@
   <div>
     <PreviewScrollPosition />
 
-<!--    <nuxt-link :to="localePath('projects')">Zurück zu Projekten</nuxt-link>-->
-
     <h1>{{ project.title }}</h1>
+
+    <br><br>
+    <figure style="max-width: 200px">
+      <ResponsiveImage v-if="project.image" :image="project.image" />
+      <figcaption>Bild in Übersicht</figcaption>
+    </figure>
+
+    <hr>
+    <h3>Aufgabe.</h3>
+    <p>{{project.projectData[0]}}</p>
+    <br>
+    <h3>Kunde.</h3>
+    <p>{{project.projectData[1]}}</p>
+    <br>
+    <h3>Leistungen.</h3>
+    <p>{{project.projectData[2]}}</p>
+    <br>
+    <h3>Benefit.</h3>
+    <p>{{project.projectData[3]}}</p>
+    <br><br>
+    <hr>
+    <template v-for="media in project.media">
+      <figure style="max-width: 400px">
+        <ResponsiveImage v-if="media.type === 'image'" :image="media.image" />
+        <template v-else-if="media.type === 'video'">
+          <!-- media.video.mp4 -->
+          <p>Video</p>
+        </template>
+      </figure>
+      <br><br>
+    </template>
 
 
   </div>

@@ -16,18 +16,9 @@
       }
      */
     props: {
-      images: {
-        type: Array,
+      fields: {
+        type: Object,
         required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      imagePosition: {
-        type: String,
-        required: false,
-        default: 'left',
       },
     },
 
@@ -78,24 +69,30 @@
     },
 
     computed: {
+      images() {
+        return this.fields.images;
+      },
       firstImage: function getFirstImage () {
-        return this.images[0].src;
+        return this.hasImages ? this.images[0].src : null;
       },
       firstAlt: function getFirstAlt () {
-        return this.images[0].alt;
+        return this.hasImages ? this.images[0].alt : null;
       },
       isSlider: function isSlider () {
         return this.images.length > 1;
+      },
+      hasImages() {
+        return this.images.length > 0;
       },
     },
   };
 </script>
 
 <template>
-  <article class="image-block l-design-width" :class="`image-block--${imagePosition}`">
+  <article class="image-block l-design-width" :class="`image-block--${fields.imagePosition}`">
     <div class="image-block__content">
-      <h3 class="image-block__title t-title">{{title}}</h3>
-      <slot />
+      <h3 class="image-block__title t-title">{{ fields.header }}</h3>
+      <p>{{ fields.body }}</p>
     </div>
     <div class="image-block__images" :class="{'image-block__images--slider': isSlider}">
       <img

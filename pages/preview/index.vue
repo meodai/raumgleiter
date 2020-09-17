@@ -19,7 +19,7 @@
       <nuxt-link to="/preview/pages/virtueller-wettbewerb">Virtueller Wettbewerb</nuxt-link>
     </li>
     <li>
-      <nuxt-link to="/preview/pages/applications-development">Applications Development</nuxt-link>
+      <nuxt-link to="/preview/pages/application-development">Application Development</nuxt-link>
     </li>
     <li>
       <nuxt-link to="/projekte">Projekte</nuxt-link>

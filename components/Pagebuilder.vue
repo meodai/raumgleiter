@@ -1,15 +1,23 @@
 <script>
 import Intro from "./Intro";
-import Calltoaction from "./Calltoaction";
+import CallToAction from "./CallToAction";
+import ImageBlock from "./ImageBlock";
+import Quote from "./Quote";
+import OfferGridImages from "./OfferGridImages";
+import OfferGridText from "./OfferGridText";
 export default {
   name: 'Pagebuilder',
   components: {
     Intro,
-    Calltoaction,
+    CallToAction,
+    ImageBlock,
+    Quote,
+    OfferGridImages,
+    OfferGridText,
   },
   props: {
     blocks: {
-      type: Array|Object,
+      type: Array,
       required: true,
     },
     slug: {

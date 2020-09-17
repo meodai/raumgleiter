@@ -67,7 +67,7 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    // ["./modules/cache-data", { baseUrl: "https://cms.raumgleiter.noo.work" }]
+    // ["./modules/cache-data", { baseUrl: "https://api.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
   ],
@@ -142,7 +142,7 @@ export default {
     ],
     // TODO: add all routes
     // routes () {
-    //     return axios.get((process.env.CMS_URL || 'https://cms.raumgleiter.noo.work') + '/projects.json').then((res) => {
+    //     return axios.get((process.env.CMS_URL || 'https://api.raumgleiter.noo.work') + '/projects.json').then((res) => {
     //         return res.data.data
     //         .filter(entry => entry.url !== false)
     //         .map((entry) => {
@@ -156,14 +156,14 @@ export default {
   },
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.API_URL || "https://cms.raumgleiter.noo.work",
+      baseURL: process.env.API_URL || "https://api.raumgleiter.noo.work",
     },
   },
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://cms.raumgleiter.noo.work" : ''
-      browserBaseURL: process.env.API_URL || "https://cms.raumgleiter.noo.work",
+      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : ''
+      browserBaseURL: process.env.API_URL || "https://api.raumgleiter.noo.work",
     }
   },
 };

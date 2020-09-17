@@ -45,7 +45,7 @@
     text-align: center;
   }
   .quote__block {
-    width: 50%;
+    width: calc(50% + var(--size-pony) * 2);
     margin: 0 auto;
 
     p {

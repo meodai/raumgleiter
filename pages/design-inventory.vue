@@ -274,7 +274,6 @@
       }"
     />
 
-
     <calltoaction
       :fields="{
         icon: 'heart',

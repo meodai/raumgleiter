@@ -39,7 +39,6 @@
     <br><br>
     <figure style="max-width: 200px">
       <ResponsiveImage v-if="project.image" :image="project.image" />
-      <figcaption>Bild in Übersicht</figcaption>
     </figure>
 
     <hr>

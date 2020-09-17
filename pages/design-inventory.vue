@@ -163,94 +163,102 @@
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block</h2>
     <ImageBlock
-      :title="'Vision.'"
-      :images="[
-        exampleImage(1038, 'kitten'),
-      ]"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: 'Vision.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        images:[
+          exampleImage(1038, 'kitten'),
+        ]
+      }"
+    />
 
     <ImageBlock
-      :title="'Evaluationsphase.'"
-      :images="[
-        exampleImage(1038, 'kitten'),
-      ]"
-      :image-position="'right'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: 'Evaluationsphase.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'right',
+        images:[
+          exampleImage(1038, 'kitten'),
+        ],
+      }"
+    />
 
     <ImageBlock
-      :title="'360° Panorama.'"
-      :images="[
-        exampleImage(1019, 'sky'),
-      ]"
-      :image-position="'top'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: '360° Panorama.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'top',
+        images:[
+          exampleImage(1019, 'sky'),
+        ],
+      }"
+    />
 
     <ImageBlock
-      :title="'Kollaborative Plattform.'"
-      :images="[
+      :fields="{
+        header: 'Kollaborative Plattform.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'background',
+        images:[
         exampleImage(1021, 'people'),
-      ]"
-      :image-position="'background'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+        ],
+      }"
+    />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block Gallery</h2>
     <ImageBlock
-      :title="'Vision.'"
-      :images="[
-        exampleImage(1042, 'people', 700, 438),
-        exampleImage(1047, 'people', 700, 438),
-        exampleImage(1052, 'people', 700, 438),
-        exampleImage(153, 'people', 700, 438),
-      ]"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: 'Vision.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        images:[
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
+        ],
+      }"
+    />
 
     <ImageBlock
-      :title="'Evaluationsphase.'"
-      :images="[
-        exampleImage(1053, 'people', 700, 438),
-        exampleImage(1060, 'people', 700, 438),
-        exampleImage(1063, 'people', 700, 438),
-        exampleImage(1069, 'people', 700, 438),
-      ]"
-      :image-position="'right'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: 'Evaluationsphase.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'right',
+        images:[
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
+        ],
+      }"
+    />
 
     <ImageBlock
-      :title="'360° Panorama.'"
-      :images="[
-        exampleImage(1053, 'people', 1250, 500),
-        exampleImage(1060, 'people', 1250, 500),
-      ]"
-      :image-position="'top'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: '360° Panorama.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'top',
+        images:[
+          exampleImage(1053, 'people', 1250, 500),
+          exampleImage(1060, 'people', 1250, 500),
+        ],
+      }"
+    />
 
     <ImageBlock
-      :title="'Kollaborative Plattform.'"
-      :images="[
-        exampleImage(1021, 'people', 1440, 1000),
-        exampleImage(1022, 'people', 1440, 1000),
-        exampleImage(1044, 'people', 1440, 1000),
-        exampleImage(1064, 'people', 1440, 1000),
-        exampleImage(999, 'people', 1440, 1000),
-      ]"
-      :image-position="'background'"
-    >
-      <p>Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.</p>
-    </ImageBlock>
+      :fields="{
+        header: 'Kollaborative Plattform.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'background',
+        images:[
+          exampleImage(1021, 'people', 1440, 1000),
+          exampleImage(1022, 'people', 1440, 1000),
+          exampleImage(1044, 'people', 1440, 1000),
+          exampleImage(1064, 'people', 1440, 1000),
+          exampleImage(999, 'people', 1440, 1000),
+        ],
+      }"
+    />
 
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Inverted Section</h2>

@@ -1,15 +1,17 @@
 <script>
 import Intro from "./Intro";
 import Calltoaction from "./Calltoaction";
+import ImageBlock from "./ImageBlock";
 export default {
   name: 'Pagebuilder',
   components: {
     Intro,
     Calltoaction,
+    ImageBlock,
   },
   props: {
     blocks: {
-      type: Array|Object,
+      type: Array,
       required: true,
     },
     slug: {

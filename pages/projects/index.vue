@@ -5,7 +5,7 @@ import ProjectFilter from "../../components/ProjectFilter/ProjectFilter";
 export default {
   nuxtI18n: {
     paths: {
-      de: '/projekte',
+      de: '/projekte', // -> accessible at /projekte
       fr: '/projets', // -> accessible at /fr/projets
       en: '/projects', // -> accessible at /en/projects
     }
@@ -14,29 +14,28 @@ export default {
     ProjectFilter,
   },
   async asyncData ({ $http }) {
-    const allCategories = collect(await $http.$get('/categories.json').then(data => data.data))
+    const categoriesByLocale = collect(await $http.$get('/categories.json').then(data => data.data))
       .groupBy('locale').map((cat) => cat.groupBy('group').all()).all();
 
-    const allProjectEntries = collect(await $http.$get('/projects.json').then(data => data.data))
+    const projectEntriesByLocale = collect(await $http.$get('/projects.json').then(data => data.data))
       .groupBy('locale').all();
 
-    const projectIndexPages = collect(await $http.$get('/projectIndex.json').then(data => data.data))
-      .groupBy('locale');
+    const projectIndexPageByLocale = collect(await $http.$get('/projectIndex.json').then(data => data.data))
+      .groupBy('locale').all();
 
-    return { allProjectEntries, allCategories, projectIndexPages: projectIndexPages.all() };
+    return { categoriesByLocale, projectEntriesByLocale, projectIndexPageByLocale };
   },
   computed: {
     categoriesInCurrentLocale () {
-      return this.allCategories[this.$i18n.locale];
+      return this.categoriesByLocale[this.$i18n.locale];
     },
     projectsInCurrentLocale () {
-      return this.allProjectEntries[this.$i18n.locale];
+      return this.projectEntriesByLocale[this.$i18n.locale];
     },
     projectIndexPage () {
-      // Return page in current Locale
-      return this.projectIndexPages[this.$i18n.locale][0] ||
-        // Fallback for dev environment
-        this.projectIndexPages[Object.keys(this.projectIndexPages)[0]];
+      return this.projectIndexPageByLocale[this.$i18n.locale];
+      // Fallback for dev environment
+      // || this.projectIndexPageByLocale[Object.keys(this.projectIndexPageByLocale)[0]];
     },
     mixer () {
       return this.$store.state.projectMixer;

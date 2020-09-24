@@ -3,29 +3,24 @@
 
   export default {
     nuxtI18n: {
-      // todo: get from slug
       paths: {
-        de: '/team',
-        fr: '/team',
-        en: '/team',
+        de: '/team', // -> accessible at /team
+        fr: '/team', // -> accessible at /fr/team
+        en: '/team', // -> accessible at /en/team
       },
     },
-    async asyncData ({ $http, store, params }) {
-      const teamPages = collect(await $http.$get('/team.json').then(data => data.data))
-        .keyBy('locale');
+    async asyncData ({ $http }) {
+      const teamPageByLocale = collect(await $http.$get('/team.json').then(data => data.data))
+        .keyBy('locale').all();
 
-      if (teamPages.count()) {
-        await store.dispatch('i18n/setRouteParams', teamPages.first().locale_slugs);
-      }
-
-      return { teamPages: teamPages.all() };
+      return { teamPageByLocale };
     },
     computed: {
       teamPage () {
         // Return page in current Locale
-        return this.teamPages[this.$i18n.locale] ||
-          // Fallback for dev environment
-          this.teamPages[Object.keys(this.teamPages)[0]];
+        return this.teamPageByLocale[this.$i18n.locale];
+        // Fallback for dev environment
+        // || this.teamPageByLocale[Object.keys(this.teamPageByLocale)[0]];
       },
     },
   };

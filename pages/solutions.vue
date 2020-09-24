@@ -3,29 +3,24 @@ import collect from "collect.js";
 
 export default {
   nuxtI18n: {
-    // todo: get from slug
     paths: {
-      de: '/virtuelle-lösungen',
-      fr: '/virtuelle-lösungen',
-      en: '/virtual-solutions',
+      de: '/virtuelle-lösungen', // -> accessible at /virtuelle-lösungen
+      fr: '/solutions-virtuelles', // -> accessible at /fr/solutions-virtuelles
+      en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
     }
   },
-  async asyncData ({ $http, store, params }) {
-    const solutionsPages = collect(await $http.$get('/solutions.json').then(data => data.data))
-    .keyBy('locale');
+  async asyncData ({ $http }) {
+    const solutionsPageByLocale = collect(await $http.$get('/solutions.json').then(data => data.data))
+    .keyBy('locale').all()
 
-    if (solutionsPages.count()) {
-      await store.dispatch('i18n/setRouteParams', solutionsPages.first().locale_slugs);
-    }
-
-    return { solutionsPages: solutionsPages.all() };
+    return { solutionsPageByLocale };
   },
   computed: {
     solutionsPage () {
       // Return page in current Locale
-      return this.solutionsPages[this.$i18n.locale] ||
-        // Fallback for dev environment
-        this.solutionsPages[Object.keys(this.solutionsPages)[0]];
+      return this.solutionsPageByLocale[this.$i18n.locale];
+      // Fallback for dev environment
+      // || this.solutionsPageByLocale[Object.keys(this.solutionsPageByLocale)[0]];
     },
   },
 }
@@ -37,8 +32,7 @@ export default {
       <p>{{ solutionsPage.lead }}</p>
 
       <hr>
-      <Pagebuilder :slug="solutions" :blocks="solutionsPage.solutions" />
-
+      <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
 
       <hr>
       <Pagebuilder slug="team" :blocks="solutionsPage.cta" />

@@ -4,26 +4,17 @@ import solutions from '../solutions';
 
 export default {
   extends: solutions,
-  async asyncData ({ $http, store, query, error, $config }) {
+  async asyncData ({ $http, query, error, $config }) {
 
-    const solutions = collect(await $http.$get('/solutions.json?token=' + query.token).then(data => data.data))
-    .filter(solutions => solutions.locale === query.locale)
+    const solutionsPagePreview = collect(await $http.$get('/solutions.json?token=' + query.token).then(data => data.data))
+    .filter(solutionsPagePreview => solutionsPagePreview.locale === query.locale)
     .first();
 
-    if (! $config.livePreview || ! solutions) {
+    if (! $config.livePreview || ! solutionsPagePreview) {
       error({statusCode: 404, message: 'Page not found'})
       return {}
     }
-
-    await store.dispatch('i18n/setRouteParams', solutions.locale_slugs);
-
-    return { solutions };
-  },
-  computed: {
-    solutionsPage() {
-      // Return page in current Locale
-      return this.solutions;
-    },
+    return { solutionsPage: solutionsPagePreview };
   },
 }
 </script>

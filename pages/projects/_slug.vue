@@ -4,27 +4,26 @@
   export default {
     nuxtI18n: {
       paths: {
-        de: '/projekte/:slug',
-        fr: '/projets/:slug',
-        en: '/projects/:slug',
+        de: '/projekte/:slug', // -> accessible at /projekte/:slug
+        fr: '/projets/:slug', // -> accessible at /fr/projets/:slug
+        en: '/projects/:slug', // -> accessible at /en/projects/:slug
       }
     },
     async asyncData({$http, params, store}) {
-      let projectEntry = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
+      let projectEntryByLocale = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
         .keyBy('locale');
 
-      if(projectEntry.count()) {
-        await store.dispatch('i18n/setRouteParams', projectEntry.first().locale_slugs);
+      if(projectEntryByLocale.count()) {
+        await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
       }
 
-      return { projectEntry: projectEntry.all() };
+      return { projectEntryByLocale: projectEntryByLocale.all() };
     },
     computed: {
-      project()
-      {
-        return this.projectEntry[this.$i18n.locale]
-          // Fallback for dev environment
-          || this.projectEntry[Object.keys(this.projectEntry)[0]];
+      projectEntry() {
+        return this.projectEntryByLocale[this.$i18n.locale];
+        // Fallback for dev environment
+        // || this.projectEntry[Object.keys(this.projectEntry)[0]];
       },
     },
   }
@@ -34,28 +33,28 @@
   <div>
     <PreviewScrollPosition />
 
-    <h1>{{ project.title }}</h1>
+    <h1>{{ projectEntry.title }}</h1>
 
     <br><br>
     <figure style="max-width: 200px">
-      <ResponsiveImage v-if="project.image" :image="project.image" />
+      <ResponsiveImage v-if="projectEntry.image" :image="projectEntry.image" />
     </figure>
 
     <hr>
     <h3>Aufgabe.</h3>
-    <p>{{project.projectData[0]}}</p>
+    <p>{{projectEntry.projectData[0]}}</p>
     <br>
     <h3>Kunde.</h3>
-    <p>{{project.projectData[1]}}</p>
+    <p>{{projectEntry.projectData[1]}}</p>
     <br>
     <h3>Leistungen.</h3>
-    <p>{{project.projectData[2]}}</p>
+    <p>{{projectEntry.projectData[2]}}</p>
     <br>
     <h3>Benefit.</h3>
-    <p>{{project.projectData[3]}}</p>
+    <p>{{projectEntry.projectData[3]}}</p>
     <br><br>
     <hr>
-    <template v-for="media in project.media">
+    <template v-for="media in projectEntry.media">
       <figure style="max-width: 400px">
         <ResponsiveImage v-if="media.type === 'image'" :image="media.image" />
         <template v-else-if="media.type === 'video'">

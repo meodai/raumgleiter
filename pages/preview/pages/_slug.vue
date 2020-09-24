@@ -3,28 +3,26 @@ import collect from "collect.js";
 
 export default {
   async asyncData ({ $http, store, params }) {
+    const pageEntryByLocale = collect(await $http.$get('/pages.json').then(data => data.data))
+      .filter(page => page.slug === params.slug)
+      .keyBy('locale');
 
-    const pageEntries = collect(await $http.$get('/pages.json').then(data => data.data))
-    .filter(page => page.slug === params.slug)
-    .keyBy('locale');
-
-    if(pageEntries.count()) {
-      await store.dispatch('i18n/setRouteParams', pageEntries.first().locale_slugs);
+    if(pageEntryByLocale.count()) {
+      await store.dispatch('i18n/setRouteParams', pageEntryByLocale.first().locale_slugs);
     }
 
-    return { pageEntries: pageEntries.all() };
+    return { pageEntryByLocale: pageEntryByLocale.all() };
   },
   computed: {
-    page()
-    {
-      return this.pageEntries[this.$i18n.locale]
-        // Fallback for dev environment
-        || this.pageEntries[Object.keys(this.pageEntries)[0]];
+    pageEntry() {
+      return this.pageEntryByLocale[this.$i18n.locale];
+      // Fallback for dev environment
+      // || this.pageEntries[Object.keys(this.pageEntries)[0]];
     },
     videoTeasers () {
-      return this.page ? [{
-        video: this.page.headerVideo.mp4 || null,
-        title: this.page.header,
+      return this.pageEntry ? [{
+        video: this.pageEntry.headerVideo.mp4 || null,
+        title: this.pageEntry.header,
       }] : [];
     },
   },
@@ -35,6 +33,6 @@ export default {
   <div>
     <PreviewScrollPosition />
 
-    <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
+    <Pagebuilder :slug="pageEntry.slug" :blocks="pageEntry.pagebuilder" />
   </div>
 </template>

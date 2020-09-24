@@ -11,8 +11,7 @@
         video: {
           mp4: 'https://url-to-video.mp4'
         },
-        // either images is []
-        // or video is null
+        iframe: 'https://url-to-iframe.com' || null
       }
      */
     props: {

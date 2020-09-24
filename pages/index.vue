@@ -10,11 +10,10 @@ export default {
     SwiperSlide,
   },
   async asyncData ({ $http }) {
-    // Fetching the data from the cms here
-    const allPages = collect(await $http.$get('/pages.json').then(data => data.data))
+    const pagesByLocale = collect(await $http.$get('/pages.json').then(data => data.data))
     .groupBy('locale').all();
 
-    return { allPages };
+    return { pagesByLocale };
   },
   data () {
     return {
@@ -22,11 +21,11 @@ export default {
     };
   },
   computed: {
-    pagesInCurrentLanguage () {
-      return this.allPages[this.$i18n.locale];
+    pagesInCurrentLocale () {
+      return this.pagesByLocale[this.$i18n.locale];
     },
     videoTeasers () {
-      return this.pagesInCurrentLanguage.map((page) => {
+      return this.pagesInCurrentLocale.map((page) => {
         return {
           video: page.headerVideo.mp4,
           title: page.header,
@@ -101,7 +100,7 @@ export default {
 
       <swiper ref="sectionSwiper">
         <swiper-slide
-          v-for="(page, index) in pagesInCurrentLanguage"
+          v-for="(page, index) in pagesInCurrentLocale"
           :key="'page'+index"
         >
           <div class="sectionHeader">

@@ -7,7 +7,7 @@
       <nuxt-link to="/preview/pagebuilder/virtuelle-vermarktung">Virtuelle Vermarktung</nuxt-link>
     </li>
     <li>
-      <nuxt-link to="/virtuelle-lösungen">Virtuelle Lösungen</nuxt-link>
+      <nuxt-link to="/virtuelle-loesungen">Virtuelle Lösungen</nuxt-link>
     </li>
     <li>
       <nuxt-link to="/preview/pagebuilder/virtual-real-estate">Virtual Real Estate</nuxt-link>

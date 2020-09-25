@@ -22,7 +22,7 @@
     "swiper": "^6.1.2",
     "throttle-debounce": "^2.3.0",
     "vue-awesome-swiper": "^4.1.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-observe-visibility": "^0.4.6"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
@@ -35,7 +35,8 @@
     "git-cz": "^4.7.0",
     "modern-css-reset": "^1.1.1",
     "node-sass": "^4.14.1",
-    "sass-loader": "^9.0.3"
+    "sass-loader": "^9.0.3",
+    "vue-template-compiler": "^2.6.12"
   },
   "config": {
     "commitizen": {

@@ -56,6 +56,11 @@
       startSlider: function startSlider () {
         this.slideTo(1);
       },
+
+      visibilityChanged(v) {
+        // See https://github.com/Akryum/vue-observe-visibility
+        console.log('Visibility changed', v);
+      }
     },
 
     mounted () {
@@ -91,7 +96,18 @@
 </script>
 
 <template>
-  <article class="image-block l-design-width" :class="`image-block--${fields.imagePosition}`" :id="fields.anchor || null">
+  <article
+    :id="fields.anchor || null"
+    class="image-block l-design-width"
+    :class="`image-block--${fields.imagePosition}`"
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      throttle: 300,
+      throttleOptions: {
+        leading: 'visible',
+      },
+    }"
+  >
     <div class="image-block__content">
       <h3 class="image-block__title t-title">{{ fields.header }}</h3>
       <p>{{ fields.body }}</p>

@@ -60,6 +60,10 @@ export default {
     {
       src: "./plugins/craft.js",
     },
+    {
+      src: "./plugins/intersection-observer.js",
+      mode: "client"
+    },
   ],
   /*
    ** Auto import components

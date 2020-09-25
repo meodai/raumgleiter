@@ -16,7 +16,7 @@ export default {
   async asyncData ({ $craft }) {
     return {
       projectEntriesByLocale: collect(await $craft('projects')).groupBy('locale').all(),
-      projectIndexPageByLocale: collect(await $craft('projectIndex')).groupBy('locale').all(),
+      projectIndexPageByLocale: collect(await $craft('projectIndex')).keyBy('locale').all(),
       categoriesByLocale: collect(await $craft('categories'))
         .groupBy('locale')
         .map((cat) => cat.groupBy('group').all())

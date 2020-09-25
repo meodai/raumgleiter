@@ -53,10 +53,14 @@
     <hr>
     <template v-for="media in projectEntry.media">
       <figure style="max-width: 400px">
-        <ResponsiveImage v-if="media.type === 'image'" :image="media.image" />
-        <template v-else-if="media.type === 'video'">
+        <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" />
+        <template v-else-if="media.video !== null">
           <!-- media.video.mp4 -->
           <p>Video</p>
+        </template>
+        <template v-else-if="media.iframe !== null">
+          <!-- media.video.mp4 -->
+          <p>Iframe</p>
         </template>
       </figure>
       <br><br>

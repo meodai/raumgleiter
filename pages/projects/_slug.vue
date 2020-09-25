@@ -9,9 +9,8 @@
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
       }
     },
-    async asyncData({$http, params, store}) {
-      let projectEntryByLocale = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
-        .keyBy('locale');
+    async asyncData({$craft, params, store}) {
+      let projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
 
       if(projectEntryByLocale.count()) {
         await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
@@ -22,8 +21,6 @@
     computed: {
       projectEntry() {
         return this.projectEntryByLocale[this.$i18n.locale];
-        // Fallback for dev environment
-        // || this.projectEntry[Object.keys(this.projectEntry)[0]];
       },
     },
   }

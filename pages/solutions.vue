@@ -4,23 +4,19 @@ import collect from "collect.js";
 export default {
   nuxtI18n: {
     paths: {
-      de: '/virtuelle-lösungen', // -> accessible at /virtuelle-lösungen
+      de: '/virtuelle-loesungen', // -> accessible at /virtuelle-loesungen
       fr: '/solutions-virtuelles', // -> accessible at /fr/solutions-virtuelles
       en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
     }
   },
-  async asyncData ({ $http }) {
-    const solutionsPageByLocale = collect(await $http.$get('/solutions.json').then(data => data.data))
-    .keyBy('locale').all()
-
-    return { solutionsPageByLocale };
+  async asyncData ({ $craft }) {
+    return {
+      solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all()
+    };
   },
   computed: {
     solutionsPage () {
-      // Return page in current Locale
       return this.solutionsPageByLocale[this.$i18n.locale];
-      // Fallback for dev environment
-      // || this.solutionsPageByLocale[Object.keys(this.solutionsPageByLocale)[0]];
     },
   },
 }

@@ -70,7 +70,6 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    // ["./modules/cache-data", { baseUrl: "https://api.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
   ],

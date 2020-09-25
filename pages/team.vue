@@ -16,10 +16,7 @@
     },
     computed: {
       teamPage () {
-        // Return page in current Locale
         return this.teamPageByLocale[this.$i18n.locale];
-        // Fallback for dev environment
-        // || this.teamPageByLocale[Object.keys(this.teamPageByLocale)[0]];
       },
     },
   };
@@ -43,8 +40,16 @@
         <br>
         {{ person.name }} <br>
         {{ person.role }} <br>
-        <!-- person.image -->
         <br>
+        <a v-if="person.email" :href="'mailto:'+person.email">{{ person.email }}</a>
+        <a v-if="person.phone" :href="'tel:'+person.phone">{{ person.phone }}</a>
+        <br>
+        <ul>
+          <li v-for="link in person.socialLinks">
+            <a :href="link.url" rel="nofollow noopener">{{ link.type }}</a>
+          </li>
+        </ul>
+        <hr>
       </li>
     </ul>
 

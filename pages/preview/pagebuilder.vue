@@ -1,23 +1,30 @@
 <script>
 import collect from "collect.js";
-import page from './pages/_slug';
+import page from './page/_slug';
 
 export default {
   extends: page,
-  async asyncData ({ $http, query, store, error, $config }) {
+  async asyncData ({ $craft, query, store, error, $config }) {
 
-    const pageEntryPreview = collect(await $http.$get('/pages.json?token=' + query.token).then(data => data.data))
-    .filter(page => page.slug === query.CraftPreviewSlug && page.locale === query.locale)
-    .first();
+    const pageEntryPreview = collect(await $craft('pages'))
+      .filter(page => page.slug === query.CraftPreviewSlug && page.locale === query.locale)
+      .first();
 
     if (! $config.livePreview || ! pageEntryPreview) {
-      error({statusCode: 404, message: 'Page not found'})
-      return {}
+      return error({statusCode: 404, message: 'Page not found'});
     }
 
     await store.dispatch('i18n/setRouteParams', pageEntryPreview.locale_slugs);
 
     return { pageEntry: pageEntryPreview };
+  },
+  computed: {
+    videoTeasers () {
+      return this.pageEntry ? [{
+        video: this.pageEntry.headerVideo.mp4 || null,
+        title: this.pageEntry.header,
+      }] : [];
+    },
   },
 }
 </script>

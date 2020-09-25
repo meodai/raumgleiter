@@ -12,6 +12,9 @@
           mp4: 'https://url-to-video.mp4'
         },
         iframe: 'https://url-to-iframe.com' || null
+
+        // On solutions page, an 'anchor' key is passed
+        anchor: 'key' || null
       }
      */
     props: {
@@ -88,12 +91,12 @@
 </script>
 
 <template>
-  <article class="image-block l-design-width" :class="`image-block--${fields.imagePosition}`">
+  <article class="image-block l-design-width" :class="`image-block--${fields.imagePosition}`" :id="fields.anchor || null">
     <div class="image-block__content">
       <h3 class="image-block__title t-title">{{ fields.header }}</h3>
       <p>{{ fields.body }}</p>
     </div>
-    <div class="image-block__images" :class="{'image-block__images--slider': isSlider}">
+    <div v-if="hasImages" class="image-block__images" :class="{'image-block__images--slider': isSlider}">
       <img
         class="image-block__image"
         :class="{'image-block__image--placeholder': isSlider}"
@@ -115,6 +118,7 @@
         </div>
       </div>
     </div>
+<!--    <iframe v-if="fields.iframe" :src="fields.iframe" width="800" height="400"></iframe>-->
   </article>
 </template>
 

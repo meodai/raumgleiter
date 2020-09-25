@@ -57,6 +57,9 @@ export default {
       src: "./plugins/preview.js",
       mode: "client"
     },
+    {
+      src: "./plugins/craft.js",
+    },
   ],
   /*
    ** Auto import components
@@ -67,7 +70,6 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    // ["./modules/cache-data", { baseUrl: "https://api.raumgleiter.noo.work" }]
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module'
   ],
@@ -132,27 +134,16 @@ export default {
    ** Static site generation config
    */
   generate: {
-
     exclude: [
-      // ...process.env.LIVE_PREVIEW !== 'true' ? [
-      //   '/preview', '/preview/project', '/preview/pagebuilder',
-      //   '/en/preview', '/en/preview/project', '/en/preview/pagebuilder',
-      //   '/fr/preview', '/fr/preview/project', '/fr/preview/pagebuilder'
-      // ] : [],
+      ...process.env.LIVE_PREVIEW !== 'true' ? [
+        '/preview', '/en/preview', '/fr/preview',
+        '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
+        '/preview/project', '/en/preview/project', '/fr/preview/project',
+        '/preview/projectIndex', '/en/preview/projectIndex', '/fr/preview/projectIndex',
+        '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
+        '/preview/team', '/en/preview/team', '/fr/preview/team',
+      ] : [],
     ],
-    // TODO: add all routes
-    // routes () {
-    //     return axios.get((process.env.CMS_URL || 'https://api.raumgleiter.noo.work') + '/projects.json').then((res) => {
-    //         return res.data.data
-    //         .filter(entry => entry.url !== false)
-    //         .map((entry) => {
-    //             return {
-    //                 route: entry.url,
-    //                 payload: entry,
-    //             };
-    //         });
-    //     });
-    // },
   },
   privateRuntimeConfig: {
     http: {

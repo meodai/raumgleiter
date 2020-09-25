@@ -9,11 +9,10 @@
         en: '/team', // -> accessible at /en/team
       },
     },
-    async asyncData ({ $http }) {
-      const teamPageByLocale = collect(await $http.$get('/team.json').then(data => data.data))
-        .keyBy('locale').all();
-
-      return { teamPageByLocale };
+    async asyncData ({ $craft }) {
+      return {
+        teamPageByLocale: collect(await $craft('team')).keyBy('locale').all(),
+      };
     },
     computed: {
       teamPage () {

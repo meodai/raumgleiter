@@ -4,15 +4,14 @@ import team from '../team';
 
 export default {
   extends: team,
-  async asyncData ({ $http, query, error, $config }) {
-
-    const teamPagePreview = collect(await $http.$get('/team.json?token=' + query.token).then(data => data.data))
-    .filter(teamPagePreview => teamPagePreview.locale === query.locale)
-    .first();
+  async asyncData ({ $craft, query, error, $config }) {
+    // Get page in selected locale
+    const teamPagePreview = collect(await $craft('team'))
+      .filter(teamPagePreview => teamPagePreview.locale === query.locale)
+      .first();
 
     if (! $config.livePreview || ! teamPagePreview) {
-      error({statusCode: 404, message: 'Page not found'})
-      return {}
+      return error({statusCode: 404, message: 'Page not found'});
     }
 
     return { teamPage: teamPagePreview };

@@ -13,17 +13,15 @@ export default {
   components: {
     ProjectFilter,
   },
-  async asyncData ({ $http }) {
-    const categoriesByLocale = collect(await $http.$get('/categories.json').then(data => data.data))
-      .groupBy('locale').map((cat) => cat.groupBy('group').all()).all();
-
-    const projectEntriesByLocale = collect(await $http.$get('/projects.json').then(data => data.data))
-      .groupBy('locale').all();
-
-    const projectIndexPageByLocale = collect(await $http.$get('/projectIndex.json').then(data => data.data))
-      .groupBy('locale').all();
-
-    return { categoriesByLocale, projectEntriesByLocale, projectIndexPageByLocale };
+  async asyncData ({ $craft }) {
+    return {
+      projectEntriesByLocale: collect(await $craft('projects')).groupBy('locale').all(),
+      projectIndexPageByLocale: collect(await $craft('projectIndex')).keyBy('locale').all(),
+      categoriesByLocale: collect(await $craft('categories'))
+        .groupBy('locale')
+        .map((cat) => cat.groupBy('group').all())
+        .all(),
+    };
   },
   computed: {
     categoriesInCurrentLocale () {

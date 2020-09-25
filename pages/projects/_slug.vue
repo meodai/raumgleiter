@@ -9,9 +9,8 @@
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
       }
     },
-    async asyncData({$http, params, store}) {
-      let projectEntryByLocale = collect(await $http.$get(`/projects/${params.slug}.json`).then(data => data.data))
-        .keyBy('locale');
+    async asyncData({$craft, params, store}) {
+      let projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
 
       if(projectEntryByLocale.count()) {
         await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
@@ -22,8 +21,6 @@
     computed: {
       projectEntry() {
         return this.projectEntryByLocale[this.$i18n.locale];
-        // Fallback for dev environment
-        // || this.projectEntry[Object.keys(this.projectEntry)[0]];
       },
     },
   }
@@ -56,10 +53,14 @@
     <hr>
     <template v-for="media in projectEntry.media">
       <figure style="max-width: 400px">
-        <ResponsiveImage v-if="media.type === 'image'" :image="media.image" />
-        <template v-else-if="media.type === 'video'">
+        <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" />
+        <template v-else-if="media.video !== null">
           <!-- media.video.mp4 -->
           <p>Video</p>
+        </template>
+        <template v-else-if="media.iframe !== null">
+          <!-- media.video.mp4 -->
+          <p>Iframe</p>
         </template>
       </figure>
       <br><br>

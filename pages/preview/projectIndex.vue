@@ -4,20 +4,20 @@ import projectIndex from "../projects/index";
 
 export default {
   extends: projectIndex,
-  async asyncData ({ $http, $config, store, query, error }) {
-    const categoriesByLocale = collect(await $http.$get('/categories.json?token=' + query.token).then(data => data.data))
-    .groupBy('locale').map((cat) => cat.groupBy('group').all()).all();
+  async asyncData ({ $craft, $config, query, error }) {
+    const categoriesByLocale = collect(await $craft('categories'))
+      .groupBy('locale')
+      .map((cat) => cat.groupBy('group').all())
+      .all();
 
-    const projectEntriesByLocale = collect(await $http.$get('/projects.json?token=' + query.token).then(data => data.data))
-    .groupBy('locale').all();
+    const projectEntriesByLocale = collect(await $craft('projects')).groupBy('locale').all();
 
-    const projectIndexPagePreview = collect(await $http.$get('/projectIndex.json?token=' + query.token).then(data => data.data))
-    .filter(projectIndex => projectIndex.locale === query.locale)
-    .first();
+    const projectIndexPagePreview = collect(await $craft('projectIndex'))
+      .filter(projectIndex => projectIndex.locale === query.locale)
+      .first();
 
     if (! $config.livePreview || ! projectIndexPagePreview) {
-      error({statusCode: 404, message: 'Page not found'})
-      return {}
+      return error({statusCode: 404, message: 'Page not found'});
     }
 
     return {

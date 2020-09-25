@@ -9,9 +9,8 @@ export default {
     Swiper,
     SwiperSlide,
   },
-  async asyncData ({ $http }) {
-    const pagesByLocale = collect(await $http.$get('/pages.json').then(data => data.data))
-    .groupBy('locale').all();
+  async asyncData ({ $craft }) {
+    const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();
 
     return { pagesByLocale };
   },

@@ -23,6 +23,15 @@
         return this.projectEntryByLocale[this.$i18n.locale];
       },
     },
+    head () {
+      return {
+        title: this.projectEntry.title,
+        // meta: [
+        //   { hid: 'description', name: 'description', content: this.description },
+        //   { hid: 'og:description', name: 'og:description', content: this.description },
+        // ],
+      };
+    },
   }
 </script>
 
@@ -30,16 +39,19 @@
   <div>
     <PreviewScrollPosition />
 
-    <h1>{{ projectEntry.title }}</h1>
+    <div class="l-design-width">
+      <h1 class="t-title t-title--page">{{ projectEntry.title }}</h1>
 
-    <br><br>
-    <figure style="max-width: 200px">
-      <ResponsiveImage v-if="projectEntry.image" :image="projectEntry.image" />
-    </figure>
+      <h3>{{ $t('Aufgabe') }}.</h3>
+      <p>{{ projectEntry.projectData[0] }}</p>
 
-    <hr>
-    <h3>Aufgabe.</h3>
-    <p>{{projectEntry.projectData[0]}}</p>
+
+      <ResponsiveImage :image="projectEntry.image" />
+
+
+    </div>
+
+
     <br>
     <h3>Kunde.</h3>
     <p>{{projectEntry.projectData[1]}}</p>
@@ -56,11 +68,12 @@
         <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" />
         <template v-else-if="media.video !== null">
           <!-- media.video.mp4 -->
-          <p>Video</p>
+<!--          <p>Video</p>-->
         </template>
         <template v-else-if="media.iframe !== null">
-          <!-- media.video.mp4 -->
-          <p>Iframe</p>
+          <!-- media.iframe -->
+<!--          Ratio: 16:9 -->
+<!--          <iframe :src="media.iframe" frameborder="0"></iframe>-->
         </template>
       </figure>
       <br><br>

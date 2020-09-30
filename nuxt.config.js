@@ -91,25 +91,26 @@ export default {
    */
   i18n: {
     strategy: "prefix_except_default",
-    locales: ["de", "fr", "en"],
+    locales: [
+      {
+        code: 'de',
+        file: 'de.js',
+      },
+      {
+        code: 'fr',
+        file: 'fr.js',
+      },
+      {
+        code: 'en',
+        file: 'en.js',
+      },
+    ],
     defaultLocale: "de",
     vueI18n: {
       fallbackLocale: "en",
-      messages: {
-        de: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-        en: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-        fr: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-      }
-    }
+    },
+    lazy: true,
+    langDir: 'lang/',
   },
   /*
    ** Build configuration

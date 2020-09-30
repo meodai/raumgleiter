@@ -15,15 +15,19 @@ export default {
 </script>
 
 <template>
-  <img
-    v-if="image"
-    class=""
-    v-bind="$attrs"
-    data-sizes="auto"
+  <!--
     :src="placeholderSrc"
     :data-src="image.src || false"
-    :data-srcset="image.srcset"
-    :width="image.width"
     :height="image.height"
+    :width="image.width"
+  -->
+  <img
+    v-if="image"
+    class="lazyload"
+    v-bind="$attrs"
+    data-sizes="auto"
+    :src="image.src || false"
+    :data-srcset="image.srcset"
+    :alt="image.title"
   >
 </template>

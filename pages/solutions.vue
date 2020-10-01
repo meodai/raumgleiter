@@ -23,10 +23,12 @@ export default {
 </script>
 
 <template>
-    <div>
+  <div>
+    <div class="l-design-width">
       <h1>{{ solutionsPage.header }}</h1>
       <p>{{ solutionsPage.lead }}</p>
       <br><br>
+    </div>
 
       <!-- Anchors -->
       <ul>

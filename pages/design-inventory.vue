@@ -222,6 +222,19 @@
       }"
     />
 
+<!--    <h2 class="l-design-width t-title t-title&#45;&#45;page t-title&#45;&#45;inventory">Image-Block with Video</h2>-->
+
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block with Iframe</h2>
+
+    <ImageBlock
+      :fields="{
+        header: 'Kollaborative Plattform.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'left',
+        iframe: '//360.raumgleiter.com/freepano',
+      }"
+    />
+
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Inverted Section</h2>
     <div class="l-design-width c-design c-design--inverted">

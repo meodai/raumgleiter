@@ -29,23 +29,14 @@ export default {
       <br><br>
 
       <!-- Anchors -->
-      <h3>Leistungen</h3>
       <ul>
-        <li v-for="leistung in solutionsPage.anchors.leistung">
-          <nuxt-link :to="{ hash: '#'+leistung.anchor }">{{ leistung.label }}</nuxt-link>
-        </li>
-      </ul>
-      <h3>Services</h3>
-      <ul>
-        <li v-for="service in solutionsPage.anchors.service">
-          <nuxt-link :to="{ hash: '#'+service.anchor }">{{ service.label }}</nuxt-link>
+        <li v-for="anchor in solutionsPage.anchors">
+          <nuxt-link :to="{ hash: '#'+anchor.anchor }">{{ anchor.label }}</nuxt-link>
         </li>
       </ul>
 
-      <hr>
       <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
 
-      <hr>
       <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
 
     </div>

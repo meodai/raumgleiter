@@ -97,44 +97,7 @@
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Navigation</h2>
     <div style="background: #f04e45; height: 50vh; overflow: hidden;">
-      <navigation
-        :dropdown-items="[{
-          route: 'virtualrealeastate',
-          title: 'Virtual Real Estate',
-          text: 'Von Vision bis zur Bewirtschaftung – mit uns digitalisieren Sie den kompletten Immobilienzyklus.',
-        },{
-          route: 'virtuellevermarktung',
-          title: 'Virtuelle Vermarktung',
-          text: 'Kunden begeistern und überzeugen – unsere Virtualisierungs-Angebote und ganzheitlichen Vermarktungslösungen.',
-        },{
-          route: 'virtuellerwettbewerb',
-          title: 'Virtueller Wettbewerb',
-          text: 'Datenvisualisierung und kollaborative Plattform – mit uns den Architekturwettbewerb professionell digitalisieren.',
-        },{
-          route: 'virtuellekonfigratoren',
-          title: 'Virtuelle Konfigratoren',
-          text: 'Mehr Optionen und eine effiziente Beratung – unsere Konfiguratoren für optimale Verkaufsprozesse.',
-        },{
-          route: 'virtuelleloesungen',
-          title: 'Virtuelle Lösungen',
-          text: 'Was wir Ihnen alles bieten – Produkte und Service auf einen Blick.',
-        },{
-          route: 'applicationdevelopment',
-          title: 'Application Development',
-          text: 'Anpassungen oder Neuentwicklung – wir sind Ihr Partner für individuelle Software-Lösungen.',
-        }]"
-
-        :menu-items="[{
-          route: 'projekte',
-          title: 'Projekte',
-        },{
-          route: 'team',
-          title: 'Team',
-        },{
-          route: 'about',
-          title: 'About',
-        }]"
-      />
+      <navigation />
     </div>
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Quote</h2>

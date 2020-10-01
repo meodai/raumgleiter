@@ -32,6 +32,8 @@ export default {
 
 <template>
   <div>
+    <Navigation />
+
     <PreviewScrollPosition />
 
     <Pagebuilder :slug="pageEntry.slug" :blocks="pageEntry.pagebuilder" />

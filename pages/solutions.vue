@@ -38,6 +38,5 @@ export default {
       <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
 
       <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
-
     </div>
 </template>

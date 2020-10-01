@@ -24,8 +24,6 @@
 
 <template>
   <div>
-    <PreviewScrollPosition />
-
     <h1>{{ teamPage.header }}</h1>
     <p>{{ teamPage.lead }}</p>
     <!-- teamPage.backgroundImage -->

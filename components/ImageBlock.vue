@@ -27,11 +27,12 @@
     data () {
       return {
         activeSlide: 0,
+        sliderIsRunning: false,
       };
     },
 
     methods: {
-      slideTo: function slideTo(nthChild) {
+      slideToNext() {
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const $nextSlide = this.$refs.slide[nextNthChild];
@@ -53,26 +54,35 @@
         });
         this.activeSlide = nextNthChild;
       },
-      startSlider: function startSlider () {
-        this.slideTo(1);
+      startSlider() {
+        if(this.sliderIsRunning) return;
+        this.interval = setInterval(this.slideToNext, 3000);
+        this.sliderIsRunning = true;
+      },
+      stopSlider() {
+        clearInterval(this.interval);
+        this.sliderIsRunning = false;
       },
 
-      visibilityChanged(v) {
+      visibilityChanged(isVisible) {
         // See https://github.com/Akryum/vue-observe-visibility
-        console.log('Visibility changed', v);
+        // console.log('Visibility changed', isVisible);
+
+        if (this.isSlider) {
+          if(isVisible) {
+            this.startSlider();
+          } else {
+            this.stopSlider();
+          }
+        }
+
       }
     },
 
-    mounted () {
-      if (this.isSlider) {
-        this.interval = setInterval(() => {
-          this.startSlider();
-        }, 3000);
-      }
-    },
+    mounted () {},
 
     beforeDestroy () {
-      clearInterval(this.interval);
+      this.stopSlider();
     },
 
     computed: {

@@ -36,20 +36,16 @@
 </script>
 
 <template>
-  <div>
-    <PreviewScrollPosition />
+  <div class="l-design-width">
+    <h1 class="t-title t-title--page">{{ projectEntry.title }}</h1>
 
-    <div class="l-design-width">
-      <h1 class="t-title t-title--page">{{ projectEntry.title }}</h1>
-
-      <h3>{{ $t('Aufgabe') }}.</h3>
-      <p>{{ projectEntry.projectData[0] }}</p>
+    <h3>{{ $t('Aufgabe') }}.</h3>
+    <p>{{ projectEntry.projectData[0] }}</p>
 
 
-      <ResponsiveImage :image="projectEntry.image" />
+    <ResponsiveImage :image="projectEntry.image" />
 
 
-    </div>
 
 
     <br>

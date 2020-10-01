@@ -77,7 +77,7 @@
 
     computed: {
       images() {
-        return this.fields.images;
+        return this.fields.images || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;
@@ -86,7 +86,10 @@
         return this.images.length > 1;
       },
       hasImages() {
-        return this.images.length > 0;
+        return this.images && this.images.length > 0;
+      },
+      hasIframe() {
+        return this.fields.iframe;
       },
     },
   };
@@ -109,6 +112,7 @@
       <h3 class="image-block__title t-title">{{ fields.header }}</h3>
       <p>{{ fields.body }}</p>
     </div>
+
     <div v-if="hasImages" class="image-block__images" :class="{'image-block__images--slider': isSlider}">
       <ResponsiveImage
         :image="firstImage"
@@ -129,7 +133,12 @@
         </div>
       </div>
     </div>
-<!--    <iframe v-if="fields.iframe" :src="fields.iframe" width="800" height="400"></iframe>-->
+
+    <div v-if="hasIframe" class="image-block__iframe-container">
+      <iframe class="image-block__iframe" :src="fields.iframe"></iframe>
+    </div>
+
+
   </article>
 </template>
 
@@ -230,6 +239,23 @@
       width: 100vw;
       margin: 0;
     }
+  }
+
+  /* TODO: style iframe; keep aspect ratio */
+  .image-block__iframe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+  }
+  .image-block__iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
   }
 
 </style>

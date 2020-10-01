@@ -1,8 +1,9 @@
 <template>
   <div>
     <Design />
-    <Header />
+    <Navigation />
     <Nuxt />
     <Icons />
+    <PreviewScrollPosition />
   </div>
 </template>

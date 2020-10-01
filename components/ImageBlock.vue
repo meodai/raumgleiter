@@ -79,13 +79,10 @@
       images() {
         return this.fields.images;
       },
-      firstImage: function getFirstImage () {
-        return this.hasImages ? this.images[0].src : null;
+      firstImage () {
+        return this.hasImages ? this.images[0] : null;
       },
-      firstAlt: function getFirstAlt () {
-        return this.hasImages ? this.images[0].alt : null;
-      },
-      isSlider: function isSlider () {
+      isSlider() {
         return this.images.length > 1;
       },
       hasImages() {
@@ -113,11 +110,10 @@
       <p>{{ fields.body }}</p>
     </div>
     <div v-if="hasImages" class="image-block__images" :class="{'image-block__images--slider': isSlider}">
-      <img
+      <ResponsiveImage
+        :image="firstImage"
         class="image-block__image"
         :class="{'image-block__image--placeholder': isSlider}"
-        :src="firstImage"
-        :alt="firstAlt"
       />
       <div v-if="isSlider" class="image-block__slides">
         <div
@@ -130,6 +126,10 @@
             class="image-block__image"
             :src="image.src"
             :alt="image.alt"
+          />
+          <ResponsiveImage
+            :image="image"
+            class="image-block__image"
           />
         </div>
       </div>

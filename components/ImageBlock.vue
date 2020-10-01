@@ -122,11 +122,6 @@
           class="image-block__slide"
           :ref="'slide'"
         >
-          <img
-            class="image-block__image"
-            :src="image.src"
-            :alt="image.alt"
-          />
           <ResponsiveImage
             :image="image"
             class="image-block__image"

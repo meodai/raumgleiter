@@ -135,7 +135,10 @@
     </div>
 
     <div v-if="hasIframe" class="image-block__iframe-container">
-      <iframe class="image-block__iframe" :src="fields.iframe"></iframe>
+      <iframe
+        class="image-block__iframe lazyload"
+        :data-src="fields.iframe"
+        />
     </div>
 
 

@@ -1,9 +1,20 @@
+<script>
+export default {
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.$config.livePreview ? 'livePreviewEnabled' : null
+      }
+    };
+  },
+}
+</script>
 <template>
   <div>
     <Design />
-    <Navigation />
+    <Navigation v-if="!$config.livePreview" />
     <Nuxt />
     <Icons />
-    <PreviewScrollPosition />
+    <PreviewScrollPosition v-if="$config.livePreview" />
   </div>
 </template>

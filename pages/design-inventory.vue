@@ -332,6 +332,23 @@
         }"
       />
     </intro>
+
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Related Slider</h2>
+    <Related
+      :fields="{
+        title: 'Weitere Welten.',
+        images: [
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+        ],
+      }"
+    />
   </div>
 </template>
 

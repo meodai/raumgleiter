@@ -1,20 +1,64 @@
 <script>
 export default {
-  methods: {
-    unmute() {
-      let player = new Vimeo.Player(this.$refs.video);
-      player.setMuted(false);
+  data() {
+    return {
+      player: null,
+      loaded: false,
+      muted: true,
+      playing: false,
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+    initVideo() {
+      this.loaded = true;
+      this.$nextTick(() => {
+        this.player = new Vimeo.Player(this.$refs.video);
+        this.player.on('play', () => {
+          this.playing = true;
+        });
+      });
+    },
+    toggleMute() {
+      this.muted = !this.muted;
+      this.player.setMuted(this.muted);
+    },
+    visibilityChanged(isVisible) {
+      if(!this.loaded) {
+        if(isVisible) {
+          this.initVideo();
+        }
+        return;
+      }
+
+      if(!isVisible && this.playing) {
+        this.player.pause();
+        // todo: unmute?
+      } else if(isVisible) {
+        this.player.play();
+      }
+    },
   }
 }
 </script>
 
 <template>
-  <div>
+  <div
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      throttle: 300,
+      throttleOptions: {
+        leading: 'visible',
+      },
+    }"
+  >
 
-    <iframe ref="video" src="https://player.vimeo.com/video/76979871?background=1" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <iframe v-if="loaded" ref="video" :src="loaded ? 'https://player.vimeo.com/video/76979871?background=1' : null"
+            width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
-    <button @click="unmute">unmute</button>
+    <button @click="toggleMute">mute</button>
 
   </div>
 </template>

@@ -76,38 +76,36 @@ export default {
 
 <template>
   <div>
-    <PreviewScrollPosition />
-    <h1>{{ projectIndexPage.header }}</h1>
-    <p>{{ projectIndexPage.lead }}</p>
-    <hr>
+    <div class="l-design-width">
+      <h1>{{ projectIndexPage.header }}</h1>
+      <p>{{ projectIndexPage.lead }}</p>
+      <hr>
 
-    <!-- Filter -->
-    <ProjectFilter :categories="{
-      sector: categoriesInCurrentLocale['sectors'],
-      offer: categoriesInCurrentLocale['offers'],
-    }" />
+      <!-- Filter -->
+      <ProjectFilter :categories="{
+        sector: categoriesInCurrentLocale['sectors'],
+        offer: categoriesInCurrentLocale['offers'],
+      }" />
 
-    <!-- Gefilterte Projekte -->
-    <ul ref="projectContainer">
-      <li
-        v-for="project in projectsInCurrentLocale"
-        :key="'project'+project.slug"
-        class="mix"
-        :class="[
-          // temp. assign classes -> move to computed
-          project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
-          project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
-        ]"
-      >
-        <nuxt-link
-          :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
+
+      <!-- Gefilterte Projekte -->
+      <ul ref="projectContainer">
+        <li
+          v-for="project in projectsInCurrentLocale"
+          :key="'project'+project.slug"
+          class="mix"
+          :class="[
+            project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
+            project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
+          ]"
         >
-          {{ project.title }}
-        </nuxt-link>
-      </li>
-    </ul>
+          <nuxt-link :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })">
+            {{ project.title }}
+          </nuxt-link>
+        </li>
+      </ul>
 
-    <hr>
-    <Pagebuilder slug="projects" :blocks="projectIndexPage.pagebuilder" />
+      <Pagebuilder slug="projects" :blocks="projectIndexPage.pagebuilder" />
+    </div>
   </div>
 </template>

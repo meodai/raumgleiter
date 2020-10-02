@@ -105,7 +105,7 @@ export default {
         </li>
       </ul>
 
-      <Pagebuilder slug="projects" :blocks="projectIndexPage.cta" />
+      <Pagebuilder :blocks="projectIndexPage.cta" />
     </div>
   </div>
 </template>

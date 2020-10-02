@@ -1,10 +1,16 @@
 <script>
+  import collect from 'collect.js';
+
   export default {
     /**
       fields = {
         title: 'plaintext' || null,
-        images: [
-          {image}, {image}
+        entries: [
+          {
+            slug: 'slug',
+            title: 'Titel',
+            image: {...}
+          }
         ],
       }
      */
@@ -108,16 +114,13 @@
 
     computed: {
       images() {
-        return this.fields.images || [];
+        return collect(this.fields.entries).pluck('image').all() || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;
       },
       hasImages() {
         return this.images && this.images.length > 0;
-      },
-      hasIframe() {
-        return this.fields.iframe;
       },
     },
   };
@@ -201,5 +204,4 @@
       opacity: 0;
     }
   }
-
 </style>

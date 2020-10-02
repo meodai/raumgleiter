@@ -83,6 +83,9 @@
         </template>
       </figure>
     </template>
+
+    <Pagebuilder :blocks="projectEntry.cta" />
+
   </article>
 </template>
 

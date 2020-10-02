@@ -29,17 +29,29 @@
         required: true,
       },
     },
-    data () {
-      return {
-      };
-    },
+    computed: {
+      showFirstRow() {
+        return this.fields.icon || this.fields.header;
+      },
+      showSecondRow() {
+        return this.fields.contactName || this.fields.phone || this.fields.email;
+      },
+    }
   };
 </script>
 
 <template>
-  <article class="calltoaction" aria-label="Contact Us" :class="{'calltoaction--fullwidth': fields.fullwidth}">
+  <article
+    v-if="showFirstRow && showSecondRow"
+    class="calltoaction"
+    aria-label="Contact Us"
+    :class="{'calltoaction--fullwidth': fields.fullwidth}"
+  >
     <div class="calltoaction__content">
-      <aside class="calltoaction__first">
+      <aside
+        v-if="showFirstRow"
+        class="calltoaction__first"
+      >
         <Icon
           class="calltoaction__icon"
           v-if="fields.icon"
@@ -51,7 +63,10 @@
           {{ fields.text }}
         </p>
       </aside>
-      <aside class="calltoaction__second">
+      <aside
+        v-if="showSecondRow"
+        class="calltoaction__second"
+      >
         <Icon
           class="calltoaction__icon"
           name="communication"

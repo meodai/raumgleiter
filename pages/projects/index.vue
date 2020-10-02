@@ -87,25 +87,41 @@ export default {
         offer: categoriesInCurrentLocale['offers'],
       }" />
 
-
       <!-- Gefilterte Projekte -->
-      <ul ref="projectContainer">
-        <li
+      <ul
+        ref="projectContainer"
+        class="grid"
+      >
+        <ProjectGridItem
           v-for="project in projectsInCurrentLocale"
           :key="'project'+project.slug"
-          class="mix"
-          :class="[
-            project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
-            project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
-          ]"
-        >
-          <nuxt-link :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })">
-            {{ project.title }}
-          </nuxt-link>
-        </li>
+          class="grid-item mix"
+          :project="project"
+        ></ProjectGridItem>
       </ul>
 
       <Pagebuilder :blocks="projectIndexPage.cta" />
     </div>
   </div>
 </template>
+
+<style scoped>
+  .grid {
+    display: grid;                                                /* 1 */
+    grid-auto-rows: 440px;                                         /* 2 */
+    grid-gap: 0;                                               /* 3 */
+    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));   /* 4 */
+  }
+
+  .grid-item {
+    height: 440px;
+    grid-row: span 1;
+    display: flex;
+  }
+
+  .grid-item__tall {
+    grid-row: span 2;
+    height: 880px;
+  }
+
+</style>

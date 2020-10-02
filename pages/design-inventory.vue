@@ -25,7 +25,7 @@
 <template>
   <div>
     <div class="l-design-width">
-      <h1 class="t-title t-title--hero">Design Inventroy</h1>
+      <h1 class="t-title t-title--hero">Design Inventory</h1>
       <h2 class="t-title t-title--page t-title--inventory">Sizes</h2>
       <div class="sizes">
         <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}"><span>{{size}}</span></div>

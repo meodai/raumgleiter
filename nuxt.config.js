@@ -53,6 +53,7 @@ export default {
     {src: "./plugins/craft.js",},
     {src: "./plugins/intersection-observer.js", mode: "client"},
     {src: "./plugins/lazysizes.js", mode: "client"},
+    {src: "./plugins/canautoplay.js", mode: "client"},
   ],
   /*
    ** Auto import components

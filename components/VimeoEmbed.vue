@@ -1,4 +1,5 @@
 <script>
+
 export default {
   data() {
     return {
@@ -17,14 +18,25 @@ export default {
       this.$nextTick(() => {
         this.player = new Vimeo.Player(this.$refs.video);
         this.player.on('play', () => {
+
           this.playing = true;
+          // canAutoPlay
+          //   .video({timeout: 100, muted: false})
+          //   .then(({result, error}) => {
+          //     if(result)
+          //       this.player.setMuted(false);
+          //     }
+          //   })
+
         });
       });
     },
+
     toggleMute() {
       this.muted = !this.muted;
       this.player.setMuted(this.muted);
     },
+
     visibilityChanged(isVisible) {
       if(!this.loaded) {
         if(isVisible) {

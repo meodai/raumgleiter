@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxt/http": "^0.5.12",
+    "can-autoplay": "^3.0.0",
     "collect.js": "^4.28.2",
     "gsap": "^3.5.1",
     "lazysizes": "^5.2.2",

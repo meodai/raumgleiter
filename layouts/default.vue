@@ -1,9 +1,9 @@
 <template>
   <div>
     <Design />
-    <Navigation />
+    <Navigation v-if="!$config.livePreview" />
     <Nuxt />
     <Icons />
-    <PreviewScrollPosition />
+    <PreviewScrollPosition v-if="$config.livePreview" />
   </div>
 </template>

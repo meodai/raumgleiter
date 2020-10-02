@@ -76,38 +76,52 @@ export default {
 
 <template>
   <div>
-    <PreviewScrollPosition />
-    <h1>{{ projectIndexPage.header }}</h1>
-    <p>{{ projectIndexPage.lead }}</p>
-    <hr>
+    <div class="l-design-width">
+      <h1>{{ projectIndexPage.header }}</h1>
+      <p>{{ projectIndexPage.lead }}</p>
+      <hr>
 
-    <!-- Filter -->
-    <ProjectFilter :categories="{
-      sector: categoriesInCurrentLocale['sectors'],
-      offer: categoriesInCurrentLocale['offers'],
-    }" />
+      <!-- Filter -->
+      <ProjectFilter :categories="{
+        sector: categoriesInCurrentLocale['sectors'],
+        offer: categoriesInCurrentLocale['offers'],
+      }" />
 
-    <!-- Gefilterte Projekte -->
-    <ul ref="projectContainer">
-      <li
-        v-for="project in projectsInCurrentLocale"
-        :key="'project'+project.slug"
-        class="mix"
-        :class="[
-          // temp. assign classes -> move to computed
-          project.categories.sectors ? 'sectors-'+project.categories.sectors[0] : null,
-          project.categories.offers ? 'offers-'+project.categories.offers[0] : null,
-        ]"
+      <!-- Gefilterte Projekte -->
+      <ul
+        ref="projectContainer"
+        class="grid"
       >
-        <nuxt-link
-          :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
-        >
-          {{ project.title }}
-        </nuxt-link>
-      </li>
-    </ul>
+        <ProjectGridItem
+          v-for="project in projectsInCurrentLocale"
+          :key="'project'+project.slug"
+          class="grid-item mix"
+          :project="project"
+        ></ProjectGridItem>
+      </ul>
 
-    <hr>
-    <Pagebuilder slug="projects" :blocks="projectIndexPage.pagebuilder" />
+      <Pagebuilder :blocks="projectIndexPage.cta" />
+    </div>
   </div>
 </template>
+
+<style scoped>
+  .grid {
+    display: grid;                                                /* 1 */
+    grid-auto-rows: 440px;                                         /* 2 */
+    grid-gap: 0;                                               /* 3 */
+    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));   /* 4 */
+  }
+
+  .grid-item {
+    height: 440px;
+    grid-row: span 1;
+    display: flex;
+  }
+
+  .grid-item__tall {
+    grid-row: span 2;
+    height: 880px;
+  }
+
+</style>

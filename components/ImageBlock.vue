@@ -27,11 +27,12 @@
     data () {
       return {
         activeSlide: 0,
+        sliderIsRunning: false,
       };
     },
 
     methods: {
-      slideTo: function slideTo(nthChild) {
+      slideToNext() {
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const $nextSlide = this.$refs.slide[nextNthChild];
@@ -53,55 +54,80 @@
         });
         this.activeSlide = nextNthChild;
       },
-      startSlider: function startSlider () {
-        this.slideTo(1);
+      startSlider() {
+        if(this.sliderIsRunning) return;
+        this.interval = setInterval(this.slideToNext, 3000);
+        this.sliderIsRunning = true;
       },
-    },
+      stopSlider() {
+        clearInterval(this.interval);
+        this.sliderIsRunning = false;
+      },
 
-    mounted () {
-      if (this.isSlider) {
-        this.interval = setInterval(() => {
-          this.startSlider();
-        }, 3000);
+      visibilityChanged(isVisible) {
+        // See https://github.com/Akryum/vue-observe-visibility
+        // console.log('Visibility changed', isVisible);
+
+        if (this.isSlider) {
+          if(isVisible) {
+            this.startSlider();
+          } else {
+            this.stopSlider();
+          }
+        }
+
       }
     },
 
+    mounted () {},
+
     beforeDestroy () {
-      clearInterval(this.interval);
+      this.stopSlider();
     },
 
     computed: {
       images() {
-        return this.fields.images;
+        return this.fields.images || [];
       },
-      firstImage: function getFirstImage () {
-        return this.hasImages ? this.images[0].src : null;
+      firstImage () {
+        return this.hasImages ? this.images[0] : null;
       },
-      firstAlt: function getFirstAlt () {
-        return this.hasImages ? this.images[0].alt : null;
-      },
-      isSlider: function isSlider () {
+      isSlider() {
         return this.images.length > 1;
       },
       hasImages() {
-        return this.images.length > 0;
+        return this.images && this.images.length > 0;
+      },
+      hasIframe() {
+        return this.fields.iframe;
       },
     },
   };
 </script>
 
 <template>
-  <article class="image-block l-design-width" :class="`image-block--${fields.imagePosition}`" :id="fields.anchor || null">
+  <article
+    :id="fields.anchor || null"
+    class="image-block l-design-width"
+    :class="`image-block--${fields.imagePosition}`"
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      throttle: 300,
+      throttleOptions: {
+        leading: 'visible',
+      },
+    }"
+  >
     <div class="image-block__content">
       <h3 class="image-block__title t-title">{{ fields.header }}</h3>
       <p>{{ fields.body }}</p>
     </div>
+
     <div v-if="hasImages" class="image-block__images" :class="{'image-block__images--slider': isSlider}">
-      <img
+      <ResponsiveImage
+        :image="firstImage"
         class="image-block__image"
         :class="{'image-block__image--placeholder': isSlider}"
-        :src="firstImage"
-        :alt="firstAlt"
       />
       <div v-if="isSlider" class="image-block__slides">
         <div
@@ -110,15 +136,22 @@
           class="image-block__slide"
           :ref="'slide'"
         >
-          <img
+          <ResponsiveImage
+            :image="image"
             class="image-block__image"
-            :src="image.src"
-            :alt="image.alt"
           />
         </div>
       </div>
     </div>
-<!--    <iframe v-if="fields.iframe" :src="fields.iframe" width="800" height="400"></iframe>-->
+
+    <div v-if="hasIframe" class="image-block__iframe-container">
+      <iframe
+        class="image-block__iframe lazyload"
+        :data-src="fields.iframe"
+      />
+    </div>
+
+
   </article>
 </template>
 
@@ -219,6 +252,23 @@
       width: 100vw;
       margin: 0;
     }
+  }
+
+  /* TODO: style iframe; keep aspect ratio */
+  .image-block__iframe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+  }
+  .image-block__iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
   }
 
 </style>

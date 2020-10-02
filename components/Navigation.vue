@@ -1,14 +1,9 @@
 <script>
+  import collect from "collect.js";
+
   export default {
-    props: {
-      dropdownItems: {
-        required: true,
-        type: Array,
-      },
-      menuItems: {
-        required: true,
-        type: Array,
-      },
+    async fetch() {
+      this.dropdownItemsByLocale = collect(await this.$craft('header')).keyBy('locale').all();
     },
     methods: {
       toggleDrawer: function toggleDrawer () {
@@ -18,8 +13,26 @@
     data () {
       return {
         isOpen: false,
+        dropdownItemsByLocale: [],
+        menuItems: [
+          {
+            path: 'projects',
+            title: 'projects',
+          },{
+            path: 'team',
+            title: 'team',
+          },{
+            path: { name: 'slug', params: { slug: 'about' } },
+            title: 'about',
+          }
+        ],
       };
     },
+    computed: {
+      dropdownItems() {
+        return this.dropdownItemsByLocale[this.$i18n.locale] ? this.dropdownItemsByLocale[this.$i18n.locale].entries : [];
+      }
+    }
   };
 </script>
 
@@ -47,12 +60,12 @@
         <ul class="navigation__menu">
           <li
             v-for="menuItem in menuItems"
-            :key="menuItem.route"
+            :key="'menu'+menuItem.title"
             class="navigation__menuitem"
           >
-            <a :href="menuItem.route">
-              {{menuItem.title}}
-            </a>
+            <nuxt-link :to="localePath(menuItem.path)">
+              {{ $t(menuItem.title) }}
+            </nuxt-link>
           </li>
         </ul>
         <a class="navigation__location" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
@@ -71,17 +84,17 @@
       >
         <li
           v-for="dropdownItem in dropdownItems"
-          :key="dropdownItem.route"
+          :key="'dropdown'+dropdownItem.slug"
           role="none"
           class="navigation__drawer-item"
         >
-          <a
-            :href="dropdownItem.route"
-            rolte="menuitem"
+          <nuxt-link
+            :to="localePath(dropdownItem.slug ? { name: 'slug', params: { slug: dropdownItem.slug } } : dropdownItem.path )"
+            role="menuitem"
           >
             <strong>{{dropdownItem.title}}</strong>
             <p class="navigation__description">{{dropdownItem.text}}</p>
-          </a>
+          </nuxt-link>
         </li>
       </ol>
     </nav>

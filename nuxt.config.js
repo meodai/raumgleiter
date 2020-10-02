@@ -14,9 +14,14 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { hid: "description", name: "description", content: "" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      ],
+    script: [
+      {src: 'https://player.vimeo.com/api/player.js', defer: true},
+    ],
   },
   /*
    ** Disable loading indicator
@@ -41,25 +46,14 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    {
-      src: "./plugins/mixitup.js",
-      mode: "client"
-    },
-    {
-      src: "./plugins/pixi.js",
-      mode: "client"
-    },
-    {
-      src: "./plugins/gsap.js",
-      mode: "client"
-    },
-    {
-      src: "./plugins/preview.js",
-      mode: "client"
-    },
-    {
-      src: "./plugins/craft.js",
-    },
+    {src: "./plugins/mixitup.js", mode: "client"},
+    {src: "./plugins/pixi.js", mode: "client"},
+    {src: "./plugins/gsap.js", mode: "client"},
+    {src: "./plugins/preview.js", mode: "client"},
+    {src: "./plugins/craft.js",},
+    {src: "./plugins/intersection-observer.js", mode: "client"},
+    {src: "./plugins/lazysizes.js", mode: "client"},
+    {src: "./plugins/canautoplay.js", mode: "client"},
   ],
   /*
    ** Auto import components
@@ -87,25 +81,15 @@ export default {
    */
   i18n: {
     strategy: "prefix_except_default",
-    locales: ["de", "fr", "en"],
+    locales: [
+      {code: 'de', file: 'de.js'},
+      {code: 'fr',file: 'fr.js'},
+      {code: 'en',file: 'en.js'},
+    ],
     defaultLocale: "de",
-    vueI18n: {
-      fallbackLocale: "en",
-      messages: {
-        de: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-        en: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-        fr: {
-          sector: 'Sektor',
-          offer: 'Angebot',
-        },
-      }
-    }
+    vueI18n: {fallbackLocale: "en"},
+    lazy: true,
+    langDir: 'lang/',
   },
   /*
    ** Build configuration
@@ -115,8 +99,7 @@ export default {
     postcss: {
       // Add plugin names as key and arguments as value
       // Install them before as dependencies with npm or yarn
-      plugins: {
-        // Disable a plugin by passing false as value
+      plugins: {// Disable a plugin by passing false as value
       },
       preset: {
         // Change the postcss-preset-env settings
@@ -153,8 +136,7 @@ export default {
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : ''
-      browserBaseURL: process.env.API_URL || "https://api.raumgleiter.noo.work",
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : '',
     }
   },
 };

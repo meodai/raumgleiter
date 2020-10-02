@@ -14,9 +14,8 @@
           mimeType: 'image/jpg',
           title,
           alt: title,
-          src: `https://picsum.photos/id/${id}/${width}/${height}.jpg`,
-          srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.jpg ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.jpg ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.jpg ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.jpg ${width}w`,
-          webpSrcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25}.webp ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5}.webp ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75}.webp ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height}.webp ${width}w`,
+          src: `https://picsum.photos/id/${id}/${width}/${height}`,
+          srcset: `https://picsum.photos/id/${id}/${width*0.25}/${height*0.25} ${width*0.25}w, https://picsum.photos/id/${id}/${width*0.5}/${height*0.5} ${width*0.5}w, https://picsum.photos/id/${id}/${width*0.75}/${height*0.75} ${width*0.75}w, https://picsum.photos/id/${id}/${width}/${height} ${width}w`,
         }
       }
     },
@@ -26,7 +25,7 @@
 <template>
   <div>
     <div class="l-design-width">
-      <h1 class="t-title t-title--hero">Design Inventroy</h1>
+      <h1 class="t-title t-title--hero">Design Inventory</h1>
       <h2 class="t-title t-title--page t-title--inventory">Sizes</h2>
       <div class="sizes">
         <div class="size" v-for="(size, i) in sizes" :key="i" v-bind:style="{'--size': `var(--size-${size})`}"><span>{{size}}</span></div>
@@ -98,44 +97,7 @@
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Navigation</h2>
     <div style="background: #f04e45; height: 50vh; overflow: hidden;">
-      <navigation
-        :dropdown-items="[{
-          route: 'virtualrealeastate',
-          title: 'Virtual Real Estate',
-          text: 'Von Vision bis zur Bewirtschaftung – mit uns digitalisieren Sie den kompletten Immobilienzyklus.',
-        },{
-          route: 'virtuellevermarktung',
-          title: 'Virtuelle Vermarktung',
-          text: 'Kunden begeistern und überzeugen – unsere Virtualisierungs-Angebote und ganzheitlichen Vermarktungslösungen.',
-        },{
-          route: 'virtuellerwettbewerb',
-          title: 'Virtueller Wettbewerb',
-          text: 'Datenvisualisierung und kollaborative Plattform – mit uns den Architekturwettbewerb professionell digitalisieren.',
-        },{
-          route: 'virtuellekonfigratoren',
-          title: 'Virtuelle Konfigratoren',
-          text: 'Mehr Optionen und eine effiziente Beratung – unsere Konfiguratoren für optimale Verkaufsprozesse.',
-        },{
-          route: 'virtuelleloesungen',
-          title: 'Virtuelle Lösungen',
-          text: 'Was wir Ihnen alles bieten – Produkte und Service auf einen Blick.',
-        },{
-          route: 'applicationdevelopment',
-          title: 'Application Development',
-          text: 'Anpassungen oder Neuentwicklung – wir sind Ihr Partner für individuelle Software-Lösungen.',
-        }]"
-
-        :menu-items="[{
-          route: 'projekte',
-          title: 'Projekte',
-        },{
-          route: 'team',
-          title: 'Team',
-        },{
-          route: 'about',
-          title: 'About',
-        }]"
-      />
+      <navigation />
     </div>
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Quote</h2>
@@ -260,6 +222,19 @@
       }"
     />
 
+<!--    <h2 class="l-design-width t-title t-title&#45;&#45;page t-title&#45;&#45;inventory">Image-Block with Video</h2>-->
+
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Image-Block with Iframe</h2>
+
+    <ImageBlock
+      :fields="{
+        header: 'Kollaborative Plattform.',
+        body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
+        imagePosition: 'left',
+        iframe: '//360.raumgleiter.com/freepano',
+      }"
+    />
+
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">Inverted Section</h2>
     <div class="l-design-width c-design c-design--inverted">
@@ -357,6 +332,23 @@
         }"
       />
     </intro>
+
+    <h2 class="l-design-width t-title t-title--page t-title--inventory">Related Slider</h2>
+    <Related
+      :fields="{
+        title: 'Weitere Welten.',
+        entries: [
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        ],
+      }"
+    />
   </div>
 </template>
 

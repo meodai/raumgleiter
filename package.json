@@ -12,17 +12,19 @@
   },
   "dependencies": {
     "@nuxt/http": "^0.5.12",
+    "can-autoplay": "^3.0.0",
     "collect.js": "^4.28.2",
-    "gsap": "^3.5.0",
+    "gsap": "^3.5.1",
+    "lazysizes": "^5.2.2",
     "mixitup": "^3.3.1",
-    "nuxt": "^2.14.3",
-    "nuxt-i18n": "^6.13.10",
+    "nuxt": "^2.14.6",
+    "nuxt-i18n": "^6.15.1",
     "pixi.js": "^5.3.3",
-    "sass": "^1.26.10",
-    "swiper": "^6.1.2",
+    "sass": "^1.26.11",
+    "swiper": "^6.3.0",
     "throttle-debounce": "^2.3.0",
     "vue-awesome-swiper": "^4.1.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-observe-visibility": "^0.4.6"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
@@ -30,12 +32,13 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
-    "eslint": "^7.7.0",
+    "eslint": "^7.9.0",
     "eslint-plugin-nuxt": "^1.0.0",
-    "git-cz": "^4.7.0",
+    "git-cz": "^4.7.1",
     "modern-css-reset": "^1.1.1",
     "node-sass": "^4.14.1",
-    "sass-loader": "^9.0.3"
+    "sass-loader": "^10.0.2",
+    "vue-template-compiler": "^2.6.12"
   },
   "config": {
     "commitizen": {

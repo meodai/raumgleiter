@@ -14,9 +14,14 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { hid: "description", name: "description", content: "" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      ],
+    script: [
+      {src: 'https://player.vimeo.com/api/player.js', defer: true},
+    ],
   },
   /*
    ** Disable loading indicator
@@ -130,8 +135,7 @@ export default {
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : ''
-      browserBaseURL: process.env.API_URL || "https://api.raumgleiter.noo.work",
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : '',
     }
   },
 };

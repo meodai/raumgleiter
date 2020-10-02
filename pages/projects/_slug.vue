@@ -71,7 +71,7 @@
 
     <template v-for="media in pictures">
       <figure>
-        <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" class="project__picture" />
+        <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" class="project__picture" :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}" />
         <template v-else-if="media.video !== null">
           <!-- media.video.mp4 -->
 <!--          <p>Video</p>-->
@@ -142,6 +142,12 @@
   .project__picture {
     margin-top: var(--size-dog);
     width: 100%;
+
+    &--portrait {
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   .project__cover {

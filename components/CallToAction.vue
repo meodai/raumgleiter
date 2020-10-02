@@ -42,7 +42,7 @@
 
 <template>
   <article
-    v-if="showFirstRow && showSecondRow"
+    v-if="showFirstRow || showSecondRow"
     class="calltoaction"
     aria-label="Contact Us"
     :class="{'calltoaction--fullwidth': fields.fullwidth}"

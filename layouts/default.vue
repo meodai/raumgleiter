@@ -1,3 +1,14 @@
+<script>
+export default {
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.$config.livePreview ? 'livePreviewEnabled' : null
+      }
+    };
+  },
+}
+</script>
 <template>
   <div>
     <Design />

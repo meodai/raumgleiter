@@ -32,14 +32,14 @@
       },
     },
     methods: {
-      createPIXIApp: function createPIXIApp () {
+      createPIXIApp() {
         return new PIXI.Application({
           transparent: false,
           width: window.innerWidth,
           height: window.innerHeight,
         });
       },
-      createVideoTexture: function createVideoElement (src) {
+      createVideoTexture(src) {
         const $video = document.createElement('video');
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
@@ -71,7 +71,7 @@
       },
 
 
-      createSlide: function createSlide (texture, width, height) {
+      createSlide(texture, width, height) {
         const slide = new PIXI.Container();
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = 1 / slices.length;
@@ -126,7 +126,7 @@
 
         return { slide, slices, partSize };
       },
-      slide: function slide (eq = 0) {
+      slide(eq = 0) {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
         const newSlide = this.pixiSlides[eq];
 
@@ -225,7 +225,7 @@
       loader.load();
       ticker.start();
     },
-    destroy () {
+    beforeDestroy () {
       this.loader.reset();
       if (this.app) {
         while (this.app.children[0]) {

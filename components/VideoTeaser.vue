@@ -28,7 +28,7 @@
         pixiSlides: [],
         loader: new PIXI.Loader(),
         currentSlideEq: 0,
-        firstVideoHasStarted: false,
+        sliderHasStarted: false,
       };
     },
     computed: {
@@ -78,6 +78,11 @@
         const texture = PIXI.Texture.from($video);
         texture.baseTexture.resource.autoPlay = false;
 
+        return texture;
+      },
+
+      createBlankTexture() {
+        const texture = PIXI.Texture.EMPTY;
         return texture;
       },
 
@@ -154,8 +159,10 @@
             x: -this.app.screen.width,
             ease: 'power4.out',
             onComplete: () => {
-              videoSprite.children[0].texture.baseTexture.resource.source.pause();
-              videoSprite.children[0].texture.baseTexture.resource.source.currentTime = 0;
+              if(oldSlide.type === 'video') {
+                oldSlide.texture.baseTexture.resource.source.pause();
+                oldSlide.texture.baseTexture.resource.source.currentTime = 0;
+              }
             }
           });
         });
@@ -164,8 +171,13 @@
         const newSlide = this.pixiSlides[eq];
 
         newSlide.slide.zOrder = 2;
+        if(newSlide.type === 'video') {
+          newSlide.texture.baseTexture.resource.source.play();
+        } else {
+          // todo: abort slide on scroll
+          setTimeout(this.slideToNext, 8000);
+        }
         newSlide.slices.forEach((videoSprite, i) => {
-          videoSprite.children[0].texture.baseTexture.resource.source.play();
           gsap.to(videoSprite.position, 1.5, {
             x: newSlide.partSize * this.app.screen.width * i,
             ease: 'power4.out',
@@ -181,55 +193,58 @@
         }
 
         this.slide(nextEq);
-      }
-    },
-    mounted () {
-      const ticker = PIXI.Ticker.shared;
-      ticker.autoStart = false;
-      ticker.stop();
+      },
 
-      const loader = this.loader;
 
-      this.$props.entries.forEach((entry) => {
-        if (entry.title && entry.video) {
-          loader.add(entry.title, entry.video);
-        } else {
-          console.error('VIDEO TEASER: missing resources for video teasers');
-        }
-      });
+      loadVideos() {
+        this.$props.entries.forEach((entry) => {
+          if (entry.title && entry.video) {
+            this.loader.add(entry.title, entry.video);
+          } else if (entry.title) {
+            const texture = this.createBlankTexture();
+            this.addSlide(texture, 'blank');
+          } else {
+            console.error('VIDEO TEASER: missing resources for video teasers');
+          }
+        });
 
-      loader.onProgress.add((event, resource) => {
-        const texture = this.createVideoTexture(resource.url);
+        this.loader.onProgress.add((event, resource) => {
+          const texture = this.createVideoTexture(resource.url);
+          this.addSlide(texture, 'video');
+        });
 
-        const {
-          slide,
-          slices,
-          partSize,
-        } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+        this.loader.load();
+      },
+      addSlide(texture, type) {
+        const {slide, slices, partSize} = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
         this.pixiSlides.push({
           slide,
           slices,
           partSize,
           texture,
+          type,
         });
 
         this.app.stage.addChild(slide);
 
-        if(!this.firstVideoHasStarted) {
-          this.firstVideoHasStarted = true;
+        if(!this.sliderHasStarted) {
+          this.sliderHasStarted = true;
           console.log('Start video');
           this.slideIn(0);
         }
-      });
-
-      // setInterval(this.slideToNext, 5000)
+      },
+    },
+    mounted () {
+      const ticker = PIXI.Ticker.shared;
+      ticker.autoStart = false;
+      ticker.stop();
 
       this.app = this.createPIXIApp();
-
       this.$refs.canvas.appendChild(this.app.view);
 
-      loader.load();
+
+      this.loadVideos();
       ticker.start();
 
       // create a video texture from a path

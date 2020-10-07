@@ -17,6 +17,10 @@
         type: Array,
         required: true,
       },
+      loopVideos: {
+        type: Boolean,
+        default: true,
+      },
     },
     data () {
       return {
@@ -24,6 +28,7 @@
         pixiSlides: [],
         loader: new PIXI.Loader(),
         currentSlideEq: 0,
+        firstVideoHasStarted: false,
       };
     },
     computed: {
@@ -44,9 +49,14 @@
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
-        $video.loop = true;
+        // $video.loop = true;
         // $video.src = src;
 
+        $video.onended = () => {
+          this.videoEnded($video);
+        };
+
+        // Load video source
         if (Hls.isSupported()) {
           let hls = new Hls();
           hls.loadSource(src);
@@ -60,9 +70,8 @@
           //   video.play();
           // });
         }
-
-        $video.pause();
-        $video.currentTime = 0;
+        // $video.pause();
+        // $video.currentTime = 0;
 
         const texture = PIXI.Texture.from($video);
         texture.baseTexture.resource.autoPlay = false;
@@ -70,6 +79,11 @@
         return texture;
       },
 
+      videoEnded($video) {
+        if(this.loopVideos) {
+          this.slideToNext();
+        }
+      },
 
       createSlide(texture, width, height) {
         const slide = new PIXI.Container();
@@ -79,7 +93,6 @@
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
-
           let videoScale = 1;
 
           const moveDelta = {
@@ -127,8 +140,11 @@
         return { slide, slices, partSize };
       },
       slide(eq = 0) {
+        this.slideOut();
+        this.slideIn(eq);
+      },
+      slideOut() {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
-        const newSlide = this.pixiSlides[eq];
 
         oldSlide.slide.zOrder = 1;
         oldSlide.slices.forEach((videoSprite, i) => {
@@ -141,6 +157,9 @@
             }
           });
         });
+      },
+      slideIn(eq) {
+        const newSlide = this.pixiSlides[eq];
 
         newSlide.slide.zOrder = 2;
         newSlide.slices.forEach((videoSprite, i) => {
@@ -194,13 +213,23 @@
         });
 
         this.app.stage.addChild(slide);
+
+        if(!this.firstVideoHasStarted) {
+          this.firstVideoHasStarted = true;
+          this.slideIn(0);
+        }
       });
 
-      setInterval(this.slideToNext, 5000)
+      // setInterval(this.slideToNext, 5000)
 
       this.app = this.createPIXIApp();
 
       this.$refs.canvas.appendChild(this.app.view);
+
+      loader.load();
+      ticker.start();
+
+      // this.slide(0);
 
       // create a video texture from a path
       // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
@@ -222,8 +251,6 @@
       });
       */
 
-      loader.load();
-      ticker.start();
     },
     beforeDestroy () {
       this.loader.reset();
@@ -232,7 +259,7 @@
           this.app.removeChild(this.app.children[0]);
         }
         this.app.stop();
-        this.app.destory(false, {
+        this.app.destroy(false, {
           children: true,
           texture: true,
           baseTexture: true,

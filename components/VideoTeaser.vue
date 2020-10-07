@@ -46,6 +46,7 @@
       },
       createVideoTexture(src) {
         const $video = document.createElement('video');
+        const extension = /(?:\.([^.]+))?$/.exec(src)[1];
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
@@ -57,21 +58,22 @@
         };
 
         // Load video source
-        if (Hls.isSupported()) {
-          let hls = new Hls();
-          hls.loadSource(src);
-          hls.attachMedia($video);
-          // hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            // video.play();
-          // });
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl')) {
+        if ($video.canPlayType('application/vnd.apple.mpegurl') || extension !== 'm3u8') {
           $video.src = src;
           // video.addEventListener('loadedmetadata', function() {
           //   video.play();
           // });
+        } else if (Hls.isSupported()) {
+          let hls = new Hls();
+          hls.loadSource(src);
+          hls.attachMedia($video);
+          // hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          // video.play();
+          // });
         }
-        // $video.pause();
-        // $video.currentTime = 0;
+
+        $video.pause();
+        $video.currentTime = 0;
 
         const texture = PIXI.Texture.from($video);
         texture.baseTexture.resource.autoPlay = false;
@@ -216,6 +218,7 @@
 
         if(!this.firstVideoHasStarted) {
           this.firstVideoHasStarted = true;
+          console.log('Start video');
           this.slideIn(0);
         }
       });
@@ -228,8 +231,6 @@
 
       loader.load();
       ticker.start();
-
-      // this.slide(0);
 
       // create a video texture from a path
       // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);

@@ -26,7 +26,7 @@ export default {
     videoTeasers () {
       return this.pagesInCurrentLocale.map((page) => {
         return {
-          video: page.headerVideo.mp4,
+          video: page.headerVideo.url,
           title: page.header,
         }
       });

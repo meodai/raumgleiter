@@ -18,13 +18,5 @@ export default {
 
     return { pageEntry: pageEntryPreview };
   },
-  computed: {
-    videoTeasers () {
-      return this.pageEntry ? [{
-        video: this.pageEntry.headerVideo.mp4 || null,
-        title: this.pageEntry.header,
-      }] : [];
-    },
-  },
 }
 </script>

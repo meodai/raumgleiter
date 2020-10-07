@@ -1,4 +1,6 @@
 <script>
+  import Hls from 'hls.js';
+
   export default {
     props: {
       startEq: {
@@ -43,7 +45,21 @@
         $video.preload = 'auto';
         $video.muted = true;
         $video.loop = true;
-        $video.src = src;
+        // $video.src = src;
+
+        if (Hls.isSupported()) {
+          let hls = new Hls();
+          hls.loadSource(src);
+          hls.attachMedia($video);
+          // hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            // video.play();
+          // });
+        } else if ($video.canPlayType('application/vnd.apple.mpegurl')) {
+          $video.src = src;
+          // video.addEventListener('loadedmetadata', function() {
+          //   video.play();
+          // });
+        }
 
         $video.pause();
         $video.currentTime = 0;
@@ -53,7 +69,7 @@
 
         return texture;
       },
-      
+
 
       createSlide: function createSlide (texture, width, height) {
         const slide = new PIXI.Container();
@@ -137,6 +153,14 @@
 
         this.currentSlideEq = eq;
       },
+      slideToNext() {
+        let nextEq = this.currentSlideEq + 1;
+        if (nextEq > this.pixiSlides.length - 1) {
+          nextEq = 0;
+        }
+
+        this.slide(nextEq);
+      }
     },
     mounted () {
       const ticker = PIXI.Ticker.shared;
@@ -172,14 +196,7 @@
         this.app.stage.addChild(slide);
       });
 
-      setInterval(() => {
-        let nextEq = this.currentSlideEq + 1;
-        if (nextEq > this.pixiSlides.length - 1) {
-          nextEq = 0;
-        }
-
-        this.slide(nextEq);
-      }, 5000)
+      setInterval(this.slideToNext, 5000)
 
       this.app = this.createPIXIApp();
 

@@ -1,0 +1,44 @@
+<script>
+
+export default {
+  props: {
+    iframe: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {}
+  },
+  mounted() {},
+  methods: {}
+}
+</script>
+
+<template>
+  <div
+    class="iframeEmbed"
+  >
+    <iframe
+      class="iframeEmbed__iframe"
+      :src="iframe.url"
+      width="100%" height="100%"
+      frameborder="0" allow="fullscreen" allowfullscreen
+    ></iframe>
+  </div>
+</template>
+
+<style scoped>
+.iframeEmbed {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+
+.iframeEmbed__iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

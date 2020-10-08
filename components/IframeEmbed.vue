@@ -20,8 +20,8 @@ export default {
     class="iframeEmbed"
   >
     <iframe
-      class="iframeEmbed__iframe"
-      :src="iframe.url"
+      class="iframeEmbed__iframe lazyload"
+      :data-src="iframe.url"
       width="100%" height="100%"
       frameborder="0" allow="fullscreen" allowfullscreen
     ></iframe>

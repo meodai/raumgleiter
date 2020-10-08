@@ -71,16 +71,22 @@
 
     <template v-for="media in pictures">
       <figure>
-        <ResponsiveImage v-if="media.images.length > 0" :image="media.images[0]" class="project__picture" :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}" />
-        <template v-else-if="media.video !== null">
-          <!-- media.video.mp4 -->
-<!--          <p>Video</p>-->
-        </template>
-        <template v-else-if="media.iframe !== null">
-          <!-- media.iframe -->
-<!--          Ratio: 16:9 -->
-<!--          <iframe :src="media.iframe" frameborder="0"></iframe>-->
-        </template>
+        <ResponsiveImage
+          v-if="media.images.length > 0"
+          :image="media.images[0]"
+          class="project__picture"
+          :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
+        />
+        <VimeoEmbed
+          v-else-if="media.video && media.video.vimeoId !== null"
+          class="project__video"
+          :video="media.video"
+        />
+        <IframeEmbed
+          v-else-if="media.iframe && media.iframe.url !== null"
+          class="project__iframe"
+          :iframe="media.iframe"
+        />
       </figure>
     </template>
 
@@ -142,7 +148,9 @@
   .project__bodyimage {
     width: 100%;
   }
-  .project__picture {
+  .project__picture,
+  .project__video,
+  .project__iframe {
     margin-top: var(--size-dog);
     width: 100%;
 

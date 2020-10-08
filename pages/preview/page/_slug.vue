@@ -20,12 +20,6 @@ export default {
     pageEntry() {
       return this.pageEntryByLocale[this.$i18n.locale];
     },
-    videoTeasers () {
-      return this.pageEntry ? [{
-        video: this.pageEntry.headerVideo.mp4 || null,
-        title: this.pageEntry.header,
-      }] : [];
-    },
   },
 }
 </script>

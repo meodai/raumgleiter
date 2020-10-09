@@ -30,13 +30,13 @@
       },
     },
     computed: {
-      showFirstRow() {
+      showFirstRow () {
         return this.fields.icon || this.fields.header;
       },
-      showSecondRow() {
+      showSecondRow () {
         return this.fields.contactName || this.fields.phone || this.fields.email;
       },
-    }
+    },
   };
 </script>
 
@@ -53,12 +53,14 @@
         class="calltoaction__first"
       >
         <Icon
-          class="calltoaction__icon"
           v-if="fields.icon"
+          class="calltoaction__icon"
           :name="fields.icon"
           :is-block="true"
         />
-        <h3 v-if="fields.header" class="calltoaction__title">{{fields.header}}</h3>
+        <h3 v-if="fields.header" class="calltoaction__title">
+          {{ fields.header }}
+        </h3>
         <p class="calltoaction__content">
           {{ fields.text }}
         </p>
@@ -72,7 +74,9 @@
           name="communication"
           :is-block="true"
         />
-        <h3 v-if="fields.contactName" class="calltoaction__title">{{fields.contactName}}</h3>
+        <h3 v-if="fields.contactName" class="calltoaction__title">
+          {{ fields.contactName }}
+        </h3>
         <p class="calltoaction__content">
           <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
           <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>

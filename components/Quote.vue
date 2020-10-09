@@ -33,7 +33,9 @@
   <div class="quote">
     <blockquote class="quote__block">
       <p>{{ fields.body }}</p>
-      <footer v-if="fields.author" class="quote__footer">{{ fields.author }}</footer>
+      <footer v-if="fields.author" class="quote__footer">
+        {{ fields.author }}
+      </footer>
     </blockquote>
   </div>
 </template>

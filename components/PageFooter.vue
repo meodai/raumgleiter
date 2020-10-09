@@ -1,8 +1,8 @@
 <script>
-  import collect from "collect.js";
+  import collect from 'collect.js';
 
   export default {
-    async fetch() {
+    async fetch () {
       this.footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
     },
     data () {
@@ -11,10 +11,10 @@
       };
     },
     computed: {
-      footer() {
+      footer () {
         return this.footerByLocale[this.$i18n.locale];
-      }
-    }
+      },
+    },
   };
 </script>
 
@@ -24,12 +24,24 @@
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
-      <address aria-label="Kontakt Adresse" class="footer__address footer__col" v-html="footer.address"></address>
+      <address
+        aria-label="Kontakt Adresse"
+        class="footer__address footer__col"
+        v-html="footer.address"
+      />
       <!-- footer.socialLinks -->
       <article class="footer__newsletter footer__col">
         <h4>{{ footer.newsletterLabel }}</h4>
-        <form class="footer__form" action="#" method="post">
-          <input type="email" placeholder="e-mail" required="required" />
+        <form
+          class="footer__form"
+          action="#"
+          method="post"
+        >
+          <input
+            type="email"
+            placeholder="e-mail"
+            required="required"
+          >
           <button>subscribe</button>
         </form>
       </article>
@@ -41,12 +53,20 @@
         <li><a href="#">Virtuelle Lösungen</a></li>
         <li><a href="#">Application Development</a></li>
 
-        <li class="footer__navgap footer__col"><a href="#">Projekte</a></li>
+        <li class="footer__navgap footer__col">
+          <a href="#">Projekte</a>
+        </li>
         <li><a href="#">Team</a></li>
         <li><a href="#">About</a></li>
       </ul>
       <ul aria-label="Language" class="footer__lang footer__col">
-        <li><a aria-selected aria-label="Deutsch" href="#">D</a></li>
+        <li>
+          <a
+            aria-selected
+            aria-label="Deutsch"
+            href="#"
+          >D</a>
+        </li>
         <li><a aria-label="English" href="#">E</a></li>
         <li><a aria-label="Français" href="#">F</a></li>
       </ul>

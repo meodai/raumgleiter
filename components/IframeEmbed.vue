@@ -1,18 +1,18 @@
 <script>
 
-export default {
-  props: {
-    iframe: {
-      type: Object,
-      required: true,
+  export default {
+    props: {
+      iframe: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-  data() {
-    return {}
-  },
-  mounted() {},
-  methods: {}
-}
+    data () {
+      return {};
+    },
+    mounted () {},
+    methods: {},
+  };
 </script>
 
 <template>
@@ -22,9 +22,12 @@ export default {
     <iframe
       class="iframeEmbed__iframe lazyload"
       :data-src="iframe.url"
-      width="100%" height="100%"
-      frameborder="0" allow="fullscreen" allowfullscreen
-    ></iframe>
+      width="100%"
+      height="100%"
+      frameborder="0"
+      allow="fullscreen"
+      allowfullscreen
+    />
   </div>
 </template>
 

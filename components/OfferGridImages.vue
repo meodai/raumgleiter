@@ -33,9 +33,9 @@
 
 <template>
   <div>
-    <h3>{{fields.header}}</h3>
-    <p>{{fields.lead}}</p>
-    <a href="#">{{fields.linkText}}</a>
+    <h3>{{ fields.header }}</h3>
+    <p>{{ fields.lead }}</p>
+    <a href="#">{{ fields.linkText }}</a>
     <br><br>
     <template v-for="item in fields.items">
       <hr>

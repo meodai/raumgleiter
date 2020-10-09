@@ -21,25 +21,25 @@
       },
     },
     computed: {
-      firstBlock() {
-        return this.fields.textBlocks.length ? this.fields.textBlocks[0] : null
+      firstBlock () {
+        return this.fields.textBlocks.length ? this.fields.textBlocks[0] : null;
       },
-      remainingTextBlocks() {
-        return this.fields.textBlocks.length > 1 ? this.fields.textBlocks.slice(1) : null
+      remainingTextBlocks () {
+        return this.fields.textBlocks.length > 1 ? this.fields.textBlocks.slice(1) : null;
       },
-    }
+    },
   };
 </script>
 
 <template>
   <div>
-    <h3>{{fields.header}}</h3>
-    <p>{{fields.lead}}</p><br>
+    <h3>{{ fields.header }}</h3>
+    <p>{{ fields.lead }}</p><br>
     <br><br><br>
 
     <template v-for="textBlock in fields.textBlocks">
-      <h4>{{textBlock.header}}</h4>
-      <p>{{textBlock.body}}</p>
+      <h4>{{ textBlock.header }}</h4>
+      <p>{{ textBlock.body }}</p>
       <br>
     </template>
   </div>

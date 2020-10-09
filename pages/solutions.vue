@@ -11,7 +11,7 @@
     },
     async asyncData ({ $craft }) {
       return {
-        solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all()
+        solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all(),
       };
     },
     computed: {
@@ -38,15 +38,20 @@
     >
       <div class="l-design-width--wide filter__tabpanel-inner">
         <ul class="filter__filterlist">
-          <li class="filter__filter" v-for="anchor in solutionsPage.anchors" :key="anchor">
-            <nuxt-link class="filter__link" :to="{ hash: '#'+anchor.anchor }">{{ anchor.label }}</nuxt-link>
+          <li
+            v-for="anchor in solutionsPage.anchors"
+            :key="anchor"
+            class="filter__filter"
+          >
+            <nuxt-link class="filter__link" :to="{ hash: '#'+anchor.anchor }">
+              {{ anchor.label }}
+            </nuxt-link>
           </li>
         </ul>
       </div>
     </section>
 
     <Pagebuilder slug="solutions" :blocks="solutionsPage.pagebuilder" />
-
   </div>
 </template>
 

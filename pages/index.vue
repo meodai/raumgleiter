@@ -1,36 +1,36 @@
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-import { debounce } from 'throttle-debounce';
-import collect from "collect.js";
+  import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+  import { debounce } from 'throttle-debounce';
+  import collect from 'collect.js';
 
-export default {
-  key: '_index',
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-  async asyncData ({ $craft }) {
-    const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();
+  export default {
+    key: '_index',
+    components: {
+      Swiper,
+      SwiperSlide,
+    },
+    async asyncData ({ $craft }) {
+      const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();
 
-    return { pagesByLocale };
-  },
-  data () {
-    return {
-      hasEnteredSite: this.$route.path !== '/',
-    };
-  },
-  computed: {
-    pagesInCurrentLocale () {
-      return this.pagesByLocale[this.$i18n.locale];
+      return { pagesByLocale };
     },
-    videoTeasers () {
-      return this.pagesInCurrentLocale.map((page) => {
-        return {
-          video: page.headerVideo.url,
-          title: page.header,
-        }
-      });
+    data () {
+      return {
+        hasEnteredSite: this.$route.path !== '/',
+      };
     },
+    computed: {
+      pagesInCurrentLocale () {
+        return this.pagesByLocale[this.$i18n.locale];
+      },
+      videoTeasers () {
+        return this.pagesInCurrentLocale.map((page) => {
+          return {
+            video: page.headerVideo.url,
+            title: page.header,
+          };
+        });
+      },
       // swiperIndexByPath () {
       //     return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
       // },
@@ -46,14 +46,24 @@ export default {
       // currentSection () {
       //     return this.sections[this.swiperIndexByPath];
       // },
-  },
-  mounted() {
+    },
+    watch: {
+      // allowTouchSwipe(allowTouchSwipe) {
+      //     this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
+      // },
+      // hasEnteredSite(hasEnteredSite) {
+      //     if (hasEnteredSite) {
+      //         // this.$refs.sectionSwiper.$swiper.autoplay.stop();
+      //     }
+      // }
+    },
+    mounted () {
       // window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeDestroy() {
+    },
+    beforeDestroy () {
       // window.removeEventListener('scroll', this.handleScroll);
-  },
-  methods: {
+    },
+    methods: {
       // slideChange(swiper) {
       //     // Update route on slide change
       //     // only if not on home
@@ -72,24 +82,14 @@ export default {
       //         this.hasEnteredSite = true;
       //     }
       // }),
-  },
-  watch: {
-      // allowTouchSwipe(allowTouchSwipe) {
-      //     this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
-      // },
-      // hasEnteredSite(hasEnteredSite) {
-      //     if (hasEnteredSite) {
-      //         // this.$refs.sectionSwiper.$swiper.autoplay.stop();
-      //     }
-      // }
-  },
-  head () {
+    },
+    head () {
       return {
-          // title: this.currentSection.name,
-          // titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
-      }
-  }
-}
+        // title: this.currentSection.name,
+        // titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
+      };
+    },
+  };
 </script>
 
 <template>

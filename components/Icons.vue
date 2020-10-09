@@ -23,7 +23,13 @@
       viewBox="0 0 9 15"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M1 1l6 6.415-6 6.673" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd"/>
+      <path
+        d="M1 1l6 6.415-6 6.673"
+        stroke="currentColor"
+        stroke-width="2"
+        fill="none"
+        fill-rule="evenodd"
+      />
     </symbol>
 
     <symbol

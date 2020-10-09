@@ -1,25 +1,27 @@
 <script>
-import FilterButton from './FilterButton';
+  import FilterButton from './FilterButton';
 
-export default {
-  components: {
-    FilterButton,
-  },
-  data: () => { return {
-    activeTabLabel: 'sector',
-  }},
-  props: {
-    categories: {
-      type: Object,
-      required: true,
+  export default {
+    components: {
+      FilterButton,
     },
-  },
-  methods: {
-    setActive (groupName=null) {
-      this.activeTabLabel = groupName;
+    props: {
+      categories: {
+        type: Object,
+        required: true,
+      },
     },
-  },
-};
+    data: () => {
+      return {
+        activeTabLabel: 'sector',
+      };
+    },
+    methods: {
+      setActive (groupName = null) {
+        this.activeTabLabel = groupName;
+      },
+    },
+  };
 </script>
 
 <template>
@@ -37,22 +39,32 @@ export default {
             {{ $t(groupName) }}
           </button>
         </li><li>
-          <button :aria-selected="!activeTabLabel" class="filter__tab" @click="setActive()">Alle</button>
+          <button
+            :aria-selected="!activeTabLabel"
+            class="filter__tab"
+            @click="setActive()"
+          >
+            Alle
+          </button>
         </li>
       </ul>
     </div>
     <section
+      v-for="(group, groupName) in categories"
+      :key="groupName"
       class="filter__tabpanel"
       role="tabpanel"
-      v-for="(group, groupName) in categories"
       :aria-label="$t(groupName)"
-      :key="groupName"
       :class="{'filter__tabpanel--active': groupName === activeTabLabel}"
     >
       <div class="l-design-width--wide filter__tabpanel-inner">
-        <ul class="filter__filterlist" :id="$t(groupName)">
-          <li class="filter__filter" v-for="category in group" :key="category">
-            <FilterButton :category="category"/>
+        <ul :id="$t(groupName)" class="filter__filterlist">
+          <li
+            v-for="category in group"
+            :key="category"
+            class="filter__filter"
+          >
+            <FilterButton :category="category" />
           </li>
         </ul>
       </div>
@@ -106,7 +118,6 @@ export default {
       max-height: 100vh;
     }
   }
-
 
   .filter__tabpanel-inner {
     padding-top: var(--size-design-bezel);

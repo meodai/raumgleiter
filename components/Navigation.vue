@@ -1,14 +1,9 @@
 <script>
-  import collect from "collect.js";
+  import collect from 'collect.js';
 
   export default {
-    async fetch() {
+    async fetch () {
       this.dropdownItemsByLocale = collect(await this.$craft('header')).keyBy('locale').all();
-    },
-    methods: {
-      toggleDrawer: function toggleDrawer () {
-        this.isOpen = !this.isOpen;
-      },
     },
     data () {
       return {
@@ -18,20 +13,25 @@
           {
             path: 'projects',
             title: 'projects',
-          },{
+          }, {
             path: 'team',
             title: 'team',
-          },{
+          }, {
             path: { name: 'slug', params: { slug: 'about' } },
             title: 'about',
-          }
+          },
         ],
       };
     },
     computed: {
-      dropdownItems() {
+      dropdownItems () {
         return this.dropdownItemsByLocale[this.$i18n.locale] ? this.dropdownItemsByLocale[this.$i18n.locale].entries : [];
-      }
+      },
+    },
+    methods: {
+      toggleDrawer: function toggleDrawer () {
+        this.isOpen = !this.isOpen;
+      },
     },
   };
 </script>
@@ -92,8 +92,10 @@
             :to="localePath(dropdownItem.slug ? { name: 'slug', params: { slug: dropdownItem.slug } } : dropdownItem.path )"
             role="menuitem"
           >
-            <strong>{{dropdownItem.title}}</strong>
-            <p class="navigation__description">{{dropdownItem.text}}</p>
+            <strong>{{ dropdownItem.title }}</strong>
+            <p class="navigation__description">
+              {{ dropdownItem.text }}
+            </p>
           </nuxt-link>
         </li>
       </ol>
@@ -147,8 +149,6 @@
       width: 1em;
     }
   }
-
-
 
   .navigation__description {
     @include typo('navigation');

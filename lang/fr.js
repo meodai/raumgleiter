@@ -5,4 +5,4 @@ export default {
   projects: 'Projets',
   team: 'Team',
   about: 'About',
-}
+};

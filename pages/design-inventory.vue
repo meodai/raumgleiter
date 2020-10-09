@@ -128,10 +128,6 @@
       :fields="{
         body: 'Zusammen mit Raumgleiter haben wir anfänglich Neuland betreten. Mittlerweile ist unser ganzes Facility Management täglich auf dem Konfigurator unterwegs. Ein Gewinn an Zeit und ein Gewinn für unser Unternehmen.',
         author: 'Svetlana Kuster, ZKB',
-        background: {
-          type: 'image',
-          image: exampleImage(1038, 'kitten'),
-        },
       }"
     />
 

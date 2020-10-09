@@ -31,6 +31,9 @@
 
 <template>
   <div class="quote">
+    <div class="quote__background" v-if="fields.background">
+      <ResponsiveImage class="quote__backgroundImage" :image="fields.background.image" />
+    </div>
     <blockquote class="quote__block">
       <p>{{ fields.body }}</p>
       <footer v-if="fields.author" class="quote__footer">
@@ -42,11 +45,15 @@
 
 <style lang="scss">
   .quote {
+    perspective: 2px;
+    position: relative;
     @include typo('quote');
     padding: var(--size-pony);
     text-align: center;
+    overflow: hidden;
   }
   .quote__block {
+    position: relative;
     width: calc(50% + var(--size-pony) * 2);
     margin: 0 auto;
 
@@ -66,5 +73,24 @@
   .quote__footer {
     @include typo('default');
     margin-top: var(--size-gutter);
+  }
+
+  .quote__background {
+    z-index: -1;
+    position: absolute;
+    top: -20%;
+    left: 0;
+    right: 0;
+    bottom: -20%;
+  }
+
+  .quote__backgroundImage {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateZ(-1px) scale(1.5);
   }
 </style>

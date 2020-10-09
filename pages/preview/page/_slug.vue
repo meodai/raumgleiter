@@ -27,5 +27,10 @@ export default {
 <template>
   <div>
     <Pagebuilder :slug="pageEntry.slug" :blocks="pageEntry.pagebuilder" />
+    <Related
+      v-if="pageEntry.related"
+      :title="pageEntry.related.title"
+      :entries="pageEntry.related.entries"
+    />
   </div>
 </template>

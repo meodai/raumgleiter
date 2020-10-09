@@ -9,13 +9,13 @@ export default {
       en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
     }
   },
-  async asyncData ({ $craft }) {
+  async asyncData({$craft}) {
     return {
       solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all()
     };
   },
   computed: {
-    solutionsPage () {
+    solutionsPage() {
       return this.solutionsPageByLocale[this.$i18n.locale];
     },
   },
@@ -30,15 +30,21 @@ export default {
       <br><br>
     </div>
 
-      <!-- Anchors -->
-      <ul>
-        <li v-for="anchor in solutionsPage.anchors">
-          <nuxt-link :to="{ hash: '#'+anchor.anchor }">{{ anchor.label }}</nuxt-link>
-        </li>
-      </ul>
+    <!-- Anchors -->
+    <ul>
+      <li v-for="anchor in solutionsPage.anchors">
+        <nuxt-link :to="{ hash: '#'+anchor.anchor }">{{ anchor.label }}</nuxt-link>
+      </li>
+    </ul>
 
-      <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
+    <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions"/>
 
-      <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
-    </div>
+    <Pagebuilder slug="team" :blocks="solutionsPage.cta"/>
+
+    <Related
+      v-if="solutionsPage.related"
+      :title="solutionsPage.related.title"
+      :entries="solutionsPage.related.entries"
+    />
+  </div>
 </template>

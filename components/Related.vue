@@ -133,12 +133,12 @@
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">{{title}}</h3>
+        <h3 class="related__title t-title">{{ $props.title }}</h3>
       </div>
       <div class="related__slides">
         <div
-          v-for="(image, i) in images"
-          :key="i + image.src"
+          v-for="(entry, i) in entries"
+          :key="'related'+ i + entry.title"
           class="related__slide"
           :ref="'slide'"
         >
@@ -146,7 +146,8 @@
             :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
           >
             <ResponsiveImage
-              :image="image"
+              v-if="images[i]"
+              :image="images[i]"
               class="related__image"
             />
             <div class="related__overlay">

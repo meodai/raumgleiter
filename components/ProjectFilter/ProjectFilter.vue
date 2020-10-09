@@ -49,7 +49,7 @@ export default {
       :key="groupName"
       :class="{'filter__tabpanel--active': groupName === activeTabLabel}"
     >
-      <div class="l-design-width filter__tabpanel-inner">
+      <div class="l-design-width--wide filter__tabpanel-inner">
         <ul class="filter__filterlist" :id="$t(groupName)">
           <li class="filter__filter" v-for="category in group" :key="category">
             <FilterButton :category="category"/>
@@ -107,9 +107,10 @@ export default {
     }
   }
 
+
   .filter__tabpanel-inner {
-    padding-left: calc(var(--size-design-bezel) + 15%);
-    padding-right: calc(var(--size-design-bezel) + 15%);
+    padding-top: var(--size-design-bezel);
+    padding-bottom: var(--size-design-bezel);
   }
 
   .filter__filter {
@@ -117,9 +118,13 @@ export default {
     font-weight: bold;
   }
 
+  .filter__filterlist {
+    margin: 0 -1.5rem;
+  }
+
   .filter__link {
     display: block;
-    padding: .2em .5em;
+    padding: .75rem 1.5rem;
     &[aria-selected] {
       text-decoration: underline;
     }

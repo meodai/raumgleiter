@@ -1,6 +1,20 @@
 <script>
-  export default {
+  import collect from "collect.js";
 
+  export default {
+    async fetch() {
+      this.footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
+    },
+    data () {
+      return {
+        footerByLocale: null,
+      };
+    },
+    computed: {
+      footer() {
+        return this.footerByLocale[this.$i18n.locale];
+      }
+    }
   };
 </script>
 
@@ -10,15 +24,10 @@
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
-      <address aria-label="Kontakt Adresse" class="footer__address footer__col">
-        <strong>Raumgleiter AG</strong>
-        <a href="https://goo.gl/maps/4Kak1iS29D5NvFRc7">Pfingstweidtrasse 106</a>
-        <a href="https://goo.gl/maps/4Kak1iS29D5NvFRc7">CH - 8005 Zürich</a>
-        <a href="mailto:realworld@raumgleiter.com">realworld@raumgleiter.com</a>
-        <a href="tel:+41 44 202 70 80">+41 44 202 70 80</a>
-      </address>
+      <address aria-label="Kontakt Adresse" class="footer__address footer__col" v-html="footer.address"></address>
+      <!-- footer.socialLinks -->
       <article class="footer__newsletter footer__col">
-        <h4>Bleiben Sie auf dem Laufenden</h4>
+        <h4>{{ footer.newsletterLabel }}</h4>
         <form class="footer__form" action="#" method="post">
           <input type="email" placeholder="e-mail" required="required" />
           <button>subscribe</button>

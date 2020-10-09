@@ -35,7 +35,9 @@ export default {
 <template>
   <nuxt-link
     :to="localePath({ query: queryPathObject })"
+    class="filter__link"
+    :aria-selected="isEnabled"
   >
-    {{ category.title }} {{ isEnabled ? '✅' : '' }}
+    {{ category.title }}
   </nuxt-link>
 </template>

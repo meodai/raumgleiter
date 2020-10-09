@@ -79,16 +79,17 @@ export default {
     <div class="l-design-width">
       <h1>{{ projectIndexPage.header }}</h1>
       <p>{{ projectIndexPage.lead }}</p>
-      <hr>
+    </div>
 
-      <!-- Filter -->
-      <ProjectFilter :categories="{
-        sector: categoriesInCurrentLocale['sectors'],
-        offer: categoriesInCurrentLocale['offers'],
-      }" />
+    <!-- Filter -->
+    <ProjectFilter :categories="{
+      sector: categoriesInCurrentLocale['sectors'],
+      offer: categoriesInCurrentLocale['offers'],
+    }" />
 
+    <div class="l-design-width grid__warp">
       <!-- Gefilterte Projekte -->
-      <ul
+      <ol
         ref="projectContainer"
         class="grid"
       >
@@ -98,7 +99,7 @@ export default {
           class="grid-item mix"
           :project="project"
         ></ProjectGridItem>
-      </ul>
+      </ol>
 
       <Pagebuilder :blocks="projectIndexPage.cta" />
     </div>
@@ -108,8 +109,14 @@ export default {
 <style scoped>
   .grid {
     display: grid;                                                /* 1 */
-    grid-auto-rows: calc((100vw - (var(--size-design-bezel) * 2)) * .5 * 0.5625); /* 16:9 */
+    grid-auto-rows: calc(100vw * .5 * 0.5625); /* 16:9 */
     grid-gap: 0;                                               /* 3 */
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));   /* 4 */
+    margin-left: calc(-1 * var(--size-design-bezel));
+    margin-right: calc(-1 * var(--size-design-bezel));
+  }
+
+  .grid__warp {
+    padding-top: 0;
   }
 </style>

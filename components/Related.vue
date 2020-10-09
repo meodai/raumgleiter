@@ -102,8 +102,7 @@
         } else {
           this.stopSlider();
         }
-
-      }
+      },
     },
 
     mounted () {},
@@ -142,17 +141,23 @@
         <h3 class="related__title t-title">{{fields.title}}</h3>
       </div>
       <div class="related__slides">
-        <div
+        <a
           v-for="(image, i) in images"
           :key="i + image.src"
           class="related__slide"
           :ref="'slide'"
+          href="#"
         >
           <ResponsiveImage
             :image="image"
             class="related__image"
           />
-        </div>
+          <div class="related__overlay">
+            <h4 class="related__title">
+              Proket-Titten, Bern
+            </h4>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -160,6 +165,8 @@
 </template>
 
 <style lang="scss">
+
+
   .related {
     overflow: hidden;
   }
@@ -202,6 +209,36 @@
     &--placeholder {
       visibility: hidden;
       opacity: 0;
+    }
+  }
+
+  .related__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#000, 0.7);
+    opacity: 0;
+    transition: 200ms opacity cubic-bezier(0, 0, 0.3, 0.1);
+
+    .related__slide:hover & {
+      opacity: 1;
+    }
+  }
+
+  .related__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: var(--color-text--inverted);
+    transform: translate(-50%,2em);
+    text-align: center;
+
+    transition: 500ms transform cubic-bezier(0.7, 0.3, 0, 1);
+
+    .related__slide:hover & {
+      transform: translate(-50%,-50%);
     }
   }
 </style>

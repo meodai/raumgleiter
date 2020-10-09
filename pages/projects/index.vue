@@ -108,7 +108,7 @@ export default {
 <style scoped>
   .grid {
     display: grid;                                                /* 1 */
-    grid-auto-rows: 440px;                                         /* 2 */
+    grid-auto-rows: calc((100vw - (var(--size-design-bezel) * 2)) * .5 * 0.5625); /* 16:9 */
     grid-gap: 0;                                               /* 3 */
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));   /* 4 */
   }

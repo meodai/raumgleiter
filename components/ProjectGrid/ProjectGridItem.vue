@@ -28,14 +28,13 @@
 
 <style lang="scss">
   .project-grid-item {
-    height: 440px;
     grid-row: span 1;
     position: relative;
+    background: rgba(#000, 0.7);
   }
 
   .project-grid-item__tall {
     grid-row: span 2;
-    height: 880px;
   }
 
   .project-grid-item__wrap {
@@ -52,6 +51,7 @@
     height: 100%;
     display: block;
     object-fit: cover;
+    object-position: 50% 50%;
     top: 0;
     left: 0;
   }

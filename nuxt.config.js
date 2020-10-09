@@ -89,6 +89,7 @@ export default {
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },
     langDir: 'lang/',
+    lazy: true,
   },
   /*
    ** Build configuration

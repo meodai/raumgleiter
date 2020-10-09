@@ -11,7 +11,7 @@
         required: true,
       },
     },
-    data: () => {
+    data () {
       return {
         activeTabLabel: 'sector',
       };
@@ -19,6 +19,9 @@
     methods: {
       setActive (groupName = null) {
         this.activeTabLabel = groupName;
+        if (groupName === null) {
+          this.$router.push(this.localePath({ query: false }));
+        }
       },
     },
   };
@@ -28,7 +31,10 @@
   <aside aria-label="Prject Filters" class="filter">
     <div class="l-design-width filter__tabs-wrap">
       <ul class="filter__tabs">
-        <li v-for="(group, groupName) in categories" :key="groupName">
+        <li
+          v-for="(group, groupName) in categories"
+          :key="'tab'+groupName"
+        >
           <button
             :aria-selected="groupName === activeTabLabel"
             role="tab"
@@ -51,7 +57,7 @@
     </div>
     <section
       v-for="(group, groupName) in categories"
-      :key="groupName"
+      :key="'tabpanel'+groupName"
       class="filter__tabpanel"
       role="tabpanel"
       :aria-label="$t(groupName)"
@@ -61,7 +67,7 @@
         <ul :id="$t(groupName)" class="filter__filterlist">
           <li
             v-for="category in group"
-            :key="category"
+            :key="'cat'+category.id"
             class="filter__filter"
           >
             <FilterButton :category="category" />

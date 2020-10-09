@@ -5,7 +5,7 @@
 
     props: {
       entries: {
-        type: Object,
+        type: Array,
         required: true,
       },
       title: {
@@ -73,7 +73,7 @@
         this.activeSlide = nextNthChild;
       },
       startSlider() {
-        if(this.sliderIsRunning) return;
+        if(this.sliderIsRunning || this.images.length < 3) return;
         this.interval = setInterval(this.slideToNext, 3000);
         this.sliderIsRunning = true;
       },
@@ -136,23 +136,26 @@
         <h3 class="related__title t-title">{{title}}</h3>
       </div>
       <div class="related__slides">
-        <nuxt-link
+        <div
           v-for="(image, i) in images"
           :key="i + image.src"
           class="related__slide"
           :ref="'slide'"
-          :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
         >
-          <ResponsiveImage
-            :image="image"
-            class="related__image"
-          />
-          <div class="related__overlay">
-            <h4 class="related__title">
-              {{ titles[i] }}
-            </h4>
-          </div>
-        </nuxt-link>
+          <nuxt-link
+            :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
+          >
+            <ResponsiveImage
+              :image="image"
+              class="related__image"
+            />
+            <div class="related__overlay">
+              <h4 class="related__title">
+                {{ titles[i] }}
+              </h4>
+            </div>
+          </nuxt-link>
+        </div>
       </div>
     </div>
 

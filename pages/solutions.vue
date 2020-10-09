@@ -48,6 +48,12 @@
     <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
 
     <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
+
+    <Related
+      v-if="solutionsPage.related"
+      :title="solutionsPage.related.title"
+      :entries="solutionsPage.related.entries"
+    />
   </div>
 </template>
 

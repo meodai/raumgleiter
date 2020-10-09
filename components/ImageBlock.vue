@@ -99,7 +99,7 @@
         return this.images && this.images.length > 0;
       },
       hasIframe() {
-        return this.fields.iframe;
+        return this.fields.iframe && this.fields.iframe.url;
       },
     },
   };
@@ -123,7 +123,12 @@
       <p>{{ fields.body }}</p>
     </div>
 
-    <div v-if="hasImages" class="image-block__images" :class="{'image-block__images--slider': isSlider}">
+    <!-- Images -->
+    <div
+      v-if="hasImages"
+      class="image-block__images"
+      :class="{'image-block__images--slider': isSlider}"
+    >
       <ResponsiveImage
         :image="firstImage"
         class="image-block__image"
@@ -144,13 +149,25 @@
       </div>
     </div>
 
-    <div v-if="hasIframe" class="image-block__iframe-container">
-      <iframe
-        class="image-block__iframe lazyload"
-        :data-src="fields.iframe"
+
+    <!-- Video -->
+    <div
+      v-else-if="fields.video && fields.video.vimeoId"
+      class="image-block__video"
+    >
+      <VimeoEmbed
+        :video="fields.video"
       />
     </div>
 
+    <div
+      v-else-if="hasIframe"
+      class="image-block__iframe"
+    >
+      <IframeEmbed
+        :iframe="fields.iframe"
+      />
+    </div>
 
   </article>
 </template>
@@ -170,6 +187,8 @@
     }
   }
 
+  .image-block__video,
+  .image-block__iframe,
   .image-block__images {
     flex: 0 0 calc(60% - var(--image-block-gutter));
     margin-left: var(--image-block-gutter);
@@ -248,27 +267,12 @@
       //filter: invert(100%);
     }
 
+    .image-block__video,
+    .image-block__iframe,
     .image-block__images {
       width: 100vw;
       margin: 0;
     }
-  }
-
-  /* TODO: style iframe; keep aspect ratio */
-  .image-block__iframe-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-  }
-  .image-block__iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
   }
 
 </style>

@@ -1,6 +1,12 @@
 <script>
 
 export default {
+  props: {
+    video: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       player: null,
@@ -11,6 +17,11 @@ export default {
   },
   mounted() {
 
+  },
+  beforeDestroy() {
+    if(this.player) {
+      this.player.destroy();
+    }
   },
   methods: {
     initVideo() {
@@ -38,17 +49,17 @@ export default {
     },
 
     visibilityChanged(isVisible) {
-      if(!this.loaded) {
-        if(isVisible) {
+      if (!this.loaded) {
+        if (isVisible) {
           this.initVideo();
         }
         return;
       }
 
-      if(!isVisible && this.playing) {
+      if (!isVisible && this.playing) {
         this.player.pause();
         // todo: unmute?
-      } else if(isVisible) {
+      } else if (isVisible) {
         this.player.play();
       }
     },
@@ -58,6 +69,10 @@ export default {
 
 <template>
   <div
+    class="vimeoEmbed"
+    :style="{
+      paddingBottom: (video.height / video.width * 100) + '%',
+    }"
     v-observe-visibility="{
       callback: visibilityChanged,
       throttle: 300,
@@ -66,11 +81,30 @@ export default {
       },
     }"
   >
-
-    <iframe v-if="loaded" ref="video" :src="loaded ? 'https://player.vimeo.com/video/76979871?background=1' : null"
-            width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-
-    <button @click="toggleMute">mute</button>
-
+    <!-- TODO: video thumbnail -->
+    <!-- <div class="vimeoEmbed__iframe" :style="{ backgroundImage: 'url(' + video.thumbnail + ')' }"></div>-->
+    <iframe
+      v-if="loaded"
+      ref="video"
+      class="vimeoEmbed__iframe"
+      :src="loaded ? `https://player.vimeo.com/video/${video.vimeoId}?background=1` : null"
+      width="100%" height="100%"
+      frameborder="0" allow="autoplay; fullscreen" allowfullscreen
+    ></iframe>
+    <!--    <button @click="toggleMute">mute</button>-->
   </div>
 </template>
+
+<style scoped>
+.vimeoEmbed {
+  position: relative;
+}
+
+.vimeoEmbed__iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

@@ -12,20 +12,26 @@
     },
     computed: {
       footer () {
-        return this.footerByLocale[this.$i18n.locale];
+        return this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
+      },
+      mainSectionsByLocale () {
+        return this.$store.state.mainSectionsByLocale;
+      },
+      mainSections () {
+        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
       },
     },
   };
 </script>
 
 <template>
-  <div class="footer">
+  <div v-if="footer" class="footer">
     <div class="footer__inner">
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
       <address
-        aria-label="Kontakt Adresse"
+        aria-label="Kontaktadresse"
         class="footer__address footer__col"
         v-html="footer.address"
       />

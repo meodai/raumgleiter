@@ -40,7 +40,7 @@
         <ul class="filter__filterlist">
           <li
             v-for="anchor in solutionsPage.anchors"
-            :key="anchor"
+            :key="anchor.label"
             class="filter__filter"
           >
             <nuxt-link class="filter__link" :to="{ hash: '#'+anchor.anchor }">

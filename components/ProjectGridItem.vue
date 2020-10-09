@@ -17,7 +17,11 @@
 <template>
   <aside :class="[...filterClasses, project.image && project.image.orientation === 'portrait' ? ' project-grid-item__tall' : null]" class="project-grid-item">
     <nuxt-link class="project-grid-item__wrap" :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })">
-      <ResponsiveImage class="project-grid-item__image" :image="project.image" />
+      <ResponsiveImage
+        v-if="project.image"
+        class="project-grid-item__image"
+        :image="project.image"
+      />
       <div class="project-grid-item__overlay">
         <h2 class="project-grid-item__title">{{ project.title }}</h2>
       </div>

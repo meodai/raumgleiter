@@ -2,21 +2,14 @@
   import collect from 'collect.js';
 
   export default {
-    /**
-      fields = {
-        title: 'plaintext' || null,
-        entries: [
-          {
-            slug: 'slug',
-            title: 'Titel',
-            image: {...}
-          }
-        ],
-      }
-     */
+
     props: {
-      fields: {
-        type: Object,
+      entries: {
+        type: Array,
+        required: true,
+      },
+      title: {
+        type: String,
         required: true,
       },
     },
@@ -59,7 +52,6 @@
           delay: 0.2,
         });
 
-
         $nextSlide.style['z-index'] = 3;
 
         gsap.fromTo($nextSlide, 1.58, {
@@ -68,7 +60,6 @@
           x: '-100%',
           ease: 'power4.inOut',
         });
-
 
         $prevSlide.style['z-index'] = 3;
 
@@ -79,12 +70,10 @@
           ease: 'power4.inOut',
         });
 
-
-
         this.activeSlide = nextNthChild;
       },
       startSlider() {
-        if(this.sliderIsRunning) return;
+        if(this.sliderIsRunning || this.images.length < 3) return;
         this.interval = setInterval(this.slideToNext, 3000);
         this.sliderIsRunning = true;
       },
@@ -113,7 +102,13 @@
 
     computed: {
       images() {
-        return collect(this.fields.entries).pluck('image').all() || [];
+        return collect(this.entries).pluck('image').all() || [];
+      },
+      titles() {
+        return collect(this.entries).pluck('title').all() || [];
+      },
+      slugs() {
+        return collect(this.entries).pluck('slug').all() || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;
@@ -138,26 +133,29 @@
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">{{fields.title}}</h3>
+        <h3 class="related__title t-title">{{title}}</h3>
       </div>
       <div class="related__slides">
-        <a
+        <div
           v-for="(image, i) in images"
           :key="i + image.src"
           class="related__slide"
           :ref="'slide'"
-          href="#"
         >
-          <ResponsiveImage
-            :image="image"
-            class="related__image"
-          />
-          <div class="related__overlay">
-            <h4 class="related__title">
-              Proket-Titten, Bern
-            </h4>
-          </div>
-        </a>
+          <nuxt-link
+            :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
+          >
+            <ResponsiveImage
+              :image="image"
+              class="related__image"
+            />
+            <div class="related__overlay">
+              <h4 class="related__title">
+                {{ titles[i] }}
+              </h4>
+            </div>
+          </nuxt-link>
+        </div>
       </div>
     </div>
 
@@ -165,8 +163,6 @@
 </template>
 
 <style lang="scss">
-
-
   .related {
     overflow: hidden;
   }

@@ -92,6 +92,11 @@
 
     <Pagebuilder :blocks="projectEntry.cta" />
 
+    <Related
+      :title="$t('Weitere Welten.')"
+      :entries="projectEntry.relatedEntries"
+    ></Related>
+
   </article>
 </template>
 

@@ -32,7 +32,7 @@
       dropdownItems() {
         return this.dropdownItemsByLocale[this.$i18n.locale] ? this.dropdownItemsByLocale[this.$i18n.locale].entries : [];
       }
-    }
+    },
   };
 </script>
 

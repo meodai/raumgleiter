@@ -8,7 +8,7 @@ import {
   ScrollTrigger,
 } from 'gsap/ScrollTrigger';
 
-//import { CustomEase } from "gsap/CustomEase";
+// import { CustomEase } from "gsap/CustomEase";
 gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
 global.gsap = gsap;

@@ -31,8 +31,32 @@
       };
     },
 
+    computed: {
+      images () {
+        return this.fields.images || [];
+      },
+      firstImage () {
+        return this.hasImages ? this.images[0] : null;
+      },
+      isSlider () {
+        return this.images.length > 1;
+      },
+      hasImages () {
+        return this.images && this.images.length > 0;
+      },
+      hasIframe () {
+        return this.fields.iframe && this.fields.iframe.url;
+      },
+    },
+
+    mounted () {},
+
+    beforeDestroy () {
+      this.stopSlider();
+    },
+
     methods: {
-      slideToNext() {
+      slideToNext () {
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const $nextSlide = this.$refs.slide[nextNthChild];
@@ -54,52 +78,27 @@
         });
         this.activeSlide = nextNthChild;
       },
-      startSlider() {
-        if(this.sliderIsRunning) return;
+      startSlider () {
+        if (this.sliderIsRunning) { return; }
         this.interval = setInterval(this.slideToNext, 3000);
         this.sliderIsRunning = true;
       },
-      stopSlider() {
+      stopSlider () {
         clearInterval(this.interval);
         this.sliderIsRunning = false;
       },
 
-      visibilityChanged(isVisible) {
+      visibilityChanged (isVisible) {
         // See https://github.com/Akryum/vue-observe-visibility
         // console.log('Visibility changed', isVisible);
 
         if (this.isSlider) {
-          if(isVisible) {
+          if (isVisible) {
             this.startSlider();
           } else {
             this.stopSlider();
           }
         }
-
-      }
-    },
-
-    mounted () {},
-
-    beforeDestroy () {
-      this.stopSlider();
-    },
-
-    computed: {
-      images() {
-        return this.fields.images || [];
-      },
-      firstImage () {
-        return this.hasImages ? this.images[0] : null;
-      },
-      isSlider() {
-        return this.images.length > 1;
-      },
-      hasImages() {
-        return this.images && this.images.length > 0;
-      },
-      hasIframe() {
-        return this.fields.iframe && this.fields.iframe.url;
       },
     },
   };
@@ -108,8 +107,6 @@
 <template>
   <article
     :id="fields.anchor || null"
-    class="image-block l-design-width"
-    :class="`image-block--${fields.imagePosition}`"
     v-observe-visibility="{
       callback: visibilityChanged,
       throttle: 300,
@@ -117,9 +114,13 @@
         leading: 'visible',
       },
     }"
+    class="image-block l-design-width"
+    :class="`image-block--${fields.imagePosition}`"
   >
     <div class="image-block__content">
-      <h3 class="image-block__title t-title">{{ fields.header }}</h3>
+      <h3 class="image-block__title t-title">
+        {{ fields.header }}
+      </h3>
       <p>{{ fields.body }}</p>
     </div>
 
@@ -138,8 +139,8 @@
         <div
           v-for="(image, i) in images"
           :key="i + image.src"
-          class="image-block__slide"
           :ref="'slide'"
+          class="image-block__slide"
         >
           <ResponsiveImage
             :image="image"
@@ -148,7 +149,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- Video -->
     <div
@@ -168,7 +168,6 @@
         :iframe="fields.iframe"
       />
     </div>
-
   </article>
 </template>
 

@@ -36,15 +36,62 @@
         return this.$props.entries.map(entry => (entry.video));
       },
     },
+    mounted () {
+      const ticker = PIXI.Ticker.shared;
+      ticker.autoStart = false;
+      ticker.stop();
+
+      this.app = this.createPIXIApp();
+      this.$refs.canvas.appendChild(this.app.view);
+
+      this.loadVideos();
+      ticker.start();
+
+      // create a video texture from a path
+      // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
+
+      /*
+      const {
+        slide,
+        slices,
+        partSize,
+      } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+
+      this.app.stage.addChild(slide);
+
+      window.addEventListener('resize', () => {
+        this.app.width = window.innerWidth;
+        this.app.height = window.innerHeight;
+
+        this.app.queueResize();
+      });
+      */
+    },
+    beforeDestroy () {
+      this.loader.reset();
+      if (this.app) {
+        while (this.app.children[0]) {
+          this.app.removeChild(this.app.children[0]);
+        }
+        this.app.stop();
+        this.app.destroy(false, {
+          children: true,
+          texture: true,
+          baseTexture: true,
+        });
+        this.app = null;
+      }
+      this.pixiSlides = [];
+    },
     methods: {
-      createPIXIApp() {
+      createPIXIApp () {
         return new PIXI.Application({
           transparent: false,
           width: window.innerWidth,
           height: window.innerHeight,
         });
       },
-      createVideoTexture(src) {
+      createVideoTexture (src) {
         const $video = document.createElement('video');
         const extension = /(?:\.([^.]+))?$/.exec(src)[1];
         $video.crossOrigin = 'anonymous';
@@ -64,7 +111,7 @@
           //   video.play();
           // });
         } else if (Hls.isSupported()) {
-          let hls = new Hls();
+          const hls = new Hls();
           hls.loadSource(src);
           hls.attachMedia($video);
           // hls.on(Hls.Events.MANIFEST_PARSED, function() {
@@ -81,18 +128,18 @@
         return texture;
       },
 
-      createBlankTexture() {
+      createBlankTexture () {
         const texture = PIXI.Texture.EMPTY;
         return texture;
       },
 
-      videoEnded($video) {
-        if(this.loopVideos) {
+      videoEnded ($video) {
+        if (this.loopVideos) {
           this.slideToNext();
         }
       },
 
-      createSlide(texture, width, height) {
+      createSlide (texture, width, height) {
         const slide = new PIXI.Container();
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = 1 / slices.length;
@@ -146,11 +193,11 @@
 
         return { slide, slices, partSize };
       },
-      slide(eq = 0) {
+      slide (eq = 0) {
         this.slideOut();
         this.slideIn(eq);
       },
-      slideOut() {
+      slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
 
         oldSlide.slide.zOrder = 1;
@@ -159,19 +206,19 @@
             x: -this.app.screen.width,
             ease: 'power4.out',
             onComplete: () => {
-              if(oldSlide.type === 'video') {
+              if (oldSlide.type === 'video') {
                 oldSlide.texture.baseTexture.resource.source.pause();
                 oldSlide.texture.baseTexture.resource.source.currentTime = 0;
               }
-            }
+            },
           });
         });
       },
-      slideIn(eq) {
+      slideIn (eq) {
         const newSlide = this.pixiSlides[eq];
 
         newSlide.slide.zOrder = 2;
-        if(newSlide.type === 'video') {
+        if (newSlide.type === 'video') {
           newSlide.texture.baseTexture.resource.source.play();
         } else {
           // todo: abort slide on scroll
@@ -186,7 +233,7 @@
 
         this.currentSlideEq = eq;
       },
-      slideToNext() {
+      slideToNext () {
         let nextEq = this.currentSlideEq + 1;
         if (nextEq > this.pixiSlides.length - 1) {
           nextEq = 0;
@@ -195,8 +242,7 @@
         this.slide(nextEq);
       },
 
-
-      loadVideos() {
+      loadVideos () {
         this.$props.entries.forEach((entry) => {
           if (entry.title && entry.video) {
             this.loader.add(entry.title, entry.video);
@@ -215,8 +261,8 @@
 
         this.loader.load();
       },
-      addSlide(texture, type) {
-        const {slide, slices, partSize} = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+      addSlide (texture, type) {
+        const { slide, slices, partSize } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
         this.pixiSlides.push({
           slide,
@@ -228,61 +274,12 @@
 
         this.app.stage.addChild(slide);
 
-        if(!this.sliderHasStarted) {
+        if (!this.sliderHasStarted) {
           this.sliderHasStarted = true;
           console.log('Start video');
           this.slideIn(0);
         }
       },
-    },
-    mounted () {
-      const ticker = PIXI.Ticker.shared;
-      ticker.autoStart = false;
-      ticker.stop();
-
-      this.app = this.createPIXIApp();
-      this.$refs.canvas.appendChild(this.app.view);
-
-
-      this.loadVideos();
-      ticker.start();
-
-      // create a video texture from a path
-      // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
-
-      /*
-      const {
-        slide,
-        slices,
-        partSize,
-      } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
-
-      this.app.stage.addChild(slide);
-
-      window.addEventListener('resize', () => {
-        this.app.width = window.innerWidth;
-        this.app.height = window.innerHeight;
-
-        this.app.queueResize();
-      });
-      */
-
-    },
-    beforeDestroy () {
-      this.loader.reset();
-      if (this.app) {
-        while (this.app.children[0]) {
-          this.app.removeChild(this.app.children[0]);
-        }
-        this.app.stop();
-        this.app.destroy(false, {
-          children: true,
-          texture: true,
-          baseTexture: true,
-        });
-        this.app = null;
-      }
-      this.pixiSlides = [];
     },
   };
 

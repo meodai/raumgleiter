@@ -3,9 +3,6 @@
  fields = {
     header: 'plaintext' || null,
     lead: 'plaintext' || null,
-    firstParagraphHeader: 'plaintext' || null,
-    firstParagraphBody: 'plaintext' || null,
-    linkText: 'plaintext' || null,
 
     textBlocks: [
       {
@@ -23,21 +20,26 @@
         required: true,
       },
     },
+    computed: {
+      firstBlock () {
+        return this.fields.textBlocks.length ? this.fields.textBlocks[0] : null;
+      },
+      remainingTextBlocks () {
+        return this.fields.textBlocks.length > 1 ? this.fields.textBlocks.slice(1) : null;
+      },
+    },
   };
 </script>
 
 <template>
   <div>
-    <h3>{{fields.header}}</h3>
-    <p>{{fields.lead}}</p><br>
-    <h4>{{fields.firstParagraphHeader}}</h4>
-    <p>{{fields.firstParagraphBody}}</p>
-    <a href="#">{{fields.linkText}}</a>
+    <h3>{{ fields.header }}</h3>
+    <p>{{ fields.lead }}</p><br>
     <br><br><br>
 
     <template v-for="textBlock in fields.textBlocks">
-      <h4>{{textBlock.header}}</h4>
-      <p>{{textBlock.body}}</p>
+      <h4>{{ textBlock.header }}</h4>
+      <p>{{ textBlock.body }}</p>
       <br>
     </template>
   </div>

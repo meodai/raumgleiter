@@ -2,18 +2,7 @@
   import collect from 'collect.js';
 
   export default {
-    /**
-      fields = {
-        title: 'plaintext' || null,
-        entries: [
-          {
-            slug: 'slug',
-            title: 'Titel',
-            image: {...}
-          }
-        ],
-      }
-     */
+
     props: {
       fields: {
         type: Object,
@@ -28,8 +17,32 @@
       };
     },
 
+    computed: {
+      images () {
+        return collect(this.fields.entries).pluck('image').all() || [];
+      },
+      titles () {
+        return collect(this.fields.entries).pluck('title').all() || [];
+      },
+      slugs () {
+        return collect(this.fields.entries).pluck('slug').all() || [];
+      },
+      firstImage () {
+        return this.hasImages ? this.images[0] : null;
+      },
+      hasImages () {
+        return this.images && this.images.length > 0;
+      },
+    },
+
+    mounted () {},
+
+    beforeDestroy () {
+      this.stopSlider();
+    },
+
     methods: {
-      slideToNext() {
+      slideToNext () {
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const nextNextNthChild = this.activeSlide === this.images.length - 2 ? 0 : this.activeSlide + 2;
@@ -46,7 +59,7 @@
           delay: 0.2,
           onComplete: () => {
             $prevSlide.style['z-index'] = 1;
-          }
+          },
         });
 
         $currentSlide.style['z-index'] = 2;
@@ -59,7 +72,6 @@
           delay: 0.2,
         });
 
-
         $nextSlide.style['z-index'] = 3;
 
         gsap.fromTo($nextSlide, 1.58, {
@@ -69,58 +81,36 @@
           ease: 'power4.inOut',
         });
 
-
         $prevSlide.style['z-index'] = 3;
 
-        gsap.fromTo($nextNextSlide , 1.88, {
+        gsap.fromTo($nextNextSlide, 1.88, {
           x: '140%',
         }, {
           x: '20%',
           ease: 'power4.inOut',
         });
 
-
-
         this.activeSlide = nextNthChild;
       },
-      startSlider() {
-        if(this.sliderIsRunning) return;
+      startSlider () {
+        if (this.sliderIsRunning || this.images.length < 3) { return; }
         this.interval = setInterval(this.slideToNext, 3000);
         this.sliderIsRunning = true;
       },
-      stopSlider() {
+      stopSlider () {
         clearInterval(this.interval);
         this.sliderIsRunning = false;
       },
 
-      visibilityChanged(isVisible) {
+      visibilityChanged (isVisible) {
         // See https://github.com/Akryum/vue-observe-visibility
         // console.log('Visibility changed', isVisible);
 
-        if(isVisible) {
+        if (isVisible) {
           this.startSlider();
         } else {
           this.stopSlider();
         }
-
-      }
-    },
-
-    mounted () {},
-
-    beforeDestroy () {
-      this.stopSlider();
-    },
-
-    computed: {
-      images() {
-        return collect(this.fields.entries).pluck('image').all() || [];
-      },
-      firstImage () {
-        return this.hasImages ? this.images[0] : null;
-      },
-      hasImages() {
-        return this.images && this.images.length > 0;
       },
     },
   };
@@ -128,7 +118,6 @@
 
 <template>
   <aside
-    class="related"
     v-observe-visibility="{
       callback: visibilityChanged,
       throttle: 300,
@@ -136,26 +125,38 @@
         leading: 'visible',
       },
     }"
+    class="related"
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">{{fields.title}}</h3>
+        <h3 class="related__title t-title">
+          {{ fields.title }}
+        </h3>
       </div>
       <div class="related__slides">
         <div
-          v-for="(image, i) in images"
-          :key="i + image.src"
-          class="related__slide"
+          v-for="(entry, i) in fields.entries"
+          :key="'related'+ i + entry.title"
           :ref="'slide'"
+          class="related__slide"
         >
-          <ResponsiveImage
-            :image="image"
-            class="related__image"
-          />
+          <nuxt-link
+            :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
+          >
+            <ResponsiveImage
+              v-if="images[i]"
+              :image="images[i]"
+              class="related__image"
+            />
+            <div class="related__overlay">
+              <h4 class="related__title">
+                {{ titles[i] }}
+              </h4>
+            </div>
+          </nuxt-link>
         </div>
       </div>
     </div>
-
   </aside>
 </template>
 
@@ -202,6 +203,36 @@
     &--placeholder {
       visibility: hidden;
       opacity: 0;
+    }
+  }
+
+  .related__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#000, 0.7);
+    opacity: 0;
+    transition: 200ms opacity cubic-bezier(0, 0, 0.3, 0.1);
+
+    .related__slide:hover & {
+      opacity: 1;
+    }
+  }
+
+  .related__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: var(--color-text--inverted);
+    transform: translate(-50%,2em);
+    text-align: center;
+
+    transition: 500ms transform cubic-bezier(0.7, 0.3, 0, 1);
+
+    .related__slide:hover & {
+      transform: translate(-50%,-50%);
     }
   }
 </style>

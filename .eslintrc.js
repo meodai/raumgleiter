@@ -12,8 +12,8 @@ module.exports = {
     'plugin:nuxt/recommended',
   ],
   globals: {
-    'PIXI': true,
-    'gsap': true,
+    PIXI: true,
+    gsap: true,
   },
   plugins: [
   ],

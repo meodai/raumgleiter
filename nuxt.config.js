@@ -3,24 +3,24 @@ export default {
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
    */
-  target: "static",
+  target: 'static',
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: "Raumgleiter",
-    titleTemplate: "%s - Raumgleiter",
+    title: 'Raumgleiter',
+    titleTemplate: '%s - Raumgleiter',
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      ],
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
     script: [
-      {src: 'https://player.vimeo.com/api/player.js', defer: true},
+      { src: 'https://player.vimeo.com/api/player.js', defer: true },
     ],
   },
   /*
@@ -39,21 +39,21 @@ export default {
     scss: [
       '@/assets/scss/settings.scss',
       '@/assets/scss/tools.scss',
-    ]
+    ],
   },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    {src: "./plugins/mixitup.js", mode: "client"},
-    {src: "./plugins/pixi.js", mode: "client"},
-    {src: "./plugins/gsap.js", mode: "client"},
-    {src: "./plugins/preview.js", mode: "client"},
-    {src: "./plugins/craft.js",},
-    {src: "./plugins/intersection-observer.js", mode: "client"},
-    {src: "./plugins/lazysizes.js", mode: "client"},
-    {src: "./plugins/canautoplay.js", mode: "client"},
+    { src: './plugins/mixitup.js', mode: 'client' },
+    { src: './plugins/pixi.js', mode: 'client' },
+    { src: './plugins/gsap.js', mode: 'client' },
+    { src: './plugins/preview.js', mode: 'client' },
+    { src: './plugins/craft.js' },
+    { src: './plugins/intersection-observer.js', mode: 'client' },
+    { src: './plugins/lazysizes.js', mode: 'client' },
+    { src: './plugins/canautoplay.js', mode: 'client' },
   ],
   /*
    ** Auto import components
@@ -71,25 +71,25 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    "@nuxt/http",
-    "nuxt-i18n",
-    "@nuxtjs/style-resources",
+    '@nuxt/http',
+    'nuxt-i18n',
+    '@nuxtjs/style-resources',
   ],
   /*
    ** Multi-language config
    ** See https://i18n.nuxtjs.org/
    */
   i18n: {
-    strategy: "prefix_except_default",
+    strategy: 'prefix_except_default',
     locales: [
-      {code: 'de', file: 'de.js'},
-      {code: 'fr',file: 'fr.js'},
-      {code: 'en',file: 'en.js'},
+      { code: 'de', file: 'de.js' },
+      { code: 'fr', file: 'fr.js' },
+      { code: 'en', file: 'en.js' },
     ],
-    defaultLocale: "de",
-    vueI18n: {fallbackLocale: "en"},
-    lazy: true,
+    defaultLocale: 'de',
+    vueI18n: { fallbackLocale: 'en' },
     langDir: 'lang/',
+    lazy: true,
   },
   /*
    ** Build configuration
@@ -104,7 +104,7 @@ export default {
       preset: {
         // Change the postcss-preset-env settings
         autoprefixer: {
-          grid: true
+          grid: true,
         },
       },
     },
@@ -130,13 +130,13 @@ export default {
   },
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.API_URL || "https://api.raumgleiter.noo.work",
+      baseURL: process.env.API_URL || 'https://api.raumgleiter.noo.work',
     },
   },
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     http: {
-      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || "https://api.raumgleiter.noo.work" : '',
-    }
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || 'https://api.raumgleiter.noo.work' : '',
+    },
   },
 };

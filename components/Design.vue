@@ -4,8 +4,7 @@
   };
 </script>
 
-<template>
-</template>
+<template />
 
 <style lang="scss">
 
@@ -79,7 +78,6 @@
 }
 
 // 2) Tools
-
 
 // 3) Generic
 @font-face {

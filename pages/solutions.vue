@@ -1,44 +1,97 @@
 <script>
-import collect from "collect.js";
+  import collect from 'collect.js';
 
-export default {
-  nuxtI18n: {
-    paths: {
-      de: '/virtuelle-loesungen', // -> accessible at /virtuelle-loesungen
-      fr: '/solutions-virtuelles', // -> accessible at /fr/solutions-virtuelles
-      en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
-    }
-  },
-  async asyncData ({ $craft }) {
-    return {
-      solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all()
-    };
-  },
-  computed: {
-    solutionsPage () {
-      return this.solutionsPageByLocale[this.$i18n.locale];
+  export default {
+    nuxtI18n: {
+      paths: {
+        de: '/virtuelle-loesungen', // -> accessible at /virtuelle-loesungen
+        fr: '/solutions-virtuelles', // -> accessible at /fr/solutions-virtuelles
+        en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
+      },
     },
-  },
-}
+    async asyncData ({ $craft }) {
+      return {
+        solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all(),
+      };
+    },
+    computed: {
+      solutionsPage () {
+        return this.solutionsPageByLocale[this.$i18n.locale];
+      },
+    },
+  };
 </script>
 
 <template>
   <div>
-    <div class="l-design-width">
-      <h1>{{ solutionsPage.header }}</h1>
-      <p>{{ solutionsPage.lead }}</p>
-      <br><br>
-    </div>
+    <intro
+      :fields="{
+        header: solutionsPage.header,
+        lead: solutionsPage.lead,
+      }"
+      :is-white="true"
+    />
 
-      <!-- Anchors -->
-      <ul>
-        <li v-for="anchor in solutionsPage.anchors">
-          <nuxt-link :to="{ hash: '#'+anchor.anchor }">{{ anchor.label }}</nuxt-link>
-        </li>
-      </ul>
+    <section
+      class="filter__tabpanel filter__tabpanel--active"
+      role="tabpanel"
+    >
+      <div class="l-design-width--wide filter__tabpanel-inner">
+        <ul class="filter__filterlist">
+          <li
+            v-for="anchor in solutionsPage.anchors"
+            :key="anchor"
+            class="filter__filter"
+          >
+            <nuxt-link class="filter__link" :to="{ hash: '#'+anchor.anchor }">
+              {{ anchor.label }}
+            </nuxt-link>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-      <Pagebuilder slug="solutions" :blocks="solutionsPage.solutions" />
-
-      <Pagebuilder slug="team" :blocks="solutionsPage.cta" />
-    </div>
+    <Pagebuilder slug="solutions" :blocks="solutionsPage.pagebuilder" />
+  </div>
 </template>
+
+<style lang="scss">
+  .filter__tabpanel {
+    margin-top: .5rem;
+    & + & {
+      margin-top: 0;
+    }
+    background: #f2f2f2;
+    text-align: left;
+    overflow: hidden;
+    max-height: 0;
+    transition: 600ms max-height cubic-bezier(.7,.3,0,1);
+
+    &--active {
+      transition: 600ms max-height cubic-bezier(.7,.3,0,1) 600ms;
+      max-height: 100vh;
+    }
+  }
+
+  .filter__filter {
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .filter__tabpanel-inner {
+    padding-top: var(--size-design-bezel);
+    padding-bottom: var(--size-design-bezel);
+  }
+
+  .filter__filterlist {
+    margin: 0 -1.5rem;
+  }
+
+  .filter__link {
+    display: block;
+    padding: .75rem 1.5rem;
+    &[aria-selected] {
+      text-decoration: underline;
+    }
+  }
+</style>

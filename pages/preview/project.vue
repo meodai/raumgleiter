@@ -1,21 +1,21 @@
 <script>
-import collect from "collect.js";
-import project from "../projects/_slug";
+  import collect from 'collect.js';
+  import project from '../projects/_slug';
 
-export default {
-  extends: project,
-  async asyncData({$craft, $config, store, query, error}) {
-    let projectEntryPreview = collect(await $craft(`projects/${query.CraftPreviewSlug}`))
-      .filter(page => page.locale === query.locale)
-      .first();
+  export default {
+    extends: project,
+    async asyncData ({ $craft, $config, store, query, error }) {
+      const projectEntryPreview = collect(await $craft(`projects/${query.CraftPreviewSlug}`))
+        .filter(page => page.locale === query.locale)
+        .first();
 
-    if (! $config.livePreview || ! projectEntryPreview) {
-      return error({statusCode: 404, message: 'Page not found'});
-    }
+      if (!$config.livePreview || !projectEntryPreview) {
+        return error({ statusCode: 404, message: 'Page not found' });
+      }
 
-    await store.dispatch('i18n/setRouteParams', projectEntryPreview.locale_slugs);
+      await store.dispatch('i18n/setRouteParams', projectEntryPreview.locale_slugs);
 
-    return { projectEntry: projectEntryPreview };
-  },
-};
+      return { projectEntry: projectEntryPreview };
+    },
+  };
 </script>

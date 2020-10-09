@@ -1,9 +1,9 @@
 export const state = () => ({
-    projectMixer: null,
+  projectMixer: null,
 });
 
 export const mutations = {
-    setProjectMixer (state, projectMixer) {
-        state.projectMixer = projectMixer;
-    },
+  setProjectMixer (state, projectMixer) {
+    state.projectMixer = projectMixer;
+  },
 };

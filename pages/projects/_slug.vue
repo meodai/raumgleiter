@@ -1,5 +1,5 @@
 <script>
-  import collect from "collect.js";
+  import collect from 'collect.js';
 
   export default {
     nuxtI18n: {
@@ -7,28 +7,28 @@
         de: '/projekte/:slug', // -> accessible at /projekte/:slug
         fr: '/projets/:slug', // -> accessible at /fr/projets/:slug
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
-      }
+      },
     },
 
-    async asyncData({$craft, params, store}) {
-      let projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
+    async asyncData ({ $craft, params, store }) {
+      const projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
 
-      if(projectEntryByLocale.count()) {
+      if (projectEntryByLocale.count()) {
         await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
       }
 
       return { projectEntryByLocale: projectEntryByLocale.all() };
     },
     computed: {
-      projectEntry() {
+      projectEntry () {
         return this.projectEntryByLocale[this.$i18n.locale];
       },
-      firstPicture() {
+      firstPicture () {
         return this.projectEntry.firstImage;
       },
-      pictures() {
+      pictures () {
         return this.projectEntry.media;
-      }
+      },
     },
 
     head () {
@@ -40,14 +40,18 @@
         // ],
       };
     },
-  }
+  };
 </script>
 
 <template>
   <article class="project l-design-width">
     <div class="project__head">
-      <h1 class="project__title t-title t-title--page">{{ projectEntry.title }}</h1>
-      <p class="project__lead" :aria-label="$t('Aufgabe')"><strong>{{ $t('Aufgabe') }}.</strong> {{ projectEntry.projectData[0] }}</p>
+      <h1 class="project__title t-title t-title--page">
+        {{ projectEntry.title }}
+      </h1>
+      <p class="project__lead" :aria-label="$t('Aufgabe')">
+        <strong>{{ $t('Aufgabe') }}.</strong> {{ projectEntry.projectData[0] }}
+      </p>
     </div>
 
     <ResponsiveImage class="project__cover" :image="projectEntry.image" />
@@ -55,24 +59,28 @@
     <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
       <div class="project__bodydata">
         <aside :aria-label="$t('Kunde')">
-          <p><strong>{{ $t('Kunde') }}.</strong> {{projectEntry.projectData[1]}}</p>
+          <p><strong>{{ $t('Kunde') }}.</strong> {{ projectEntry.projectData[1] }}</p>
         </aside>
         <aside :aria-label="$t('Leistungen')">
-          <p><strong>{{ $t('Leistungen') }}.</strong> {{projectEntry.projectData[2]}}</p>
+          <p><strong>{{ $t('Leistungen') }}.</strong> {{ projectEntry.projectData[2] }}</p>
         </aside>
         <aside :aria-label="$t('Benefit')">
-          <p><strong>{{ $t('Benefit') }}.</strong> {{projectEntry.projectData[3]}}</p>
+          <p><strong>{{ $t('Benefit') }}.</strong> {{ projectEntry.projectData[3] }}</p>
         </aside>
       </div>
       <div class="project__bodyimagewrap">
-        <ResponsiveImage v-if="firstPicture" class="project__bodyimage" :image="firstPicture" />
+        <ResponsiveImage
+          v-if="firstPicture"
+          class="project__bodyimage"
+          :image="firstPicture"
+        />
       </div>
     </div>
 
     <template v-for="media in pictures">
       <figure>
         <ResponsiveImage
-          v-if="media.images.length > 0"
+          v-if="media.images && media.images.length > 0"
           :image="media.images[0]"
           class="project__picture"
           :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
@@ -93,10 +101,11 @@
     <Pagebuilder :blocks="projectEntry.cta" />
 
     <Related
-      :title="$t('Weitere Welten.')"
-      :entries="projectEntry.relatedEntries"
-    ></Related>
-
+      :fields="{
+        title: $t('Weitere Welten.'),
+        entries: projectEntry.relatedEntries,
+      }"
+    />
   </article>
 </template>
 

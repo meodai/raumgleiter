@@ -374,50 +374,55 @@
       Related Slider
     </h2>
     <Related
-      title="Weitere Welten"
-      :entries="[
-        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-      ]"
+      :fields="{
+        title: 'Weitere Welten',
+        entries: [
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        ],
+      }"
     />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">
       Related Slider with 1 entry
     </h2>
     <Related
-      title="Weitere Welten"
-      :entries="[
-        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-      ]"
+      :fields="{
+        title: 'Weitere Welten',
+        entries: [
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        ]}"
     />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">
       Related Slider with 2 entries
     </h2>
     <Related
-      title="Weitere Welten"
-      :entries="[
-        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-      ]"
+      :fields="{
+        title: 'Weitere Welten',
+        entries: [
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        ]}"
     />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">
       Related Slider with 3 entries
     </h2>
     <Related
-      title="Weitere Welten"
-      :entries="[
-        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-        {image: exampleImage(1048, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
-      ]"
+      :fields="{
+        title: 'Weitere Welten',
+        entries: [
+          {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+          {image: exampleImage(1048, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        ]}"
     />
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">

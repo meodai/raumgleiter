@@ -4,12 +4,8 @@
   export default {
 
     props: {
-      entries: {
-        type: Array,
-        required: true,
-      },
-      title: {
-        type: String,
+      fields: {
+        type: Object,
         required: true,
       },
     },
@@ -21,8 +17,32 @@
       };
     },
 
+    computed: {
+      images () {
+        return collect(this.fields.entries).pluck('image').all() || [];
+      },
+      titles () {
+        return collect(this.fields.entries).pluck('title').all() || [];
+      },
+      slugs () {
+        return collect(this.fields.entries).pluck('slug').all() || [];
+      },
+      firstImage () {
+        return this.hasImages ? this.images[0] : null;
+      },
+      hasImages () {
+        return this.images && this.images.length > 0;
+      },
+    },
+
+    mounted () {},
+
+    beforeDestroy () {
+      this.stopSlider();
+    },
+
     methods: {
-      slideToNext() {
+      slideToNext () {
         const $currentSlide = this.$refs.slide[this.activeSlide];
         const nextNthChild = this.activeSlide === this.images.length - 1 ? 0 : this.activeSlide + 1;
         const nextNextNthChild = this.activeSlide === this.images.length - 2 ? 0 : this.activeSlide + 2;
@@ -39,7 +59,7 @@
           delay: 0.2,
           onComplete: () => {
             $prevSlide.style['z-index'] = 1;
-          }
+          },
         });
 
         $currentSlide.style['z-index'] = 2;
@@ -63,7 +83,7 @@
 
         $prevSlide.style['z-index'] = 3;
 
-        gsap.fromTo($nextNextSlide , 1.88, {
+        gsap.fromTo($nextNextSlide, 1.88, {
           x: '140%',
         }, {
           x: '20%',
@@ -72,49 +92,25 @@
 
         this.activeSlide = nextNthChild;
       },
-      startSlider() {
-        if(this.sliderIsRunning || this.images.length < 3) return;
+      startSlider () {
+        if (this.sliderIsRunning || this.images.length < 3) { return; }
         this.interval = setInterval(this.slideToNext, 3000);
         this.sliderIsRunning = true;
       },
-      stopSlider() {
+      stopSlider () {
         clearInterval(this.interval);
         this.sliderIsRunning = false;
       },
 
-      visibilityChanged(isVisible) {
+      visibilityChanged (isVisible) {
         // See https://github.com/Akryum/vue-observe-visibility
         // console.log('Visibility changed', isVisible);
 
-        if(isVisible) {
+        if (isVisible) {
           this.startSlider();
         } else {
           this.stopSlider();
         }
-      },
-    },
-
-    mounted () {},
-
-    beforeDestroy () {
-      this.stopSlider();
-    },
-
-    computed: {
-      images() {
-        return collect(this.entries).pluck('image').all() || [];
-      },
-      titles() {
-        return collect(this.entries).pluck('title').all() || [];
-      },
-      slugs() {
-        return collect(this.entries).pluck('slug').all() || [];
-      },
-      firstImage () {
-        return this.hasImages ? this.images[0] : null;
-      },
-      hasImages() {
-        return this.images && this.images.length > 0;
       },
     },
   };
@@ -122,7 +118,6 @@
 
 <template>
   <aside
-    class="related"
     v-observe-visibility="{
       callback: visibilityChanged,
       throttle: 300,
@@ -130,17 +125,20 @@
         leading: 'visible',
       },
     }"
+    class="related"
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">{{ $props.title }}</h3>
+        <h3 class="related__title t-title">
+          {{ fields.title }}
+        </h3>
       </div>
       <div class="related__slides">
         <div
-          v-for="(entry, i) in entries"
+          v-for="(entry, i) in fields.entries"
           :key="'related'+ i + entry.title"
-          class="related__slide"
           :ref="'slide'"
+          class="related__slide"
         >
           <nuxt-link
             :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
@@ -159,7 +157,6 @@
         </div>
       </div>
     </div>
-
   </aside>
 </template>
 

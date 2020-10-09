@@ -1,6 +1,10 @@
 <script>
   export default {
     props: {
+      isWhite: {
+        type: Boolean,
+        default: false,
+      },
       /*
       fields = {
         header: 'plaintext' || null,
@@ -30,11 +34,14 @@
 </script>
 
 <template>
-  <section class="intro l-design-width l-design-width--wide c-design c-design--inverted">
+  <section
+    class="intro l-design-width l-design-width--wide c-design"
+    :class="{'c-design--inverted': !isWhite}"
+  >
     <div class="intro__lead">
       <h2 class="intro__title t-title t-title--page">{{fields.header}}</h2>
-      <p class="intro__leadtext t-lead">{{fields.lead}}</p>
-      <p class="intro__paragraph">{{fields.body}}</p>
+      <p v-if="fields.lead" class="intro__leadtext t-lead">{{fields.lead}}</p>
+      <p v-if="fields.body" class="intro__paragraph">{{fields.body}}</p>
     </div>
     <aside v-if="fields.offers.length" v-for="(offers, index) in fields.offers" :key="'offers'+index" class="intro__list-wrap" >
       <h3 class="intro__list-title t-title">{{offers.header}}</h3>

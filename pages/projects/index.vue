@@ -76,10 +76,13 @@ export default {
 
 <template>
   <div>
-    <div class="l-design-width">
-      <h1>{{ projectIndexPage.header }}</h1>
-      <p>{{ projectIndexPage.lead }}</p>
-    </div>
+    <intro
+      :fields="{
+        header: projectIndexPage.header,
+        lead: projectIndexPage.lead,
+      }"
+      :is-white="true"
+    />
 
     <!-- Filter -->
     <ProjectFilter :categories="{

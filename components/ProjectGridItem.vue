@@ -3,15 +3,17 @@
 
   export default {
     props: {
-      project: Object,
-      required: true,
+      project: {
+        type: Object,
+        required: true,
+      },
     },
     computed: {
-      filterClasses() {
+      filterClasses () {
         return collect(this.project.categories).map((cat, name) => collect(cat).map(id => `${name}-${id}`).join(' ')).join(' ');
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
 
 <template>
@@ -26,12 +28,13 @@
         :image="project.image"
       />
       <div class="project-grid-item__overlay">
-        <h2 class="project-grid-item__title">{{ project.title }}</h2>
+        <h2 class="project-grid-item__title">
+          {{ project.title }}
+        </h2>
       </div>
     </nuxt-link>
   </aside>
 </template>
-
 
 <style lang="scss">
   .project-grid-item {

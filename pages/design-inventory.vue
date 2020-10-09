@@ -2,12 +2,12 @@
   export default {
     data () {
       return {
-        sizes: ['mouse', 'rat', 'cat', 'dog', 'pony', 'horse', ],
-        types: ['default', 'title', 'title--page', 'title--hero', 'lead', ],
+        sizes: ['mouse', 'rat', 'cat', 'dog', 'pony', 'horse'],
+        types: ['default', 'title', 'title--page', 'title--hero', 'lead'],
       };
     },
     methods: {
-      exampleImage (id, title, width = 1600, height = 900,) {
+      exampleImage (id, title, width = 1600, height = 900) {
         return {
           width,
           height,
@@ -36,7 +36,7 @@
           v-for="(size, i) in sizes"
           :key="i"
           class="size"
-          :style="{'--size': `var(--size-${size})`,}"
+          :style="{'--size': `var(--size-${size})`}"
         >
           <span>{{ size }}</span>
         </div>
@@ -130,7 +130,7 @@
         author: 'Svetlana Kuster, ZKB',
         background: {
           type: 'image',
-          image: exampleImage(1038, 'kitten',),
+          image: exampleImage(1038, 'kitten'),
         },
       }"
     />
@@ -141,7 +141,7 @@
         body: 'Wer glaubt etwas zu sein, hat aufgehört es zu werden',
         background: {
           type: 'image',
-          image: exampleImage(1038, 'kitten',),
+          image: exampleImage(1038, 'kitten'),
         },
       }"
     />
@@ -154,7 +154,7 @@
         header: 'Vision.',
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         images:[
-          exampleImage(1038, 'kitten',),
+          exampleImage(1038, 'kitten'),
         ],
       }"
     />
@@ -165,7 +165,7 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'right',
         images:[
-          exampleImage(1038, 'kitten',),
+          exampleImage(1038, 'kitten'),
         ],
       }"
     />
@@ -176,7 +176,7 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'top',
         images:[
-          exampleImage(1019, 'sky',),
+          exampleImage(1019, 'sky'),
         ],
       }"
     />
@@ -187,7 +187,7 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'background',
         images:[
-          exampleImage(1021, 'people',),
+          exampleImage(1021, 'people'),
         ],
       }"
     />
@@ -200,10 +200,10 @@
         header: 'Vision.',
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         images:[
-          exampleImage(1042, 'people', 700, 438,),
-          exampleImage(1047, 'people', 700, 438,),
-          exampleImage(1052, 'people', 700, 438,),
-          exampleImage(153, 'people', 700, 438,),
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
         ],
       }"
     />
@@ -214,10 +214,10 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'right',
         images:[
-          exampleImage(1042, 'people', 700, 438,),
-          exampleImage(1047, 'people', 700, 438,),
-          exampleImage(1052, 'people', 700, 438,),
-          exampleImage(153, 'people', 700, 438,),
+          exampleImage(1042, 'people', 700, 438),
+          exampleImage(1047, 'people', 700, 438),
+          exampleImage(1052, 'people', 700, 438),
+          exampleImage(153, 'people', 700, 438),
         ],
       }"
     />
@@ -228,8 +228,8 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'top',
         images:[
-          exampleImage(1053, 'people', 1250, 500,),
-          exampleImage(1060, 'people', 1250, 500,),
+          exampleImage(1053, 'people', 1250, 500),
+          exampleImage(1060, 'people', 1250, 500),
         ],
       }"
     />
@@ -240,11 +240,11 @@
         body: 'Im Bereich virtueller Realitäten können wir alles. Fast alles. Denn seit 20 Jahren wir sind der Schweizer Pionier für zukunftsweisende Visualisierungen, der Ihnen das bietet, worauf es ankommt: Ein breites Angebot. Und eine überragende Qualität.',
         imagePosition: 'background',
         images:[
-          exampleImage(1021, 'people', 1440, 1000,),
-          exampleImage(1022, 'people', 1440, 1000,),
-          exampleImage(1044, 'people', 1440, 1000,),
-          exampleImage(1064, 'people', 1440, 1000,),
-          exampleImage(999, 'people', 1440, 1000,),
+          exampleImage(1021, 'people', 1440, 1000),
+          exampleImage(1022, 'people', 1440, 1000),
+          exampleImage(1044, 'people', 1440, 1000),
+          exampleImage(1064, 'people', 1440, 1000),
+          exampleImage(999, 'people', 1440, 1000),
         ],
       }"
     />
@@ -376,14 +376,14 @@
     <Related
       title="Weitere Welten"
       :entries="[
-        {image: exampleImage(1042, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1047, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1052, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(153, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(153, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1042, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1047, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1052, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
+        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(153, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1052, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
       ]"
     />
 
@@ -393,7 +393,7 @@
     <Related
       title="Weitere Welten"
       :entries="[
-        {image: exampleImage(1042, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
+        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
       ]"
     />
 
@@ -403,8 +403,8 @@
     <Related
       title="Weitere Welten"
       :entries="[
-        {image: exampleImage(1042, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1047, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
+        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
       ]"
     />
 
@@ -414,9 +414,9 @@
     <Related
       title="Weitere Welten"
       :entries="[
-        {image: exampleImage(1042, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1047, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
-        {image: exampleImage(1048, 'people', 700, 438,), slug: 'project-1', title: 'Projektname',},
+        {image: exampleImage(1042, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1047, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
+        {image: exampleImage(1048, 'people', 700, 438), slug: 'project-1', title: 'Projektname'},
       ]"
     />
 

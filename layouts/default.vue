@@ -9,11 +9,14 @@
     },
   };
 </script>
+
 <template>
   <div>
-    <Design />
     <Navigation v-if="!$config.livePreview" />
     <Nuxt />
+    <PageFooter />
+    <!--Functional components -->
+    <Design />
     <Icons />
     <PreviewScrollPosition v-if="$config.livePreview" />
   </div>

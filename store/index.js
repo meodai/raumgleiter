@@ -1,5 +1,6 @@
 export const state = () => ({
   projectMixer: null,
+
 });
 
 export const mutations = {

@@ -19,13 +19,13 @@
 
     computed: {
       images () {
-        return collect(this.fields.entries).pluck('image').all() || [];
+        return collect(this.fields.entries).pluck('image').toArray() || [];
       },
       titles () {
-        return collect(this.fields.entries).pluck('title').all() || [];
+        return collect(this.fields.entries).pluck('title').toArray() || [];
       },
       slugs () {
-        return collect(this.fields.entries).pluck('slug').all() || [];
+        return collect(this.fields.entries).pluck('slug').toArray() || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;

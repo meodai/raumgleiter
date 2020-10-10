@@ -30,50 +30,52 @@
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
-      <address
-        aria-label="Kontaktadresse"
-        class="footer__address footer__col"
-        v-html="footer.address"
-      />
-      <ul class="footer__social">
-        <li>
-          <a href="#">
-            <Icon
-              class="footer__socialIcon"
-              :name="'facebook'"
-              :is-block="true"
-            />
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <Icon
-              class="footer__socialIcon"
-              :name="'instagram'"
-              :is-block="true"
-            />
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <Icon
-              class="footer__socialIcon"
-              :name="'youtube'"
-              :is-block="true"
-            />
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <Icon
-              class="footer__socialIcon"
-              :name="'linkedIn'"
-              :is-block="true"
-            />
-          </a>
-        </li>
-      </ul>
-      <!-- footer.socialLinks -->
+      <div class="footer__col">
+        <address
+          aria-label="Kontaktadresse"
+          class="footer__address"
+          v-html="footer.address"
+        />
+        <ul class="footer__social">
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'facebook'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'instagram'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'youtube'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'linkedIn'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <article class="footer__newsletter footer__col">
         <h4>{{ footer.newsletterLabel }}</h4>
         <form
@@ -170,6 +172,7 @@
 
   .footer__address {
     font-style: normal;
+    margin-bottom: var(--size-mouse);
   }
 
   .footer__address > * {

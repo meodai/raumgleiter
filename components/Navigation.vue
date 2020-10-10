@@ -2,30 +2,20 @@
   import collect from 'collect.js';
 
   export default {
-    async fetch () {
-      this.dropdownItemsByLocale = collect(await this.$craft('header')).keyBy('locale').all();
-    },
     data () {
       return {
         isOpen: false,
-        dropdownItemsByLocale: [],
-        menuItems: [
-          {
-            path: 'projects',
-            title: 'projects',
-          }, {
-            path: 'team',
-            title: 'team',
-          }, {
-            path: { name: 'slug', params: { slug: 'about' } },
-            title: 'about',
-          },
-        ],
       };
     },
     computed: {
+      menuItems () {
+        return this.$store.state.asideSections;
+      },
+      mainSectionsByLocale () {
+        return this.$store.state.mainSectionsByLocale;
+      },
       dropdownItems () {
-        return this.dropdownItemsByLocale[this.$i18n.locale] ? this.dropdownItemsByLocale[this.$i18n.locale].entries : [];
+        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
       },
     },
     methods: {

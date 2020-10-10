@@ -32,18 +32,16 @@
 </script>
 
 <template>
-  <div>
+  <div class="offer-grid l-design-width">
     <h3>{{ fields.header }}</h3>
     <p>{{ fields.lead }}</p>
     <a href="#">{{ fields.linkText }}</a>
-    <br><br>
-    <template v-for="item in fields.items">
-      <hr>
-      <figure style="max-width: 200px">
+
+    <template v-for="(item, i) in fields.items">
+      <figure :key="i">
         <ResponsiveImage v-if="item.images.length" :image="item.images[0]" />
         <figcaption>{{ item.caption }}</figcaption>
       </figure>
     </template>
-    <br><br>
   </div>
 </template>

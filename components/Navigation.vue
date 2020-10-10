@@ -59,7 +59,11 @@
           </li>
         </ul>
         <a class="navigation__location" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
-          Location
+          <Icon
+            class="navigation__locationIcon"
+            :name="'location_plus'"
+            :is-block="true"
+          />
         </a>
       </nav>
     </div>
@@ -229,4 +233,16 @@
       }
     }
   }
+
+  .navigation__location {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: var(--size-mouse);
+
+    .navigation__locationIcon {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
 </style>

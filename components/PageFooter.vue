@@ -35,6 +35,44 @@
         class="footer__address footer__col"
         v-html="footer.address"
       />
+      <ul class="footer__social">
+        <li>
+          <a href="#">
+            <Icon
+              class="footer__socialIcon"
+              :name="'facebook'"
+              :is-block="true"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <Icon
+              class="footer__socialIcon"
+              :name="'instagram'"
+              :is-block="true"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <Icon
+              class="footer__socialIcon"
+              :name="'youtube'"
+              :is-block="true"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <Icon
+              class="footer__socialIcon"
+              :name="'linkedIn'"
+              :is-block="true"
+            />
+          </a>
+        </li>
+      </ul>
       <!-- footer.socialLinks -->
       <article class="footer__newsletter footer__col">
         <h4>{{ footer.newsletterLabel }}</h4>
@@ -190,6 +228,17 @@
       &[aria-selected] {
         font-weight: bold;
       }
+    }
+  }
+  .footer__socialIcon {
+    width: 2.6rem;
+    height: 2.6rem;
+    --color-icon-contrast: #000;
+  }
+  .footer__social {
+    > * {
+      display: inline-block;
+      margin-right: 0.5em;
     }
   }
 </style>

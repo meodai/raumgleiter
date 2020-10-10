@@ -23,10 +23,15 @@
 </script>
 
 <template>
-  <div class="l-design-width  ">
-    <h1>{{ teamPage.header }}</h1>
-    <p>{{ teamPage.lead }}</p>
+  <div class="l-design-width">
     <!-- teamPage.backgroundImage -->
+    <intro
+      :fields="{
+        header: teamPage.header,
+        lead: teamPage.lead,
+      }"
+      :is-white="true"
+    />
 
     <div class="people">
       <article v-for="person in teamPage.people" class="person">

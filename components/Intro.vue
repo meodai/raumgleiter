@@ -78,7 +78,7 @@
   }
 
   .intro__lead {
-    width: 60%;
+    width: 74%;
 
     @include bp(tablet) {
       width: auto;

@@ -48,9 +48,15 @@
             class="person__link"
             :href="'tel:'+person.phone"
           >{{ person.phone }}</a>
-          <ul>
-            <li v-for="link in person.socialLinks">
-              <a :href="link.url" rel="nofollow noopener">{{ link.type }}</a>
+          <ul class="person__links">
+            <li class="person__linksitem" v-for="link in person.socialLinks" :key="link.type">
+              <a :href="link.url" rel="nofollow noopener">
+                <Icon
+                  class="calltoaction__icon"
+                  :name="link.type"
+                  :is-block="true"
+                />
+              </a>
             </li>
           </ul>
         </div>
@@ -90,5 +96,26 @@
 
   .person__image {
     width: 100%;
+  }
+
+  .person__links {
+    text-align: center;
+    margin-top: var(--size-rat);
+  }
+
+  .person__linksitem {
+    display: inline-block;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    a {
+      display: block;
+      width: 100%;
+    }
+
+    .icon {
+      width: 100%;
+    }
   }
 </style>

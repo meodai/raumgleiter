@@ -129,7 +129,7 @@
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">
+        <h3 class="related__sectiontitle t-title">
           {{ fields.title }}
         </h3>
       </div>

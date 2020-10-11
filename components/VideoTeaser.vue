@@ -206,7 +206,7 @@
         oldSlide.slide.zOrder = 1;
         oldSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.75, {
-            x: -this.app.screen.width,
+            x: -this.app.screen.width - (this.app.screen.width * 0.2),
             ease: 'power4.out',
             onComplete: () => {
               if (oldSlide.type === 'video') {

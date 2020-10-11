@@ -41,13 +41,14 @@ If applicable, add screenshots to help explain your problem.
 * [ ] Firefox 80
 * [ ] Safari 13
 * [ ] Safari 12
-
+#### Desktop OS
 * [ ] Windows
 * [ ] Linux
 * [ ] OSX
 
 ### Mobile
-* [ ] Safari 13.1 iOS
+* [ ] Safari 13 iOS
+* [ ] Safari 12 iOS
 * [ ] Chrome 86 Android
 * [ ] Chrome 85 Android
 

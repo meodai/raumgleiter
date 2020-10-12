@@ -1,5 +1,5 @@
 <script>
-  // import { debounce } from 'throttle-debounce';
+  import { debounce } from 'throttle-debounce';
   import collect from 'collect.js';
 
   export default {
@@ -13,6 +13,8 @@
     data () {
       return {
         hasEnteredSite: this.$route.path !== '/',
+        currentSlide: 0,
+        allowTouchSwipe: this.$route.path === '/',
       };
     },
     computed: {
@@ -25,8 +27,12 @@
             video: page.headerVideo.url,
             title: page.header,
             subtitle: page.title,
+            slug: page.slug,
           };
         });
+      },
+      currentVideoTeaser () {
+        return this.videoTeasers[this.currentSlide];
       },
       // swiperIndexByPath () {
       //     return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
@@ -55,30 +61,25 @@
       // }
     },
     mounted () {
-      // window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.listenForScrollEvent);
     },
     beforeDestroy () {
-      // window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('scroll', this.listenForScrollEvent);
     },
     methods: {
-      // slideChange(swiper) {
-      //     // Update route on slide change
-      //     // only if not on home
-      //     if (this.hasEnteredSite) {
-      //         this.$router.push(this.sections[swiper.realIndex].path);
-      //     }
-      // },
-      // handleScroll: debounce(200, function() {
-      //     // Disable swiper when entering a page
-      //     this.allowTouchSwipe = (window.scrollY < 10);
-      //
-      //     if(window.scrollY > 10) {
-      //         if(!this.hasEnteredSite) {
-      //             this.$router.push(this.sections[this.$refs.sectionSwiper.$swiper.realIndex].path);
-      //         }
-      //         this.hasEnteredSite = true;
-      //     }
-      // }),
+      listenForScrollEvent: debounce(50, function () {
+        // Disable swiper when entering a page
+        this.allowTouchSwipe = (window.scrollY < 10);
+
+        if (window.scrollY > 10 && !this.hasEnteredSite) {
+          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+          this.hasEnteredSite = true;
+          this.$nuxt.$emit('stop-video-header');
+        }
+      }),
+      slideUpdate (slide) {
+        this.currentSlide = slide;
+      },
     },
     head () {
       return {
@@ -92,7 +93,10 @@
 <template>
   <div>
     <client-only>
-      <VideoTeaser :entries="videoTeasers" />
+      <VideoTeaser
+        :entries="videoTeasers"
+        @slide="slideUpdate"
+      />
     </client-only>
 
 <!--      <swiper ref="sectionSwiper">-->

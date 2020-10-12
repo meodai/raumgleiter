@@ -1,7 +1,7 @@
 <script>
-  import Hls from 'hls.js';
+import Hls from 'hls.js';
 
-  export default {
+export default {
     props: {
       startEq: {
         type: Number,
@@ -29,6 +29,7 @@
         loader: new PIXI.Loader(),
         currentSlideEq: 0,
         sliderHasStarted: false,
+        sliderIsPlaying: true,
       };
     },
     computed: {
@@ -46,6 +47,9 @@
 
       this.loadVideos();
       ticker.start();
+      this.$emit('slide', this.startEq);
+
+      this.$nuxt.$on('stop-video-header', this.stopSlider);
 
       // create a video texture from a path
       // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
@@ -84,8 +88,8 @@
       this.pixiSlides = [];
     },
     methods: {
-      partSize  (multiplyer = 1) {
-        return 1 / this.slices * multiplyer;
+      partSize  (multiplier = 1) {
+        return 1 / this.slices * multiplier;
       },
       createPIXIApp () {
         return new PIXI.Application({
@@ -100,8 +104,6 @@
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
-        // $video.loop = true;
-        // $video.src = src;
 
         $video.onended = () => {
           this.videoEnded($video);
@@ -110,16 +112,10 @@
         // Load video source
         if ($video.canPlayType('application/vnd.apple.mpegurl') || extension !== 'm3u8') {
           $video.src = src;
-          // video.addEventListener('loadedmetadata', function() {
-          //   video.play();
-          // });
         } else if (Hls.isSupported()) {
           const hls = new Hls();
           hls.loadSource(src);
           hls.attachMedia($video);
-          // hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          // video.play();
-          // });
         }
 
         $video.pause();
@@ -132,13 +128,14 @@
       },
 
       createBlankTexture () {
-        const texture = PIXI.Texture.EMPTY;
-        return texture;
+        return PIXI.Texture.EMPTY;
       },
 
       videoEnded ($video) {
-        if (this.loopVideos) {
+        if (this.loopVideos && this.sliderIsPlaying) {
           this.slideToNext();
+        } else {
+          $video.play();
         }
       },
 
@@ -165,8 +162,6 @@
             videoScale = height / 1080;
             moveDelta.x = videoScale * 1920 - width;
           }
-
-          // console.log(texture.baseTexture.width, texture.baseTexture.height);
 
           // Stretch to fullscreen
           videoSprite.width = videoScale * 1920;
@@ -197,6 +192,7 @@
         return { slide, slices, partSize };
       },
       slide (eq = 0) {
+        this.$emit('slide', eq);
         this.slideOut();
         this.slideIn(eq);
       },
@@ -225,7 +221,6 @@
         if (newSlide.type === 'video') {
           newSlide.texture.baseTexture.resource.source.play();
         } else {
-          // todo: abort slide on scroll
           setTimeout(this.slideToNext, 8000);
         }
         newSlide.slices.forEach((videoSprite, i) => {
@@ -238,6 +233,10 @@
         this.currentSlideEq = eq;
       },
       slideToNext () {
+        if (!this.sliderIsPlaying) {
+          return;
+        }
+
         let nextEq = this.currentSlideEq + 1;
         if (nextEq > this.pixiSlides.length - 1) {
           nextEq = 0;
@@ -253,8 +252,6 @@
           } else if (entry.title) {
             const texture = this.createBlankTexture();
             this.addSlide(texture, 'blank');
-          } else {
-            console.error('VIDEO TEASER: missing resources for video teasers');
           }
         });
 
@@ -282,6 +279,9 @@
           this.sliderHasStarted = true;
           this.slideIn(0);
         }
+      },
+      stopSlider () {
+        this.sliderIsPlaying = false;
       },
     },
   };

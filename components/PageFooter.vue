@@ -88,15 +88,16 @@
         </li>
       </ul>
       <ul aria-label="Language" class="footer__lang footer__col">
-        <li>
-          <a
-            aria-selected
-            aria-label="Deutsch"
-            href="#"
-          >D</a>
+        <li
+          v-for="locale in $i18n.locales"
+          :key="locale.code"
+        >
+          <nuxt-link
+            :aria-selected="locale.code === $i18n.locale"
+            :aria-label="locale.name"
+            :to="switchLocalePath(locale.code)"
+          >{{ locale.code.toUpperCase().charAt(0) }}</nuxt-link>
         </li>
-        <li><a aria-label="English" href="#">E</a></li>
-        <li><a aria-label="Français" href="#">F</a></li>
       </ul>
     </div>
   </div>

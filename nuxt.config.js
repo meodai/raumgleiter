@@ -83,8 +83,8 @@ export default {
     strategy: 'prefix_except_default',
     locales: [
       { code: 'de', file: 'de.js' },
-      { code: 'fr', file: 'fr.js' },
       { code: 'en', file: 'en.js' },
+      { code: 'fr', file: 'fr.js' },
     ],
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },

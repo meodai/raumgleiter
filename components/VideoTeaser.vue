@@ -3,11 +3,6 @@
 
   export default {
     props: {
-      startEq: {
-        type: Number,
-        required: false,
-        default: 0,
-      },
       slices: {
         type: Number,
         required: false,
@@ -37,6 +32,9 @@
         return this.$props.entries.map(entry => (entry.video));
       },
     },
+    created () {
+      this.$nuxt.$on('stop-video-header', this.stopSlider);
+    },
     mounted () {
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
@@ -47,12 +45,6 @@
 
       this.loadVideos();
       ticker.start();
-      this.$emit('slide', this.startEq);
-
-      this.$nuxt.$on('stop-video-header', this.stopSlider);
-
-      // create a video texture from a path
-      // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
 
       /*
       const {
@@ -86,6 +78,7 @@
         this.app = null;
       }
       this.pixiSlides = [];
+      this.$nuxt.$off('stop-video-header', this.stopSlider);
     },
     methods: {
       partSize  (multiplier = 1) {

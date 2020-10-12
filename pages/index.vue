@@ -12,9 +12,10 @@
     },
     data () {
       return {
-        hasEnteredSite: this.$route.path !== '/',
-        currentSlide: 0,
+        hasScrolledDown: this.$route.path !== '/',
         allowTouchSwipe: this.$route.path === '/',
+        enteredSiteOnIndex: this.$route.path === '/',
+        currentSlide: 0,
       };
     },
     computed: {
@@ -22,7 +23,7 @@
         return this.pagesByLocale[this.$i18n.locale];
       },
       videoTeasers () {
-        return this.pagesInCurrentLocale.map((page) => {
+        let slides = collect(this.pagesInCurrentLocale).map((page) => {
           return {
             video: page.headerVideo.url,
             title: page.header,
@@ -30,6 +31,12 @@
             slug: page.slug,
           };
         });
+        if (!this.enteredSiteOnIndex) {
+          const indexBySlug = slides.search((item, key) => item.slug === this.$route.params.slug);
+          const firstPart = slides.splice(indexBySlug);
+          slides = firstPart.merge(slides.all());
+        }
+        return slides.all();
       },
       currentVideoTeaser () {
         return this.videoTeasers[this.currentSlide];
@@ -54,8 +61,8 @@
       // allowTouchSwipe(allowTouchSwipe) {
       //     this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
       // },
-      // hasEnteredSite(hasEnteredSite) {
-      //     if (hasEnteredSite) {
+      // hasScrolledDown(hasScrolledDown) {
+      //     if (hasScrolledDown) {
       //         // this.$refs.sectionSwiper.$swiper.autoplay.stop();
       //     }
       // }
@@ -71,9 +78,9 @@
         // Disable swiper when entering a page
         this.allowTouchSwipe = (window.scrollY < 10);
 
-        if (window.scrollY > 10 && !this.hasEnteredSite) {
+        if (window.scrollY > 10 && !this.hasScrolledDown) {
           this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
-          this.hasEnteredSite = true;
+          this.hasScrolledDown = true;
           this.$nuxt.$emit('stop-video-header');
         }
       }),
@@ -84,7 +91,7 @@
     head () {
       return {
         // title: this.currentSection.name,
-        // titleTemplate: this.hasEnteredSite ? '%s - Raumgleiter' : 'Raumgleiter',
+        // titleTemplate: this.hasScrolledDown ? '%s - Raumgleiter' : 'Raumgleiter',
       };
     },
   };
@@ -95,26 +102,26 @@
     <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"
-        :loop-videos="!hasEnteredSite"
+        :loop-videos="!hasScrolledDown"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>
 
-<!--      <swiper ref="sectionSwiper">-->
-<!--        <swiper-slide-->
-<!--          v-for="(page, index) in pagesInCurrentLocale"-->
-<!--          :key="'page'+index"-->
-<!--        >-->
-<!--          <div class="sectionHeader">-->
-<!--            <h2>{{ page.title }}</h2>-->
-<!--          </div>-->
+    <!--      <swiper ref="sectionSwiper">-->
+    <!--        <swiper-slide-->
+    <!--          v-for="(page, index) in pagesInCurrentLocale"-->
+    <!--          :key="'page'+index"-->
+    <!--        >-->
+    <!--          <div class="sectionHeader">-->
+    <!--            <h2>{{ page.title }}</h2>-->
+    <!--          </div>-->
 
-<!--          &lt;!&ndash; Page Content &ndash;&gt;-->
-<!--          <div class="sectionContent">-->
-<!--            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />-->
-<!--          </div>-->
-<!--        </swiper-slide>-->
-<!--      </swiper>-->
+    <!--          &lt;!&ndash; Page Content &ndash;&gt;-->
+    <!--          <div class="sectionContent">-->
+    <!--            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />-->
+    <!--          </div>-->
+    <!--        </swiper-slide>-->
+    <!--      </swiper>-->
   </div>
 </template>
 

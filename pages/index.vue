@@ -1,14 +1,10 @@
 <script>
-  import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-  import { debounce } from 'throttle-debounce';
+  // import { debounce } from 'throttle-debounce';
   import collect from 'collect.js';
 
   export default {
     key: '_index',
-    components: {
-      Swiper,
-      SwiperSlide,
-    },
+    components: {},
     async asyncData ({ $craft }) {
       const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();
 
@@ -96,38 +92,26 @@
   <div>
     <client-only>
       <VideoTeaser :entries="videoTeasers" />
-
-      <swiper ref="sectionSwiper">
-        <swiper-slide
-          v-for="(page, index) in pagesInCurrentLocale"
-          :key="'page'+index"
-        >
-          <div class="sectionHeader">
-            <h2>{{ page.title }}</h2>
-          </div>
-
-          <!-- Page Content -->
-          <div class="sectionContent">
-            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />
-          </div>
-        </swiper-slide>
-      </swiper>
     </client-only>
+
+<!--      <swiper ref="sectionSwiper">-->
+<!--        <swiper-slide-->
+<!--          v-for="(page, index) in pagesInCurrentLocale"-->
+<!--          :key="'page'+index"-->
+<!--        >-->
+<!--          <div class="sectionHeader">-->
+<!--            <h2>{{ page.title }}</h2>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Page Content &ndash;&gt;-->
+<!--          <div class="sectionContent">-->
+<!--            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />-->
+<!--          </div>-->
+<!--        </swiper-slide>-->
+<!--      </swiper>-->
   </div>
 </template>
 
-<style lang="postcss">
-@import 'swiper/swiper-bundle.css';
+<style lang="scss">
 
-.sectionHeader {
-  display: flex;
-  justify-content: space-around;
-  min-height: 20vh;
-}
-
-.sectionContent {
-  height: 100vh;
-  background-color: #cfcfd2;
-  max-width: 100vw;
-}
 </style>

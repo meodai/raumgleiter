@@ -18,64 +18,84 @@
       teamPage () {
         return this.teamPageByLocale[this.$i18n.locale];
       },
+      videoTeaser () {
+        return [{
+          video: this.teamPage.headerVideo.url,
+          title: this.teamPage.headerVideo.header,
+          subtitle: this.teamPage.title,
+        }];
+      },
     },
   };
 </script>
 
 <template>
-  <div class="l-design-width">
-    <Intro
-      :fields="{
-        header: teamPage.header,
-        lead: teamPage.lead,
-      }"
-      :is-white="true"
-    />
+  <div>
+    <client-only>
+      <VideoTeaser
+        v-if="!$config.livePreview"
+        :entries="videoTeaser"
+      />
+    </client-only>
 
-    <div class="people">
-      <article
-        v-for="(person, i) in teamPage.people"
-        :key="'team-'+i"
-        class="person"
-      >
-        <ResponsiveImage class="person__image" :image="person.image" />
-        <div class="person__body">
-          <h2 class="person__name">
-            {{ person.name }}
-          </h2>
-          <h3 class="person__role">
-            {{ person.role }}
-          </h3>
-          <a
-            v-if="person.email"
-            class="person__link"
-            :href="'mailto:'+person.email"
-          >{{ person.email }}</a>
-          <a
-            v-if="person.phone"
-            class="person__link"
-            :href="'tel:'+person.phone"
-          >{{ person.phone }}</a>
-          <ul class="person__links">
-            <li
-              v-for="link in person.socialLinks"
-              :key="'team-'+i+'-social-'+link.type"
-              class="person__linksitem"
-            >
-              <a :href="link.url" rel="nofollow noopener">
-                <Icon
-                  class="calltoaction__icon"
-                  :name="link.type"
-                  :is-block="true"
-                />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </article>
+    <div class="l-design-width">
+      <Intro
+        :fields="{
+          header: teamPage.header,
+          lead: teamPage.lead,
+        }"
+        :is-white="true"
+      />
+
+      <div class="people">
+        <article
+          v-for="(person, i) in teamPage.people"
+          :key="'team-'+i"
+          class="person"
+        >
+          <ResponsiveImage
+            v-if="person.image"
+            class="person__image"
+            :image="person.image"
+          />
+          <div class="person__body">
+            <h2 class="person__name">
+              {{ person.name }}
+            </h2>
+            <h3 class="person__role">
+              {{ person.role }}
+            </h3>
+            <a
+              v-if="person.email"
+              class="person__link"
+              :href="'mailto:'+person.email"
+            >{{ person.email }}</a>
+            <a
+              v-if="person.phone"
+              class="person__link"
+              :href="'tel:'+person.phone"
+            >{{ person.phone }}</a>
+            <ul class="person__links">
+              <li
+                v-for="link in person.socialLinks"
+                :key="'team-'+i+'-social-'+link.type"
+                class="person__linksitem"
+              >
+                <a :href="link.url" rel="nofollow noopener">
+                  <Icon
+                    class="calltoaction__icon"
+                    :name="link.type"
+                    :is-block="true"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <Pagebuilder slug="team" :blocks="teamPage.cta" />
     </div>
-
-    <Pagebuilder slug="team" :blocks="teamPage.cta" />
   </div>
 </template>
 

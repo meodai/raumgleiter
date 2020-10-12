@@ -40,7 +40,11 @@
       }"
       :is-white="true"
     >
-      <aside class="offer-grid-text__block" v-for="(textBlock, i) in fields.textBlocks" :key="i">
+      <aside
+        v-for="(textBlock, i) in fields.textBlocks"
+        :key="'offerGridText'+i"
+        class="offer-grid-text__block"
+      >
         <h4 class="offer-grid-text__subtitle">{{ textBlock.header }}</h4>
         <p class="offer-grid-text__subtext">{{ textBlock.body }}</p>
       </aside>

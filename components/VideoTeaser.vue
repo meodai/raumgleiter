@@ -84,6 +84,9 @@
       this.pixiSlides = [];
     },
     methods: {
+      partSize  (multiplyer = 1) {
+        return 1 / this.slices * multiplyer;
+      },
       createPIXIApp () {
         return new PIXI.Application({
           transparent: false,
@@ -142,7 +145,7 @@
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
-        const partSize = 1 / slices.length;
+        const partSize = this.partSize();
 
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
@@ -203,7 +206,7 @@
         oldSlide.slide.zOrder = 1;
         oldSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.75, {
-            x: -this.app.screen.width,
+            x: -this.app.screen.width - (this.app.screen.width * 0.2),
             ease: 'power4.out',
             onComplete: () => {
               if (oldSlide.type === 'video') {
@@ -218,6 +221,7 @@
         const newSlide = this.pixiSlides[eq];
 
         newSlide.slide.zOrder = 2;
+
         if (newSlide.type === 'video') {
           newSlide.texture.baseTexture.resource.source.play();
         } else {
@@ -227,7 +231,7 @@
         newSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.5, {
             x: newSlide.partSize * this.app.screen.width * i,
-            ease: 'power4.out',
+            ease: 'power4.in',
           });
         });
 
@@ -288,6 +292,32 @@
 <template>
   <div class="video-teaser">
     <div ref="canvas" class="video-teaser__canvas" />
+    <section
+      v-for="(entry, i) in entries"
+      :key="i"
+      :class="{'video-teaser__slider--active': currentSlideEq === i}"
+      class="video-teaser__slider"
+    >
+      <div
+        v-for="(slice, j) in slices"
+        :key="j"
+        class="video-teaser__slice"
+        :style="{
+          'clip-path': `inset(0% ${100 - partSize(j + 1) * 100}% 0% ${partSize(j) * 100}%)`,
+        }"
+      >
+        <div class="video-teaser__slideInner">
+          <div class="video-teaser__header">
+            <h2 class="video-teaser__title">
+              {{ entry.title }}
+            </h2>
+            <h3 class="video-teaser__subtitle">
+              nice subtitle
+            </h3>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -298,6 +328,7 @@
     width: 100vw;
     height: -webkit-fill-available;
     height: 100vh;
+    overflow: hidden;
     //overflow: hidden;
 
     &__canvas {
@@ -307,5 +338,57 @@
       right: 0;
       bottom: 0;
     }
+  }
+
+  .video-teaser__slider,
+  .video-teaser__slice,
+  .video-teaser__slideInner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .video-teaser__slideInner {
+    transform: translateX(100%);
+  }
+
+  .video-teaser__slider--active .video-teaser__slice {
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) .video-teaser__slideInner {
+        transition-delay: 100ms + $i * 100ms;
+      }
+    }
+  }
+
+  .video-teaser__slider--active .video-teaser__slideInner {
+    transform: translateX(0%);
+    transition: 800ms transform cubic-bezier(0.7,0.3,0,1);
+
+  }
+
+  .video-teaser__header {
+    position: absolute;
+    top: 4.5rem;
+    left: 10rem;
+    right: 20rem;
+    color: var(--color-text--inverted);
+  }
+
+  .video-teaser__title {
+    @include typo('title--hero');
+  }
+
+  .video-teaser__subtitle {
+    @include typo('default');
+    margin-top: var(--size-rat);
+    opacity: 0;
+  }
+
+  .video-teaser__slider--active .video-teaser__subtitle {
+    transition: 300ms opacity 1100ms;
+    opacity: 1;
+    color: var(--color-text--inverted);
   }
 </style>

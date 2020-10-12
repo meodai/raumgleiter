@@ -32,15 +32,52 @@
 </script>
 
 <template>
-  <div>
-    <h3>{{ fields.header }}</h3>
-    <p>{{ fields.lead }}</p><br>
-    <br><br><br>
-
-    <template v-for="textBlock in fields.textBlocks">
-      <h4>{{ textBlock.header }}</h4>
-      <p>{{ textBlock.body }}</p>
-      <br>
-    </template>
+  <div class="offer-grid-text">
+    <intro
+      :fields="{
+        header: fields.header,
+        lead: fields.lead,
+      }"
+      :is-white="true"
+    >
+      <aside class="offer-grid-text__block" v-for="(textBlock, i) in fields.textBlocks" :key="i">
+        <h4 class="offer-grid-text__subtitle">{{ textBlock.header }}</h4>
+        <p class="offer-grid-text__subtext">{{ textBlock.body }}</p>
+      </aside>
+    </intro>
   </div>
 </template>
+
+<style lang="scss">
+  .offer-grid-text {
+    --color-layout--background: #f8f8f8;
+  }
+
+  .offer-grid-text__block {
+    margin-top: var(--size-cat);
+
+    &:nth-child(2),
+    &:nth-child(5) {
+      margin-left: 55%;
+    }
+
+    &:nth-child(3),
+    &:nth-child(6) {
+      margin-left: 0%;
+      margin-right: 55%;
+    }
+
+    &:nth-child(4) {
+      margin-left: 25%;
+      margin-right: 25%;
+    }
+  }
+
+  .offer-grid-text__subtitle {
+    @include typo('title');
+  }
+
+  .offer-grid-text__subtext {
+    margin-top: 1em;
+  }
+</style>

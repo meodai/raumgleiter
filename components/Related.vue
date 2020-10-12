@@ -129,7 +129,7 @@
   >
     <div v-if="hasImages" class="related__images related__images--slider">
       <div class="l-design-width">
-        <h3 class="related__title t-title">
+        <h3 class="related__sectiontitle t-title">
           {{ fields.title }}
         </h3>
       </div>
@@ -139,6 +139,7 @@
           :key="'related'+ i + entry.title"
           :ref="'slide'"
           class="related__slide"
+          :class="['related__slide--' + (images[i] && images[i]['orientation']), (images[i] ? '' : 'related__slide--noImage') ]"
         >
           <nuxt-link
             :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
@@ -183,8 +184,16 @@
     top: 0;
     left: 75%;
     width: 50%;
+    background: #f8f8f8;
     will-change: transform;
     transform: translateX(220%);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      display: block;
+      padding-top: (450/720) * 100%;
+    }
 
     &:first-child {
       transform: translateX(-100%);
@@ -197,8 +206,25 @@
     }
   }
 
+
+  /*
+  .related__slide--portrait {
+    height: 45rem;
+    .related__image {
+      width: auto;
+      height: 100%;
+      margin: 0 auto;
+    }
+  }*/
+
   .related__image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    object-fit: contain;
     width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
 
     &--placeholder {
       visibility: hidden;
@@ -216,6 +242,7 @@
     opacity: 0;
     transition: 200ms opacity cubic-bezier(0, 0, 0.3, 0.1);
 
+    .related__slide--noImage &,
     .related__slide:hover & {
       opacity: 1;
     }
@@ -231,6 +258,7 @@
 
     transition: 500ms transform cubic-bezier(0.7, 0.3, 0, 1);
 
+    .related__slide--noImage &,
     .related__slide:hover & {
       transform: translate(-50%,-50%);
     }

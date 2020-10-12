@@ -2,30 +2,20 @@
   import collect from 'collect.js';
 
   export default {
-    async fetch () {
-      this.dropdownItemsByLocale = collect(await this.$craft('header')).keyBy('locale').all();
-    },
     data () {
       return {
         isOpen: false,
-        dropdownItemsByLocale: [],
-        menuItems: [
-          {
-            path: 'projects',
-            title: 'projects',
-          }, {
-            path: 'team',
-            title: 'team',
-          }, {
-            path: { name: 'slug', params: { slug: 'about' } },
-            title: 'about',
-          },
-        ],
       };
     },
     computed: {
+      menuItems () {
+        return this.$store.state.asideSections;
+      },
+      mainSectionsByLocale () {
+        return this.$store.state.mainSectionsByLocale;
+      },
       dropdownItems () {
-        return this.dropdownItemsByLocale[this.$i18n.locale] ? this.dropdownItemsByLocale[this.$i18n.locale].entries : [];
+        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
       },
     },
     methods: {
@@ -69,7 +59,11 @@
           </li>
         </ul>
         <a class="navigation__location" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
-          Location
+          <Icon
+            class="navigation__locationIcon"
+            :name="'location_plus'"
+            :is-block="true"
+          />
         </a>
       </nav>
     </div>
@@ -239,4 +233,16 @@
       }
     }
   }
+
+  .navigation__location {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: var(--size-mouse);
+
+    .navigation__locationIcon {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
 </style>

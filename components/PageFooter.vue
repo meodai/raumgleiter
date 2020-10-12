@@ -12,24 +12,70 @@
     },
     computed: {
       footer () {
-        return this.footerByLocale[this.$i18n.locale];
+        return this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
+      },
+      mainSectionsByLocale () {
+        return this.$store.state.mainSectionsByLocale;
+      },
+      mainSections () {
+        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
       },
     },
   };
 </script>
 
 <template>
-  <div class="footer">
+  <div v-if="footer" class="footer">
     <div class="footer__inner">
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
-      <address
-        aria-label="Kontakt Adresse"
-        class="footer__address footer__col"
-        v-html="footer.address"
-      />
-      <!-- footer.socialLinks -->
+      <div class="footer__col">
+        <address
+          aria-label="Kontaktadresse"
+          class="footer__address"
+          v-html="footer.address"
+        />
+        <ul class="footer__social">
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'facebook'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'instagram'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'youtube'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <Icon
+                class="footer__socialIcon"
+                :name="'linkedIn'"
+                :is-block="true"
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <article class="footer__newsletter footer__col">
         <h4>{{ footer.newsletterLabel }}</h4>
         <form
@@ -126,6 +172,7 @@
 
   .footer__address {
     font-style: normal;
+    margin-bottom: var(--size-mouse);
   }
 
   .footer__address > * {
@@ -184,6 +231,17 @@
       &[aria-selected] {
         font-weight: bold;
       }
+    }
+  }
+  .footer__socialIcon {
+    width: 2.6rem;
+    height: 2.6rem;
+    --color-icon-contrast: #000;
+  }
+  .footer__social {
+    > * {
+      display: inline-block;
+      margin-right: 0.5em;
     }
   }
 </style>

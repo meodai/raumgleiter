@@ -280,7 +280,6 @@
 
         if (!this.sliderHasStarted) {
           this.sliderHasStarted = true;
-          console.log('Start video');
           this.slideIn(0);
         }
       },
@@ -294,13 +293,13 @@
     <div ref="canvas" class="video-teaser__canvas" />
     <section
       v-for="(entry, i) in entries"
-      :key="i"
+      :key="'video-teaser-slice-'+i"
       :class="{'video-teaser__slider--active': currentSlideEq === i}"
       class="video-teaser__slider"
     >
       <div
         v-for="(slice, j) in slices"
-        :key="j"
+        :key="'video-teaser-slice-'+i+'-'+j"
         class="video-teaser__slice"
         :style="{
           'clip-path': `inset(0% ${100 - partSize(j + 1) * 100}% 0% ${partSize(j) * 100}%)`,
@@ -312,7 +311,7 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              nice subtitle
+              {{ entry.subtitle }}
             </h3>
           </div>
         </div>

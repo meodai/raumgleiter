@@ -24,6 +24,7 @@
           return {
             video: page.headerVideo.url,
             title: page.header,
+            subtitle: page.title,
           };
         });
       },

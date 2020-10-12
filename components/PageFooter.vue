@@ -17,6 +17,9 @@
       mainSections () {
         return this.$store.getters.getMainSections;
       },
+      asideSections () {
+        return this.$store.state.asideSections;
+      },
     },
   };
 </script>
@@ -67,18 +70,22 @@
       <ul class="footer__nav footer__col">
         <li
           v-for="(section, key) in mainSections"
-          :key="'footer-links-'+key"
+          :key="'footer-main-links-'+key"
         >
           <nuxt-link :to="localePath(section.path)">
             {{ section.title }}
           </nuxt-link>
         </li>
 
-        <li class="footer__navgap footer__col">
-          <a href="#">Projekte</a>
+        <li
+          v-for="(section, index) in asideSections"
+          :key="'footer-aside-links-'+index"
+          :class="{ 'footer__navgap footer__col': index === 0 }"
+        >
+          <nuxt-link :to="localePath(section.path)">
+            {{ $t(section.title) }}
+          </nuxt-link>
         </li>
-        <li><a href="#">Team</a></li>
-        <li><a href="#">About</a></li>
       </ul>
       <ul aria-label="Language" class="footer__lang footer__col">
         <li>

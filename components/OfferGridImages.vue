@@ -45,7 +45,7 @@
     </div>
     <div class="offer-grid__images">
       <template v-for="(item, i) in fields.items">
-        <figure class="offer-grid__image" :key="i">
+        <figure class="offer-grid__image" :key="'offer-grid-images'+i">
           <ResponsiveImage v-if="item.images.length" :image="item.images[0]" />
           <figcaption class="offer-grid__caption">{{ item.caption }}</figcaption>
         </figure>

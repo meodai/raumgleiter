@@ -33,7 +33,7 @@
 
 <template>
   <div class="offer-grid-text">
-    <intro
+    <Intro
       :fields="{
         header: fields.header,
         lead: fields.lead,
@@ -48,7 +48,7 @@
         <h4 class="offer-grid-text__subtitle">{{ textBlock.header }}</h4>
         <p class="offer-grid-text__subtext">{{ textBlock.body }}</p>
       </aside>
-    </intro>
+    </Intro>
   </div>
 </template>
 

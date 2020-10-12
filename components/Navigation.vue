@@ -24,9 +24,9 @@
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
     <div class="navigation__bar">
-      <a class="navigation__logo-link" href="/">
+      <nuxt-link class="navigation__logo-link" to="/">
         <Logo class="navigation__logo" />
-      </a>
+      </nuxt-link>
       <button
         id="navigation-trigger"
         aria-haspopup="true"
@@ -35,12 +35,12 @@
         class="navigation__trigger"
         @click="toggleDrawer"
       >
-        Explore
+        {{ $t('explore') }}
         <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />
       </button>
       <nav
         class="navigation__company"
-        aria-label="Company Navigation"
+        :aria-label="$t('mainNavigation')"
       >
         <ul class="navigation__menu">
           <li

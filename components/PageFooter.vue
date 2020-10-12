@@ -32,7 +32,7 @@
       </a>
       <div class="footer__col">
         <address
-          aria-label="Kontaktadresse"
+          :aria-label="$t('address')"
           class="footer__address"
           v-html="footer.address"
         />
@@ -61,10 +61,10 @@
         >
           <input
             type="email"
-            placeholder="e-mail"
+            :placeholder="$t('email')"
             required="required"
           >
-          <button>subscribe</button>
+          <button>{{ $t('subscribe') }}</button>
         </form>
       </article>
       <ul class="footer__nav footer__col">
@@ -87,7 +87,7 @@
           </nuxt-link>
         </li>
       </ul>
-      <ul aria-label="Language" class="footer__lang footer__col">
+      <ul :aria-label="$t('language')" class="footer__lang footer__col">
         <li
           v-for="locale in $i18n.locales"
           :key="locale.code"
@@ -96,7 +96,9 @@
             :aria-selected="locale.code === $i18n.locale"
             :aria-label="locale.name"
             :to="switchLocalePath(locale.code)"
-          >{{ locale.code.toUpperCase().charAt(0) }}</nuxt-link>
+          >
+            {{ locale.code.toUpperCase().charAt(0) }}
+          </nuxt-link>
         </li>
       </ul>
     </div>

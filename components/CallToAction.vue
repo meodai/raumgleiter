@@ -44,7 +44,7 @@
   <article
     v-if="showFirstRow || showSecondRow"
     class="calltoaction"
-    aria-label="Contact Us"
+    aria-label="$t('contactUs')"
     :class="{'calltoaction--fullwidth': fields.fullwidth}"
   >
     <div class="calltoaction__background" v-if="fields.background">
@@ -90,7 +90,6 @@
 </template>
 
 <style lang="scss">
-
   .calltoaction--fullwidth {
     display: flex;
     vertical-align: middle;

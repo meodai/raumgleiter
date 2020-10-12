@@ -155,18 +155,14 @@
       v-else-if="fields.video && fields.video.vimeoId"
       class="image-block__video"
     >
-      <VimeoEmbed
-        :video="fields.video"
-      />
+      <VimeoEmbed :video="fields.video" />
     </div>
 
     <div
       v-else-if="hasIframe"
       class="image-block__iframe"
     >
-      <IframeEmbed
-        :iframe="fields.iframe"
-      />
+      <IframeEmbed :iframe="fields.iframe" />
     </div>
   </article>
 </template>

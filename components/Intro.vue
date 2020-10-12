@@ -51,7 +51,6 @@
     </div>
     <aside
       v-for="(offers, index) in fields.offers"
-      v-if="fields.offers.length"
       :key="'offers'+index"
       class="intro__list-wrap"
     >

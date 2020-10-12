@@ -93,9 +93,9 @@
           </div>
         </article>
       </div>
-
-      <Pagebuilder slug="team" :blocks="teamPage.cta" />
     </div>
+
+    <Pagebuilder slug="team" :blocks="teamPage.cta" />
   </div>
 </template>
 

@@ -65,12 +65,14 @@
         </form>
       </article>
       <ul class="footer__nav footer__col">
-        <li><a href="#">Virtual Real Estate</a></li>
-        <li><a href="#">Virtuelle Vermarktung</a></li>
-        <li><a href="#">Virtueller Wettbewerb</a></li>
-        <li><a href="#">Virtuelle Konfigratoren</a></li>
-        <li><a href="#">Virtuelle Lösungen</a></li>
-        <li><a href="#">Application Development</a></li>
+        <li
+          v-for="(section, key) in mainSections"
+          :key="'footer-links-'+key"
+        >
+          <nuxt-link :to="localePath(section.path)">
+            {{ section.title }}
+          </nuxt-link>
+        </li>
 
         <li class="footer__navgap footer__col">
           <a href="#">Projekte</a>

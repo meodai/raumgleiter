@@ -78,7 +78,7 @@
           class="navigation__drawer-item"
         >
           <nuxt-link
-            :to="localePath(dropdownItem.slug ? { name: 'slug', params: { slug: dropdownItem.slug } } : dropdownItem.path )"
+            :to="localePath(dropdownItem.path)"
             role="menuitem"
           >
             <strong>{{ dropdownItem.title }}</strong>

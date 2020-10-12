@@ -302,7 +302,7 @@
         :key="'video-teaser-slice-'+i+'-'+j"
         class="video-teaser__slice"
         :style="{
-          'clip-path': `inset(0% ${100 - partSize(j + 1) * 100}% 0% ${partSize(j) * 100}%)`,
+          'clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
         }"
       >
         <div class="video-teaser__slideInner">

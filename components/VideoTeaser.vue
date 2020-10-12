@@ -1,7 +1,7 @@
 <script>
-import Hls from 'hls.js';
+  import Hls from 'hls.js';
 
-export default {
+  export default {
     props: {
       startEq: {
         type: Number,
@@ -233,7 +233,7 @@ export default {
         this.currentSlideEq = eq;
       },
       slideToNext () {
-        if (!this.sliderIsPlaying) {
+        if (!this.sliderIsPlaying || !this.loopVideos) {
           return;
         }
 

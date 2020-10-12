@@ -95,6 +95,7 @@
     <client-only>
       <VideoTeaser
         :entries="videoTeasers"
+        :loop-videos="!hasEnteredSite"
         @slide="slideUpdate"
       />
     </client-only>

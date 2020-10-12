@@ -88,6 +88,7 @@ export default {
     ],
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },
+    vuex: { syncLocale: true },
     langDir: 'lang/',
     lazy: true,
   },

@@ -1,6 +1,4 @@
 <script>
-  import collect from 'collect.js';
-
   export default {
     data () {
       return {
@@ -11,11 +9,8 @@
       menuItems () {
         return this.$store.state.asideSections;
       },
-      mainSectionsByLocale () {
-        return this.$store.state.mainSectionsByLocale;
-      },
       dropdownItems () {
-        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
+        return this.$store.getters.getMainSections;
       },
     },
     methods: {

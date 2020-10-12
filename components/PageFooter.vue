@@ -14,11 +14,8 @@
       footer () {
         return this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
       },
-      mainSectionsByLocale () {
-        return this.$store.state.mainSectionsByLocale;
-      },
       mainSections () {
-        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
+        return this.$store.getters.getMainSections;
       },
     },
   };

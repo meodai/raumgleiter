@@ -7,10 +7,12 @@ export const state = () => ({
     {
       path: 'projects',
       title: 'projects',
-    }, {
+    },
+    {
       path: 'team',
       title: 'team',
-    }, {
+    },
+    {
       path: { name: 'slug', params: { slug: 'about' } },
       title: 'about',
     },
@@ -23,6 +25,12 @@ export const mutations = {
   },
   setMainSections (state, sections) {
     state.mainSectionsByLocale = sections;
+  },
+};
+
+export const getters = {
+  getMainSections (state) {
+    return state.mainSectionsByLocale[state.i18n.locale] ? state.mainSectionsByLocale[state.i18n.locale].entries : [];
   },
 };
 

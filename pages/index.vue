@@ -92,13 +92,13 @@
 
 <template>
   <div>
-    <client-only>
+    <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"
         :loop-videos="!hasEnteredSite"
         @slide="slideUpdate"
       />
-    </client-only>
+    </VideoTeaserContainer>
 
 <!--      <swiper ref="sectionSwiper">-->
 <!--        <swiper-slide-->

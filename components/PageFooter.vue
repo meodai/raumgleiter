@@ -34,38 +34,14 @@
           v-html="footer.address"
         />
         <ul class="footer__social">
-          <li>
-            <a href="#">
+          <li
+            v-for="(link, index) in footer.socialLinks"
+            :key="'footer-social-'+index"
+          >
+            <a :href="link.url" rel="noopener nofollow">
               <Icon
                 class="footer__socialIcon"
-                :name="'facebook'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'instagram'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'youtube'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'linkedIn'"
+                :name="link.type"
                 :is-block="true"
               />
             </a>

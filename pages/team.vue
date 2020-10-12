@@ -24,8 +24,7 @@
 
 <template>
   <div class="l-design-width">
-    <!-- teamPage.backgroundImage -->
-    <intro
+    <Intro
       :fields="{
         header: teamPage.header,
         lead: teamPage.lead,
@@ -34,7 +33,11 @@
     />
 
     <div class="people">
-      <article v-for="person in teamPage.people" class="person">
+      <article
+        v-for="(person, i) in teamPage.people"
+        :key="'team-'+i"
+        class="person"
+      >
         <ResponsiveImage class="person__image" :image="person.image" />
         <div class="person__body">
           <h2 class="person__name">
@@ -54,7 +57,11 @@
             :href="'tel:'+person.phone"
           >{{ person.phone }}</a>
           <ul class="person__links">
-            <li class="person__linksitem" v-for="link in person.socialLinks" :key="link.type">
+            <li
+              v-for="link in person.socialLinks"
+              :key="'team-'+i+'-social-'+link.type"
+              class="person__linksitem"
+            >
               <a :href="link.url" rel="nofollow noopener">
                 <Icon
                   class="calltoaction__icon"

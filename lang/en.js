@@ -2,6 +2,7 @@ export default {
   // project index
   sector: 'Sector',
   offer: 'Offer',
+  all: 'All',
 
   // header / footer
   projects: 'Projects',

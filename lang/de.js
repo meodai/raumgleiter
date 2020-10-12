@@ -2,6 +2,7 @@ export default {
   // project index
   sector: 'Sektor',
   offer: 'Angebot',
+  all: 'Alle',
 
   // header / footer
   projects: 'Projekte',
@@ -22,4 +23,7 @@ export default {
   // video
   mute: 'Stumm schalten',
   unmute: 'Ton einschalten',
+
+  // Project
+  moreWorlds: 'Weitere Welten.',
 };

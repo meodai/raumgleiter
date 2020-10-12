@@ -50,7 +50,7 @@
             class="filter__tab"
             @click="setActive()"
           >
-            Alle
+            {{ $t('all') }}
           </button>
         </li>
       </ul>

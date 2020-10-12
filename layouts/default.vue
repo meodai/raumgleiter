@@ -2,6 +2,9 @@
   export default {
     head () {
       return {
+        htmlAttrs: {
+          lang: this.$i18n.locale,
+        },
         bodyAttrs: {
           class: this.$config.livePreview ? 'livePreviewEnabled' : null,
         },

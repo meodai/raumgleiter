@@ -325,10 +325,10 @@
     position: relative;
     display: block;
     width: 100vw;
+    max-width: 100%;
     height: -webkit-fill-available;
     height: 100vh;
     overflow: hidden;
-    //overflow: hidden;
 
     &__canvas {
       position: absolute;

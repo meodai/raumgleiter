@@ -33,7 +33,7 @@
   <div>
     <client-only>
       <VideoTeaser
-        v-if="!$config.livePreview"
+        v-if="!$config.livePreview || $config.devMode"
         :entries="videoTeaser"
       />
     </client-only>

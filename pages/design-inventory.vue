@@ -52,66 +52,6 @@
           :class="`t-${typo}`"
         >t-{{ typo }}</span>
       </div>
-
-      <h2 class="t-title t-title--page t-title--inventory">
-        Grid
-      </h2>
-      <div class="l-grid">
-        <div class="debug l-grid__cell l-grid__cell--1/2">
-          <h3>Width 1/2</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/2">
-          <h3>Width 1/2</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/3">
-          <h3>Width 1/3</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/3">
-          <h3>Width 1/3</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/3">
-          <h3>Width 1/3</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/4">
-          <h3>Width 1/4</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/4">
-          <h3>Width 1/4</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/4">
-          <h3>Width 1/4</h3>
-        </div>
-        <div class="debug l-grid__cell l-grid__cell--1/4">
-          <h3>Width 1/4</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/3 l-grid__cell--push--2/3">
-          <h3>Width 1/3</h3>
-          <h3>Pushed 2/3</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/2 l-grid__cell--push--1/2">
-          <h3>Width 1/2</h3>
-          <h3>Pushed 1/2</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--2/3 l-grid__cell--push--1/3">
-          <h3>Width 2/3</h3>
-          <h3>Pushed 1/3</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/2 l-grid__cell--push--1/4 l-grid__cell--pull--1/4">
-          <h3>Width 2/3</h3>
-          <h3>Pushed 1/3</h3>
-        </div>
-
-        <div class="debug l-grid__cell l-grid__cell--1/2 l-grid__cell--pull--1/2">
-          <h3>Width 1/2</h3>
-          <h3>Pulled 1/2</h3>
-        </div>
-      </div>
     </div>
 
     <h2 class="l-design-width t-title t-title--page t-title--inventory">

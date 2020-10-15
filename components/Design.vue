@@ -135,62 +135,6 @@ a {
   padding: var(--size-design-bezel--wide);
 }
 
-.l-grid {
-  --size-gutter-x: var(--size-gutter);
-  --size-gutter-y: calc(var(--size-gutter) * 0.5);
-
-  display: flex;
-  width: calc(100% + var(--size-gutter-x));
-  margin-left: calc(-1 * var(--size-gutter-x));
-  margin-bottom: calc(-1 * var(--size-gutter-y));
-  flex-wrap: wrap;
-  padding: 0;
-
-  &__cell {
-    flex: 1 0 auto;
-
-    margin-left: var(--size-gutter-x);
-    margin-bottom: var(--size-gutter-y);
-    box-sizing: border-box;
-
-    @include grid__cell();
-    @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
-      @include bp($breakpoint-name) {
-        @include grid__cell($breakpoint-name: $breakpoint-value);
-      }
-    }
-
-    &--align-right {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    &--align-bottom {
-      display: flex;
-      align-items: flex-end;
-    }
-
-    &--align-centered {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &--break {
-      flex-grow: 1;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  &--no-gap {
-    --size-gutter: 0rem; //sass-lint:disable-line zero-unit Needed because otherwise calc does not work with %
-    --size-gutter-x: var(--size-gutter);
-    --size-gutter-y: var(--size-gutter);
-  }
-}
-
 // 6) Components
 
 .c-design {

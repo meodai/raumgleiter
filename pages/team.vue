@@ -106,13 +106,28 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: calc(-1 * var(--size-mouse));
+
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .person {
     background: #f8f8f8;
+    width: calc(33.33% - var(--size-mouse));
     flex: 0 0 calc(33.33% - var(--size-mouse));
     margin-left: var(--size-mouse);
     margin-top: var(--size-mouse);
+
+    @include bp('tablet') {
+      width: calc(50% - var(--size-mouse));
+      flex: 0 0 calc(50% - var(--size-mouse));
+    }
+
+    @include bp('phone') {
+      width: calc(100% - var(--size-mouse));
+      flex: 0 0 calc(100% - var(--size-mouse));
+    }
   }
 
   .person__role {

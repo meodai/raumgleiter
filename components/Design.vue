@@ -77,8 +77,8 @@
   --color-layout--background-inverted: var(--color-black);
 
   @include bp('phone') {
-    --size-mouse: calc(3.2rem/2); // small title
-    --size-rat: calc(4.2rem/2);
+    --size-mouse: calc(3.2rem/1.4); // small title
+    --size-rat: calc(4.2rem/1.6);
     --size-cat: calc(6.2rem/2); // title
     --size-dog: calc(8.6rem/2);
     --size-pony: calc(13rem/2); // large title

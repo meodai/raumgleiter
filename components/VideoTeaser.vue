@@ -42,6 +42,9 @@
       sliderIsOnAutoplay () {
         return this.loopVideos && this.sliderIsPlaying;
       },
+      isSingleVideo () {
+        return this.videoList.length === 1;
+      },
     },
     created () {
       this.$nuxt.$on('stop-video-header', this.stopSlider);
@@ -144,13 +147,13 @@
       },
 
       videoReachedEnd () {
-        if (this.sliderIsOnAutoplay) {
+        if (this.sliderIsOnAutoplay && !this.isSingleVideo) {
           this.slideToNext();
         }
       },
 
       videoEndHandler ($video) {
-        if (!this.sliderIsOnAutoplay) {
+        if (!this.sliderIsOnAutoplay || this.isSingleVideo) {
           $video.play();
           this.resetProgressBar();
         }

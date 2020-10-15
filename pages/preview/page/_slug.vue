@@ -7,7 +7,7 @@
         .filter(page => page.slug === params.slug)
         .keyBy('locale');
 
-      if (!$config.livePreview || !pageEntryByLocale.count()) {
+      if (!$config.devMode && (!$config.livePreview || !pageEntryByLocale.count())) {
         return error({ statusCode: 404, message: 'Page not found' });
       }
 

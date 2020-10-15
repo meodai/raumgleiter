@@ -12,7 +12,7 @@
     },
     computed: {
       footer () {
-        return this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
+        return this.footerByLocale && this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
       },
       mainSections () {
         return this.$store.getters.getMainSections;

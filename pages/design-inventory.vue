@@ -424,6 +424,8 @@
     <h2 class="l-design-width t-title t-title--page t-title--inventory">
       Page Footer
     </h2>
+    <PageFooter />
+
   </div>
 </template>
 

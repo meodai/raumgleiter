@@ -15,9 +15,9 @@
 
 <template>
   <div>
-    <Navigation v-if="!$config.livePreview" />
+    <Navigation v-if="!$config.livePreview || $config.devMode" />
     <Nuxt />
-    <PageFooter />
+    <PageFooter v-if="!$config.livePreview || $config.devMode" />
     <!--Functional components -->
     <Design />
     <Icons />

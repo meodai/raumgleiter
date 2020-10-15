@@ -211,9 +211,6 @@
         this.isPlaying = false;
         this.slideOut();
         this.slideIn(eq);
-        setTimeout(() => {
-          this.isPlaying = true;
-        }, 10);
       },
       slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
@@ -256,6 +253,10 @@
         });
 
         this.currentSlideEq = eq;
+
+        setTimeout(() => {
+          this.isPlaying = true;
+        }, 10);
       },
 
       resetSlicesPosition (slices) {

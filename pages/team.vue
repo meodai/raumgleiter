@@ -38,6 +38,7 @@
       />
     </client-only>
     <Intro
+      class="intro--team"
       :fields="{
         header: teamPage.header,
         lead: teamPage.lead,
@@ -98,6 +99,9 @@
 </template>
 
 <style lang="scss">
+  .intro--team {
+    padding-bottom: 0;
+  }
   .people {
     display: flex;
     flex-wrap: wrap;

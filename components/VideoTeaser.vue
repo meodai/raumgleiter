@@ -37,6 +37,9 @@
       videoList () {
         return this.$props.entries.map(entry => (entry.video));
       },
+      sliderIsOnAutoplay () {
+        return this.loopVideos && this.sliderIsPlaying;
+      },
     },
     created () {
       this.$nuxt.$on('stop-video-header', this.stopSlider);
@@ -105,9 +108,17 @@
         $video.preload = 'auto';
         $video.muted = true;
 
-        $video.onended = () => {
-          this.videoEnded($video);
-        };
+        // Slide to next slide 1.5s before video ends
+        // $video.addEventListener('timeupdate', () => {
+        //   const threshold = 1.5;
+        //   if ($video.currentTime >= $video.duration - threshold) {
+        //     this.videoReachedEnd();
+        //   }
+        // });
+        $video.addEventListener('ended', () => {
+          this.videoReachedEnd();
+          this.videoEndHandler($video);
+        });
 
         // Load video source
         if ($video.canPlayType('application/vnd.apple.mpegurl') || extension !== 'm3u8') {
@@ -131,10 +142,14 @@
         return PIXI.Texture.EMPTY;
       },
 
-      videoEnded ($video) {
-        if (this.loopVideos && this.sliderIsPlaying) {
+      videoReachedEnd () {
+        if (this.sliderIsOnAutoplay) {
           this.slideToNext();
-        } else {
+        }
+      },
+
+      videoEndHandler ($video) {
+        if (!this.sliderIsOnAutoplay) {
           $video.play();
         }
       },
@@ -209,7 +224,7 @@
             x: -this.app.screen.width - (this.app.screen.width * 0.2),
             ease: 'power4.out',
             onComplete: () => {
-              if (oldSlide.type === 'video') {
+              if (oldSlide.slices.length === i && oldSlide.type === 'video') {
                 oldSlide.texture.baseTexture.resource.source.pause();
                 oldSlide.texture.baseTexture.resource.source.currentTime = 0;
               }
@@ -223,11 +238,16 @@
         newSlide.slide.zOrder = 2;
 
         if (newSlide.type === 'video') {
+          // on sliding in, start the video
           newSlide.texture.baseTexture.resource.source.play();
         } else {
-          // todo: abort slide on scroll
+          // if it is a blank slide, set a timeout to slide
+          // to the next one (since there is no video event)
           setTimeout(this.slideToNext, this.timePerSlide * 1000);
         }
+
+        this.resetSlicesPosition(newSlide.slices);
+
         newSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.5, {
             x: newSlide.partSize * this.app.screen.width * i,
@@ -237,6 +257,14 @@
 
         this.currentSlideEq = eq;
       },
+
+      resetSlicesPosition (slices) {
+        slices.forEach((slice) => {
+          // inferred from `container.position.x = width * 3;`
+          slice.position.x = this.app.screen.width * 3;
+        });
+      },
+
       slideToNext () {
         if (!this.sliderIsPlaying || !this.loopVideos) {
           return;
@@ -244,7 +272,9 @@
 
         let nextEq = this.currentSlideEq + 1;
         if (nextEq > this.pixiSlides.length - 1) {
-          nextEq = 0;
+          // nextEq = 0;
+          // If we are sliding, the first one will be skipped ('about')
+          nextEq = 1;
         }
 
         this.slide(nextEq);
@@ -257,7 +287,6 @@
         this.loader = new PIXI.Loader();
         // Trigger next video on load
         this.loader.onLoad.add((event, resource) => {
-          console.log(resource.url);
           const texture = this.createVideoTexture(resource.url);
           this.addSlide(texture, 'video');
         });
@@ -271,10 +300,12 @@
         const entryToLoad = this.$props.entries[this.loadingCount];
 
         if (entryToLoad.title && entryToLoad.video) {
+          // Load video
           this.initLoader();
           this.loader.add(entryToLoad.title, location.protocol + entryToLoad.video);
           this.loader.load();
         } else if (entryToLoad.title) {
+          // Add a blank slide
           const texture = this.createBlankTexture();
           this.addSlide(texture, 'blank');
         }

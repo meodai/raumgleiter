@@ -40,7 +40,7 @@
         return this.$props.entries.map(entry => (entry.video));
       },
       sliderIsOnAutoplay () {
-        return this.loopVideos && this.sliderIsPlaying;
+        return this.loopVideos && this.sliderIsPlaying && !this.isSingleVideo;
       },
       isSingleVideo () {
         return this.videoList.length === 1;
@@ -147,13 +147,13 @@
       },
 
       videoReachedEnd () {
-        if (this.sliderIsOnAutoplay && !this.isSingleVideo) {
+        if (this.sliderIsOnAutoplay) {
           this.slideToNext();
         }
       },
 
       videoEndHandler ($video) {
-        if (!this.sliderIsOnAutoplay || this.isSingleVideo) {
+        if (!this.sliderIsOnAutoplay) {
           $video.play();
           this.resetProgressBar();
         }
@@ -279,7 +279,11 @@
       },
 
       slideToNext (swiping = false) {
-        if ((!swiping && !this.sliderIsPlaying) || !this.loopVideos) {
+        if (
+          this.isSingleVideo ||
+          (!swiping && !this.sliderIsPlaying) ||
+          !this.loopVideos
+        ) {
           return;
         }
 
@@ -293,7 +297,11 @@
         this.slide(nextEq);
       },
       slideToPrev (swiping = false) {
-        if ((!swiping && !this.sliderIsPlaying) || !this.loopVideos) {
+        if (
+          this.isSingleVideo ||
+          (!swiping && !this.sliderIsPlaying) ||
+          !this.loopVideos
+        ) {
           return;
         }
 
@@ -376,14 +384,14 @@
 
 <template>
   <div
-    class="video-teaser"
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
+    class="video-teaser"
   >
     <div ref="canvas" class="video-teaser__canvas" />
-<!--    <div-->
-<!--      class="video-teaser__swipe-handler"-->
-<!--    ></div>-->
+    <!--    <div-->
+    <!--      class="video-teaser__swipe-handler"-->
+    <!--    ></div>-->
     <section
       v-for="(entry, i) in entries"
       :key="'video-teaser-slice-'+i"
@@ -412,6 +420,7 @@
       </div>
     </section>
     <div
+      v-if="!isSingleVideo"
       class="video-teaser-progress"
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"

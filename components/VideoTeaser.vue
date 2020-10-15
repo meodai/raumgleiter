@@ -32,6 +32,7 @@
         videoIsPlaying: false,
         loadingCount: 0,
         currentVideoDuration: 8,
+        sliderTimeout: null,
       };
     },
     computed: {
@@ -241,7 +242,8 @@
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
-          setTimeout(this.slideToNext, this.timePerSlide * 1000);
+          clearTimeout(this.sliderTimeout);
+          this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
           this.currentVideoDuration = this.timePerSlide;
         }
 
@@ -273,8 +275,8 @@
         });
       },
 
-      slideToNext () {
-        if (!this.sliderIsPlaying || !this.loopVideos) {
+      slideToNext (swiping = false) {
+        if ((!swiping && !this.sliderIsPlaying) || !this.loopVideos) {
           return;
         }
 
@@ -286,6 +288,27 @@
         }
 
         this.slide(nextEq);
+      },
+      slideToPrev (swiping = false) {
+        if ((!swiping && !this.sliderIsPlaying) || !this.loopVideos) {
+          return;
+        }
+
+        let prevEq = this.currentSlideEq - 1;
+        if (prevEq < 1) {
+          // nextEq = 0;
+          // If we are sliding, the first one will be skipped ('about')
+          prevEq = this.pixiSlides.length - 1;
+        }
+
+        this.slide(prevEq);
+      },
+
+      swipeToNext () {
+        this.slideToNext(true);
+      },
+      swipeToPrev () {
+        this.slideToPrev(true);
       },
 
       loadAllSlides () {
@@ -349,8 +372,15 @@
 </script>
 
 <template>
-  <div class="video-teaser">
+  <div
+    class="video-teaser"
+    v-touch:swipe.left="swipeToNext"
+    v-touch:swipe.right="swipeToPrev"
+  >
     <div ref="canvas" class="video-teaser__canvas" />
+<!--    <div-->
+<!--      class="video-teaser__swipe-handler"-->
+<!--    ></div>-->
     <section
       v-for="(entry, i) in entries"
       :key="'video-teaser-slice-'+i"
@@ -405,6 +435,14 @@
       pointer-events: none;
     }
   }
+
+  //.video-teaser__swipe-handler {
+  //  position: absolute;
+  //  top: 0;
+  //  left: 0;
+  //  right: 0;
+  //  bottom: 0;
+  //}
 
   .video-teaser__slider,
   .video-teaser__slice,

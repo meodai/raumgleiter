@@ -225,7 +225,7 @@
             x: -this.app.screen.width - (this.app.screen.width * 0.2),
             ease: 'power4.out',
             onComplete: () => {
-              if (oldSlide.slices.length === i && oldSlide.type === 'video') {
+              if (oldSlide.slices.length - 1 === i && oldSlide.type === 'video') {
                 oldSlide.texture.baseTexture.resource.source.pause();
                 oldSlide.texture.baseTexture.resource.source.currentTime = 0;
               }

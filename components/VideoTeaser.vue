@@ -30,6 +30,7 @@
         sliderHasStarted: false,
         sliderIsPlaying: true,
         isPlaying: false,
+        loadingCount: 0,
       };
     },
     computed: {
@@ -49,7 +50,7 @@
       this.app = this.createPIXIApp();
       this.$refs.canvas.appendChild(this.app.view);
 
-      this.loadVideos();
+      this.loadAllSlides();
       ticker.start();
 
       /*
@@ -249,22 +250,34 @@
         this.slide(nextEq);
       },
 
-      loadVideos () {
-        this.$props.entries.forEach((entry) => {
-          if (entry.title && entry.video) {
-            this.loader.add(entry.title, entry.video);
-          } else if (entry.title) {
-            const texture = this.createBlankTexture();
-            this.addSlide(texture, 'blank');
-          }
-        });
-
-        this.loader.onProgress.add((event, resource) => {
+      loadAllSlides () {
+        this.loadNextSlide();
+      },
+      initLoader () {
+        this.loader = new PIXI.Loader();
+        // Trigger next video on load
+        this.loader.onLoad.add((event, resource) => {
+          console.log(resource.url);
           const texture = this.createVideoTexture(resource.url);
           this.addSlide(texture, 'video');
         });
+      },
+      loadNextSlide () {
+        if (this.loadingCount >= this.$props.entries.length) {
+          // All slides were loaded
+          return;
+        }
 
-        this.loader.load();
+        const entryToLoad = this.$props.entries[this.loadingCount];
+
+        if (entryToLoad.title && entryToLoad.video) {
+          this.initLoader();
+          this.loader.add(entryToLoad.title, location.protocol + entryToLoad.video);
+          this.loader.load();
+        } else if (entryToLoad.title) {
+          const texture = this.createBlankTexture();
+          this.addSlide(texture, 'blank');
+        }
       },
       addSlide (texture, type) {
         const { slide, slices, partSize } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
@@ -283,6 +296,10 @@
           this.sliderHasStarted = true;
           this.slideIn(0);
         }
+
+        // Load next slide
+        this.loadingCount++;
+        this.loadNextSlide();
       },
       stopSlider () {
         this.sliderIsPlaying = false;

@@ -29,8 +29,9 @@
         currentSlideEq: 0,
         sliderHasStarted: false,
         sliderIsPlaying: true,
-        isPlaying: false,
+        videoIsPlaying: false,
         loadingCount: 0,
+        currentVideoDuration: 8,
       };
     },
     computed: {
@@ -45,7 +46,6 @@
       this.$nuxt.$on('stop-video-header', this.stopSlider);
     },
     mounted () {
-      this.isPlaying = true;
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
       ticker.stop();
@@ -208,7 +208,6 @@
       },
       slide (eq = 0) {
         this.$emit('slide', eq);
-        this.isPlaying = false;
         this.slideOut();
         this.slideIn(eq);
       },
@@ -237,10 +236,12 @@
         if (newSlide.type === 'video') {
           // on sliding in, start the video
           newSlide.texture.baseTexture.resource.source.play();
+          this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
           setTimeout(this.slideToNext, this.timePerSlide * 1000);
+          this.currentVideoDuration = this.timePerSlide;
         }
 
         this.resetSlicesPosition(newSlide.slices);
@@ -254,8 +255,13 @@
 
         this.currentSlideEq = eq;
 
+        this.resetProgressBar();
+      },
+
+      resetProgressBar () {
+        this.videoIsPlaying = false;
         setTimeout(() => {
-          this.isPlaying = true;
+          this.videoIsPlaying = true;
         }, 10);
       },
 
@@ -373,8 +379,8 @@
     </section>
     <div
       class="video-teaser-progress"
-      :style="{'--timer': timePerSlide}"
-      :class="{'play': isPlaying}"
+      :style="{'--timer': currentVideoDuration}"
+      :class="{'play': videoIsPlaying}"
     />
   </div>
 </template>
@@ -469,7 +475,7 @@
     }
 
     &.play::after {
-      transition: calc(var(--timer) * 1s, 8s) transform linear;
+      transition: calc(var(--timer) * 1s) transform linear;
       transform: scaleX(1);
     }
   }

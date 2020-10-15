@@ -151,6 +151,7 @@
       videoEndHandler ($video) {
         if (!this.sliderIsOnAutoplay) {
           $video.play();
+          this.resetProgressBar();
         }
       },
 

@@ -130,10 +130,14 @@
   }
 
   .footer__inner {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding: var(--size-rat);
 
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .footer__col {
@@ -158,10 +162,19 @@
   .footer__address {
     font-style: normal;
     margin-bottom: var(--size-mouse);
+    @include bp('phone') {
+      font-size: 1.8rem;
+      margin-top: var(--size-rat);
+    }
   }
 
   .footer__address > * {
     display: block;
+  }
+  .footer__nav {
+    @include bp('phone') {
+      display: none;
+    }
   }
   .footer__address a,
   .footer__nav a {
@@ -184,6 +197,10 @@
       font-size: 1.4rem;
       padding: .2em .75em .3em;
       border-radius: 2rem;
+
+      @include bp('phone') {
+        font-size: 2rem;
+      }
     }
     input {
       display: block;
@@ -209,6 +226,14 @@
   }
 
   .footer__lang {
+
+    @include bp('phone') {
+      display: block;
+      position: absolute;
+      top: var(--size-rat);
+      right: var(--size-rat);
+    }
+
     display: flex;
     a {
       padding: 0.5em;
@@ -227,6 +252,10 @@
     > * {
       display: inline-block;
       margin-right: 0.5em;
+    }
+
+    @include bp('phone') {
+      margin-bottom: var(--size-mouse);
     }
   }
 </style>

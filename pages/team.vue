@@ -158,6 +158,11 @@
     height: 2.6rem;
     margin-right: 1rem;
 
+    @include bp('phone') {
+      width: 5.4rem;
+      height: 5.4rem;
+    }
+
     a {
       display: block;
       width: 100%;

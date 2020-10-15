@@ -356,6 +356,7 @@
         class="video-teaser__slice"
         :style="{
           'clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
+          '-webkit-clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
         }"
       >
         <div class="video-teaser__slideInner">

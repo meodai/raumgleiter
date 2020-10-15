@@ -37,16 +37,14 @@
         :entries="videoTeaser"
       />
     </client-only>
-
+    <Intro
+      :fields="{
+        header: teamPage.header,
+        lead: teamPage.lead,
+      }"
+      :is-white="true"
+    />
     <div class="l-design-width">
-      <Intro
-        :fields="{
-          header: teamPage.header,
-          lead: teamPage.lead,
-        }"
-        :is-white="true"
-      />
-
       <div class="people">
         <article
           v-for="(person, i) in teamPage.people"

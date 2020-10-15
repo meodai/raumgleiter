@@ -33,6 +33,7 @@
         loadingCount: 0,
         currentVideoDuration: 8,
         sliderTimeout: null,
+        isTransitioning: false,
       };
     },
     computed: {
@@ -59,6 +60,8 @@
 
       this.loadAllSlides();
       ticker.start();
+
+      document.addEventListener('keyup', this.listenToArrowKeys);
 
       /*
       const {
@@ -93,6 +96,7 @@
       }
       this.pixiSlides = [];
       this.$nuxt.$off('stop-video-header', this.stopSlider);
+      document.removeEventListener('keyup', this.listenToArrowKeys);
     },
     methods: {
       partSize  (multiplier = 1) {
@@ -262,6 +266,11 @@
         this.currentSlideEq = eq;
 
         this.resetProgressBar();
+
+        this.isTransitioning = true;
+        setTimeout(() => {
+          this.isTransitioning = false;
+        }, 1500);
       },
 
       resetProgressBar () {
@@ -278,12 +287,15 @@
         });
       },
 
+      isAbleToSlide (swiping) {
+        return !this.isTransitioning &&
+          !this.isSingleVideo &&
+          this.loopVideos &&
+          (this.sliderIsPlaying || swiping);
+      },
+
       slideToNext (swiping = false) {
-        if (
-          this.isSingleVideo ||
-          (!swiping && !this.sliderIsPlaying) ||
-          !this.loopVideos
-        ) {
+        if (!this.isAbleToSlide(swiping)) {
           return;
         }
 
@@ -297,11 +309,7 @@
         this.slide(nextEq);
       },
       slideToPrev (swiping = false) {
-        if (
-          this.isSingleVideo ||
-          (!swiping && !this.sliderIsPlaying) ||
-          !this.loopVideos
-        ) {
+        if (!this.isAbleToSlide(swiping)) {
           return;
         }
 
@@ -320,6 +328,17 @@
       },
       swipeToPrev () {
         this.slideToPrev(true);
+      },
+
+      listenToArrowKeys (event) {
+        switch (event.code) {
+          case 'ArrowLeft':
+            this.swipeToPrev();
+            break;
+          case 'ArrowRight':
+            this.swipeToNext();
+            break;
+        }
       },
 
       loadAllSlides () {

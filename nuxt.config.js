@@ -54,6 +54,7 @@ export default {
     { src: './plugins/intersection-observer.js', mode: 'client' },
     { src: './plugins/lazysizes.js', mode: 'client' },
     { src: './plugins/canautoplay.js', mode: 'client' },
+    { src: './plugins/touch.js', mode: 'client' },
   ],
   /*
    ** Auto import components

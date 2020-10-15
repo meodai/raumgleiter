@@ -16,6 +16,10 @@
         type: Boolean,
         default: true,
       },
+      timePerSlide: {
+        type: Number,
+        default: 8,
+      },
     },
     data () {
       return {
@@ -25,6 +29,7 @@
         currentSlideEq: 0,
         sliderHasStarted: false,
         sliderIsPlaying: true,
+        isPlaying: false,
       };
     },
     computed: {
@@ -36,6 +41,7 @@
       this.$nuxt.$on('stop-video-header', this.stopSlider);
     },
     mounted () {
+      this.isPlaying = true;
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
       ticker.stop();
@@ -186,8 +192,12 @@
       },
       slide (eq = 0) {
         this.$emit('slide', eq);
+        this.isPlaying = false;
         this.slideOut();
         this.slideIn(eq);
+        setTimeout(() => {
+          this.isPlaying = true;
+        }, 10);
       },
       slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
@@ -214,7 +224,8 @@
         if (newSlide.type === 'video') {
           newSlide.texture.baseTexture.resource.source.play();
         } else {
-          setTimeout(this.slideToNext, 8000);
+          // todo: abort slide on scroll
+          setTimeout(this.slideToNext, this.timePerSlide * 1000);
         }
         newSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.5, {
@@ -310,6 +321,11 @@
         </div>
       </div>
     </section>
+    <div
+      class="video-teaser-progress"
+      :style="{'--timer': timePerSlide}"
+      :class="{'play': isPlaying}"
+    />
   </div>
 </template>
 
@@ -382,5 +398,29 @@
     transition: 300ms opacity 1100ms;
     opacity: 1;
     color: var(--color-text--inverted);
+  }
+
+  .video-teaser-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    &::after {
+      position: absolute;
+      content: '';
+      background: #fff;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 3px;
+      transform: scaleX(0);
+      transform-origin: 0 0;
+    }
+
+    &.play::after {
+      transition: calc(var(--timer) * 1s, 8s) transform linear;
+      transform: scaleX(1);
+    }
   }
 </style>

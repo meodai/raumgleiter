@@ -170,6 +170,11 @@
 <style lang="scss">
   .image-block {
     --image-block-gutter: 5rem;
+
+    @include bp('phone') {
+      display: block;
+    }
+
     display: flex;
     flex-direction: row-reverse;
     margin-left: calc(-1 * var(--image-block-gutter));

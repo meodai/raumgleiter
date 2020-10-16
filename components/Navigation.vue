@@ -40,8 +40,11 @@
         class="navigation__trigger"
         @click="toggleDrawer"
       >
-        {{ $t('explore') }}
-        <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />
+        <span class="navigation__triggerInner">
+          {{ $t('explore') }}
+          <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />
+        </span>
+        <Hamburger class="navigation__burger" :is-open="isOpen" />
       </button>
       <nav
         class="navigation__company"
@@ -190,6 +193,20 @@
     }
   }
 
+  .navigation__triggerInner {
+    @include bp('phone') {
+      display: none;
+    }
+  }
+
+  .navigation__burger {
+    display: none;
+
+    @include bp('phone') {
+      display: block;
+    }
+  }
+
   .navigation__description {
     @include typo('navigation');
 
@@ -222,6 +239,7 @@
       width: 60vw;
     }
   }
+
   .navigation__drawer-list {
     position: relative;
     z-index: 2;
@@ -296,8 +314,19 @@
       transform: translateX(110%);
     }
   }
+  .navigation__drawer-list--nav {
+    opacity: 0;
+    transition: 200ms opacity;
 
+  }
   .navigation--isOpen {
+    .navigation__drawer-list--nav {
+      opacity: 1;
+      transition: 200ms opacity .7s;
+    }
+    .navigation__burger {
+      color: #000;
+    }
     .navigation__trigger-icon {
       transform: rotate(90deg);
     }

@@ -53,7 +53,7 @@
       },
       currentPagebuilder () {
         return this.currentPage && this.currentPage.pagebuilder.length > 1
-          ? this.currentPage.pagebuilder.slice(1, -1) : [];
+          ? this.currentPage.pagebuilder.slice(1) : [];
       },
     },
     watch: {

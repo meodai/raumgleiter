@@ -13,8 +13,13 @@
         return this.$store.getters.getMainSections;
       },
     },
+    watch: {
+      '$nuxt.$route' () {
+        this.isOpen = false;
+      },
+    },
     methods: {
-      toggleDrawer: function toggleDrawer () {
+      toggleDrawer () {
         this.isOpen = !this.isOpen;
       },
     },

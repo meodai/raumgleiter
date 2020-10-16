@@ -93,7 +93,7 @@
           </nuxt-link>
         </li>
       </ol>
-      <ul class="navigation__drawer-list">
+      <ul class="navigation__drawer-list navigation__drawer-list--nav">
         <li
           v-for="menuItem in menuItems"
           :key="'menu'+menuItem.title"
@@ -231,6 +231,14 @@
       display: block;
     }
   }
+
+  .navigation__drawer-list--nav {
+    display: none;
+
+    @include bp('phone') {
+      display: block;
+    }
+  }
   .navigation__drawer-item {
     flex: 0 1 16%;
 
@@ -336,12 +344,13 @@
   }
 
   .navigation__location--drawer {
-      @include bp('phone') {
-        display: block;
-        margin-left: 0;
-      }
-      color: #000;
-      fill: #000;
+    display: none;
+    @include bp('phone') {
+      display: block;
+      margin-left: 0;
     }
+    color: #000;
+    fill: #000;
+  }
 
 </style>

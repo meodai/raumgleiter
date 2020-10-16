@@ -558,10 +558,18 @@
   left: 10rem;
   right: 20rem;
   color: var(--color-text--inverted);
+
+  @include bp('phone') {
+    top: 10rem;
+    left: var(--size-gutter);
+  }
 }
 
 .video-teaser__title {
   @include typo('title--hero');
+  @include bp('phone') {
+    font-size: 5rem;
+  }
 }
 
 .video-teaser__subtitle {

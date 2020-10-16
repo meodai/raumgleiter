@@ -100,7 +100,7 @@
 </script>
 
 <template>
-  <div>
+  <div :class="{ 'c-design--inverted': currentPage && currentPage.inverted }">
     <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"

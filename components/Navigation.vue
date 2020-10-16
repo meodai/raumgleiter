@@ -88,6 +88,24 @@
           </nuxt-link>
         </li>
       </ol>
+      <ul class="navigation__drawer-list">
+        <li
+          v-for="menuItem in menuItems"
+          :key="'menu'+menuItem.title"
+          class="navigation__menuitem"
+        >
+          <nuxt-link :to="localePath(menuItem.path)">
+            {{ $t(menuItem.title) }}
+          </nuxt-link>
+        </li>
+      </ul>
+      <a class="navigation__location navigation__location--drawer" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
+        <Icon
+          class="navigation__locationIcon"
+          :name="'location_plus'"
+          :is-block="true"
+        />
+      </a>
     </nav>
   </div>
 </template>
@@ -311,5 +329,14 @@
       display: none;
     }
   }
+
+  .navigation__location--drawer {
+      @include bp('phone') {
+        display: block;
+        margin-left: 0;
+      }
+      color: #000;
+      fill: #000;
+    }
 
 </style>

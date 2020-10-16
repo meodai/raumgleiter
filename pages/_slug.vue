@@ -44,6 +44,14 @@
           };
         }).toArray();
       },
+      currentIntroBlock () {
+        return this.currentPage && this.currentPage.pagebuilder.length
+          ? [this.currentPage.pagebuilder[0]] : [];
+      },
+      currentPagebuilder () {
+        return this.currentPage && this.currentPage.pagebuilder.length > 1
+          ? this.currentPage.pagebuilder.slice(1, -1) : [];
+      },
     },
     watch: {},
     mounted () {
@@ -94,14 +102,21 @@
       />
     </VideoTeaserContainer>
 
-    <client-only>
-      <Pagebuilder
-        v-if="currentPage"
-        :key="'page-content-'+currentPage.slug"
-        :slug="currentPage.slug"
-        :blocks="currentPage.pagebuilder"
-      />
-    </client-only>
+    <!--  Intro Block  -->
+    <Pagebuilder
+      v-if="currentPage"
+      :key="'page-intro-'+currentPage.slug"
+      :slug="'intro'+currentPage.slug"
+      :blocks="currentIntroBlock"
+    />
+
+    <!--  Page Content  -->
+    <Pagebuilder
+      v-if="currentPage"
+      :key="'page-content-'+currentPage.slug"
+      :slug="'content'+currentPage.slug"
+      :blocks="currentPagebuilder"
+    />
   </div>
 </template>
 

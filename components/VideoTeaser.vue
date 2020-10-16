@@ -290,7 +290,7 @@
       isAbleToSlide (swiping) {
         return !this.isTransitioning &&
           !this.isSingleVideo &&
-          this.loopVideos &&
+          (this.loopVideos || swiping) &&
           (this.sliderIsPlaying || swiping);
       },
 

@@ -13,12 +13,14 @@
     data () {
       return {
         allowTouchSwipe: true,
-        hasEnteredRoute: this.$route.path !== '/',
         enteredSiteOnIndex: this.$route.path === '/',
         currentSlide: 0,
       };
     },
     computed: {
+      hasEnteredRoute () {
+        return this.$route.path !== '/';
+      },
       pagesInCurrentLocale () {
         return this.pagesByLocale[this.$i18n.locale];
       },
@@ -45,32 +47,14 @@
       currentVideoTeaser () {
         return this.videoTeasers[this.currentSlide];
       },
-      // swiperIndexByPath () {
-      //     return parseInt(Object.keys(this.sections).find(key => this.sections[key].path === this.$nuxt.$route.path)) || 0;
-      // },
-      // swiperOptions () {
-      //     return {
-      //         loop: true,
-      //         autoHeight: true,
-      //         initialSlide: this.swiperIndexByPath,
-      //         preloadImages: false,
-      //         keyboard: true,
-      //     };
-      // },
-      // currentSection () {
-      //     return this.sections[this.swiperIndexByPath];
-      // },
+      currentPageIndex () {
+        return parseInt(Object.keys(this.pagesInCurrentLocale).find(key => this.pagesInCurrentLocale[key].slug === this.$nuxt.$route.params.slug)) || false;
+      },
+      currentPage () {
+        return this.currentPageIndex && this.pagesByLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
+      },
     },
-    watch: {
-      // allowTouchSwipe(allowTouchSwipe) {
-      //     this.$refs.sectionSwiper.$swiper.allowTouchMove = allowTouchSwipe;
-      // },
-      // hasScrolledDown(hasScrolledDown) {
-      //     if (hasScrolledDown) {
-      //         // this.$refs.sectionSwiper.$swiper.autoplay.stop();
-      //     }
-      // }
-    },
+    watch: {},
     mounted () {
       window.addEventListener('scroll', this.listenForScrollEvent);
     },
@@ -84,13 +68,18 @@
         this.allowTouchSwipe = (window.scrollY < 10);
 
         if (window.scrollY > 10 && !this.hasEnteredRoute) {
-          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
-          this.hasEnteredRoute = true;
+          this.updateRouteToMatchTeaser();
           this.$nuxt.$emit('stop-video-header');
         }
       }),
       slideUpdate (slide) {
         this.currentSlide = slide;
+        if (this.hasEnteredRoute) {
+          this.updateRouteToMatchTeaser();
+        }
+      },
+      updateRouteToMatchTeaser () {
+        this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
       },
     },
     head () {
@@ -107,26 +96,21 @@
     <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"
-        :loop-videos="allowTouchSwipe"
+        :loop-videos="!hasEnteredRoute"
+        :allow-swipe="allowTouchSwipe"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>
 
-    <!--      <swiper ref="sectionSwiper">-->
-    <!--        <swiper-slide-->
-    <!--          v-for="(page, index) in pagesInCurrentLocale"-->
-    <!--          :key="'page'+index"-->
-    <!--        >-->
-    <!--          <div class="sectionHeader">-->
-    <!--            <h2>{{ page.title }}</h2>-->
-    <!--          </div>-->
+    <client-only>
+      <Pagebuilder
+        v-if="currentPage"
+        :key="'page-content-'+currentPage.slug"
+        :slug="currentPage.slug"
+        :blocks="currentPage.pagebuilder"
+      />
+    </client-only>
 
-    <!--          &lt;!&ndash; Page Content &ndash;&gt;-->
-    <!--          <div class="sectionContent">-->
-    <!--            <Pagebuilder :slug="page.slug" :blocks="page.pagebuilder" />-->
-    <!--          </div>-->
-    <!--        </swiper-slide>-->
-    <!--      </swiper>-->
   </div>
 </template>
 

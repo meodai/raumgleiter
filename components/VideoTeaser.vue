@@ -488,7 +488,7 @@
       </div>
     </section>
     <div
-      v-if="!isSingleVideo"
+      v-if="sliderIsOnAutoplay"
       class="video-teaser-progress"
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"

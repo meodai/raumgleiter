@@ -63,22 +63,22 @@
 
       document.addEventListener('keyup', this.listenToArrowKeys);
 
-      /*
-      const {
-        slide,
-        slices,
-        partSize,
-      } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+    /*
+    const {
+      slide,
+      slices,
+      partSize,
+    } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
-      this.app.stage.addChild(slide);
+    this.app.stage.addChild(slide);
 
-      window.addEventListener('resize', () => {
-        this.app.width = window.innerWidth;
-        this.app.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      this.app.width = window.innerWidth;
+      this.app.height = window.innerHeight;
 
-        this.app.queueResize();
-      });
-      */
+      this.app.queueResize();
+    });
+    */
     },
     beforeDestroy () {
       this.loader.reset();
@@ -99,7 +99,7 @@
       document.removeEventListener('keyup', this.listenToArrowKeys);
     },
     methods: {
-      partSize  (multiplier = 1) {
+      partSize (multiplier = 1) {
         return 1 / this.slices * multiplier;
       },
       createPIXIApp () {
@@ -216,6 +216,7 @@
         return { slide, slices, partSize };
       },
       slide (eq = 0) {
+        clearTimeout(this.sliderTimeout);
         this.$emit('slide', eq);
         this.slideOut();
         this.slideIn(eq);
@@ -249,7 +250,6 @@
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
-          clearTimeout(this.sliderTimeout);
           this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
           this.currentVideoDuration = this.timePerSlide;
         }
@@ -294,16 +294,22 @@
           (this.sliderIsPlaying || swiping);
       },
 
+      getNextEq (eq) {
+        return eq + 1 > this.entries.length - 1 ? 0 : eq + 1;
+      },
+      getPrevEq (eq) {
+        return eq - 1 < 0 ? this.entries.length - 1 : eq - 1;
+      },
+
       slideToNext (swiping = false) {
         if (!this.isAbleToSlide(swiping)) {
           return;
         }
 
-        let nextEq = this.currentSlideEq + 1;
-        if (nextEq > this.pixiSlides.length - 1) {
-          // nextEq = 0;
-          // If we are sliding, the first one will be skipped ('about')
-          nextEq = 1;
+        // Skip about when sliding -> its only shown once
+        let nextEq = this.getNextEq(this.currentSlideEq);
+        if (this.entries[nextEq].slug === 'about') {
+          nextEq = this.getNextEq(nextEq);
         }
 
         this.slide(nextEq);
@@ -313,11 +319,10 @@
           return;
         }
 
-        let prevEq = this.currentSlideEq - 1;
-        if (prevEq < 1) {
-          // nextEq = 0;
-          // If we are sliding, the first one will be skipped ('about')
-          prevEq = this.pixiSlides.length - 1;
+        // Skip about when sliding -> its only shown once
+        let prevEq = this.getPrevEq(this.currentSlideEq);
+        if (this.entries[prevEq].slug === 'about') {
+          prevEq = this.getPrevEq(prevEq);
         }
 
         this.slide(prevEq);
@@ -448,106 +453,106 @@
 </template>
 
 <style lang="scss">
-  .video-teaser {
-    position: relative;
-    display: block;
-    width: 100vw;
-    max-width: 100%;
-    height: -webkit-fill-available;
-    height: 100vh;
-    overflow: hidden;
+.video-teaser {
+  position: relative;
+  display: block;
+  width: 100vw;
+  max-width: 100%;
+  height: -webkit-fill-available;
+  height: 100vh;
+  overflow: hidden;
 
-    &__canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-    }
-  }
-
-  //.video-teaser__swipe-handler {
-  //  position: absolute;
-  //  top: 0;
-  //  left: 0;
-  //  right: 0;
-  //  bottom: 0;
-  //}
-
-  .video-teaser__slider,
-  .video-teaser__slice,
-  .video-teaser__slideInner {
+  &__canvas {
     position: absolute;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
-    left: 0;
+    pointer-events: none;
   }
+}
 
-  .video-teaser__slideInner {
-    transform: translateX(100%);
-  }
+//.video-teaser__swipe-handler {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  right: 0;
+//  bottom: 0;
+//}
 
-  .video-teaser__slider--active .video-teaser__slice {
-    @for $i from 1 through 6 {
-      &:nth-child(#{$i}) .video-teaser__slideInner {
-        transition-delay: 100ms + $i * 100ms;
-      }
+.video-teaser__slider,
+.video-teaser__slice,
+.video-teaser__slideInner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.video-teaser__slideInner {
+  transform: translateX(100%);
+}
+
+.video-teaser__slider--active .video-teaser__slice {
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) .video-teaser__slideInner {
+      transition-delay: 100ms + $i * 100ms;
     }
   }
+}
 
-  .video-teaser__slider--active .video-teaser__slideInner {
-    transform: translateX(0%);
-    transition: 800ms transform cubic-bezier(0.7,0.3,0,1);
+.video-teaser__slider--active .video-teaser__slideInner {
+  transform: translateX(0%);
+  transition: 800ms transform cubic-bezier(0.7, 0.3, 0, 1);
 
-  }
+}
 
-  .video-teaser__header {
+.video-teaser__header {
+  position: absolute;
+  top: 4.5rem;
+  left: 10rem;
+  right: 20rem;
+  color: var(--color-text--inverted);
+}
+
+.video-teaser__title {
+  @include typo('title--hero');
+}
+
+.video-teaser__subtitle {
+  @include typo('default');
+  margin-top: var(--size-rat);
+  opacity: 0;
+}
+
+.video-teaser__slider--active .video-teaser__subtitle {
+  transition: 300ms opacity 1100ms;
+  opacity: 1;
+  color: var(--color-text--inverted);
+}
+
+.video-teaser-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &::after {
     position: absolute;
-    top: 4.5rem;
-    left: 10rem;
-    right: 20rem;
-    color: var(--color-text--inverted);
-  }
-
-  .video-teaser__title {
-    @include typo('title--hero');
-  }
-
-  .video-teaser__subtitle {
-    @include typo('default');
-    margin-top: var(--size-rat);
-    opacity: 0;
-  }
-
-  .video-teaser__slider--active .video-teaser__subtitle {
-    transition: 300ms opacity 1100ms;
-    opacity: 1;
-    color: var(--color-text--inverted);
-  }
-
-  .video-teaser-progress {
-    position: absolute;
+    content: '';
+    background: #fff;
+    left: 0;
     top: 0;
-    left: 0;
     right: 0;
-
-    &::after {
-      position: absolute;
-      content: '';
-      background: #fff;
-      left: 0;
-      top: 0;
-      right: 0;
-      height: 3px;
-      transform: scaleX(0);
-      transform-origin: 0 0;
-    }
-
-    &.play::after {
-      transition: calc(var(--timer) * 1s) transform linear;
-      transform: scaleX(1);
-    }
+    height: 3px;
+    transform: scaleX(0);
+    transform-origin: 0 0;
   }
+
+  &.play::after {
+    transition: calc(var(--timer) * 1s) transform linear;
+    transform: scaleX(1);
+  }
+}
 </style>

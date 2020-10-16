@@ -12,8 +12,8 @@
     },
     data () {
       return {
-        hasScrolledDown: this.$route.path !== '/',
-        allowTouchSwipe: this.$route.path === '/',
+        allowTouchSwipe: true,
+        hasEnteredRoute: this.$route.path !== '/',
         enteredSiteOnIndex: this.$route.path === '/',
         currentSlide: 0,
       };
@@ -23,7 +23,7 @@
         return this.pagesByLocale[this.$i18n.locale];
       },
       videoTeasers () {
-        let slides = collect(this.pagesInCurrentLocale).map((page) => {
+        let slides = collect(this.pagesInCurrentLocale).map((page, i) => {
           return {
             video: page.headerVideo.url,
             title: page.header,
@@ -31,7 +31,11 @@
             slug: page.slug,
           };
         });
+        // If we're directly accessing a route,
+        // remove the about page
+        // and place the accessed page at the first position
         if (!this.enteredSiteOnIndex) {
+          slides.reject(item => item.slug === 'about');
           const indexBySlug = slides.search((item, key) => item.slug === this.$route.params.slug);
           const firstPart = slides.splice(indexBySlug);
           slides = firstPart.merge(slides.all());
@@ -76,11 +80,12 @@
     methods: {
       listenForScrollEvent: debounce(50, function () {
         // Disable swiper when entering a page
+        // Re-enable swiper when on the top
         this.allowTouchSwipe = (window.scrollY < 10);
 
-        if (window.scrollY > 10 && !this.hasScrolledDown) {
+        if (window.scrollY > 10 && !this.hasEnteredRoute) {
           this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
-          this.hasScrolledDown = true;
+          this.hasEnteredRoute = true;
           this.$nuxt.$emit('stop-video-header');
         }
       }),
@@ -102,7 +107,7 @@
     <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"
-        :loop-videos="!hasScrolledDown"
+        :loop-videos="allowTouchSwipe"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>

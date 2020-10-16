@@ -15,8 +15,6 @@
       return {
         allowTouchSwipe: true,
         currentSlide: 0,
-        initialised: false,
-        videoTeasers: [],
       };
     },
     computed: {
@@ -24,49 +22,38 @@
         return this.$route.path !== '/';
       },
       pagesInCurrentLocale () {
-        return this.pagesByLocale[this.$i18n.locale];
+        return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;
       },
       currentVideoTeaser () {
         return this.videoTeasers[this.currentSlide];
       },
       currentPageIndex () {
-        return parseInt(Object.keys(this.pagesInCurrentLocale).find(key => this.pagesInCurrentLocale[key].slug === this.$nuxt.$route.params.slug)) || false;
+        return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
       },
       currentPage () {
-        return this.currentPageIndex && this.pagesByLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
+        return this.pagesInCurrentLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
+      },
+      videoTeasers () {
+        return collect(this.pagesInCurrentLocale).map((page, i) => {
+          return {
+            video: page.headerVideo.url,
+            title: page.header,
+            subtitle: page.title,
+            slug: page.slug,
+            index: i,
+          };
+        }).toArray();
       },
     },
     watch: {},
     mounted () {
-      this.setVideoSlides();
+      this.listenForScrollEvent();
       window.addEventListener('scroll', this.listenForScrollEvent);
     },
     beforeDestroy () {
       window.removeEventListener('scroll', this.listenForScrollEvent);
     },
     methods: {
-      setVideoSlides () {
-        let slides = collect(this.pagesInCurrentLocale).map((page, i) => {
-          return {
-            video: page.headerVideo.url,
-            title: page.header,
-            subtitle: page.title,
-            slug: page.slug,
-          };
-        });
-        // If we're directly accessing a route,
-        // remove the about page
-        // and place the accessed page at the first position
-        if (this.$route.params.slug) {
-          slides.reject(item => item.slug === 'about');
-          const indexBySlug = slides.search((item, key) => item.slug === this.$route.params.slug);
-          const firstPart = slides.splice(indexBySlug);
-          slides = firstPart.merge(slides.all());
-        }
-        console.log('sliddess');
-        this.videoTeasers = slides.all();
-        this.initialised = true;
-      },
       listenForScrollEvent: debounce(50, function () {
         // Disable swiper when entering a page
         // Re-enable swiper when on the top
@@ -102,7 +89,7 @@
         :entries="videoTeasers"
         :loop-videos="!hasEnteredRoute"
         :allow-swipe="allowTouchSwipe"
-        :start-eq="3"
+        :start-eq="currentPageIndex"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>

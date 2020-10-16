@@ -1,4 +1,5 @@
 <script>
+  import collect from 'collect.js';
   import Hls from 'hls.js';
 
   export default {
@@ -16,9 +17,17 @@
         type: Boolean,
         default: true,
       },
+      allowSwipe: {
+        type: Boolean,
+        default: true,
+      },
       timePerSlide: {
         type: Number,
         default: 8,
+      },
+      startEq: {
+        type: Number,
+        default: 0,
       },
     },
     data () {
@@ -33,11 +42,12 @@
         currentVideoDuration: 8,
         sliderTimeout: null,
         isTransitioning: false,
+        entriesInOrder: [],
       };
     },
     computed: {
       videoList () {
-        return this.$props.entries.map(entry => (entry.video));
+        return this.entriesInOrder.map(entry => (entry.video));
       },
       sliderIsOnAutoplay () {
         return this.loopVideos && !this.isSingleVideo;
@@ -46,7 +56,9 @@
         return this.videoList.length === 1;
       },
     },
-    created () {},
+    created () {
+      this.loadEntries();
+    },
     mounted () {
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
@@ -95,6 +107,12 @@
       document.removeEventListener('keyup', this.listenToArrowKeys);
     },
     methods: {
+      loadEntries () {
+        let entries = collect(this.entries);
+        const firstPart = entries.splice(this.startEq);
+        entries = firstPart.merge(entries.all());
+        this.entriesInOrder = entries.toArray();
+      },
       partSize (multiplier = 1) {
         return 1 / this.slices * multiplier;
       },
@@ -213,9 +231,9 @@
       },
       slide (eq = 0) {
         clearTimeout(this.sliderTimeout);
-        this.$emit('slide', eq);
         this.slideOut();
         this.slideIn(eq);
+        this.$emit('slide', this.entriesInOrder[eq].index);
       },
       slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
@@ -286,14 +304,14 @@
       isAbleToSlide (swiping) {
         return !this.isTransitioning &&
           !this.isSingleVideo &&
-          (this.loopVideos || swiping);
+          (this.loopVideos || (swiping && this.allowSwipe));
       },
 
       getNextEq (eq) {
-        return eq + 1 > this.entries.length - 1 ? 0 : eq + 1;
+        return eq + 1 > this.entriesInOrder.length - 1 ? 0 : eq + 1;
       },
       getPrevEq (eq) {
-        return eq - 1 < 0 ? this.entries.length - 1 : eq - 1;
+        return eq - 1 < 0 ? this.entriesInOrder.length - 1 : eq - 1;
       },
 
       slideToNext (swiping = false) {
@@ -303,7 +321,7 @@
 
         // Skip about when sliding -> its only shown once
         let nextEq = this.getNextEq(this.currentSlideEq);
-        if (this.entries[nextEq].slug === 'about') {
+        if (this.entriesInOrder[nextEq].slug === 'about') {
           nextEq = this.getNextEq(nextEq);
         }
 
@@ -316,7 +334,7 @@
 
         // Skip about when sliding -> its only shown once
         let prevEq = this.getPrevEq(this.currentSlideEq);
-        if (this.entries[prevEq].slug === 'about') {
+        if (this.entriesInOrder[prevEq].slug === 'about') {
           prevEq = this.getPrevEq(prevEq);
         }
 
@@ -353,7 +371,7 @@
         });
       },
       loadNextSlide () {
-        if (this.loadingCount >= this.$props.entries.length) {
+        if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
           return;
         }
@@ -364,7 +382,7 @@
         // }
         // const entryToLoad = this.$props.entries[indexToLoad];
         // console.log(entryToLoad);
-        const entryToLoad = this.$props.entries[this.loadingCount];
+        const entryToLoad = this.entriesInOrder[this.loadingCount];
 
         if (entryToLoad.title && entryToLoad.video) {
           // Load video
@@ -415,7 +433,7 @@
     <!--      class="video-teaser__swipe-handler"-->
     <!--    ></div>-->
     <section
-      v-for="(entry, i) in entries"
+      v-for="(entry, i) in entriesInOrder"
       :key="'video-teaser-slice-'+i"
       :class="{'video-teaser__slider--active': currentSlideEq === i}"
       class="video-teaser__slider"

@@ -98,6 +98,14 @@
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;
     @include typo('navigationTitles');
+
+    @include bp('phone') {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 10;
+    }
   }
 
   .navigation__bar {
@@ -110,6 +118,12 @@
   .navigation__drawer {
     padding: var(--size-gutter-x) var(--size-gutter);
   }
+  .navigation__bar {
+    @include bp('phone') {
+      height: 0;
+      padding: 0;
+    }
+  }
   .navigation__logo {
     width: 13rem;
     fill: currentColor;
@@ -118,6 +132,13 @@
   .navigation__logo-link {
     display: inline-block;
     width: 16%;
+
+    @include bp('phone') {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: var(--size-gutter-x) var(--size-gutter);
+    }
   }
   .navigation__trigger {
     display: inline-block;
@@ -137,11 +158,23 @@
       height: 0.7em;
       width: 1em;
     }
+
+    @include bp('phone') {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: var(--size-gutter-x) var(--size-gutter);
+    }
   }
 
   .navigation__description {
     @include typo('navigation');
+
+    @include bp('phone') {
+      display: none;
+    }
   }
+
   .navigation__drawer {
     position: absolute;
     top: 100%;
@@ -156,11 +189,24 @@
       top: 0; right: 0; bottom: 0; left: 0;
       background: var(--color-layout--background);
     }
+
+    @include bp('phone') {
+      position: fixed;
+      top: 0;
+      left: auto;
+      right: 0;
+      bottom: 0;
+      width: 60vw;
+    }
   }
   .navigation__drawer-list {
     position: relative;
     z-index: 2;
     display: flex;
+
+    @include bp('phone') {
+      display: block;
+    }
   }
   .navigation__drawer-item {
     flex: 0 1 16%;
@@ -178,6 +224,10 @@
   .navigation__menu {
     display: inline-block;
     line-height: 1;
+
+    @include bp('phone') {
+      display: none;
+    }
   }
   .navigation__menu li {
     display: inline-block;
@@ -197,6 +247,10 @@
   .navigation__drawer:before {
     transform: translateY(-110%);
     transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
+
+    @include bp('phone') {
+      transform: translateX(110%);
+    }
   }
   .navigation__drawer-item {
     transform: translateY(-150%);
@@ -205,6 +259,10 @@
       &:nth-child(#{$i}) {
         transition-delay: (8 - $i) * 50ms;
       }
+    }
+
+    @include bp('phone') {
+      transform: translateX(110%);
     }
   }
 
@@ -218,10 +276,19 @@
     .navigation__drawer:before {
       transform: translateY(0%);
       transition: 650ms transform cubic-bezier(.7,.3,0,1);
+
+      @include bp('phone') {
+        transform: translateX(0%);
+      }
     }
     .navigation__drawer-item {
       transform: translateY(0%);
       transition: 450ms transform cubic-bezier(.7,.3,0,1);
+
+      @include bp('phone') {
+        transform: translateX(0%);
+      }
+
       @for $i from 1 through 8 {
         &:nth-child(#{$i}) {
           transition-delay: $i * 50ms;
@@ -238,6 +305,10 @@
     .navigation__locationIcon {
       width: 3rem;
       height: 3rem;
+    }
+
+    @include bp('phone') {
+      display: none;
     }
   }
 

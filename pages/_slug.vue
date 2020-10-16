@@ -27,8 +27,11 @@
       currentVideoTeaser () {
         return this.videoTeasers[this.currentSlide];
       },
-      currentPageIndex () {
+      currentPageIndexByRoute () {
         return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
+      },
+      currentPageIndex () {
+        return this.$route.params.slug ? this.currentPageIndexByRoute : this.currentSlide;
       },
       currentPage () {
         return this.pagesInCurrentLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
@@ -97,7 +100,7 @@
         :entries="videoTeasers"
         :loop-videos="!hasEnteredRoute"
         :allow-swipe="allowTouchSwipe"
-        :start-eq="currentPageIndex"
+        :start-eq="currentPageIndexByRoute"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>
@@ -112,7 +115,7 @@
 
     <!--  Page Content  -->
     <Pagebuilder
-      v-if="currentPage"
+      v-if="currentPage && hasEnteredRoute"
       :key="'page-content-'+currentPage.slug"
       :slug="'content'+currentPage.slug"
       :blocks="currentPagebuilder"

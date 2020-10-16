@@ -119,8 +119,8 @@ export default {
    ** Static site generation config
    */
   generate: {
-    /* exclude: [
-      ...process.env.LIVE_PREVIEW !== 'true' ? [
+    exclude: [
+      ...process.env.LIVE_PREVIEW !== 'true' && process.env.DEV_MODE !== 'true' ? [
         '/preview', '/en/preview', '/fr/preview',
         '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
         '/preview/project', '/en/preview/project', '/fr/preview/project',
@@ -128,7 +128,7 @@ export default {
         '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
         '/preview/team', '/en/preview/team', '/fr/preview/team',
       ] : [],
-    ], */
+    ],
   },
   privateRuntimeConfig: {
     http: {

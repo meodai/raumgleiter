@@ -365,7 +365,6 @@
       Page Footer
     </h2>
     <PageFooter />
-
   </div>
 </template>
 

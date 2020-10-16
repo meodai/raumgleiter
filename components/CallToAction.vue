@@ -47,7 +47,7 @@
     aria-label="$t('contactUs')"
     :class="{'calltoaction--fullwidth': fields.fullwidth}"
   >
-    <div class="calltoaction__background" v-if="fields.background">
+    <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />
     </div>
     <div class="calltoaction__content">

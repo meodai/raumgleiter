@@ -206,7 +206,6 @@
     }
   }
 
-
   /*
   .related__slide--portrait {
     height: 45rem;

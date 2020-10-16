@@ -119,7 +119,7 @@ export default {
    ** Static site generation config
    */
   generate: {
-    /*exclude: [
+    /* exclude: [
       ...process.env.LIVE_PREVIEW !== 'true' ? [
         '/preview', '/en/preview', '/fr/preview',
         '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
@@ -128,7 +128,7 @@ export default {
         '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
         '/preview/team', '/en/preview/team', '/fr/preview/team',
       ] : [],
-    ],*/
+    ], */
   },
   privateRuntimeConfig: {
     http: {

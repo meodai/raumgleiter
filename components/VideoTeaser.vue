@@ -123,6 +123,28 @@
           height: window.innerHeight,
         });
       },
+      createMask () {
+        const slices = 4;
+        const can = document.createElement('canvas');
+        const ctx = can.getContext('2d');
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        can.width = w;
+        can.height = h;
+
+        for (let i = 0; i < slices; i++) {
+          const gradient = ctx.createLinearGradient(
+            i * (w / slices), 0,
+            (i * (w / slices)) + (w / slices), 0
+          );
+          gradient.addColorStop(0, '#fff');
+          gradient.addColorStop(1, '#000');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(i * (w / slices), 0, w / slices, h);
+        }
+
+        return can;
+      },
       createVideoTexture (src) {
         const $video = document.createElement('video');
         const extension = /(?:\.([^.]+))?$/.exec(src)[1];

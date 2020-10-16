@@ -1,7 +1,7 @@
 <template>
   <div class="video-teaser-container">
     <client-only>
-      <slot/>
+      <slot />
     </client-only>
   </div>
 </template>

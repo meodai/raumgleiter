@@ -45,8 +45,12 @@
         :key="'offerGridText'+i"
         class="offer-grid-text__block"
       >
-        <h4 class="offer-grid-text__subtitle">{{ textBlock.header }}</h4>
-        <p class="offer-grid-text__subtext">{{ textBlock.body }}</p>
+        <h4 class="offer-grid-text__subtitle">
+          {{ textBlock.header }}
+        </h4>
+        <p class="offer-grid-text__subtext">
+          {{ textBlock.body }}
+        </p>
       </aside>
     </Intro>
   </div>

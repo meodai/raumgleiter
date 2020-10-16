@@ -1,5 +1,6 @@
 <script>
   export default {
+    nuxtI18n: false,
     data () {
       return {
         sizes: ['mouse', 'rat', 'cat', 'dog', 'pony', 'horse'],

@@ -27,8 +27,11 @@
       currentVideoTeaser () {
         return this.videoTeasers[this.currentSlide];
       },
-      currentPageIndex () {
+      currentPageIndexByRoute () {
         return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
+      },
+      currentPageIndex () {
+        return this.$route.params.slug ? this.currentPageIndexByRoute : this.currentSlide;
       },
       currentPage () {
         return this.pagesInCurrentLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
@@ -44,8 +47,22 @@
           };
         }).toArray();
       },
+      currentIntroBlock () {
+        return this.currentPage && this.currentPage.pagebuilder.length
+          ? [this.currentPage.pagebuilder[0]] : [];
+      },
+      currentPagebuilder () {
+        return this.currentPage && this.currentPage.pagebuilder.length > 1
+          ? this.currentPage.pagebuilder.slice(1, -1) : [];
+      },
     },
-    watch: {},
+    watch: {
+      '$nuxt.$route.params.slug' () {
+        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+          this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
+        }
+      },
+    },
     mounted () {
       this.listenForScrollEvent();
       window.addEventListener('scroll', this.listenForScrollEvent);
@@ -89,19 +106,26 @@
         :entries="videoTeasers"
         :loop-videos="!hasEnteredRoute"
         :allow-swipe="allowTouchSwipe"
-        :start-eq="currentPageIndex"
+        :start-eq="currentPageIndexByRoute"
         @slide="slideUpdate"
       />
     </VideoTeaserContainer>
 
-    <client-only>
-      <Pagebuilder
-        v-if="currentPage"
-        :key="'page-content-'+currentPage.slug"
-        :slug="currentPage.slug"
-        :blocks="currentPage.pagebuilder"
-      />
-    </client-only>
+    <!--  Intro Block  -->
+    <Pagebuilder
+      v-if="currentPage"
+      :key="'page-intro-'+currentPage.slug"
+      :slug="'intro'+currentPage.slug"
+      :blocks="currentIntroBlock"
+    />
+
+    <!--  Page Content  -->
+    <Pagebuilder
+      v-if="currentPage && hasEnteredRoute"
+      :key="'page-content-'+currentPage.slug"
+      :slug="'content'+currentPage.slug"
+      :blocks="currentPagebuilder"
+    />
   </div>
 </template>
 

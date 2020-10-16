@@ -71,6 +71,7 @@
       ticker.start();
 
       document.addEventListener('keyup', this.listenToArrowKeys);
+      this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
 
     /*
     const {
@@ -105,6 +106,7 @@
       }
       this.pixiSlides = [];
       document.removeEventListener('keyup', this.listenToArrowKeys);
+      this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
     },
     methods: {
       loadEntries () {
@@ -250,6 +252,10 @@
         });
 
         return { slide, slices, partSize };
+      },
+      slideToIndex (eq) {
+        const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
+        this.slide(index);
       },
       slide (eq = 0) {
         clearTimeout(this.sliderTimeout);
@@ -482,7 +488,7 @@
       </div>
     </section>
     <div
-      v-if="!isSingleVideo"
+      v-if="sliderIsOnAutoplay"
       class="video-teaser-progress"
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"

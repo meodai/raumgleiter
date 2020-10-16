@@ -30,7 +30,7 @@
 </script>
 
 <template>
-  <div class="quote">
+  <div class="quote" :class="{ 'c-design c-design--inverted': fields.inverted }">
     <div v-if="fields.background" class="quote__background">
       <ResponsiveImage class="quote__backgroundImage" :image="fields.background.image" />
     </div>

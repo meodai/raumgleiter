@@ -45,7 +45,7 @@
     v-if="showFirstRow || showSecondRow"
     class="calltoaction"
     aria-label="$t('contactUs')"
-    :class="{'calltoaction--fullwidth': fields.fullwidth}"
+    :class="{'calltoaction--fullwidth': fields.fullwidth, 'c-design c-design--inverted': fields.inverted}"
   >
     <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />

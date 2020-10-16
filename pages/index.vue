@@ -69,7 +69,6 @@
 
         if (window.scrollY > 10 && !this.hasEnteredRoute) {
           this.updateRouteToMatchTeaser();
-          this.$nuxt.$emit('stop-video-header');
         }
       }),
       slideUpdate (slide) {

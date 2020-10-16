@@ -28,7 +28,6 @@
         loader: new PIXI.Loader(),
         currentSlideEq: 0,
         sliderHasStarted: false,
-        sliderIsPlaying: true,
         videoIsPlaying: false,
         loadingCount: 0,
         currentVideoDuration: 8,
@@ -41,14 +40,13 @@
         return this.$props.entries.map(entry => (entry.video));
       },
       sliderIsOnAutoplay () {
-        return this.loopVideos && this.sliderIsPlaying && !this.isSingleVideo;
+        return this.loopVideos && !this.isSingleVideo;
       },
       isSingleVideo () {
         return this.videoList.length === 1;
       },
     },
     created () {
-      this.$nuxt.$on('stop-video-header', this.stopSlider);
     },
     mounted () {
       const ticker = PIXI.Ticker.shared;
@@ -95,7 +93,6 @@
         this.app = null;
       }
       this.pixiSlides = [];
-      this.$nuxt.$off('stop-video-header', this.stopSlider);
       document.removeEventListener('keyup', this.listenToArrowKeys);
     },
     methods: {
@@ -290,8 +287,7 @@
       isAbleToSlide (swiping) {
         return !this.isTransitioning &&
           !this.isSingleVideo &&
-          (this.loopVideos || swiping) &&
-          (this.sliderIsPlaying || swiping);
+          (this.loopVideos || swiping);
       },
 
       getNextEq (eq) {
@@ -397,9 +393,6 @@
         // Load next slide
         this.loadingCount++;
         this.loadNextSlide();
-      },
-      stopSlider () {
-        this.sliderIsPlaying = false;
       },
     },
   };

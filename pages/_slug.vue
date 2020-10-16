@@ -56,7 +56,13 @@
           ? this.currentPage.pagebuilder.slice(1, -1) : [];
       },
     },
-    watch: {},
+    watch: {
+      '$nuxt.$route.params.slug' () {
+        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+          this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
+        }
+      },
+    },
     mounted () {
       this.listenForScrollEvent();
       window.addEventListener('scroll', this.listenForScrollEvent);

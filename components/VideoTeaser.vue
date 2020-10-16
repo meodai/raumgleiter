@@ -46,8 +46,7 @@
         return this.videoList.length === 1;
       },
     },
-    created () {
-    },
+    created () {},
     mounted () {
       const ticker = PIXI.Ticker.shared;
       ticker.autoStart = false;
@@ -359,6 +358,12 @@
           return;
         }
 
+        // let indexToLoad = this.startEq + this.loadingCount;
+        // if (indexToLoad > this.$props.entries.length - 1) {
+        //   indexToLoad -= this.$props.entries.length;
+        // }
+        // const entryToLoad = this.$props.entries[indexToLoad];
+        // console.log(entryToLoad);
         const entryToLoad = this.$props.entries[this.loadingCount];
 
         if (entryToLoad.title && entryToLoad.video) {

@@ -54,6 +54,7 @@ export default {
     { src: './plugins/intersection-observer.js', mode: 'client' },
     { src: './plugins/lazysizes.js', mode: 'client' },
     { src: './plugins/canautoplay.js', mode: 'client' },
+    { src: './plugins/touch.js', mode: 'client' },
   ],
   /*
    ** Auto import components
@@ -83,11 +84,12 @@ export default {
     strategy: 'prefix_except_default',
     locales: [
       { code: 'de', file: 'de.js' },
-      { code: 'fr', file: 'fr.js' },
       { code: 'en', file: 'en.js' },
+      { code: 'fr', file: 'fr.js' },
     ],
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },
+    vuex: { syncLocale: true },
     langDir: 'lang/',
     lazy: true,
   },
@@ -118,7 +120,7 @@ export default {
    */
   generate: {
     exclude: [
-      ...process.env.LIVE_PREVIEW !== 'true' ? [
+      ...process.env.LIVE_PREVIEW !== 'true' && process.env.DEV_MODE !== 'true' ? [
         '/preview', '/en/preview', '/fr/preview',
         '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
         '/preview/project', '/en/preview/project', '/fr/preview/project',
@@ -135,8 +137,9 @@ export default {
   },
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
+    devMode: process.env.DEV_MODE === 'true',
     http: {
-      browserBaseURL: process.env.LIVE_PREVIEW === 'true' ? process.env.API_URL || 'https://api.raumgleiter.noo.work' : '',
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true' ? process.env.API_URL || 'https://api.raumgleiter.noo.work' : '',
     },
   },
 };

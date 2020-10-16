@@ -18,54 +18,80 @@
       teamPage () {
         return this.teamPageByLocale[this.$i18n.locale];
       },
+      videoTeaser () {
+        return [{
+          video: this.teamPage.headerVideo.url,
+          title: this.teamPage.headerVideo.header,
+          subtitle: this.teamPage.title,
+        }];
+      },
     },
   };
 </script>
 
 <template>
-  <div class="l-design-width">
-    <!-- teamPage.backgroundImage -->
-    <intro
+  <div>
+    <client-only>
+      <VideoTeaser
+        v-if="!$config.livePreview || $config.devMode"
+        :entries="videoTeaser"
+      />
+    </client-only>
+    <Intro
+      class="intro--team"
       :fields="{
         header: teamPage.header,
         lead: teamPage.lead,
       }"
       :is-white="true"
     />
-
-    <div class="people">
-      <article v-for="person in teamPage.people" class="person">
-        <ResponsiveImage class="person__image" :image="person.image" />
-        <div class="person__body">
-          <h2 class="person__name">
-            {{ person.name }}
-          </h2>
-          <h3 class="person__role">
-            {{ person.role }}
-          </h3>
-          <a
-            v-if="person.email"
-            class="person__link"
-            :href="'mailto:'+person.email"
-          >{{ person.email }}</a>
-          <a
-            v-if="person.phone"
-            class="person__link"
-            :href="'tel:'+person.phone"
-          >{{ person.phone }}</a>
-          <ul class="person__links">
-            <li class="person__linksitem" v-for="link in person.socialLinks" :key="link.type">
-              <a :href="link.url" rel="nofollow noopener">
-                <Icon
-                  class="calltoaction__icon"
-                  :name="link.type"
-                  :is-block="true"
-                />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </article>
+    <div class="l-design-width">
+      <div class="people">
+        <article
+          v-for="(person, i) in teamPage.people"
+          :key="'team-'+i"
+          class="person"
+        >
+          <ResponsiveImage
+            v-if="person.image"
+            class="person__image"
+            :image="person.image"
+          />
+          <div class="person__body">
+            <h2 class="person__name">
+              {{ person.name }}
+            </h2>
+            <h3 class="person__role">
+              {{ person.role }}
+            </h3>
+            <a
+              v-if="person.email"
+              class="person__link"
+              :href="'mailto:'+person.email"
+            >{{ person.email }}</a>
+            <a
+              v-if="person.phone"
+              class="person__link"
+              :href="'tel:'+person.phone"
+            >{{ person.phone }}</a>
+            <ul class="person__links">
+              <li
+                v-for="link in person.socialLinks"
+                :key="'team-'+i+'-social-'+link.type"
+                class="person__linksitem"
+              >
+                <a :href="link.url" rel="nofollow noopener">
+                  <Icon
+                    class="calltoaction__icon"
+                    :name="link.type"
+                    :is-block="true"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
     </div>
 
     <Pagebuilder slug="team" :blocks="teamPage.cta" />
@@ -73,17 +99,35 @@
 </template>
 
 <style lang="scss">
+  .intro--team {
+    padding-bottom: 0;
+  }
   .people {
     display: flex;
     flex-wrap: wrap;
     margin-left: calc(-1 * var(--size-mouse));
+
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .person {
     background: #f8f8f8;
+    width: calc(33.33% - var(--size-mouse));
     flex: 0 0 calc(33.33% - var(--size-mouse));
     margin-left: var(--size-mouse);
     margin-top: var(--size-mouse);
+
+    @include bp('tablet') {
+      width: calc(50% - var(--size-mouse));
+      flex: 0 0 calc(50% - var(--size-mouse));
+    }
+
+    @include bp('phone') {
+      width: calc(100% - var(--size-mouse));
+      flex: 0 0 calc(100% - var(--size-mouse));
+    }
   }
 
   .person__role {
@@ -113,6 +157,11 @@
     width: 2.6rem;
     height: 2.6rem;
     margin-right: 1rem;
+
+    @include bp('phone') {
+      width: 5.4rem;
+      height: 5.4rem;
+    }
 
     a {
       display: block;

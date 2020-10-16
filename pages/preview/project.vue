@@ -9,7 +9,7 @@
         .filter(page => page.locale === query.locale)
         .first();
 
-      if (!$config.livePreview || !projectEntryPreview) {
+      if (!$config.devMode && (!$config.livePreview || !projectEntryPreview)) {
         return error({ statusCode: 404, message: 'Page not found' });
       }
 

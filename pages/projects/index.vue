@@ -93,7 +93,6 @@
     />
 
     <div class="l-design-width grid__warp">
-      <!-- Gefilterte Projekte -->
       <ol
         ref="projectContainer"
         class="grid"

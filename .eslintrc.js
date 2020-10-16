@@ -28,9 +28,9 @@ module.exports = {
     'vue/script-indent': ['warn', 2, { baseIndent: 1, switchCase: 1 }],
     'vue/html-indent': ['warn', 2],
     'vue/max-attributes-per-line': ['error', { singleline: 2 }],
-    'vue/match-component-file-name': ['error', {
-      extensions: ['vue'],
-    }],
+    // 'vue/match-component-file-name': ['error', {
+    //   extensions: ['vue'],
+    // }],
   },
   overrides: [
     {

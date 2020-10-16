@@ -9,7 +9,7 @@
         .filter(page => page.slug === query.CraftPreviewSlug && page.locale === query.locale)
         .first();
 
-      if (!$config.livePreview || !pageEntryPreview) {
+      if (!$config.devMode && (!$config.livePreview || !pageEntryPreview)) {
         return error({ statusCode: 404, message: 'Page not found' });
       }
 

@@ -7,10 +7,12 @@ export const state = () => ({
     {
       path: 'projects',
       title: 'projects',
-    }, {
+    },
+    {
       path: 'team',
       title: 'team',
-    }, {
+    },
+    {
       path: { name: 'slug', params: { slug: 'about' } },
       title: 'about',
     },
@@ -26,8 +28,25 @@ export const mutations = {
   },
 };
 
+export const getters = {
+  getMainSections (state) {
+    return state.mainSectionsByLocale[state.i18n.locale] ? state.mainSectionsByLocale[state.i18n.locale].entries : [];
+  },
+};
+
 export const actions = {
   async nuxtServerInit ({ commit }) {
-    commit('setMainSections', collect(await this.$craft('header')).keyBy('locale').all());
+    const sections = collect(await this.$craft('header'))
+      .map((section) => {
+        section.entries = collect(section.entries).map((entry) => {
+          // Build i18n path object
+          entry.path = entry.slug ? { name: 'slug', params: { slug: entry.slug } } : entry.path;
+          return entry;
+        }).all();
+        return section;
+      })
+      .keyBy('locale')
+      .all();
+    commit('setMainSections', sections);
   },
 };

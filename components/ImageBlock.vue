@@ -155,18 +155,14 @@
       v-else-if="fields.video && fields.video.vimeoId"
       class="image-block__video"
     >
-      <VimeoEmbed
-        :video="fields.video"
-      />
+      <VimeoEmbed :video="fields.video" />
     </div>
 
     <div
       v-else-if="hasIframe"
       class="image-block__iframe"
     >
-      <IframeEmbed
-        :iframe="fields.iframe"
-      />
+      <IframeEmbed :iframe="fields.iframe" />
     </div>
   </article>
 </template>
@@ -174,6 +170,11 @@
 <style lang="scss">
   .image-block {
     --image-block-gutter: 5rem;
+
+    @include bp('phone') {
+      display: block;
+    }
+
     display: flex;
     flex-direction: row-reverse;
     margin-left: calc(-1 * var(--image-block-gutter));
@@ -264,6 +265,22 @@
       width: 35%;
       margin: 0;
       //filter: invert(100%);
+
+      @include bp('phone') {
+        position: relative;
+        width: auto;
+        z-index: 2;
+        padding: var(--size-pony) var(--size-design-bezel);
+        top: 0;
+        left: 0;
+      }
+    }
+
+    .image-block__slides,
+    .image-block__slide {
+      @include bp('phone') {
+        bottom: 0;
+      }
     }
 
     .image-block__video,
@@ -271,6 +288,14 @@
     .image-block__images {
       width: 100vw;
       margin: 0;
+
+      @include bp('phone') {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
     }
   }
 

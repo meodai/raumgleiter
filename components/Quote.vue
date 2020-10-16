@@ -30,8 +30,8 @@
 </script>
 
 <template>
-  <div class="quote">
-    <div class="quote__background" v-if="fields.background">
+  <div class="quote" :class="[ fields.inverted && fields.background ? 'c-design--inverted' : 'c-design']">
+    <div v-if="fields.background" class="quote__background">
       <ResponsiveImage class="quote__backgroundImage" :image="fields.background.image" />
     </div>
     <blockquote class="quote__block">

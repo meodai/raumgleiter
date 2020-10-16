@@ -34,7 +34,9 @@
 <template>
   <article class="offer-grid l-design-width">
     <div class="offer-grid__intro">
-      <h3 class="t-title">{{ fields.header }}</h3>
+      <h3 class="t-title">
+        {{ fields.header }}
+      </h3>
       <p>{{ fields.lead }}</p>
       <a href="#">
         {{ fields.linkText }}
@@ -45,9 +47,11 @@
     </div>
     <div class="offer-grid__images">
       <template v-for="(item, i) in fields.items">
-        <figure class="offer-grid__image" :key="i">
+        <figure :key="'offer-grid-images'+i" class="offer-grid__image">
           <ResponsiveImage v-if="item.images.length" :image="item.images[0]" />
-          <figcaption class="offer-grid__caption">{{ item.caption }}</figcaption>
+          <figcaption class="offer-grid__caption">
+            {{ item.caption }}
+          </figcaption>
         </figure>
       </template>
     </div>

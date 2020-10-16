@@ -10,7 +10,7 @@
         .filter(teamPagePreview => teamPagePreview.locale === query.locale)
         .first();
 
-      if (!$config.livePreview || !teamPagePreview) {
+      if (!$config.devMode && (!$config.livePreview || !teamPagePreview)) {
         return error({ statusCode: 404, message: 'Page not found' });
       }
 

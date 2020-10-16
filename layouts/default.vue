@@ -2,6 +2,9 @@
   export default {
     head () {
       return {
+        htmlAttrs: {
+          lang: this.$i18n.locale,
+        },
         bodyAttrs: {
           class: this.$config.livePreview ? 'livePreviewEnabled' : null,
         },
@@ -12,9 +15,9 @@
 
 <template>
   <div>
-    <Navigation v-if="!$config.livePreview" />
+    <Navigation v-if="!$config.livePreview || $config.devMode" />
     <Nuxt />
-    <PageFooter />
+    <PageFooter v-if="!$config.livePreview || $config.devMode" />
     <!--Functional components -->
     <Design />
     <Icons />

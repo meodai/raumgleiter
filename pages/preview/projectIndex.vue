@@ -16,7 +16,7 @@
         .filter(projectIndex => projectIndex.locale === query.locale)
         .first();
 
-      if (!$config.livePreview || !projectIndexPagePreview) {
+      if (!$config.devMode && (!$config.livePreview || !projectIndexPagePreview)) {
         return error({ statusCode: 404, message: 'Page not found' });
       }
 

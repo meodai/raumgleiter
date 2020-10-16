@@ -44,10 +44,10 @@
   <article
     v-if="showFirstRow || showSecondRow"
     class="calltoaction"
-    aria-label="Contact Us"
-    :class="{'calltoaction--fullwidth': fields.fullwidth}"
+    aria-label="$t('contactUs')"
+    :class="{'calltoaction--fullwidth': fields.fullwidth, 'c-design': !fields.inverted && fields.background, 'c-design--inverted': fields.inverted && fields.background}"
   >
-    <div class="calltoaction__background" v-if="fields.background">
+    <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />
     </div>
     <div class="calltoaction__content">
@@ -90,7 +90,6 @@
 </template>
 
 <style lang="scss">
-
   .calltoaction--fullwidth {
     display: flex;
     vertical-align: middle;
@@ -127,6 +126,7 @@
     left: 0;
     right: 0;
     bottom: -20%;
+    overflow: hidden;
   }
 
   .calltoaction__backgroundImage {

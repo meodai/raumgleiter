@@ -102,7 +102,7 @@
 
     <Related
       :fields="{
-        title: $t('Weitere Welten.'),
+        title: $t('moreWorlds'),
         entries: projectEntry.relatedEntries,
       }"
     />

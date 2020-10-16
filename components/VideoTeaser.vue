@@ -1,13 +1,9 @@
 <script>
+  import collect from 'collect.js';
   import Hls from 'hls.js';
 
   export default {
     props: {
-      startEq: {
-        type: Number,
-        required: false,
-        default: 0,
-      },
       slices: {
         type: Number,
         required: false,
@@ -21,6 +17,18 @@
         type: Boolean,
         default: true,
       },
+      allowSwipe: {
+        type: Boolean,
+        default: true,
+      },
+      timePerSlide: {
+        type: Number,
+        default: 8,
+      },
+      startEq: {
+        type: Number,
+        default: 0,
+      },
     },
     data () {
       return {
@@ -29,12 +37,27 @@
         loader: new PIXI.Loader(),
         currentSlideEq: 0,
         sliderHasStarted: false,
+        videoIsPlaying: false,
+        loadingCount: 0,
+        currentVideoDuration: 8,
+        sliderTimeout: null,
+        isTransitioning: false,
+        entriesInOrder: [],
       };
     },
     computed: {
       videoList () {
-        return this.$props.entries.map(entry => (entry.video));
+        return this.entriesInOrder.map(entry => (entry.video));
       },
+      sliderIsOnAutoplay () {
+        return this.loopVideos && !this.isSingleVideo;
+      },
+      isSingleVideo () {
+        return this.videoList.length === 1;
+      },
+    },
+    created () {
+      this.loadEntries();
     },
     mounted () {
       const ticker = PIXI.Ticker.shared;
@@ -44,28 +67,28 @@
       this.app = this.createPIXIApp();
       this.$refs.canvas.appendChild(this.app.view);
 
-      this.loadVideos();
+      this.loadAllSlides();
       ticker.start();
 
-      // create a video texture from a path
-      // const texture = this.createVideoTexture(this.videoList[this.$props.startEq]);
+      document.addEventListener('keyup', this.listenToArrowKeys);
+      this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
 
-      /*
-      const {
-        slide,
-        slices,
-        partSize,
-      } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+    /*
+    const {
+      slide,
+      slices,
+      partSize,
+    } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
-      this.app.stage.addChild(slide);
+    this.app.stage.addChild(slide);
 
-      window.addEventListener('resize', () => {
-        this.app.width = window.innerWidth;
-        this.app.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      this.app.width = window.innerWidth;
+      this.app.height = window.innerHeight;
 
-        this.app.queueResize();
-      });
-      */
+      this.app.queueResize();
+    });
+    */
     },
     beforeDestroy () {
       this.loader.reset();
@@ -82,10 +105,18 @@
         this.app = null;
       }
       this.pixiSlides = [];
+      document.removeEventListener('keyup', this.listenToArrowKeys);
+      this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
     },
     methods: {
-      partSize  (multiplyer = 1) {
-        return 1 / this.slices * multiplyer;
+      loadEntries () {
+        let entries = collect(this.entries);
+        const firstPart = entries.splice(this.startEq);
+        entries = firstPart.merge(entries.all());
+        this.entriesInOrder = entries.toArray();
+      },
+      partSize (multiplier = 1) {
+        return 1 / this.slices * multiplier;
       },
       createPIXIApp () {
         return new PIXI.Application({
@@ -94,32 +125,54 @@
           height: window.innerHeight,
         });
       },
+      createMask () {
+        const slices = 4;
+        const can = document.createElement('canvas');
+        const ctx = can.getContext('2d');
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        can.width = w;
+        can.height = h;
+
+        for (let i = 0; i < slices; i++) {
+          const gradient = ctx.createLinearGradient(
+            i * (w / slices), 0,
+            (i * (w / slices)) + (w / slices), 0
+          );
+          gradient.addColorStop(0, '#fff');
+          gradient.addColorStop(1, '#000');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(i * (w / slices), 0, w / slices, h);
+        }
+
+        return can;
+      },
       createVideoTexture (src) {
         const $video = document.createElement('video');
         const extension = /(?:\.([^.]+))?$/.exec(src)[1];
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
-        // $video.loop = true;
-        // $video.src = src;
 
-        $video.onended = () => {
-          this.videoEnded($video);
-        };
+        // Slide to next slide 1.5s before video ends
+        // $video.addEventListener('timeupdate', () => {
+        //   const threshold = 1.5;
+        //   if ($video.currentTime >= $video.duration - threshold) {
+        //     this.videoReachedEnd();
+        //   }
+        // });
+        $video.addEventListener('ended', () => {
+          this.videoReachedEnd();
+          this.videoEndHandler($video);
+        });
 
         // Load video source
         if ($video.canPlayType('application/vnd.apple.mpegurl') || extension !== 'm3u8') {
           $video.src = src;
-          // video.addEventListener('loadedmetadata', function() {
-          //   video.play();
-          // });
         } else if (Hls.isSupported()) {
           const hls = new Hls();
           hls.loadSource(src);
           hls.attachMedia($video);
-          // hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          // video.play();
-          // });
         }
 
         $video.pause();
@@ -132,13 +185,19 @@
       },
 
       createBlankTexture () {
-        const texture = PIXI.Texture.EMPTY;
-        return texture;
+        return PIXI.Texture.EMPTY;
       },
 
-      videoEnded ($video) {
-        if (this.loopVideos) {
+      videoReachedEnd () {
+        if (this.sliderIsOnAutoplay) {
           this.slideToNext();
+        }
+      },
+
+      videoEndHandler ($video) {
+        if (!this.sliderIsOnAutoplay) {
+          $video.play();
+          this.resetProgressBar();
         }
       },
 
@@ -165,8 +224,6 @@
             videoScale = height / 1080;
             moveDelta.x = videoScale * 1920 - width;
           }
-
-          // console.log(texture.baseTexture.width, texture.baseTexture.height);
 
           // Stretch to fullscreen
           videoSprite.width = videoScale * 1920;
@@ -196,9 +253,15 @@
 
         return { slide, slices, partSize };
       },
+      slideToIndex (eq) {
+        const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
+        this.slide(index);
+      },
       slide (eq = 0) {
+        clearTimeout(this.sliderTimeout);
         this.slideOut();
         this.slideIn(eq);
+        this.$emit('slide', this.entriesInOrder[eq].index);
       },
       slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
@@ -209,7 +272,7 @@
             x: -this.app.screen.width - (this.app.screen.width * 0.2),
             ease: 'power4.out',
             onComplete: () => {
-              if (oldSlide.type === 'video') {
+              if (oldSlide.slices.length - 1 === i && oldSlide.type === 'video') {
                 oldSlide.texture.baseTexture.resource.source.pause();
                 oldSlide.texture.baseTexture.resource.source.currentTime = 0;
               }
@@ -223,11 +286,18 @@
         newSlide.slide.zOrder = 2;
 
         if (newSlide.type === 'video') {
+          // on sliding in, start the video
           newSlide.texture.baseTexture.resource.source.play();
+          this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {
-          // todo: abort slide on scroll
-          setTimeout(this.slideToNext, 8000);
+          // if it is a blank slide, set a timeout to slide
+          // to the next one (since there is no video event)
+          this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
+          this.currentVideoDuration = this.timePerSlide;
         }
+
+        this.resetSlicesPosition(newSlide.slices);
+
         newSlide.slices.forEach((videoSprite, i) => {
           gsap.to(videoSprite.position, 1.5, {
             x: newSlide.partSize * this.app.screen.width * i,
@@ -236,34 +306,122 @@
         });
 
         this.currentSlideEq = eq;
+
+        this.resetProgressBar();
+
+        this.isTransitioning = true;
+        setTimeout(() => {
+          this.isTransitioning = false;
+        }, 1500);
       },
-      slideToNext () {
-        let nextEq = this.currentSlideEq + 1;
-        if (nextEq > this.pixiSlides.length - 1) {
-          nextEq = 0;
+
+      resetProgressBar () {
+        this.videoIsPlaying = false;
+        setTimeout(() => {
+          this.videoIsPlaying = true;
+        }, 10);
+      },
+
+      resetSlicesPosition (slices) {
+        slices.forEach((slice) => {
+          // inferred from `container.position.x = width * 3;`
+          slice.position.x = this.app.screen.width * 3;
+        });
+      },
+
+      isAbleToSlide (swiping) {
+        return !this.isTransitioning &&
+          !this.isSingleVideo &&
+          (this.loopVideos || (swiping && this.allowSwipe));
+      },
+
+      getNextEq (eq) {
+        return eq + 1 > this.entriesInOrder.length - 1 ? 0 : eq + 1;
+      },
+      getPrevEq (eq) {
+        return eq - 1 < 0 ? this.entriesInOrder.length - 1 : eq - 1;
+      },
+
+      slideToNext (swiping = false) {
+        if (!this.isAbleToSlide(swiping)) {
+          return;
+        }
+
+        // Skip about when sliding -> its only shown once
+        let nextEq = this.getNextEq(this.currentSlideEq);
+        if (this.entriesInOrder[nextEq].slug === 'about') {
+          nextEq = this.getNextEq(nextEq);
         }
 
         this.slide(nextEq);
       },
+      slideToPrev (swiping = false) {
+        if (!this.isAbleToSlide(swiping)) {
+          return;
+        }
 
-      loadVideos () {
-        this.$props.entries.forEach((entry) => {
-          if (entry.title && entry.video) {
-            this.loader.add(entry.title, entry.video);
-          } else if (entry.title) {
-            const texture = this.createBlankTexture();
-            this.addSlide(texture, 'blank');
-          } else {
-            console.error('VIDEO TEASER: missing resources for video teasers');
-          }
-        });
+        // Skip about when sliding -> its only shown once
+        let prevEq = this.getPrevEq(this.currentSlideEq);
+        if (this.entriesInOrder[prevEq].slug === 'about') {
+          prevEq = this.getPrevEq(prevEq);
+        }
 
-        this.loader.onProgress.add((event, resource) => {
+        this.slide(prevEq);
+      },
+
+      swipeToNext () {
+        this.slideToNext(true);
+      },
+      swipeToPrev () {
+        this.slideToPrev(true);
+      },
+
+      listenToArrowKeys (event) {
+        switch (event.code) {
+          case 'ArrowLeft':
+            this.swipeToPrev();
+            break;
+          case 'ArrowRight':
+            this.swipeToNext();
+            break;
+        }
+      },
+
+      loadAllSlides () {
+        this.loadNextSlide();
+      },
+      initLoader () {
+        this.loader = new PIXI.Loader();
+        // Trigger next video on load
+        this.loader.onLoad.add((event, resource) => {
           const texture = this.createVideoTexture(resource.url);
           this.addSlide(texture, 'video');
         });
+      },
+      loadNextSlide () {
+        if (this.loadingCount >= this.entriesInOrder.length) {
+          // All slides were loaded
+          return;
+        }
 
-        this.loader.load();
+        // let indexToLoad = this.startEq + this.loadingCount;
+        // if (indexToLoad > this.$props.entries.length - 1) {
+        //   indexToLoad -= this.$props.entries.length;
+        // }
+        // const entryToLoad = this.$props.entries[indexToLoad];
+        // console.log(entryToLoad);
+        const entryToLoad = this.entriesInOrder[this.loadingCount];
+
+        if (entryToLoad.title && entryToLoad.video) {
+          // Load video
+          this.initLoader();
+          this.loader.add(entryToLoad.title, location.protocol + entryToLoad.video);
+          this.loader.load();
+        } else if (entryToLoad.title) {
+          // Add a blank slide
+          const texture = this.createBlankTexture();
+          this.addSlide(texture, 'blank');
+        }
       },
       addSlide (texture, type) {
         const { slide, slices, partSize } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
@@ -280,9 +438,12 @@
 
         if (!this.sliderHasStarted) {
           this.sliderHasStarted = true;
-          console.log('Start video');
           this.slideIn(0);
         }
+
+        // Load next slide
+        this.loadingCount++;
+        this.loadNextSlide();
       },
     },
   };
@@ -290,20 +451,28 @@
 </script>
 
 <template>
-  <div class="video-teaser">
+  <div
+    v-touch:swipe.left="swipeToNext"
+    v-touch:swipe.right="swipeToPrev"
+    class="video-teaser"
+  >
     <div ref="canvas" class="video-teaser__canvas" />
+    <!--    <div-->
+    <!--      class="video-teaser__swipe-handler"-->
+    <!--    ></div>-->
     <section
-      v-for="(entry, i) in entries"
-      :key="i"
+      v-for="(entry, i) in entriesInOrder"
+      :key="'video-teaser-slice-'+i"
       :class="{'video-teaser__slider--active': currentSlideEq === i}"
       class="video-teaser__slider"
     >
       <div
         v-for="(slice, j) in slices"
-        :key="j"
+        :key="'video-teaser-slice-'+i+'-'+j"
         class="video-teaser__slice"
         :style="{
-          'clip-path': `inset(0% ${100 - partSize(j + 1) * 100}% 0% ${partSize(j) * 100}%)`,
+          'clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
+          '-webkit-clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
         }"
       >
         <div class="video-teaser__slideInner">
@@ -312,83 +481,130 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              nice subtitle
+              {{ entry.subtitle }}
             </h3>
           </div>
         </div>
       </div>
     </section>
+    <div
+      v-if="sliderIsOnAutoplay"
+      class="video-teaser-progress"
+      :style="{'--timer': currentVideoDuration}"
+      :class="{'play': videoIsPlaying}"
+    />
   </div>
 </template>
 
 <style lang="scss">
-  .video-teaser {
-    position: relative;
-    display: block;
-    width: 100vw;
-    height: -webkit-fill-available;
-    height: 100vh;
-    overflow: hidden;
-    //overflow: hidden;
+.video-teaser {
+  position: relative;
+  display: block;
+  width: 100vw;
+  max-width: 100%;
+  height: -webkit-fill-available;
+  height: 100vh;
+  overflow: hidden;
 
-    &__canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-  }
-
-  .video-teaser__slider,
-  .video-teaser__slice,
-  .video-teaser__slideInner {
+  &__canvas {
     position: absolute;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
-    left: 0;
+    pointer-events: none;
   }
+}
 
-  .video-teaser__slideInner {
-    transform: translateX(100%);
-  }
+//.video-teaser__swipe-handler {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  right: 0;
+//  bottom: 0;
+//}
 
-  .video-teaser__slider--active .video-teaser__slice {
-    @for $i from 1 through 6 {
-      &:nth-child(#{$i}) .video-teaser__slideInner {
-        transition-delay: 100ms + $i * 100ms;
-      }
+.video-teaser__slider,
+.video-teaser__slice,
+.video-teaser__slideInner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.video-teaser__slideInner {
+  transform: translateX(100%);
+}
+
+.video-teaser__slider--active .video-teaser__slice {
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) .video-teaser__slideInner {
+      transition-delay: 100ms + $i * 100ms;
     }
   }
+}
 
-  .video-teaser__slider--active .video-teaser__slideInner {
-    transform: translateX(0%);
-    transition: 800ms transform cubic-bezier(0.7,0.3,0,1);
+.video-teaser__slider--active .video-teaser__slideInner {
+  transform: translateX(0%);
+  transition: 800ms transform cubic-bezier(0.7, 0.3, 0, 1);
 
+}
+
+.video-teaser__header {
+  position: absolute;
+  top: 4.5rem;
+  left: 10rem;
+  right: 20rem;
+  color: var(--color-text--inverted);
+
+  @include bp('phone') {
+    top: 10rem;
+    left: var(--size-gutter);
   }
+}
 
-  .video-teaser__header {
+.video-teaser__title {
+  @include typo('title--hero');
+  @include bp('phone') {
+    font-size: 5rem;
+  }
+}
+
+.video-teaser__subtitle {
+  @include typo('default');
+  margin-top: var(--size-rat);
+  opacity: 0;
+}
+
+.video-teaser__slider--active .video-teaser__subtitle {
+  transition: 300ms opacity 1100ms;
+  opacity: 1;
+  color: var(--color-text--inverted);
+}
+
+.video-teaser-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &::after {
     position: absolute;
-    top: 4.5rem;
-    left: 10rem;
-    right: 20rem;
-    color: var(--color-text--inverted);
+    content: '';
+    background: #fff;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 3px;
+    transform: scaleX(0);
+    transform-origin: 0 0;
   }
 
-  .video-teaser__title {
-    @include typo('title--hero');
+  &.play::after {
+    transition: calc(var(--timer) * 1s) transform linear;
+    transform: scaleX(1);
   }
-
-  .video-teaser__subtitle {
-    @include typo('default');
-    margin-top: var(--size-rat);
-    opacity: 0;
-  }
-
-  .video-teaser__slider--active .video-teaser__subtitle {
-    transition: 300ms opacity 1100ms;
-    opacity: 1;
-    color: var(--color-text--inverted);
-  }
+}
 </style>

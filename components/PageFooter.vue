@@ -12,13 +12,13 @@
     },
     computed: {
       footer () {
-        return this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
-      },
-      mainSectionsByLocale () {
-        return this.$store.state.mainSectionsByLocale;
+        return this.footerByLocale && this.footerByLocale[this.$i18n.locale] ? this.footerByLocale[this.$i18n.locale] : null;
       },
       mainSections () {
-        return this.mainSectionsByLocale[this.$i18n.locale] ? this.mainSectionsByLocale[this.$i18n.locale].entries : [];
+        return this.$store.getters.getMainSections;
+      },
+      asideSections () {
+        return this.$store.state.asideSections;
       },
     },
   };
@@ -32,43 +32,19 @@
       </a>
       <div class="footer__col">
         <address
-          aria-label="Kontaktadresse"
+          :aria-label="$t('address')"
           class="footer__address"
           v-html="footer.address"
         />
         <ul class="footer__social">
-          <li>
-            <a href="#">
+          <li
+            v-for="(link, index) in footer.socialLinks"
+            :key="'footer-social-'+index"
+          >
+            <a :href="link.url" rel="noopener nofollow">
               <Icon
                 class="footer__socialIcon"
-                :name="'facebook'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'instagram'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'youtube'"
-                :is-block="true"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Icon
-                class="footer__socialIcon"
-                :name="'linkedIn'"
+                :name="link.type"
                 :is-block="true"
               />
             </a>
@@ -85,36 +61,45 @@
         >
           <input
             type="email"
-            placeholder="e-mail"
+            :placeholder="$t('email')"
             required="required"
           >
-          <button>subscribe</button>
+          <button>{{ $t('subscribe') }}</button>
         </form>
       </article>
       <ul class="footer__nav footer__col">
-        <li><a href="#">Virtual Real Estate</a></li>
-        <li><a href="#">Virtuelle Vermarktung</a></li>
-        <li><a href="#">Virtueller Wettbewerb</a></li>
-        <li><a href="#">Virtuelle Konfigratoren</a></li>
-        <li><a href="#">Virtuelle Lösungen</a></li>
-        <li><a href="#">Application Development</a></li>
+        <li
+          v-for="(section, key) in mainSections"
+          :key="'footer-main-links-'+key"
+        >
+          <nuxt-link :to="localePath(section.path)">
+            {{ section.title }}
+          </nuxt-link>
+        </li>
 
-        <li class="footer__navgap footer__col">
-          <a href="#">Projekte</a>
+        <li
+          v-for="(section, index) in asideSections"
+          :key="'footer-aside-links-'+index"
+          :class="{ 'footer__navgap footer__col': index === 0 }"
+        >
+          <nuxt-link :to="localePath(section.path)">
+            {{ $t(section.title) }}
+          </nuxt-link>
         </li>
-        <li><a href="#">Team</a></li>
-        <li><a href="#">About</a></li>
       </ul>
-      <ul aria-label="Language" class="footer__lang footer__col">
-        <li>
-          <a
-            aria-selected
-            aria-label="Deutsch"
-            href="#"
-          >D</a>
+      <ul :aria-label="$t('language')" class="footer__lang footer__col">
+        <li
+          v-for="locale in $i18n.locales"
+          :key="locale.code"
+        >
+          <nuxt-link
+            :aria-selected="locale.code === $i18n.locale"
+            :aria-label="locale.name"
+            :to="switchLocalePath(locale.code)"
+          >
+            {{ locale.code.toUpperCase().charAt(0) }}
+          </nuxt-link>
         </li>
-        <li><a aria-label="English" href="#">E</a></li>
-        <li><a aria-label="Français" href="#">F</a></li>
       </ul>
     </div>
   </div>
@@ -145,10 +130,14 @@
   }
 
   .footer__inner {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding: var(--size-rat);
 
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .footer__col {
@@ -173,10 +162,19 @@
   .footer__address {
     font-style: normal;
     margin-bottom: var(--size-mouse);
+    @include bp('phone') {
+      font-size: 1.8rem;
+      margin-top: var(--size-rat);
+    }
   }
 
   .footer__address > * {
     display: block;
+  }
+  .footer__nav {
+    @include bp('phone') {
+      display: none;
+    }
   }
   .footer__address a,
   .footer__nav a {
@@ -199,6 +197,10 @@
       font-size: 1.4rem;
       padding: .2em .75em .3em;
       border-radius: 2rem;
+
+      @include bp('phone') {
+        font-size: 2rem;
+      }
     }
     input {
       display: block;
@@ -224,6 +226,14 @@
   }
 
   .footer__lang {
+
+    @include bp('phone') {
+      display: block;
+      position: absolute;
+      top: var(--size-rat);
+      right: var(--size-rat);
+    }
+
     display: flex;
     a {
       padding: 0.5em;
@@ -242,6 +252,10 @@
     > * {
       display: inline-block;
       margin-right: 0.5em;
+    }
+
+    @include bp('phone') {
+      margin-bottom: var(--size-mouse);
     }
   }
 </style>

@@ -38,13 +38,11 @@
       :key="slug+'-pagebuilder-'+index"
       :fields="block.fields"
     >
-      <!-- TODO: add classes -->
       <component
         :is="childBlock.type"
         v-for="(childBlock, childIndex) in block.children"
-        v-if="block.children.length"
         :key="slug+'-pagebuilder-child-'+childIndex"
-        class="intro__cta"
+        :class="{ 'intro__cta': childBlock.type === 'callToAction' }"
         :fields="childBlock.fields"
       />
     </component>

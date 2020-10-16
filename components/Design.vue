@@ -75,6 +75,15 @@
 
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);
+
+  @include bp('phone') {
+    --size-mouse: calc(3.2rem/1.4); // small title
+    --size-rat: calc(4.2rem/1.6);
+    --size-cat: calc(6.2rem/2); // title
+    --size-dog: calc(8.6rem/2);
+    --size-pony: calc(13rem/2); // large title
+    --size-horse: calc(20rem/2);
+  }
 }
 
 // 2) Tools
@@ -105,7 +114,7 @@
 
 :root {
   font-size: screen-ratio-mix(
-    .3, // 20% of the the font-size is relative to the screen width
+    .4, // 20% of the the font-size is relative to the screen width
     1440, // artboard width
     10, // target PX size (base font-size in the design)
     // 10px as a base so 1rem would be around 10px
@@ -133,62 +142,6 @@ a {
 
 .l-design-width--wide {
   padding: var(--size-design-bezel--wide);
-}
-
-.l-grid {
-  --size-gutter-x: var(--size-gutter);
-  --size-gutter-y: calc(var(--size-gutter) * 0.5);
-
-  display: flex;
-  width: calc(100% + var(--size-gutter-x));
-  margin-left: calc(-1 * var(--size-gutter-x));
-  margin-bottom: calc(-1 * var(--size-gutter-y));
-  flex-wrap: wrap;
-  padding: 0;
-
-  &__cell {
-    flex: 1 0 auto;
-
-    margin-left: var(--size-gutter-x);
-    margin-bottom: var(--size-gutter-y);
-    box-sizing: border-box;
-
-    @include grid__cell();
-    @each $breakpoint-name, $breakpoint-value in $grid-breakpoints {
-      @include bp($breakpoint-name) {
-        @include grid__cell($breakpoint-name: $breakpoint-value);
-      }
-    }
-
-    &--align-right {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    &--align-bottom {
-      display: flex;
-      align-items: flex-end;
-    }
-
-    &--align-centered {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &--break {
-      flex-grow: 1;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  &--no-gap {
-    --size-gutter: 0rem; //sass-lint:disable-line zero-unit Needed because otherwise calc does not work with %
-    --size-gutter-x: var(--size-gutter);
-    --size-gutter-y: var(--size-gutter);
-  }
 }
 
 // 6) Components

@@ -141,12 +141,14 @@
           if (resource.error === null) {
             this.createVideoTexture(resource.url);
           } else {
+            console.log('loader error', resource.error);
             this.loadingCount++;
             this.loadNextSlide();
           }
         });
       },
       loadNextSlide () {
+        console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
           return;

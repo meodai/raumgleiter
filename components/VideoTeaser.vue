@@ -130,9 +130,10 @@
         this.loadNextSlide();
       },
       initLoader () {
-        this.loader = new PIXI.Loader();
+        // this.loader = new PIXI.Loader();
+        this.loader.reset();
         // Trigger next video on load
-        this.loader.onLoad.add((event, resource) => {
+        this.loader.onProgress.add((event, resource) => {
           const texture = this.createVideoTexture(resource.url);
           this.addSlide(texture, 'video');
         });
@@ -145,13 +146,13 @@
 
         const entryToLoad = this.entriesInOrder[this.loadingCount];
 
-        if (entryToLoad.title && entryToLoad.video) {
+        if (entryToLoad.video) {
           // Load video
           this.initLoader();
 
-          this.loader.add(entryToLoad.title, location.protocol + entryToLoad.video);
+          this.loader.add(entryToLoad.slug, location.protocol + entryToLoad.video);
           this.loader.load();
-        } else if (entryToLoad.title) {
+        } else {
           // Add a blank slide
           const texture = this.createBlankTexture();
           this.addSlide(texture, 'blank');
@@ -215,7 +216,7 @@
           // hls.on(Hls.Events.MANIFEST_PARSED, function () {
           //   console.log('play video');
           // });
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl')) {
+        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || extension === 'mp4') {
           $video.src = src;
         }
 
@@ -466,9 +467,9 @@
        */
       resetProgressBar () {
         this.videoIsPlaying = false;
-        this.$nextTick(() => {
+        setTimeout(() => {
           this.videoIsPlaying = true;
-        });
+        }, 200);
       },
       /*
       Resize / Responsive

@@ -19,7 +19,7 @@
     },
     computed: {
       hasEnteredRoute () {
-        return this.$route.path !== '/';
+        return this.$route.params.slug !== undefined;
       },
       pagesInCurrentLocale () {
         return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;

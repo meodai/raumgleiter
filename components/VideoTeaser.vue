@@ -148,13 +148,11 @@
         if (entryToLoad.video) {
           // Load video
           this.initLoader();
-
           this.loader.add(entryToLoad.slug, location.protocol + entryToLoad.video);
           this.loader.load();
         } else {
           // Add a blank slide
-          const texture = this.createBlankTexture();
-          this.addSlide(texture, 'blank');
+          this.addSlide(PIXI.Texture.EMPTY, 'blank');
         }
       },
       /*
@@ -230,7 +228,7 @@
           });
         } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
 
-          $video.addEventListener('loadeddata', () => {
+          $video.addEventListener('loadedmetadata', () => {
             console.log('video loaded');
             this.addSlide(texture, 'video');
           });
@@ -242,9 +240,6 @@
 
         // texture.baseTexture.resource.autoPlay = false;
         // texture.baseTexture.resource.muted = true;
-      },
-      createBlankTexture () {
-        return PIXI.Texture.EMPTY;
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
@@ -331,8 +326,8 @@
       Sliding
        */
       startSlider () {
-        console.log('start slider');
         if (!this.sliderHasStarted) {
+          console.log('start slider');
           this.sliderHasStarted = true;
           this.slideIn(0);
         }
@@ -380,7 +375,8 @@
 
         if (newSlide.type === 'video') {
           // on sliding in, start the video
-          console.log('video pi state: ', newSlide.texture.baseTexture.resource.source.playsinline);
+          console.log('attempting to start video', eq);
+          newSlide.texture.baseTexture.resource.source.muted = true;
           newSlide.texture.baseTexture.resource.source.play();
           this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {

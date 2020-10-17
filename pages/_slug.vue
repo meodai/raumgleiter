@@ -39,7 +39,7 @@
       videoTeasers () {
         return collect(this.pagesInCurrentLocale).map((page, i) => {
           return {
-            video: page.headerVideo.hls,
+            video: page.headerVideo.url,
             title: page.header,
             subtitle: page.title,
             slug: page.slug,

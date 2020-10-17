@@ -30,6 +30,27 @@
       return {
       };
     },
+    mounted () {
+      const options = {
+        rootMargin: '0px',
+        threshold: 0,
+      };
+
+      this.observer = new IntersectionObserver(this.intersect, options);
+
+      this.observer.observe(this.$refs.root);
+    },
+    beforeDestory () {
+      this.observer.unobserve(this.$refs.root);
+      this.observer.disconnect();
+    },
+    methods: {
+      intersect (entries, observer) {
+        entries.forEach(entry => {
+          this.$nuxt.$emit('intro-intersect', entry.isIntersecting);
+        });
+      },
+    },
   };
 </script>
 
@@ -37,6 +58,7 @@
   <section
     class="intro l-design-width l-design-width--wide"
     :class="{'intro--inverted': !isWhite}"
+    ref="root"
   >
     <div class="intro__lead">
       <h2 class="intro__title t-title t-title--page">

@@ -81,6 +81,18 @@
       ticker.autoStart = false;
       ticker.stop();
 
+      this.$nuxt.$on('intro-intersect', (isInersecting) => {
+        if (isInersecting === false && this.scrollRatio > 1) {
+          if (this.currentVideoElement) {
+            this.currentVideoElement.pause();
+          }
+        } else if (this.scrollRatio < 1) {
+          if (this.currentVideoElement) {
+            this.currentVideoElement.play();
+          }
+        }
+      });
+
       this.app = this.createPIXIApp();
       this.setAppDimensions();
       this.$refs.canvas.appendChild(this.app.view);

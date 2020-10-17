@@ -35,8 +35,8 @@
 
 <template>
   <section
-    class="intro l-design-width l-design-width--wide c-design"
-    :class="{'c-design--inverted': !isWhite}"
+    class="intro l-design-width l-design-width--wide"
+    :class="{'intro--inverted': !isWhite}"
   >
     <div class="intro__lead">
       <h2 class="intro__title t-title t-title--page">
@@ -73,7 +73,29 @@
 
 <style lang="scss">
   .intro {
+    position: relative;
     overflow: hidden;
+
+    color: var(--color-text);
+
+    &::after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--color-layout--background);
+    }
+
+    &--inverted {
+      color: var(--color-text--inverted);
+
+      &::after {
+        background: var(--color-layout--background-inverted);
+      }
+    }
   }
 
   .intro__lead {

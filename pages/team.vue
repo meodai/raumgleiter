@@ -21,7 +21,7 @@
       videoTeaser () {
         return [{
           // video: this.teamPage.headerVideo.hls, // hls
-          video: this.teamPage.headerVideo.url, // mp4
+          video: this.teamPage.headerVideo, // mp4
           title: this.teamPage.headerVideo.header,
           subtitle: this.teamPage.title,
           slug: 'team',

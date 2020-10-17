@@ -46,20 +46,20 @@
         entriesInOrder: [],
         appWidth: 0,
         appHeight: 0,
+
+        currentVideoWidth: 854,
+        currentVideoHeight: 480,
       };
     },
     computed: {
       videoScale () {
-        return (this.appWidth / this.appHeight > 1920 / 1080) ? this.appWidth / 1920 : this.appHeight / 1080;
-      },
-      videoList () {
-        return this.entriesInOrder.map(entry => (entry.video));
+        return (this.appWidth / this.appHeight > this.currentVideoWidth / this.currentVideoHeight) ? this.appWidth / this.currentVideoWidth : this.appHeight / this.currentVideoHeight;
       },
       sliderIsOnAutoplay () {
         return this.loopVideos && !this.isSingleVideo;
       },
       isSingleVideo () {
-        return this.videoList.length === 1;
+        return this.entries.length === 1;
       },
     },
     created () {
@@ -133,8 +133,13 @@
         this.loader = new PIXI.Loader();
         // this.loader.reset();
         // Trigger next video on load
-        this.loader.onLoad.add((event, resource) => {
-          this.createVideoTexture(resource.url);
+        this.loader.onProgress.add((event, resource) => {
+          if (resource.error === null) {
+            this.createVideoTexture(resource.url);
+          } else {
+            this.loadingCount++;
+            this.loadNextSlide();
+          }
         });
       },
       loadNextSlide () {
@@ -148,7 +153,7 @@
         if (entryToLoad.video) {
           // Load video
           this.initLoader();
-          this.loader.add(entryToLoad.slug, location.protocol + entryToLoad.video);
+          this.loader.add(entryToLoad.slug, entryToLoad.video.sd.url);
           this.loader.load();
         } else {
           // Add a blank slide
@@ -181,8 +186,9 @@
         return can;
       },
       createVideoTexture (src) {
+        console.log('adding video', src);
         const $video = document.createElement('video');
-        const isHslFile = src.endsWith('m3u8');
+        // const isHslFile = src.endsWith('m3u8');
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
@@ -190,10 +196,10 @@
         // $video.controls = true;
         // $video.autoplay = true;
 
-        if (isHslFile) {
-          $video.width = 1920;
-          $video.height = 1080;
-        }
+        // if (isHslFile) {
+        //   $video.width = this.currentVideoWidth;
+        //   $video.height = this.currentVideoHeight;
+        // }
 
         // Slide to next slide 1.5s before video ends
         // $video.addEventListener('timeupdate', () => {
@@ -202,44 +208,46 @@
         //     this.videoReachedEnd();
         //   }
         // });
+
         $video.addEventListener('ended', () => {
           this.videoReachedEnd();
           this.videoEndHandler($video);
         });
 
-        const texture = PIXI.Texture.from($video);
-
         // Load video source
-        if (Hls.isSupported() && isHslFile) {
-          const hls = new Hls();
-          hls.loadSource(src);
-          hls.attachMedia($video);
+        // if (Hls.isSupported() && isHslFile) {
+        //   const hls = new Hls();
+        //   hls.loadSource(src);
+        //   hls.attachMedia($video);
+        //
+        //   // Keep texture size, when switching hls video level
+        //   texture.baseTexture.on('update', () => {
+        //     if (texture.width !== this.currentVideoWidth) {
+        //       texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
+        //     }
+        //   }, this);
+        //   // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
+        //
+        //   hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        //     this.addSlide(texture, 'video');
+        //   });
+        // } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
 
-          // Keep texture size, when switching hls video level
-          texture.baseTexture.on('update', () => {
-            if (texture.width !== 1920) {
-              texture.baseTexture.setRealSize(1920, 1080);
-            }
-          }, this);
-          // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
+        // $video.addEventListener('loadedmetadata', () => {
 
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            this.addSlide(texture, 'video');
-          });
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
+        $video.src = src;
+        $video.pause();
+        $video.currentTime = 0;
 
-          $video.addEventListener('loadedmetadata', () => {
-            console.log('video loaded');
-            this.addSlide(texture, 'video');
-          });
+        const texture = PIXI.Texture.from($video);
+        texture.baseTexture.resource.autoPlay = false;
+        texture.baseTexture.resource.muted = true;
 
-          $video.src = src;
-        }
-        // $video.pause();
-        // $video.currentTime = 0;
+        this.addSlide(texture, 'video');
 
-        // texture.baseTexture.resource.autoPlay = false;
-        // texture.baseTexture.resource.muted = true;
+        // });
+
+        // }
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
@@ -254,15 +262,15 @@
             x: 0, y: 0,
           };
 
-          if (width / height > 1920 / 1080) {
-            moveDelta.y = this.videoScale * 1080 - height;
+          if (width / height > this.currentVideoWidth / this.currentVideoHeight) {
+            moveDelta.y = this.videoScale * this.currentVideoHeight - height;
           } else {
-            moveDelta.x = this.videoScale * 1920 - width;
+            moveDelta.x = this.videoScale * this.currentVideoWidth - width;
           }
 
           // Stretch to fullscreen
-          videoSprite.width = this.videoScale * 1920;
-          videoSprite.height = this.videoScale * 1080;
+          videoSprite.width = this.videoScale * this.currentVideoWidth;
+          videoSprite.height = this.videoScale * this.currentVideoHeight;
 
           // Rectangle
           rect.beginFill(0xFFFFFF);
@@ -300,6 +308,7 @@
         });
 
         this.app.stage.addChild(slide);
+        this.entriesInOrder[this.loadingCount].loaded = true;
         this.startSlider();
 
         // Load next slide
@@ -375,9 +384,12 @@
 
         if (newSlide.type === 'video') {
           // on sliding in, start the video
-          console.log('attempting to start video', eq);
-          newSlide.texture.baseTexture.resource.source.muted = true;
-          newSlide.texture.baseTexture.resource.source.play();
+          console.log('attempting to play video', eq);
+          try {
+            newSlide.texture.baseTexture.resource.source.play();
+          } catch (e) {
+            console.log('could not play video', e);
+          }
           this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {
           // if it is a blank slide, set a timeout to slide
@@ -435,6 +447,17 @@
         if (this.entriesInOrder[nextEq].slug === 'about') {
           nextEq = this.getNextEq(nextEq);
         }
+
+        // Abort if next slide is not loaded
+        // if (!this.entriesInOrder[nextEq].loaded) {
+        //   console.log('next slide is not present yet!');
+        //   if (!swiping) {
+        //     this.sliderTimeout = setTimeout(() => {
+        //       this.slideToNext();
+        //     }, 1000);
+        //   };
+        //   return;
+        // }
 
         this.slide(nextEq);
       },

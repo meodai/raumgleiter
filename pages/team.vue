@@ -20,7 +20,7 @@
       },
       videoTeaser () {
         return [{
-          video: this.teamPage.headerVideo.url,
+          video: this.teamPage.headerVideo.hls,
           title: this.teamPage.headerVideo.header,
           subtitle: this.teamPage.title,
         }];
@@ -31,12 +31,12 @@
 
 <template>
   <div>
-    <client-only>
+    <VideoTeaserContainer>
       <VideoTeaser
         v-if="!$config.livePreview || $config.devMode"
         :entries="videoTeaser"
       />
-    </client-only>
+    </VideoTeaserContainer>
     <Intro
       class="intro--team"
       :fields="{

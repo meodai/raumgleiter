@@ -189,8 +189,8 @@
         $video.preload = 'auto';
         $video.muted = true;
         $video.playsinline = true;
-        // $video.width = 1920 * this.videoScale;
-        // $video.height = 1080 * this.videoScale;
+        $video.width = 1920;
+        $video.height = 1080;
 
         // Slide to next slide 1.5s before video ends
         // $video.addEventListener('timeupdate', () => {
@@ -208,15 +208,15 @@
         const hls = new Hls();
         let hlsEnabled = false;
 
-        if ($video.canPlayType('application/vnd.apple.mpegurl') || extension !== 'm3u8') {
-          $video.src = src;
-        } else if (Hls.isSupported()) {
+        if (Hls.isSupported() && extension === 'm3u8') {
           hlsEnabled = true;
           hls.loadSource(src);
           hls.attachMedia($video);
           // hls.on(Hls.Events.MANIFEST_PARSED, function () {
           //   console.log('play video');
           // });
+        } else if ($video.canPlayType('application/vnd.apple.mpegurl')) {
+          $video.src = src;
         }
 
         $video.pause();
@@ -226,14 +226,13 @@
         texture.baseTexture.resource.autoPlay = false;
 
         if (hlsEnabled) {
-          // hls.on(Hls.Events.LEVEL_SWITCHED, function () {
-          //   texture.baseTexture.setRealSize(1920 * this.videoScale, 1080 * this.videoScale);
-          //   setTimeout(() => {
-          //     // texture.baseTexture.once('update', () => {
-          //     texture.baseTexture.setRealSize(1920 * this.videoScale, 1080 * this.videoScale);
-          //   // }, this);
-          //   }, 50);
-          // });
+          // Keep texture size, when switching hls video level
+          texture.baseTexture.on('update', () => {
+            if (texture.width !== 1920) {
+              texture.baseTexture.setRealSize(1920, 1080);
+            }
+          }, this);
+          // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
         }
 
         return texture;

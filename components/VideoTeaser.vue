@@ -30,6 +30,10 @@
         type: Number,
         default: 0,
       },
+      videoQuality: {
+        type: String,
+        default: 'sd', // 'hd'
+      },
     },
     data () {
       return {
@@ -47,8 +51,8 @@
         appWidth: 0,
         appHeight: 0,
 
-        currentVideoWidth: 854,
-        currentVideoHeight: 480,
+        currentVideoWidth: this.videoQuality === 'sd' ? 854 : 1920,
+        currentVideoHeight: this.videoQuality === 'sd' ? 480 : 1080,
       };
     },
     computed: {
@@ -153,7 +157,7 @@
         if (entryToLoad.video) {
           // Load video
           this.initLoader();
-          this.loader.add(entryToLoad.slug, entryToLoad.video.sd.url);
+          this.loader.add(entryToLoad.slug, entryToLoad.video[this.videoQuality].url);
           this.loader.load();
         } else {
           // Add a blank slide

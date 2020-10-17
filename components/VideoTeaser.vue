@@ -102,7 +102,9 @@
         this.app = null;
       }
       this.pixiSlides = [];
-      this.currentVideoElement.pause();
+      if (this.currentVideoElement) {
+        this.currentVideoElement.pause();
+      }
       // todo: should we unload the video elements
       // or keep them — and reuse them later?
       document.removeEventListener('keyup', this.listenToArrowKeys);
@@ -199,11 +201,11 @@
       createVideoTexture (src) {
         console.log('adding video', src);
         const $video = document.createElement('video');
-        // const isHslFile = src.endsWith('m3u8');
-        $video.crossOrigin = 'anonymous';
-        $video.preload = 'auto';
-        $video.muted = true;
-        $video.playsinline = true;
+
+        $video.setAttribute('crossOrigin', 'anonymous');
+        $video.setAttribute('preload', 'auto');
+        $video.setAttribute('muted', null);
+        $video.setAttribute('playsinline', null);
         // $video.controls = true;
         // $video.autoplay = true;
 
@@ -398,12 +400,7 @@
           this.currentVideoDuration = this.currentVideoElement.duration;
           this.currentVideoElement.muted = this.isMuted;
           // on sliding in, start the video
-          console.log('attempting to play video', eq);
-          try {
-            this.currentVideoElement.play();
-          } catch (e) {
-            console.log('could not play video', e);
-          }
+          this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
@@ -543,12 +540,11 @@
        */
       visibilityChanged (isVisible) {
         if (!this.currentVideoElement) {
-          return;
-        }
-        if (!isVisible) {
-          this.currentVideoElement.pause();
-        } else {
-          this.currentVideoElement.play();
+          if (!isVisible) {
+            this.currentVideoElement.pause();
+          } else {
+            this.currentVideoElement.play();
+          }
         }
       },
     },

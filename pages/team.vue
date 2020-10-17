@@ -103,7 +103,6 @@
 
 <style lang="scss">
   .intro--team {
-    padding-bottom: 0;
   }
   .people {
     display: flex;

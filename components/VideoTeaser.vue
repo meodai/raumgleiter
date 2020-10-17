@@ -229,6 +229,7 @@
             this.addSlide(texture, 'video');
           });
         } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
+
           $video.addEventListener('loadeddata', () => {
             console.log('video loaded');
             this.addSlide(texture, 'video');

@@ -20,9 +20,12 @@
       },
       videoTeaser () {
         return [{
-          video: this.teamPage.headerVideo.hls,
+          // video: this.teamPage.headerVideo.hls, // hls
+          video: this.teamPage.headerVideo.url, // mp4
           title: this.teamPage.headerVideo.header,
           subtitle: this.teamPage.title,
+          slug: 'team',
+          index: 0,
         }];
       },
     },
@@ -76,8 +79,8 @@
             >{{ person.phone }}</a>
             <ul class="person__links">
               <li
-                v-for="link in person.socialLinks"
-                :key="'team-'+i+'-social-'+link.type"
+                v-for="(link, j) in person.socialLinks"
+                :key="'team-'+i+'-social-'+link.type+'-'+j"
                 class="person__linksitem"
               >
                 <a :href="link.url" rel="nofollow noopener">

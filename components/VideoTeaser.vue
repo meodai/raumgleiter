@@ -83,8 +83,8 @@
     },
     beforeDestroy () {
       this.loader.reset();
-      if (this.app) {
-        while (this.app.children[0]) {
+      if (this.app && this.app.children) {
+        while (this.app && this.app.children && this.app.children[0]) {
           this.app.removeChild(this.app.children[0]);
         }
         this.app.stop();
@@ -130,12 +130,11 @@
         this.loadNextSlide();
       },
       initLoader () {
-        // this.loader = new PIXI.Loader();
-        this.loader.reset();
+        this.loader = new PIXI.Loader();
+        // this.loader.reset();
         // Trigger next video on load
-        this.loader.onProgress.add((event, resource) => {
-          const texture = this.createVideoTexture(resource.url);
-          this.addSlide(texture, 'video');
+        this.loader.onLoad.add((event, resource) => {
+          this.createVideoTexture(resource.url);
         });
       },
       loadNextSlide () {
@@ -185,13 +184,18 @@
       },
       createVideoTexture (src) {
         const $video = document.createElement('video');
-        const extension = /(?:\.([^.]+))?$/.exec(src)[1];
+        const isHslFile = src.endsWith('m3u8');
         $video.crossOrigin = 'anonymous';
         $video.preload = 'auto';
         $video.muted = true;
         $video.playsinline = true;
-        $video.width = 1920;
-        $video.height = 1080;
+        // $video.controls = true;
+        // $video.autoplay = true;
+
+        if (isHslFile) {
+          $video.width = 1920;
+          $video.height = 1080;
+        }
 
         // Slide to next slide 1.5s before video ends
         // $video.addEventListener('timeupdate', () => {
@@ -205,28 +209,14 @@
           this.videoEndHandler($video);
         });
 
-        // Load video source
-        const hls = new Hls();
-        let hlsEnabled = false;
+        const texture = PIXI.Texture.from($video);
 
-        if (Hls.isSupported() && extension === 'm3u8') {
-          hlsEnabled = true;
+        // Load video source
+        if (Hls.isSupported() && isHslFile) {
+          const hls = new Hls();
           hls.loadSource(src);
           hls.attachMedia($video);
-          // hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          //   console.log('play video');
-          // });
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || extension === 'mp4') {
-          $video.src = src;
-        }
 
-        $video.pause();
-        $video.currentTime = 0;
-
-        const texture = PIXI.Texture.from($video);
-        texture.baseTexture.resource.autoPlay = false;
-
-        if (hlsEnabled) {
           // Keep texture size, when switching hls video level
           texture.baseTexture.on('update', () => {
             if (texture.width !== 1920) {
@@ -234,9 +224,23 @@
             }
           }, this);
           // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
-        }
 
-        return texture;
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            this.addSlide(texture, 'video');
+          });
+        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
+          $video.addEventListener('loadeddata', () => {
+            console.log('video loaded');
+            this.addSlide(texture, 'video');
+          });
+
+          $video.src = src;
+        }
+        // $video.pause();
+        // $video.currentTime = 0;
+
+        // texture.baseTexture.resource.autoPlay = false;
+        // texture.baseTexture.resource.muted = true;
       },
       createBlankTexture () {
         return PIXI.Texture.EMPTY;
@@ -249,19 +253,14 @@
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);
-          // let videoScale = 1;
 
           const moveDelta = {
             x: 0, y: 0,
           };
 
           if (width / height > 1920 / 1080) {
-            // videoScale = Math.max(width / 1920, height / 1080);
-            // videoScale = width / 1920;
             moveDelta.y = this.videoScale * 1080 - height;
           } else {
-            // videoScale = Math.max(1920 / width, 1080 / height);
-            // videoScale = height / 1080;
             moveDelta.x = this.videoScale * 1920 - width;
           }
 
@@ -305,12 +304,7 @@
         });
 
         this.app.stage.addChild(slide);
-
-        // Show first slide
-        if (!this.sliderHasStarted) {
-          this.sliderHasStarted = true;
-          this.slideIn(0);
-        }
+        this.startSlider();
 
         // Load next slide
         this.loadingCount++;
@@ -335,18 +329,30 @@
       /*
       Sliding
        */
+      startSlider () {
+        console.log('start slider');
+        if (!this.sliderHasStarted) {
+          this.sliderHasStarted = true;
+          this.slideIn(0);
+        }
+      },
       slideToIndex (eq) {
         const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
         this.slide(index);
       },
       slide (eq = 0) {
         clearTimeout(this.sliderTimeout);
+
         this.slideOut();
         this.slideIn(eq);
         this.$emit('slide', this.entriesInOrder[eq].index);
       },
       slideOut () {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
+
+        if (!oldSlide) {
+          return;
+        }
 
         oldSlide.slide.zOrder = 1;
         oldSlide.slices.forEach((videoSprite, i) => {
@@ -365,10 +371,15 @@
       slideIn (eq) {
         const newSlide = this.pixiSlides[eq];
 
+        if (!newSlide) {
+          return;
+        }
+
         newSlide.slide.zOrder = 2;
 
         if (newSlide.type === 'video') {
           // on sliding in, start the video
+          console.log('video pi state: ', newSlide.texture.baseTexture.resource.source.playsinline);
           newSlide.texture.baseTexture.resource.source.play();
           this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {

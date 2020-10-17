@@ -538,6 +538,19 @@
           this.currentVideoElement.muted = this.isMuted;
         }
       },
+      /*
+      Visibility
+       */
+      visibilityChanged (isVisible) {
+        if (!this.currentVideoElement) {
+          return;
+        }
+        if (!isVisible) {
+          this.currentVideoElement.pause();
+        } else {
+          this.currentVideoElement.play();
+        }
+      },
     },
   };
 
@@ -545,9 +558,16 @@
 
 <template>
   <div
+    class="video-teaser"
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
-    class="video-teaser"
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      throttle: 300,
+      throttleOptions: {
+        leading: 'visible',
+      },
+    }"
   >
     <div ref="canvas" class="video-teaser__canvas" />
     <section

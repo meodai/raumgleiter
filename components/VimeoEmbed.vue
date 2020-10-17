@@ -11,7 +11,7 @@
       return {
         player: null,
         loaded: false,
-        muted: true,
+        // muted: true,
         playing: false,
       };
     },
@@ -41,22 +41,18 @@
         });
       },
 
-      toggleMute () {
-        this.muted = !this.muted;
-        this.player.setMuted(this.muted);
-      },
+      // toggleMute () {
+      //   this.muted = !this.muted;
+      //   this.player.setMuted(this.muted);
+      // },
 
       visibilityChanged (isVisible) {
         if (!this.loaded) {
           if (isVisible) {
             this.initVideo();
           }
-          return;
-        }
-
-        if (!isVisible && this.playing) {
+        } else if (!isVisible && this.playing) {
           this.player.pause();
-        // todo: unmute?
         } else if (isVisible) {
           this.player.play();
         }
@@ -77,6 +73,7 @@
     class="vimeoEmbed"
     :style="{
       paddingBottom: (video.height / video.width * 100) + '%',
+      backgroundImage: loaded ? 'url(' + video.thumbnail + ')' : null,
     }"
   >
     <!-- TODO: video thumbnail -->

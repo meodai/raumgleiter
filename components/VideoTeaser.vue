@@ -30,6 +30,10 @@
         type: Number,
         default: 0,
       },
+      videoQuality: {
+        type: String,
+        default: 'sd', // 'hd'
+      },
     },
     data () {
       return {
@@ -39,16 +43,18 @@
         currentSlideEq: 0,
         sliderHasStarted: false,
         videoIsPlaying: false,
+        isMuted: true,
         loadingCount: 0,
         currentVideoDuration: 8,
         sliderTimeout: null,
         isTransitioning: false,
         entriesInOrder: [],
+
         appWidth: 0,
         appHeight: 0,
-
-        currentVideoWidth: 854,
-        currentVideoHeight: 480,
+        currentVideoElement: null,
+        currentVideoWidth: this.videoQuality === 'sd' ? 854 : 1920,
+        currentVideoHeight: this.videoQuality === 'sd' ? 480 : 1080,
 
         scrollRatio: 0,
       };
@@ -104,6 +110,11 @@
         this.app = null;
       }
       this.pixiSlides = [];
+      if (this.currentVideoElement) {
+        this.currentVideoElement.pause();
+      }
+      // todo: should we unload the video elements
+      // or keep them — and reuse them later?
       document.removeEventListener('keyup', this.listenToArrowKeys);
       window.removeEventListener('resize', this.resizeHandler);
       window.removeEventListener('scroll', this.scrollHandler);
@@ -146,12 +157,14 @@
           if (resource.error === null) {
             this.createVideoTexture(resource.url);
           } else {
+            console.log('loader error', resource.error);
             this.loadingCount++;
             this.loadNextSlide();
           }
         });
       },
       loadNextSlide () {
+        console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
           return;
@@ -162,7 +175,7 @@
         if (entryToLoad.video) {
           // Load video
           this.initLoader();
-          this.loader.add(entryToLoad.slug, entryToLoad.video.sd.url);
+          this.loader.add(entryToLoad.slug, entryToLoad.video[this.videoQuality].url);
           this.loader.load();
         } else {
           // Add a blank slide
@@ -197,11 +210,11 @@
       createVideoTexture (src) {
         console.log('adding video', src);
         const $video = document.createElement('video');
-        // const isHslFile = src.endsWith('m3u8');
-        $video.crossOrigin = 'anonymous';
-        $video.preload = 'auto';
-        $video.muted = true;
-        $video.playsinline = true;
+
+        $video.setAttribute('crossOrigin', 'anonymous');
+        $video.setAttribute('preload', 'auto');
+        $video.setAttribute('muted', null);
+        $video.setAttribute('playsinline', null);
         // $video.controls = true;
         // $video.autoplay = true;
 
@@ -393,19 +406,17 @@
         newSlide.slide.zOrder = 2;
 
         if (newSlide.type === 'video') {
+          this.currentVideoElement = newSlide.texture.baseTexture.resource.source;
+          this.currentVideoDuration = this.currentVideoElement.duration;
+          this.currentVideoElement.muted = this.isMuted;
           // on sliding in, start the video
-          console.log('attempting to play video', eq);
-          try {
-            newSlide.texture.baseTexture.resource.source.play();
-          } catch (e) {
-            console.log('could not play video', e);
-          }
-          this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
+          this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
           this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
           this.currentVideoDuration = this.timePerSlide;
+          this.currentVideoElement = null;
         }
 
         this.resetSlicesPosition(newSlide.slices);
@@ -528,6 +539,27 @@
         this.appWidth = window.innerWidth;
         this.appHeight = window.innerHeight;
       },
+      /*
+      Mute
+       */
+      toggleMute () {
+        this.isMuted = !this.isMuted;
+        if (this.currentVideoElement) {
+          this.currentVideoElement.muted = this.isMuted;
+        }
+      },
+      /*
+      Visibility
+       */
+      visibilityChanged (isVisible) {
+        if (!this.currentVideoElement) {
+          if (!isVisible) {
+            this.currentVideoElement.pause();
+          } else {
+            this.currentVideoElement.play();
+          }
+        }
+      },
     },
   };
 
@@ -535,9 +567,16 @@
 
 <template>
   <div
+    class="video-teaser"
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
-    class="video-teaser"
+    v-observe-visibility="{
+      callback: visibilityChanged,
+      throttle: 300,
+      throttleOptions: {
+        leading: 'visible',
+      },
+    }"
   >
     <div
       ref="canvas"
@@ -577,6 +616,7 @@
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"
     />
+    <button class="video-teaser__mute-button" @click="toggleMute">{{ isMuted ? 'unmute' : 'mute' }}</button>
   </div>
 </template>
 
@@ -697,5 +737,13 @@
   position: relative;
   z-index: 1;
   background: #fff;
+}
+
+.video-teaser__mute-button {
+  // todo:
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 99;
 }
 </style>

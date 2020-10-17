@@ -75,6 +75,7 @@
   .intro {
     position: relative;
     overflow: hidden;
+    margin-bottom: 0;
 
     color: var(--color-text);
 

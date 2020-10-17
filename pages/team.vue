@@ -48,7 +48,7 @@
       }"
       :is-white="true"
     />
-    <div class="l-design-width">
+    <div class="l-design-width content">
       <div class="people">
         <article
           v-for="(person, i) in teamPage.people"

@@ -121,6 +121,7 @@
 
     <!--  Page Content  -->
     <Pagebuilder
+      class="content"
       v-if="currentPage && hasEnteredRoute"
       :key="'page-content-'+currentPage.slug"
       :slug="'content'+currentPage.slug"

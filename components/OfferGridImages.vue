@@ -60,7 +60,7 @@
 
 <style lang="scss">
   .offer-grid {
-    margin-top: var(--size-design-bezel);
+    //margin-top: var(--size-design-bezel);
   }
   .offer-grid__intro {
     padding: 0 calc(24% - var(--size-design-bezel));

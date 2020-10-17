@@ -49,9 +49,14 @@
 
         currentVideoWidth: 854,
         currentVideoHeight: 480,
+
+        scrollRatio: 0,
       };
     },
     computed: {
+      opacity () {
+        return 1 - Math.min(this.scrollRatio, 0.75);
+      },
       videoScale () {
         return (this.appWidth / this.appHeight > this.currentVideoWidth / this.currentVideoHeight) ? this.appWidth / this.currentVideoWidth : this.appHeight / this.currentVideoHeight;
       },
@@ -80,6 +85,9 @@
       document.addEventListener('keyup', this.listenToArrowKeys);
       window.addEventListener('resize', this.resizeHandler);
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
+      window.addEventListener('scroll', this.scrollHandler, { passive: true });
+
+      this.scrollHandler();
     },
     beforeDestroy () {
       this.loader.reset();
@@ -98,6 +106,7 @@
       this.pixiSlides = [];
       document.removeEventListener('keyup', this.listenToArrowKeys);
       window.removeEventListener('resize', this.resizeHandler);
+      window.removeEventListener('scroll', this.scrollHandler);
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
     },
     methods: {
@@ -251,6 +260,7 @@
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
+
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = this.partSize();
 
@@ -509,6 +519,9 @@
         this.setAppDimensions();
         this.app.queueResize();
       }),
+      scrollHandler () {
+        this.scrollRatio = window.scrollY/window.innerHeight;
+      },
       setAppDimensions () {
         this.app.width = window.innerWidth;
         this.app.height = window.innerHeight;
@@ -526,7 +539,11 @@
     v-touch:swipe.right="swipeToPrev"
     class="video-teaser"
   >
-    <div ref="canvas" class="video-teaser__canvas" />
+    <div
+      ref="canvas"
+      class="video-teaser__canvas"
+      :style="{'opacity': opacity}"
+    />
     <section
       v-for="(entry, i) in entriesInOrder"
       :key="'video-teaser-slice-'+i"
@@ -574,7 +591,8 @@
   overflow: hidden;
 
   &__canvas {
-    position: absolute;
+    will-change: opacity;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -673,5 +691,11 @@
     transition: calc(var(--timer) * 1s) transform linear;
     transform: scaleX(1);
   }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  background: #fff;
 }
 </style>

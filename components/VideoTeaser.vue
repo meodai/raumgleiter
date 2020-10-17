@@ -43,14 +43,16 @@
         currentSlideEq: 0,
         sliderHasStarted: false,
         videoIsPlaying: false,
+        isMuted: true,
         loadingCount: 0,
         currentVideoDuration: 8,
         sliderTimeout: null,
         isTransitioning: false,
         entriesInOrder: [],
+
         appWidth: 0,
         appHeight: 0,
-
+        currentVideoElement: null,
         currentVideoWidth: this.videoQuality === 'sd' ? 854 : 1920,
         currentVideoHeight: this.videoQuality === 'sd' ? 480 : 1080,
       };
@@ -100,6 +102,9 @@
         this.app = null;
       }
       this.pixiSlides = [];
+      this.currentVideoElement.pause();
+      // todo: should we unload the video elements
+      // or keep them — and reuse them later?
       document.removeEventListener('keyup', this.listenToArrowKeys);
       window.removeEventListener('resize', this.resizeHandler);
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
@@ -389,19 +394,22 @@
         newSlide.slide.zOrder = 2;
 
         if (newSlide.type === 'video') {
+          this.currentVideoElement = newSlide.texture.baseTexture.resource.source;
+          this.currentVideoDuration = this.currentVideoElement.duration;
+          this.currentVideoElement.muted = this.isMuted;
           // on sliding in, start the video
           console.log('attempting to play video', eq);
           try {
-            newSlide.texture.baseTexture.resource.source.play();
+            this.currentVideoElement.play();
           } catch (e) {
             console.log('could not play video', e);
           }
-          this.currentVideoDuration = newSlide.texture.baseTexture.resource.source.duration;
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
           this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
           this.currentVideoDuration = this.timePerSlide;
+          this.currentVideoElement = null;
         }
 
         this.resetSlicesPosition(newSlide.slices);
@@ -521,6 +529,15 @@
         this.appWidth = window.innerWidth;
         this.appHeight = window.innerHeight;
       },
+      /*
+      Mute
+       */
+      toggleMute () {
+        this.isMuted = !this.isMuted;
+        if (this.currentVideoElement) {
+          this.currentVideoElement.muted = this.isMuted;
+        }
+      },
     },
   };
 
@@ -566,6 +583,7 @@
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"
     />
+    <button class="video-teaser__mute-button" @click="toggleMute">{{ isMuted ? 'unmute' : 'mute' }}</button>
   </div>
 </template>
 
@@ -679,5 +697,13 @@
     transition: calc(var(--timer) * 1s) transform linear;
     transform: scaleX(1);
   }
+}
+
+.video-teaser__mute-button {
+  // todo:
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 99;
 }
 </style>

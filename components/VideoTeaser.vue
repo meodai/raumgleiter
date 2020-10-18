@@ -289,6 +289,17 @@
         const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = this.partSize();
 
+        const displacementSprite = new PIXI.Sprite(
+          new PIXI.Texture.from(this.createMask()),
+        );
+
+        const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
+
+        displacementFilter.scale.x = 40;
+        displacementFilter.scale.y = 1;
+
+        slide.filters = [displacementFilter];
+
         slices.forEach((container, i) => {
           const rect = new PIXI.Graphics();
           const videoSprite = new PIXI.Sprite(texture);

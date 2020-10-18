@@ -198,7 +198,7 @@
       Texture Init
        */
       createMask () {
-        const slices = 4;
+        const slices = this.slices;
         const can = document.createElement('canvas');
         const ctx = can.getContext('2d');
         const w = window.innerWidth;
@@ -286,60 +286,71 @@
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
 
-        const slices = new Array(this.$props.slices).fill('').map(() => new PIXI.Container());
         const partSize = this.partSize();
 
-        slices.forEach((container, i) => {
-          const rect = new PIXI.Graphics();
-          const videoSprite = new PIXI.Sprite(texture);
+        const displacementSprite = new PIXI.Sprite(
+          new PIXI.Texture.from(this.createMask()),
+        );
 
-          const moveDelta = {
-            x: 0, y: 0,
-          };
+        const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
 
-          if (width / height > this.currentVideoWidth / this.currentVideoHeight) {
-            moveDelta.y = this.videoScale * this.currentVideoHeight - height;
-          } else {
-            moveDelta.x = this.videoScale * this.currentVideoWidth - width;
-          }
+        displacementFilter.scale.x = 40;
+        displacementFilter.scale.y = 1;
 
-          // Stretch to fullscreen
-          videoSprite.width = this.videoScale * this.currentVideoWidth;
-          videoSprite.height = this.videoScale * this.currentVideoHeight;
+        slide.filters = [displacementFilter];
 
-          // Rectangle
-          rect.beginFill(0xFFFFFF);
-          rect.drawRect(
-            partSize * width * i,
-            0,
-            partSize * width + 1,
-            height,
-          );
-          rect.endFill();
+        const container = new PIXI.Container();
 
-          container.position.x = width * 3;
-          videoSprite.position.x = partSize * width * -i;
+        const rect = new PIXI.Graphics();
+        const videoSprite = new PIXI.Sprite(texture);
 
-          videoSprite.position.x -= moveDelta.x / 2;
-          videoSprite.position.y -= moveDelta.y / 2;
+        const moveDelta = {
+          x: 0, y: 0,
+        };
 
-          container.addChild(videoSprite);
-          container.mask = rect;
+        if (width / height > this.currentVideoWidth / this.currentVideoHeight) {
+          moveDelta.y = this.videoScale * this.currentVideoHeight - height;
+        } else {
+          moveDelta.x = this.videoScale * this.currentVideoWidth - width;
+        }
 
-          slide.addChild(container);
-        });
+        // Stretch to fullscreen
+        videoSprite.width = this.videoScale * this.currentVideoWidth;
+        videoSprite.height = this.videoScale * this.currentVideoHeight;
 
-        return { slide, slices, partSize };
+        // Rectangle
+        rect.beginFill(0xFFFFFF);
+        rect.drawRect(
+          0,
+          0,
+          width,
+          height,
+        );
+        rect.endFill();
+
+        container.position.x = width * 3;
+        videoSprite.position.x = 0;
+
+        videoSprite.position.x -= moveDelta.x / 2;
+        videoSprite.position.y -= moveDelta.y / 2;
+
+        container.addChild(videoSprite);
+        container.mask = rect;
+
+        slide.addChild(container);
+
+        return { slide, container, partSize, displacementFilter };
       },
       addSlide (texture, type) {
-        const { slide, slices, partSize } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
+        const { slide, container, partSize, displacementFilter } = this.createSlide(texture, this.app.screen.width, this.app.screen.height);
 
         this.pixiSlides.push({
           slide,
-          slices,
+          container,
           partSize,
           texture,
           type,
+          displacementFilter,
         });
 
         this.app.stage.addChild(slide);
@@ -395,17 +406,18 @@
         }
 
         oldSlide.slide.zOrder = 1;
-        oldSlide.slices.forEach((videoSprite, i) => {
-          gsap.to(videoSprite.position, 1.75, {
-            x: -this.app.screen.width - (this.app.screen.width * 0.2),
-            ease: 'power4.out',
-            onComplete: () => {
-              if (oldSlide.slices.length - 1 === i && oldSlide.type === 'video') {
-                oldSlide.texture.baseTexture.resource.source.pause();
-                oldSlide.texture.baseTexture.resource.source.currentTime = 0;
-              }
-            },
-          });
+        const videoSprite = oldSlide.container;
+
+        gsap.to(videoSprite.position, 1.1, {
+          x: -this.app.screen.width - (this.app.screen.width * 0.2),
+          ease: 'power4.out',
+          delay: 0.3,
+          onComplete: () => {
+            if (oldSlide.type === 'video') {
+              oldSlide.texture.baseTexture.resource.source.pause();
+              oldSlide.texture.baseTexture.resource.source.currentTime = 0;
+            }
+          },
         });
       },
       slideIn (eq) {
@@ -431,30 +443,31 @@
           this.currentVideoElement = null;
         }
 
-        this.resetSlicesPosition(newSlide.slices);
+        this.resetSlicesPosition(newSlide.displacementFilter);
 
-        newSlide.slices.forEach((videoSprite, i) => {
-          gsap.to(videoSprite.position, 1.5, {
-            x: newSlide.partSize * this.app.screen.width * i,
-            ease: 'power4.in',
-          });
+        this.isTransitioning = true;
+
+        gsap.to(newSlide.container.position, 1.5, {
+          x: 0,
+          ease: 'power4.out',
+          onComplete: () => {
+            gsap.to(newSlide.displacementFilter.scale, 1, {
+              x: 1,
+              ease: 'power4.out',
+              onComplete: () => {
+                this.isTransitioning = false;
+              },
+            });
+          },
         });
 
         this.currentSlideEq = eq;
 
         this.resetProgressBar();
-
-        this.isTransitioning = true;
-        setTimeout(() => {
-          this.isTransitioning = false;
-        }, 1500);
       },
 
-      resetSlicesPosition (slices) {
-        slices.forEach((slice) => {
-          // inferred from `container.position.x = width * 3;`
-          slice.position.x = this.app.screen.width * 3;
-        });
+      resetSlicesPosition (displacementFilter) {
+        displacementFilter.scale.x = 40;
       },
 
       isAbleToSlide (swiping) {

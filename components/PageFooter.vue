@@ -107,6 +107,8 @@
 
 <style lang="scss">
   .footer {
+    position: relative;
+    z-index: 1;
     --size-footer-stack: 0.4em;
 
     font-size: 1.6rem;

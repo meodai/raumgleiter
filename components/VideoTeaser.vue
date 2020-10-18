@@ -179,6 +179,7 @@
         console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
+          this.alphaCover = this.createAlphaCover();
           return;
         }
 
@@ -301,7 +302,6 @@
 
         const container = new PIXI.Container();
 
-        const rect = new PIXI.Graphics();
         const videoSprite = new PIXI.Sprite(texture);
 
         const moveDelta = {
@@ -318,6 +318,7 @@
         videoSprite.width = this.videoScale * this.currentVideoWidth;
         videoSprite.height = this.videoScale * this.currentVideoHeight;
 
+        const rect = new PIXI.Graphics();
         // Rectangle
         rect.beginFill(0xFFFFFF);
         rect.drawRect(
@@ -360,6 +361,32 @@
         // Load next slide
         this.loadingCount++;
         this.loadNextSlide();
+      },
+      createAlphaCover () {
+        const container = new PIXI.Container();
+        const cover = new PIXI.Graphics();
+        // coverangle
+        cover.beginFill(0x000000);
+        cover.drawRect(
+          0,
+          0,
+          this.appWidth,
+          this.appHeight,
+        );
+        cover.endFill();
+
+        container.addChild(cover);
+
+        const AlphaFilter = new PIXI.filters.AlphaFilter();
+
+        AlphaFilter.alpha = Math.min(0.75, this.scrollRatio);
+
+        container.filters = [AlphaFilter];
+
+        this.app.stage.addChild(container);
+        this.alphaFilter = AlphaFilter;
+
+        return container;
       },
 
       /*
@@ -417,6 +444,7 @@
               oldSlide.texture.baseTexture.resource.source.pause();
               oldSlide.texture.baseTexture.resource.source.currentTime = 0;
             }
+            oldSlide.slide.zOrder = 0;
           },
         });
       },
@@ -556,7 +584,11 @@
         this.app.queueResize();
       }),
       scrollHandler () {
-        this.scrollRatio = window.scrollY/window.innerHeight;
+        this.scrollRatio = window.scrollY / window.innerHeight;
+
+        if (this.hasOwnProperty('alphaFilter')) {
+          this.alphaFilter.alpha = Math.min(0.75, this.scrollRatio);
+        };
       },
       setAppDimensions () {
         this.app.width = window.innerWidth;
@@ -606,7 +638,6 @@
     <div
       ref="canvas"
       class="video-teaser__canvas"
-      :style="{'opacity': opacity}"
     />
     <section
       v-for="(entry, i) in entriesInOrder"
@@ -747,7 +778,7 @@
     left: 0;
     top: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     transform: scaleX(0);
     transform-origin: 0 0;
   }

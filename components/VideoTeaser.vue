@@ -650,8 +650,8 @@
         :key="'video-teaser-slice-'+i+'-'+j"
         class="video-teaser__slice"
         :style="{
-          'clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
-          '-webkit-clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
+          '--clip-start': partSize(j),
+          '--slices': slices,
         }"
       >
         <div class="video-teaser__slideInner">
@@ -717,6 +717,20 @@
 
 .video-teaser__slideInner {
   transform: translateX(100%);
+}
+
+.video-teaser__slice {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(100% * var(--clip-start, 0));
+  width: calc(100% / var(--slices, 4) + 1px);
+  overflow: hidden;
+}
+
+.video-teaser__slideInner {
+  left: calc(-100% * var(--slices, 4) * var(--clip-start, 0));
+  width: 100vw;
 }
 
 .video-teaser__slider--active .video-teaser__slice {

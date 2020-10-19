@@ -102,6 +102,14 @@
         </li>
       </ul>
     </div>
+
+    <nuxt-link class="footer__logo-bottomlink" to="/">
+      <Icon
+        :name="'raumgleiter_symbol'"
+        :is-block="true"
+        class="footer__logoicon"
+      />
+    </nuxt-link>
   </div>
 </template>
 
@@ -110,12 +118,16 @@
     position: relative;
     z-index: 1;
     --size-footer-stack: 0.4em;
+    font-size: 1.6rem;
 
     background-color: var(--color-layout--background-inverted);
     color: var(--color-text--inverted);
 
     path {
       fill: var(--color-text--inverted);
+    }
+    @include bp('phone') {
+      font-size: 2.2rem;
     }
   }
 
@@ -248,5 +260,16 @@
     @include bp('phone') {
       margin-bottom: var(--size-mouse);
     }
+  }
+
+  .footer__logo-bottomlink {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: var(--size-gutter) auto;
+  }
+  .footer__logoicon {
+    width: 100%;
+    height: 100%;
   }
 </style>

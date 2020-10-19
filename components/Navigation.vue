@@ -132,6 +132,7 @@
       right: 0;
       left: 0;
       z-index: 10;
+      font-size: 2rem;
     }
   }
 
@@ -375,12 +376,24 @@
 
   .navigation__location--drawer {
     display: none;
+    pointer-events: none;
+
     @include bp('phone') {
       display: block;
       margin-left: 0;
+      opacity: 0;
     }
+
     color: #000;
     fill: #000;
+  }
+
+  .navigation--isOpen .navigation__location--drawer {
+    @include bp('phone') {
+      pointer-events: all;
+      opacity: 1;
+      transition: 200ms opacity .7s;
+    }
   }
 
 </style>

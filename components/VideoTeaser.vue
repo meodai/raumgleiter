@@ -221,7 +221,6 @@
         return can;
       },
       createVideoTexture (src) {
-        console.log('adding video', src);
         const $video = document.createElement('video');
         const isHslFile = src.endsWith('m3u8');
 
@@ -413,7 +412,6 @@
        */
       startSlider () {
         if (!this.sliderHasStarted) {
-          console.log('start slider');
           this.sliderHasStarted = true;
           this.slideIn(0);
         }

@@ -1,7 +1,7 @@
 <script>
   import collect from 'collect.js';
   import Hls from 'hls.js';
-  import { debounce } from 'throttle-debounce';
+  import { throttle, debounce } from 'throttle-debounce';
 
   export default {
     props: {
@@ -77,54 +77,16 @@
       this.loadEntries();
     },
     mounted () {
-      const ticker = PIXI.Ticker.shared;
-      ticker.autoStart = false;
-      ticker.stop();
-
-      this.$nuxt.$on('intro-intersect', (isInersecting) => {
-        if (isInersecting === false && this.scrollRatio > 1) {
-          if (this.currentVideoElement) {
-            this.currentVideoElement.pause();
-          }
-        } else if (this.scrollRatio < 1) {
-          if (this.currentVideoElement) {
-            this.currentVideoElement.play();
-          }
-        }
-      });
-
-      this.app = this.createPIXIApp();
-      this.setAppDimensions();
-      this.$refs.canvas.appendChild(this.app.view);
-
-      this.loadAllSlides();
-      ticker.start();
+      this.startApp();
 
       document.addEventListener('keyup', this.listenToArrowKeys);
       window.addEventListener('resize', this.resizeHandler);
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       window.addEventListener('scroll', this.scrollHandler, { passive: true });
-
       this.scrollHandler();
     },
     beforeDestroy () {
-      this.loader.reset();
-      if (this.app && this.app.children) {
-        while (this.app && this.app.children && this.app.children[0]) {
-          this.app.removeChild(this.app.children[0]);
-        }
-        this.app.stop();
-        this.app.destroy(false, {
-          children: true,
-          texture: true,
-          baseTexture: true,
-        });
-        this.app = null;
-      }
-      this.pixiSlides = [];
-      if (this.currentVideoElement) {
-        this.currentVideoElement.pause();
-      }
+      this.lillApp();
       // todo: should we unload the video elements
       // or keep them — and reuse them later?
       document.removeEventListener('keyup', this.listenToArrowKeys);
@@ -133,6 +95,49 @@
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
     },
     methods: {
+      startApp () {
+        const ticker = PIXI.Ticker.shared;
+        ticker.autoStart = false;
+        ticker.stop();
+
+        this.$nuxt.$on('intro-intersect', (isInersecting) => {
+          if (isInersecting === false && this.scrollRatio > 1) {
+            if (this.currentVideoElement) {
+              this.currentVideoElement.pause();
+            }
+          } else if (this.scrollRatio < 1) {
+            if (this.currentVideoElement) {
+              this.currentVideoElement.play();
+            }
+          }
+        });
+
+        this.app = this.createPIXIApp();
+        this.setAppDimensions();
+        this.$refs.canvas.appendChild(this.app.view);
+
+        this.loadAllSlides();
+        ticker.start();
+      },
+      killApp () {
+        this.loader.reset();
+        if (this.app && this.app.children) {
+          while (this.app && this.app.children && this.app.children[0]) {
+            this.app.removeChild(this.app.children[0]);
+          }
+          this.app.stop();
+          this.app.destroy(false, {
+            children: true,
+            texture: true,
+            baseTexture: true,
+          });
+          this.app = null;
+        }
+        this.pixiSlides = [];
+        if (this.currentVideoElement) {
+          this.currentVideoElement.pause();
+        }
+      },
       /*
       Helpers
        */
@@ -153,6 +158,7 @@
           transparent: false,
           width: window.innerWidth,
           height: window.innerHeight,
+          resizeTo: window,
         });
       },
       /*
@@ -252,7 +258,6 @@
         // Load video source
         console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
         if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
-
           $video.src = src;
 
           $video.addEventListener('loadedmetadata', () => {
@@ -287,8 +292,7 @@
 
             this.addSlide(texture, 'video');
           });
-
-        }
+        };
       },
       keepHlsTextureSizeInSync (texture) {
         texture.baseTexture.on('update', () => {
@@ -591,9 +595,12 @@
       /*
       Resize / Responsive
        */
-      resizeHandler: debounce(50, function () {
+      resizeHandler: throttle(500, function () {
         this.setAppDimensions();
-        this.app.queueResize();
+        this.killApp();
+        this.$nextTick(() => {
+          this.startApp();
+        });
       }),
       scrollHandler () {
         this.scrollRatio = window.scrollY / window.innerHeight;
@@ -603,10 +610,10 @@
         };
       },
       setAppDimensions () {
-        this.app.width = window.innerWidth;
-        this.app.height = window.innerHeight;
         this.appWidth = window.innerWidth;
         this.appHeight = window.innerHeight;
+
+        this.app.resize();
       },
       /*
       Mute

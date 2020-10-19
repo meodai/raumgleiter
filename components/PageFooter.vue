@@ -127,6 +127,7 @@
 
     @include bp('phone') {
       display: block;
+      padding: var(--size-design-bezel);
     }
   }
 
@@ -220,8 +221,8 @@
     @include bp('phone') {
       display: block;
       position: absolute;
-      top: var(--size-rat);
-      right: var(--size-rat);
+      top: var(--size-design-bezel);
+      right: var(--size-design-bezel);
     }
 
     display: flex;

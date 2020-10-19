@@ -79,6 +79,20 @@
       margin-left: 25%;
       margin-right: 25%;
     }
+
+    @include bp('phone') {
+      margin-left: 0;
+      margin-right: 0;
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   }
 
   .offer-grid-text__subtitle {

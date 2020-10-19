@@ -162,7 +162,7 @@
     display: inline-block;
     width: 16%;
     margin-bottom: -0.5rem;
-
+    outline: none;
   }
   .navigation__trigger {
     display: inline-block;

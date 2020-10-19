@@ -61,7 +61,10 @@
       <aside
         v-for="(textBlock, i) in fields.textBlocks"
         :key="'offerGridText'+i"
-        v-observe-visibility="(isVisible, entry) => {visibilityChanged(isVisible, entry, i)}"
+        v-observe-visibility="{
+          callback: (isVisible, entry) => {visibilityChanged(isVisible, entry, i)},
+          once: true,
+        }"
         class="offer-grid-text__block"
         :class="{'offer-grid-text__block--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i])}"
       >

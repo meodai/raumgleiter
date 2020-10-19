@@ -118,17 +118,6 @@
     path {
       fill: var(--color-text--inverted);
     }
-
-    button,
-    input,
-    input::-webkit-input-placeholder,
-    input::placeholder  {
-      background: none;
-      border: 0;
-      appearance: none;
-      color: var(--color-text--inverted);
-      font-weight: 100;
-    }
   }
 
   .footer__inner {

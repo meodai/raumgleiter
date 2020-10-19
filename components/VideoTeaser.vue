@@ -679,7 +679,7 @@
       :class="{'play': videoIsPlaying}"
     />
     <button class="video-teaser__mute-button" @click="toggleMute">
-      {{ isMuted ? 'unmute' : 'mute' }}
+      <Unmute :is-muted="isMuted" />
     </button>
   </div>
 </template>
@@ -820,8 +820,10 @@
 .video-teaser__mute-button {
   // todo:
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  left: 10rem;
+  bottom: 10rem;
   z-index: 99;
+  outline: none;
+  cursor: pointer;
 }
 </style>

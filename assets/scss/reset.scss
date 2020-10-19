@@ -38,11 +38,14 @@ html {
   word-break: break-word;
 
   hyphens: auto;
+
+  height: -webkit-fill-available;
 }
 
 /* Set core body defaults */
 body {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   line-height: 1.5;
 }
 

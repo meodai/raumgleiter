@@ -693,8 +693,8 @@
   display: block;
   width: 100vw;
   max-width: 100%;
-  height: -webkit-fill-available;
   height: 100vh;
+  height: -webkit-fill-available;
   overflow: hidden;
 
   &__canvas {
@@ -859,7 +859,7 @@
 
   @include bp('phone') {
     left: var(--size-gutter);
-    bottom: calc(var(--size-gutter) * 1.25);
+    bottom: calc(var(--size-gutter) * 7);
   }
 }
 </style>

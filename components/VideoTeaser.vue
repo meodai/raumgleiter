@@ -274,7 +274,6 @@
           hls.loadSource(src);
           hls.attachMedia($video);
         } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
-
           $video.src = src;
 
           $video.addEventListener('loadedmetadata', () => {
@@ -651,6 +650,7 @@
           '--clip-start': partSize(j),
           '--slices': slices,
         }"
+        :aria-hidden="(!!j)"
       >
         <div class="video-teaser__slideInner">
           <div class="video-teaser__header">

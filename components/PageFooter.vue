@@ -111,7 +111,6 @@
     z-index: 1;
     --size-footer-stack: 0.4em;
 
-    font-size: 1.6rem;
     background-color: var(--color-layout--background-inverted);
     color: var(--color-text--inverted);
 
@@ -153,8 +152,8 @@
   .footer__address {
     font-style: normal;
     margin-bottom: var(--size-mouse);
+
     @include bp('phone') {
-      font-size: 1.8rem;
       margin-top: var(--size-rat);
     }
   }

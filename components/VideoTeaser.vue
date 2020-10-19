@@ -32,7 +32,7 @@
       },
       videoQuality: {
         type: String,
-        default: 'hls', // 'sd' || 'hd' || 'hls'
+        default: 'hd', // 'sd' || 'hd' || 'hls'
       },
     },
     data () {
@@ -221,7 +221,6 @@
         return can;
       },
       createVideoTexture (src) {
-        console.log('adding video', src);
         const $video = document.createElement('video');
         const isHslFile = src.endsWith('m3u8');
 
@@ -252,28 +251,7 @@
 
         // Load video source
         console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
-        if (Hls.isSupported() && isHslFile) {
-          const hls = new Hls();
-
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            $video.pause();
-            $video.currentTime = 0;
-
-            const texture = PIXI.Texture.from($video);
-            // Keep texture size, when switching hls video level
-            texture.baseTexture.on('update', () => {
-              if (texture.width !== this.currentVideoWidth) {
-                texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
-              }
-            }, this);
-            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
-
-            this.addSlide(texture, 'video');
-          });
-
-          hls.loadSource(src);
-          hls.attachMedia($video);
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
+        if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
 
           $video.src = src;
 
@@ -282,12 +260,42 @@
             $video.currentTime = 0;
 
             const texture = PIXI.Texture.from($video);
+            if (isHslFile) {
+              this.keepHlsTextureSizeInSync(texture);
+            }
             texture.baseTexture.resource.autoPlay = false;
             texture.baseTexture.resource.muted = true;
 
             this.addSlide(texture, 'video');
           });
+        } else if (Hls.isSupported() && isHslFile) {
+          const hls = new Hls();
+          hls.loadSource(src);
+          hls.attachMedia($video);
+
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            $video.pause();
+            $video.currentTime = 0;
+
+            const texture = PIXI.Texture.from($video);
+            // Keep texture size, when switching hls video level
+            this.keepHlsTextureSizeInSync(texture);
+            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
+
+            texture.baseTexture.resource.autoPlay = false;
+            texture.baseTexture.resource.muted = true;
+
+            this.addSlide(texture, 'video');
+          });
+
         }
+      },
+      keepHlsTextureSizeInSync (texture) {
+        texture.baseTexture.on('update', () => {
+          if (texture.width !== this.currentVideoWidth) {
+            texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
+          }
+        }, this);
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
@@ -414,7 +422,6 @@
        */
       startSlider () {
         if (!this.sliderHasStarted) {
-          console.log('start slider');
           this.sliderHasStarted = true;
           this.slideIn(0);
         }
@@ -648,9 +655,10 @@
         :key="'video-teaser-slice-'+i+'-'+j"
         class="video-teaser__slice"
         :style="{
-          'clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
-          '-webkit-clip-path': `inset(0% ${100 - partSize(j + 1) * 101}% 0% ${partSize(j) * 99.9}%)`,
+          '--clip-start': partSize(j),
+          '--slices': slices,
         }"
+        :aria-hidden="(!!j)"
       >
         <div class="video-teaser__slideInner">
           <div class="video-teaser__header">
@@ -717,6 +725,20 @@
 
 .video-teaser__slideInner {
   transform: translateX(100%);
+}
+
+.video-teaser__slice {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(100% * var(--clip-start, 0));
+  width: calc(100% / var(--slices, 4) + 1px);
+  overflow: hidden;
+}
+
+.video-teaser__slideInner {
+  left: calc(-100% * var(--slices, 4) * var(--clip-start, 0));
+  width: 100vw;
 }
 
 .video-teaser__slider--active .video-teaser__slice {

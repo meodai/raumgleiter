@@ -117,11 +117,19 @@
   .project__head {
     display: flex;
     justify-content: space-between;
+
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .project__lead {
     @include typo('lead');
     flex: 0 1 50%;
+
+    @include bp('phone') {
+      margin-top: var(--size-gutter);
+    }
   }
 
   .project__lead,
@@ -138,16 +146,28 @@
     p {
       margin-bottom: .8em;
     }
+    @include bp('phone') {
+      display: block;
+    }
   }
 
   .project__bodydata {
     flex: 0 1 50%;
     width: 50%;
+
+    @include bp('phone') {
+      width: auto;
+    }
   }
   .project__bodyimagewrap {
     margin-left: var(--size-dog);
     flex: 0 1 50%;
     width: 50%;
+
+    @include bp('phone') {
+      width: auto;
+      margin-left: 0;
+    }
   }
 
   .project__body--landscape {

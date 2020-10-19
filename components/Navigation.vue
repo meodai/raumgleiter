@@ -150,8 +150,7 @@
   .navigation__bar {
     padding-bottom: calc(var(--size-gutter-x) * 1.1);
     @include bp('phone') {
-      height: 0;
-      padding: 0;
+      //padding: 0;
     }
   }
   .navigation__logo {
@@ -164,12 +163,6 @@
     width: 16%;
     margin-bottom: -0.5rem;
 
-    @include bp('phone') {
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: var(--size-gutter-x) var(--size-gutter);
-    }
   }
   .navigation__trigger {
     display: inline-block;
@@ -237,7 +230,7 @@
 
     @include bp('phone') {
       position: fixed;
-      top: 0;
+      top: 5.8rem;
       left: auto;
       right: 0;
       bottom: 0;
@@ -328,9 +321,6 @@
     .navigation__drawer-list--nav {
       opacity: 1;
       transition: 200ms opacity .7s;
-    }
-    .navigation__burger {
-      color: #000;
     }
     .navigation__trigger-icon {
       transform: rotate(90deg);

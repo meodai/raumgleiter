@@ -32,7 +32,7 @@
       },
       videoQuality: {
         type: String,
-        default: 'hls', // 'sd' || 'hd' || 'hls'
+        default: 'hd', // 'sd' || 'hd' || 'hls'
       },
     },
     data () {
@@ -251,28 +251,8 @@
 
         // Load video source
         console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
-        if (Hls.isSupported() && isHslFile) {
-          const hls = new Hls();
+        if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
 
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            $video.pause();
-            $video.currentTime = 0;
-
-            const texture = PIXI.Texture.from($video);
-            // Keep texture size, when switching hls video level
-            texture.baseTexture.on('update', () => {
-              if (texture.width !== this.currentVideoWidth) {
-                texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
-              }
-            }, this);
-            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
-
-            this.addSlide(texture, 'video');
-          });
-
-          hls.loadSource(src);
-          hls.attachMedia($video);
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
           $video.src = src;
 
           $video.addEventListener('loadedmetadata', () => {
@@ -280,12 +260,42 @@
             $video.currentTime = 0;
 
             const texture = PIXI.Texture.from($video);
+            if (isHslFile) {
+              this.keepHlsTextureSizeInSync(texture);
+            }
             texture.baseTexture.resource.autoPlay = false;
             texture.baseTexture.resource.muted = true;
 
             this.addSlide(texture, 'video');
           });
+        } else if (Hls.isSupported() && isHslFile) {
+          const hls = new Hls();
+          hls.loadSource(src);
+          hls.attachMedia($video);
+
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            $video.pause();
+            $video.currentTime = 0;
+
+            const texture = PIXI.Texture.from($video);
+            // Keep texture size, when switching hls video level
+            this.keepHlsTextureSizeInSync(texture);
+            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
+
+            texture.baseTexture.resource.autoPlay = false;
+            texture.baseTexture.resource.muted = true;
+
+            this.addSlide(texture, 'video');
+          });
+
         }
+      },
+      keepHlsTextureSizeInSync (texture) {
+        texture.baseTexture.on('update', () => {
+          if (texture.width !== this.currentVideoWidth) {
+            texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
+          }
+        }, this);
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();

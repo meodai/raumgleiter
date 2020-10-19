@@ -114,6 +114,7 @@
 
         this.app = this.createPIXIApp();
         this.setAppDimensions();
+
         this.$refs.canvas.appendChild(this.app.view);
 
         this.loadAllSlides();
@@ -597,10 +598,12 @@
        */
       resizeHandler: throttle(500, function () {
         this.setAppDimensions();
+        /*
         this.killApp();
         this.$nextTick(() => {
           this.startApp();
         });
+        */
       }),
       scrollHandler () {
         this.scrollRatio = window.scrollY / window.innerHeight;

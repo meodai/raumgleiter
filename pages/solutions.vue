@@ -81,6 +81,11 @@
   .filter__tabpanel-inner {
     padding-top: var(--size-design-bezel);
     padding-bottom: var(--size-design-bezel);
+
+    @include bp('phone') {
+      padding-left: var(--size-design-bezel);
+      padding-right: var(--size-design-bezel);
+    }
   }
 
   .filter__filterlist {

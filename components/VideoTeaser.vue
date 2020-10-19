@@ -176,7 +176,7 @@
         });
       },
       loadNextSlide () {
-        console.log('load next slide', this.loadingCount);
+        // console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
           this.alphaCover = this.createAlphaCover();
@@ -251,6 +251,7 @@
         });
 
         // Load video source
+        console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
         if (Hls.isSupported() && isHslFile) {
           const hls = new Hls();
 
@@ -273,19 +274,19 @@
           hls.loadSource(src);
           hls.attachMedia($video);
         } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
-          // $video.addEventListener('loadedmetadata', () => {
 
           $video.src = src;
-          $video.pause();
-          $video.currentTime = 0;
 
-          const texture = PIXI.Texture.from($video);
-          texture.baseTexture.resource.autoPlay = false;
-          texture.baseTexture.resource.muted = true;
+          $video.addEventListener('loadedmetadata', () => {
+            $video.pause();
+            $video.currentTime = 0;
 
-          this.addSlide(texture, 'video');
+            const texture = PIXI.Texture.from($video);
+            texture.baseTexture.resource.autoPlay = false;
+            texture.baseTexture.resource.muted = true;
 
-          // });
+            this.addSlide(texture, 'video');
+          });
         }
       },
       createSlide (texture, width, height) {
@@ -613,13 +614,13 @@
       Visibility
        */
       visibilityChanged (isVisible) {
-        if (this.currentVideoElement) {
-          if (!isVisible) {
-            this.currentVideoElement.pause();
-          } else {
-            this.currentVideoElement.play();
-          }
-        }
+        // if (this.currentVideoElement) {
+        //   if (!isVisible) {
+        //     this.currentVideoElement.pause();
+        //   } else {
+        //     this.currentVideoElement.play();
+        //   }
+        // }
       },
     },
   };

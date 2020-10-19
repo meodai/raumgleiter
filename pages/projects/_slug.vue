@@ -111,7 +111,9 @@
 
 <style lang="scss">
   .project {
-
+    @include bp('phone') {
+      margin-top: 5.5rem;
+    }
   }
 
   .project__head {

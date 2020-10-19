@@ -122,6 +122,7 @@
 
     background-color: var(--color-layout--background-inverted);
     color: var(--color-text--inverted);
+    overflow: hidden;
 
     path {
       fill: var(--color-text--inverted);

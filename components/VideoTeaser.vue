@@ -613,7 +613,7 @@
       Visibility
        */
       visibilityChanged (isVisible) {
-        if (!this.currentVideoElement) {
+        if (this.currentVideoElement) {
           if (!isVisible) {
             this.currentVideoElement.pause();
           } else {
@@ -630,13 +630,6 @@
   <div
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
-    v-observe-visibility="{
-      callback: visibilityChanged,
-      throttle: 300,
-      throttleOptions: {
-        leading: 'visible',
-      },
-    }"
     class="video-teaser"
   >
     <div

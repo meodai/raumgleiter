@@ -20,6 +20,12 @@
         required: true,
       },
     },
+    data () {
+      return {
+        visibleChildrenIndexes: {},
+        changes: false,
+      };
+    },
     computed: {
       firstBlock () {
         return this.fields.textBlocks.length ? this.fields.textBlocks[0] : null;
@@ -28,6 +34,18 @@
         return this.fields.textBlocks.length > 1 ? this.fields.textBlocks.slice(1) : null;
       },
     },
+    methods: {
+      visibilityChanged (isVisible, entry, i) {
+        this.visibleChildrenIndexes[i] = isVisible;
+        this.changes = true;
+        this.$nextTick(() => {
+          this.changes = false;
+        });
+      },
+    },
+    beforeDestroy () {
+      this.visibleChildrenIndexes = {};
+    }
   };
 </script>
 
@@ -43,7 +61,9 @@
       <aside
         v-for="(textBlock, i) in fields.textBlocks"
         :key="'offerGridText'+i"
+        v-observe-visibility="(isVisible, entry) => {visibilityChanged(isVisible, entry, i)}"
         class="offer-grid-text__block"
+        :class="{'offer-grid-text__block--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i])}"
       >
         <h4 class="offer-grid-text__subtitle">
           {{ textBlock.header }}
@@ -95,11 +115,28 @@
     }
   }
 
+  .offer-grid-text__subtitle,
+  .offer-grid-text__subtext {
+    opacity: 0;
+    transform: translateY(15rem);
+    transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+  }
+
   .offer-grid-text__subtitle {
     @include typo('title');
+    transition-delay: .5s, .5s;
   }
 
   .offer-grid-text__subtext {
     margin-top: 1em;
+    transition-delay: .55s, .55s;
+  }
+
+  .offer-grid-text__block--visible {
+    .offer-grid-text__subtitle,
+    .offer-grid-text__subtext {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

@@ -19,7 +19,7 @@
     },
     computed: {
       hasEnteredRoute () {
-        return this.$route.path !== '/';
+        return this.$route.params.slug !== undefined;
       },
       pagesInCurrentLocale () {
         return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;
@@ -39,7 +39,7 @@
       videoTeasers () {
         return collect(this.pagesInCurrentLocale).map((page, i) => {
           return {
-            video: page.headerVideo.url,
+            video: page.headerVideo,
             title: page.header,
             subtitle: page.title,
             slug: page.slug,
@@ -121,6 +121,7 @@
 
     <!--  Page Content  -->
     <Pagebuilder
+      class="content"
       v-if="currentPage && hasEnteredRoute"
       :key="'page-content-'+currentPage.slug"
       :slug="'content'+currentPage.slug"

@@ -187,6 +187,10 @@
     }
   }
 
+  .c-design--inverted .image-block:nth-child(2n) {
+    background: #000000;
+  }
+
   .image-block__video,
   .image-block__iframe,
   .image-block__images {

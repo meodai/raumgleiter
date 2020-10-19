@@ -30,13 +30,35 @@
       return {
       };
     },
+    mounted () {
+      const options = {
+        rootMargin: '0px',
+        threshold: 0,
+      };
+
+      this.observer = new IntersectionObserver(this.intersect, options);
+
+      this.observer.observe(this.$refs.root);
+    },
+    beforeDestory () {
+      this.observer.unobserve(this.$refs.root);
+      this.observer.disconnect();
+    },
+    methods: {
+      intersect (entries, observer) {
+        entries.forEach(entry => {
+          this.$nuxt.$emit('intro-intersect', entry.isIntersecting);
+        });
+      },
+    },
   };
 </script>
 
 <template>
   <section
-    class="intro l-design-width l-design-width--wide c-design"
-    :class="{'c-design--inverted': !isWhite}"
+    class="intro l-design-width l-design-width--wide"
+    :class="{'intro--inverted': !isWhite}"
+    ref="root"
   >
     <div class="intro__lead">
       <h2 class="intro__title t-title t-title--page">
@@ -73,7 +95,30 @@
 
 <style lang="scss">
   .intro {
+    position: relative;
     overflow: hidden;
+    margin-bottom: 0;
+
+    color: var(--color-text);
+
+    &::after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--color-layout--background);
+    }
+
+    &--inverted {
+      color: var(--color-text--inverted);
+
+      &::after {
+        background: var(--color-layout--background-inverted);
+      }
+    }
   }
 
   .intro__lead {

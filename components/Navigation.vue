@@ -146,7 +146,9 @@
   .navigation__drawer {
     padding: var(--size-gutter-x) var(--size-gutter);
   }
+
   .navigation__bar {
+    padding-bottom: calc(var(--size-gutter-x) * 1.1);
     @include bp('phone') {
       height: 0;
       padding: 0;
@@ -160,6 +162,7 @@
   .navigation__logo-link {
     display: inline-block;
     width: 16%;
+    margin-bottom: -0.5rem;
 
     @include bp('phone') {
       position: absolute;

@@ -32,7 +32,7 @@
       },
       videoQuality: {
         type: String,
-        default: 'sd', // 'hd'
+        default: 'hls', // 'sd' || 'hd' || 'hls'
       },
     },
     data () {
@@ -176,7 +176,7 @@
         });
       },
       loadNextSlide () {
-        console.log('load next slide', this.loadingCount);
+        // console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
           this.alphaCover = this.createAlphaCover();
@@ -223,6 +223,7 @@
       createVideoTexture (src) {
         console.log('adding video', src);
         const $video = document.createElement('video');
+        const isHslFile = src.endsWith('m3u8');
 
         $video.setAttribute('crossOrigin', 'anonymous');
         $video.setAttribute('preload', 'auto');
@@ -231,10 +232,10 @@
         // $video.controls = true;
         // $video.autoplay = true;
 
-        // if (isHslFile) {
-        //   $video.width = this.currentVideoWidth;
-        //   $video.height = this.currentVideoHeight;
-        // }
+        if (isHslFile) {
+          $video.width = this.currentVideoWidth;
+          $video.height = this.currentVideoHeight;
+        }
 
         // Slide to next slide 1.5s before video ends
         // $video.addEventListener('timeupdate', () => {
@@ -250,39 +251,43 @@
         });
 
         // Load video source
-        // if (Hls.isSupported() && isHslFile) {
-        //   const hls = new Hls();
-        //   hls.loadSource(src);
-        //   hls.attachMedia($video);
-        //
-        //   // Keep texture size, when switching hls video level
-        //   texture.baseTexture.on('update', () => {
-        //     if (texture.width !== this.currentVideoWidth) {
-        //       texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
-        //     }
-        //   }, this);
-        //   // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
-        //
-        //   hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        //     this.addSlide(texture, 'video');
-        //   });
-        // } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
+        console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
+        if (Hls.isSupported() && isHslFile) {
+          const hls = new Hls();
 
-        // $video.addEventListener('loadedmetadata', () => {
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            $video.pause();
+            $video.currentTime = 0;
 
-        $video.src = src;
-        $video.pause();
-        $video.currentTime = 0;
+            const texture = PIXI.Texture.from($video);
+            // Keep texture size, when switching hls video level
+            texture.baseTexture.on('update', () => {
+              if (texture.width !== this.currentVideoWidth) {
+                texture.baseTexture.setRealSize(this.currentVideoWidth, this.currentVideoHeight);
+              }
+            }, this);
+            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
 
-        const texture = PIXI.Texture.from($video);
-        texture.baseTexture.resource.autoPlay = false;
-        texture.baseTexture.resource.muted = true;
+            this.addSlide(texture, 'video');
+          });
 
-        this.addSlide(texture, 'video');
+          hls.loadSource(src);
+          hls.attachMedia($video);
+        } else if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
 
-        // });
+          $video.src = src;
 
-        // }
+          $video.addEventListener('loadedmetadata', () => {
+            $video.pause();
+            $video.currentTime = 0;
+
+            const texture = PIXI.Texture.from($video);
+            texture.baseTexture.resource.autoPlay = false;
+            texture.baseTexture.resource.muted = true;
+
+            this.addSlide(texture, 'video');
+          });
+        }
       },
       createSlide (texture, width, height) {
         const slide = new PIXI.Container();
@@ -609,13 +614,13 @@
       Visibility
        */
       visibilityChanged (isVisible) {
-        if (!this.currentVideoElement) {
-          if (!isVisible) {
-            this.currentVideoElement.pause();
-          } else {
-            this.currentVideoElement.play();
-          }
-        }
+        // if (this.currentVideoElement) {
+        //   if (!isVisible) {
+        //     this.currentVideoElement.pause();
+        //   } else {
+        //     this.currentVideoElement.play();
+        //   }
+        // }
       },
     },
   };
@@ -624,16 +629,9 @@
 
 <template>
   <div
-    class="video-teaser"
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
-    v-observe-visibility="{
-      callback: visibilityChanged,
-      throttle: 300,
-      throttleOptions: {
-        leading: 'visible',
-      },
-    }"
+    class="video-teaser"
   >
     <div
       ref="canvas"
@@ -672,7 +670,9 @@
       :style="{'--timer': currentVideoDuration}"
       :class="{'play': videoIsPlaying}"
     />
-    <button class="video-teaser__mute-button" @click="toggleMute">{{ isMuted ? 'unmute' : 'mute' }}</button>
+    <button class="video-teaser__mute-button" @click="toggleMute">
+      {{ isMuted ? 'unmute' : 'mute' }}
+    </button>
   </div>
 </template>
 

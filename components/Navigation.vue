@@ -119,6 +119,7 @@
 </template>
 
 <style lang="scss">
+  // mix-blend-mode: difference;
   .navigation {
     position: relative;
     --size-gutter-x: 1.5rem;

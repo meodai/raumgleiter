@@ -37,6 +37,10 @@
     &:hover .icon-unmute__off {
       opacity: 1;
     }
+
+    @include bp('phone') {
+      width: 2.2em;
+    }
   }
 
   .icon-unmute__off {

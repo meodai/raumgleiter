@@ -825,5 +825,10 @@
   z-index: 99;
   outline: none;
   cursor: pointer;
+
+  @include bp('phone') {
+    left: var(--size-gutter);
+    bottom: calc(var(--size-gutter) * 1.25);
+  }
 }
 </style>

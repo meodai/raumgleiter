@@ -5,30 +5,30 @@
 
   export default {
     props: {
+      entries: {
+        type: Array,
+        required: true,
+      },
+      allowSwipe: {
+        type: Boolean,
+        default: true,
+      },
+      startEq: {
+        type: Number,
+        default: 0,
+      },
       slices: {
         type: Number,
         required: false,
         default: 4,
       },
-      entries: {
-        type: Array,
-        required: true,
-      },
       loopVideos: {
-        type: Boolean,
-        default: true,
-      },
-      allowSwipe: {
         type: Boolean,
         default: true,
       },
       timePerSlide: {
         type: Number,
         default: 8,
-      },
-      startEq: {
-        type: Number,
-        default: 0,
       },
       videoQuality: {
         type: String,
@@ -86,9 +86,7 @@
       this.scrollHandler();
     },
     beforeDestroy () {
-      this.lillApp();
-      // todo: should we unload the video elements
-      // or keep them — and reuse them later?
+      this.killApp();
       document.removeEventListener('keyup', this.listenToArrowKeys);
       window.removeEventListener('resize', this.resizeHandler);
       window.removeEventListener('scroll', this.scrollHandler);
@@ -121,6 +119,8 @@
         ticker.start();
       },
       killApp () {
+        // todo: should we unload the video elements
+        // or keep them — and reuse them later?
         this.loader.reset();
         if (this.app && this.app.children) {
           while (this.app && this.app.children && this.app.children[0]) {
@@ -186,6 +186,7 @@
         // console.log('load next slide', this.loadingCount);
         if (this.loadingCount >= this.entriesInOrder.length) {
           // All slides were loaded
+          // todo: move this
           this.alphaCover = this.createAlphaCover();
           return;
         }

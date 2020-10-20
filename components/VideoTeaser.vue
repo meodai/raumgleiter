@@ -169,8 +169,8 @@
         this.loadNextSlide();
       },
       initLoader () {
+        this.loader.reset();
         this.loader = new PIXI.Loader();
-        // this.loader.reset();
         // Trigger next video on load
         this.loader.onProgress.add((event, resource) => {
           if (resource.error === null) {

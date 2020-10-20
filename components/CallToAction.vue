@@ -82,7 +82,7 @@
         :class="{'calltoaction__block--visible': showFirst}"
         class="calltoaction__first calltoaction__block"
       >
-        <Icon
+        <IconCta
           v-if="fields.icon"
           class="calltoaction__icon"
           :name="fields.icon"
@@ -122,7 +122,7 @@
         :class="{'calltoaction__block--visible': showFirst}"
         class="calltoaction__second calltoaction__block"
       >
-        <Icon
+        <IconCta
           class="calltoaction__icon"
           name="communication"
           :is-block="true"
@@ -261,35 +261,35 @@
       transform: translateX(10rem);
 
       &:nth-child(1) {
-        transition-delay: calc(var(--inital-delay) + 0.5s);
+        transition-delay: calc(var(--inital-delay) + 1s);
       }
     }
 
     .calltoaction__dots {
       opacity: 1;
       transform: translateY(0);
-      transition-delay: calc(var(--inital-delay) + 1s);
+      transition-delay: calc(var(--inital-delay) + 1.5s);
     }
 
     .calltoaction__title {
-      transition-delay: calc(var(--inital-delay) + 1s);
+      transition-delay: calc(var(--inital-delay) + 1.5s);
     }
 
     .calltoaction__subblock:nth-child(2) {
-      transition-delay: calc(var(--inital-delay) + 1.5s);
+      transition-delay: calc(var(--inital-delay) + 2s);
 
       .calltoaction__dots {
-        transition-delay: calc(var(--inital-delay) + 2.2s);
+        transition-delay: calc(var(--inital-delay) + 3.2s);
       }
     }
 
     .calltoaction__content {
-      transition-delay: calc(var(--inital-delay) + 2.2s);
+      transition-delay: calc(var(--inital-delay) + 3.2s);
     }
   }
 
   .calltoaction__block:nth-child(2) {
-    --inital-delay: 3s;
+    --inital-delay: 4.5s;
   }
 
   .calltoaction__block--visible {

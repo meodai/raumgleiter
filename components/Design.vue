@@ -147,12 +147,13 @@ a {
 // 6) Components
 
 .c-design {
+  --c-design-background: var(--color-layout--background);
   color: var(--color-text);
-  background: var(--color-layout--background);
+  background: var(--c-design-background);
 }
 .c-design--inverted {
+  --c-design-background: var(--color-layout--background-inverted);
   color: var(--color-text--inverted);
-  background: var(--color-layout--background-inverted);
 }
 
 // generic font classes

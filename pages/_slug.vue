@@ -5,7 +5,7 @@
   export default {
     key: 'homepage',
     name: 'Page',
-    transition: 'swipedown',
+    // transition: 'swipedown',
     components: {},
     async asyncData ({ $craft }) {
       const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();

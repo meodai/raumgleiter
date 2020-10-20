@@ -100,29 +100,16 @@ img:not([alt]) {
     scroll-behavior: auto !important;
   }
 }
-/*
-.swipedown {
-  &::after {
-    position: fixed;
-    top: -20%;
-    right:  0;
-    bottom: -1rem;
-    left: 0;
-    background: #fff;
-    transform-origin: 50% 100%;
-  }
+
+
+.swipedown-left-enter,
+.swipedown-right-leave-active {
+  opacity: 0;
+  transform: translate(30px, 0);
 }
 
-.swipedown-enter-active,
-.swipedown-leave-active {
-  &::after {
-    transition: 800ms transform cubic-bezier(0.3, 0.7, 0, 1);
-  }
+.swipedown-left-leave-active,
+.swipedown-right-enter {
+  opacity: 0;
+  transform: translate(-30px, 0);
 }
-
-.swipedown-enter,
-.swipedown-leave-active {
-  &::after {
-    transform: scaleY(0);
-  }
-}*/

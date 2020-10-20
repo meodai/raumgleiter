@@ -244,7 +244,7 @@
   // animation / transition
 
   .calltoaction__block {
-    --inital-delay: 1s;
+    --inital-delay: .5s;
 
     .calltoaction__icon,
     .calltoaction__subblock,
@@ -289,7 +289,7 @@
   }
 
   .calltoaction__block:nth-child(2) {
-    --inital-delay: 3.5s;
+    --inital-delay: 3s;
   }
 
   .calltoaction__block--visible {

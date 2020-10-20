@@ -103,7 +103,9 @@
 
 <style lang="scss">
   .intro--team {
+    color: var(--color-text--inverted);
   }
+
   .people {
     display: flex;
     flex-wrap: wrap;

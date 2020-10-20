@@ -28,6 +28,21 @@
         required: true,
       },
     },
+    data () {
+      return {
+        visibleChildrenIndexes: {},
+        changes: false,
+      };
+    },
+    methods: {
+      visibilityChanged (isVisible, entry, i) {
+        this.visibleChildrenIndexes[i] = isVisible;
+        this.changes = true;
+        this.$nextTick(() => {
+          this.changes = false;
+        });
+      },
+    },
   };
 </script>
 
@@ -47,7 +62,15 @@
     </div>
     <div class="offer-grid__images">
       <template v-for="(item, i) in fields.items">
-        <figure :key="'offer-grid-images'+i" class="offer-grid__image">
+        <figure
+          :key="'offer-grid-images'+i"
+          v-observe-visibility="{
+            callback: (isVisible, entry) => {visibilityChanged(isVisible, entry, i)},
+            once: true,
+          }"
+          class="offer-grid__image"
+          :class="{'offer-grid__image--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i])}"
+        >
           <ResponsiveImage v-if="item.images.length" :image="item.images[0]" />
           <figcaption class="offer-grid__caption">
             {{ item.caption }}
@@ -122,5 +145,45 @@
     width: .5em;
     height: .5em;
     margin-left: .2em;
+  }
+
+  // animation
+
+  .offer-grid__image {
+    opacity: 0;
+    transform: translate(-15rem, 15rem);
+    transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+
+    &:nth-child(2),
+    &:nth-child(5) {
+      transition-delay: 400ms;
+      transform: translate(15rem, 15rem);
+    }
+    &:nth-child(3) {
+      transform: translate(0, 15rem);
+    }
+
+    @include bp('phone') {
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5) {
+        opacity: 0;
+        transform: translate(0, 15rem);
+        transition-delay: 0;
+      }
+    }
+  }
+
+  .offer-grid__image--visible {
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5) {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

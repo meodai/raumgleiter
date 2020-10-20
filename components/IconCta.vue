@@ -19,7 +19,7 @@
 </script>
 
 <template>
-  <svg class="icon icon--cta icon--block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68.02 67.95">
+  <svg class="iconcta icon--cta iconcta--block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68.02 67.95">
     <defs>
       <clipPath id="communication-clip-path" transform="translate(-1.81 -0.15)">
         <path class="communication__boubble--mask" fill="none" d="M-9.49 77.35c.54 2.19 41.49-5.84 42.65-3.92L22.55 61A27.18 27.18 0 0157 22.16V-7.38C52.54-7.46-4.6-5.77-9.49-4.57"/>
@@ -32,7 +32,7 @@
       <path class="smiley__mouth" d="M18.77 30.15a17.66 17.66 0 1033.69 0z" transform="translate(-1.81 -0.15)"/>
     </g>
     <g v-if="name == 'vr'" class="vr">
-      <path class="base" d=s"M52.34 15.7H18.4A15.77 15.77 0 002.63 31.47V39A15.77 15.77 0 0018.4 54.72h9.08a8.39 8.39 0 01-.37-2.47 8.26 8.26 0 1116.52 0 8.08 8.08 0 01-.38 2.47h9.09A15.77 15.77 0 0068.11 39v-7.53A15.77 15.77 0 0052.34 15.7zM62 31.9H46.22a24.28 24.28 0 01-.15-2.47 7.76 7.76 0 018-7.9 7.75 7.75 0 018.12 7.9c-.02.8-.09 1.67-.19 2.47z" transform="translate(-1.81 -0.15)"/>
+      <path class="base" d="M52.34 15.7H18.4A15.77 15.77 0 002.63 31.47V39A15.77 15.77 0 0018.4 54.72h9.08a8.39 8.39 0 01-.37-2.47 8.26 8.26 0 1116.52 0 8.08 8.08 0 01-.38 2.47h9.09A15.77 15.77 0 0068.11 39v-7.53A15.77 15.77 0 0052.34 15.7zM62 31.9H46.22a24.28 24.28 0 01-.15-2.47 7.76 7.76 0 018-7.9 7.75 7.75 0 018.12 7.9c-.02.8-.09 1.67-.19 2.47z" transform="translate(-1.81 -0.15)"/>
     </g>
     <g v-if="name == 'heart'" class="heart">
       <path class="heart__outline" d="M48.53 14.86a14.63 14.63 0 0114.58 13.5v2.27c0 .39-.07.76-.13 1.14-2.29 16-24.28 22.65-27.6 23.56-3.32-.91-25.31-7.58-27.6-23.56-.06-.38-.1-.75-.13-1.14v-.1-.92-.13-.15-.35-.44-.18a14.62 14.62 0 0127.74-5.25 14.61 14.61 0 0113.16-8.25m0-5A19.7 19.7 0 0035.37 15 19.6 19.6 0 002.65 28v3.21c0 .44.1.88.17 1.32C5.56 51.42 29.3 58.88 34 60.19l1.33.37 1.33-.37c4.73-1.31 28.48-8.77 31.21-27.63.07-.45.12-.89.16-1.33V30.81v-1.56-.43V28.01a19.7 19.7 0 00-19.5-18.15z" transform="translate(-1.81 -0.15)"/>
@@ -68,16 +68,12 @@
 </template>
 
 <style lang="scss">
-  .icon {
+  .iconcta {
     overflow: visible;
-    display: inline-block;
+    display: block;
     width: 5rem;
     height: 5rem;
     fill: currentColor;
-  }
-
-  .icon--block {
-    display: block;
   }
 
   .calltoaction__block {

@@ -113,6 +113,7 @@
     }
 
     &--inverted {
+      --c-design-background: var(--color-layout--background-inverted);
       color: var(--color-text--inverted);
 
       &::after {

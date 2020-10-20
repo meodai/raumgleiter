@@ -77,7 +77,7 @@
           callback: (isVisible, entry) => {
             visibilityChanged(isVisible, entry, true)
           },
-          //once: true,
+          once: true,
         }"
         :class="{'calltoaction__block--visible': showFirst}"
         class="calltoaction__first calltoaction__block"
@@ -117,7 +117,7 @@
           callback: (isVisible, entry) => {
             visibilityChanged(isVisible, entry, false)
           },
-          //once: true,
+          once: true,
         }"
         :class="{'calltoaction__block--visible': showFirst}"
         class="calltoaction__second calltoaction__block"

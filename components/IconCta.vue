@@ -20,7 +20,7 @@
 
 <template>
   <svg class="iconcta icon--cta iconcta--block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68.02 67.95">
-    <defs>
+    <defs v-if="name == 'communication'">
       <clipPath id="communication-clip-path" transform="translate(-1.81 -0.15)">
         <path class="communication__boubble--mask" fill="none" d="M-9.49 77.35c.54 2.19 41.49-5.84 42.65-3.92L22.55 61A27.18 27.18 0 0157 22.16V-7.38C52.54-7.46-4.6-5.77-9.49-4.57"/>
       </clipPath>

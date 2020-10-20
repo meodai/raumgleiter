@@ -186,7 +186,7 @@
   }
 
   .calltoaction__content {
-    margin-top: 0.1em;
+    padding-top: 0.5em;
   }
 
   .calltoaction__background {

@@ -719,14 +719,6 @@
   }
 }
 
-//.video-teaser__swipe-handler {
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  right: 0;
-//  bottom: 0;
-//}
-
 .video-teaser__slider,
 .video-teaser__slice,
 .video-teaser__slideInner {
@@ -860,7 +852,6 @@
 }
 
 .video-teaser__mute-button {
-  // todo:
   position: absolute;
   left: 10rem;
   bottom: 10rem;

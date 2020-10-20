@@ -44,8 +44,13 @@
   <article
     v-if="showFirstRow || showSecondRow"
     class="calltoaction"
-    aria-label="$t('contactUs')"
-    :class="{'calltoaction--fullwidth': fields.fullwidth, 'c-design': !fields.inverted && fields.background, 'c-design--inverted': fields.inverted && fields.background}"
+    :aria-label="$t('contactUs')"
+    :class="{
+      'calltoaction--fullwidth': fields.fullwidth,
+      'calltoaction--image': fields.background,
+      'c-design': !fields.inverted && fields.background,
+      'c-design--inverted': fields.inverted && fields.background
+    }"
   >
     <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />
@@ -94,7 +99,7 @@
     display: flex;
     vertical-align: middle;
     padding-top: 15rem;
-    padding-bottom: 30rem;
+    padding-bottom: 15rem;
 
     position: relative;
     perspective: 2px;
@@ -104,6 +109,10 @@
       position: relative;
       margin: 0 auto;
     }
+  }
+
+  .calltoaction--image {
+    padding-bottom: 30rem;
   }
 
   .calltoaction__icon {

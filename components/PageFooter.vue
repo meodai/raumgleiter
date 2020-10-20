@@ -102,6 +102,14 @@
         </li>
       </ul>
     </div>
+
+    <nuxt-link class="footer__logo-bottomlink" to="/">
+      <Icon
+        :name="'raumgleiter_symbol'"
+        :is-block="true"
+        class="footer__logoicon"
+      />
+    </nuxt-link>
   </div>
 </template>
 
@@ -110,24 +118,17 @@
     position: relative;
     z-index: 1;
     --size-footer-stack: 0.4em;
-
     font-size: 1.6rem;
+
     background-color: var(--color-layout--background-inverted);
     color: var(--color-text--inverted);
+    overflow: hidden;
 
     path {
       fill: var(--color-text--inverted);
     }
-
-    button,
-    input,
-    input::-webkit-input-placeholder,
-    input::placeholder  {
-      background: none;
-      border: 0;
-      appearance: none;
-      color: var(--color-text--inverted);
-      font-weight: 100;
+    @include bp('phone') {
+      font-size: 2.2rem;
     }
   }
 
@@ -139,6 +140,7 @@
 
     @include bp('phone') {
       display: block;
+      padding: var(--size-design-bezel);
     }
   }
 
@@ -164,8 +166,8 @@
   .footer__address {
     font-style: normal;
     margin-bottom: var(--size-mouse);
+
     @include bp('phone') {
-      font-size: 1.8rem;
       margin-top: var(--size-rat);
     }
   }
@@ -232,8 +234,8 @@
     @include bp('phone') {
       display: block;
       position: absolute;
-      top: var(--size-rat);
-      right: var(--size-rat);
+      top: var(--size-design-bezel);
+      right: var(--size-design-bezel);
     }
 
     display: flex;
@@ -259,5 +261,16 @@
     @include bp('phone') {
       margin-bottom: var(--size-mouse);
     }
+  }
+
+  .footer__logo-bottomlink {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: var(--size-gutter) auto;
+  }
+  .footer__logoicon {
+    width: 100%;
+    height: 100%;
   }
 </style>

@@ -76,6 +76,7 @@
       backgroundImage: loaded ? 'url(' + video.thumbnail + ')' : null,
     }"
   >
+    {{video.thumbnai}}
     <!-- TODO: video thumbnail -->
     <!-- <div class="vimeoEmbed__iframe" :style="{ backgroundImage: 'url(' + video.thumbnail + ')' }"></div>-->
     <iframe
@@ -96,6 +97,8 @@
 <style scoped>
 .vimeoEmbed {
   position: relative;
+  background-size: 100% auto;
+  background-position: 50% 50%;
 }
 
 .vimeoEmbed__iframe {

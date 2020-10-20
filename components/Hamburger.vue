@@ -46,8 +46,6 @@
     background-color: currentColor;
   }
 
-
-
   .hamburger__inner::after,
   .hamburger__inner::before {
     display: block;

@@ -153,5 +153,10 @@
     clear: both;
     padding: 15%;
     padding-bottom: 0;
+
+    @include bp('phone') {
+      padding: 0;
+      padding-top: var(--size-design-bezel--wide);
+    }
   }
 </style>

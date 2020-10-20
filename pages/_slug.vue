@@ -113,6 +113,7 @@
 
     <!--  Intro Block  -->
     <Pagebuilder
+      id="section-intro"
       v-if="currentPage"
       :key="'page-intro-'+currentPage.slug"
       :slug="'intro'+currentPage.slug"

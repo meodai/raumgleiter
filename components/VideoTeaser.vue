@@ -1,7 +1,7 @@
 <script>
   import collect from 'collect.js';
   import Hls from 'hls.js';
-  import { debounce } from 'throttle-debounce';
+  import { throttle, debounce } from 'throttle-debounce';
 
   export default {
     props: {
@@ -77,54 +77,16 @@
       this.loadEntries();
     },
     mounted () {
-      const ticker = PIXI.Ticker.shared;
-      ticker.autoStart = false;
-      ticker.stop();
-
-      this.$nuxt.$on('intro-intersect', (isInersecting) => {
-        if (isInersecting === false && this.scrollRatio > 1) {
-          if (this.currentVideoElement) {
-            this.currentVideoElement.pause();
-          }
-        } else if (this.scrollRatio < 1) {
-          if (this.currentVideoElement) {
-            this.currentVideoElement.play();
-          }
-        }
-      });
-
-      this.app = this.createPIXIApp();
-      this.setAppDimensions();
-      this.$refs.canvas.appendChild(this.app.view);
-
-      this.loadAllSlides();
-      ticker.start();
+      this.startApp();
 
       document.addEventListener('keyup', this.listenToArrowKeys);
       window.addEventListener('resize', this.resizeHandler);
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       window.addEventListener('scroll', this.scrollHandler, { passive: true });
-
       this.scrollHandler();
     },
     beforeDestroy () {
-      this.loader.reset();
-      if (this.app && this.app.children) {
-        while (this.app && this.app.children && this.app.children[0]) {
-          this.app.removeChild(this.app.children[0]);
-        }
-        this.app.stop();
-        this.app.destroy(false, {
-          children: true,
-          texture: true,
-          baseTexture: true,
-        });
-        this.app = null;
-      }
-      this.pixiSlides = [];
-      if (this.currentVideoElement) {
-        this.currentVideoElement.pause();
-      }
+      this.lillApp();
       // todo: should we unload the video elements
       // or keep them — and reuse them later?
       document.removeEventListener('keyup', this.listenToArrowKeys);
@@ -133,6 +95,50 @@
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
     },
     methods: {
+      startApp () {
+        const ticker = PIXI.Ticker.shared;
+        ticker.autoStart = false;
+        ticker.stop();
+
+        this.$nuxt.$on('intro-intersect', (isInersecting) => {
+          if (isInersecting === false && this.scrollRatio > 1) {
+            if (this.currentVideoElement) {
+              this.currentVideoElement.pause();
+            }
+          } else if (this.scrollRatio < 1) {
+            if (this.currentVideoElement) {
+              this.currentVideoElement.play();
+            }
+          }
+        });
+
+        this.app = this.createPIXIApp();
+        this.setAppDimensions();
+
+        this.$refs.canvas.appendChild(this.app.view);
+
+        this.loadAllSlides();
+        ticker.start();
+      },
+      killApp () {
+        this.loader.reset();
+        if (this.app && this.app.children) {
+          while (this.app && this.app.children && this.app.children[0]) {
+            this.app.removeChild(this.app.children[0]);
+          }
+          this.app.stop();
+          this.app.destroy(false, {
+            children: true,
+            texture: true,
+            baseTexture: true,
+          });
+          this.app = null;
+        }
+        this.pixiSlides = [];
+        if (this.currentVideoElement) {
+          this.currentVideoElement.pause();
+        }
+      },
       /*
       Helpers
        */
@@ -153,6 +159,7 @@
           transparent: false,
           width: window.innerWidth,
           height: window.innerHeight,
+          resizeTo: window,
         });
       },
       /*
@@ -162,8 +169,8 @@
         this.loadNextSlide();
       },
       initLoader () {
+        this.loader.reset();
         this.loader = new PIXI.Loader();
-        // this.loader.reset();
         // Trigger next video on load
         this.loader.onProgress.add((event, resource) => {
           if (resource.error === null) {
@@ -252,7 +259,6 @@
         // Load video source
         console.log('hls support', Hls.isSupported(), $video.canPlayType('application/vnd.apple.mpegurl'));
         if ($video.canPlayType('application/vnd.apple.mpegurl') || !isHslFile) {
-
           $video.src = src;
 
           $video.addEventListener('loadedmetadata', () => {
@@ -287,8 +293,7 @@
 
             this.addSlide(texture, 'video');
           });
-
-        }
+        };
       },
       keepHlsTextureSizeInSync (texture) {
         texture.baseTexture.on('update', () => {
@@ -591,9 +596,14 @@
       /*
       Resize / Responsive
        */
-      resizeHandler: debounce(50, function () {
+      resizeHandler: throttle(500, function () {
         this.setAppDimensions();
-        this.app.queueResize();
+        /*
+        this.killApp();
+        this.$nextTick(() => {
+          this.startApp();
+        });
+        */
       }),
       scrollHandler () {
         this.scrollRatio = window.scrollY / window.innerHeight;
@@ -603,10 +613,10 @@
         };
       },
       setAppDimensions () {
-        this.app.width = window.innerWidth;
-        this.app.height = window.innerHeight;
         this.appWidth = window.innerWidth;
         this.appHeight = window.innerHeight;
+
+        this.app.resize();
       },
       /*
       Mute
@@ -649,6 +659,7 @@
       :key="'video-teaser-slice-'+i"
       :class="{'video-teaser__slider--active': currentSlideEq === i}"
       class="video-teaser__slider"
+      :aria-hidden="(currentSlideEq !== i)"
     >
       <div
         v-for="(slice, j) in slices"
@@ -666,7 +677,9 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              {{ entry.subtitle }}
+              <a href="#section-intro">
+                {{ entry.subtitle }}
+              </a>
             </h3>
           </div>
         </div>
@@ -679,7 +692,7 @@
       :class="{'play': videoIsPlaying}"
     />
     <button class="video-teaser__mute-button" @click="toggleMute">
-      {{ isMuted ? 'unmute' : 'mute' }}
+      <Unmute :is-muted="isMuted" />
     </button>
   </div>
 </template>
@@ -690,8 +703,8 @@
   display: block;
   width: 100vw;
   max-width: 100%;
-  height: -webkit-fill-available;
   height: 100vh;
+  height: -webkit-fill-available;
   overflow: hidden;
 
   &__canvas {
@@ -741,6 +754,14 @@
   width: 100vw;
 }
 
+.video-teaser__slider {
+  pointer-events: none;
+
+  &--active {
+    pointer-events: all;
+  }
+}
+
 .video-teaser__slider--active .video-teaser__slice {
   @for $i from 1 through 6 {
     &:nth-child(#{$i}) .video-teaser__slideInner {
@@ -779,12 +800,32 @@
   @include typo('default');
   margin-top: var(--size-rat);
   opacity: 0;
+
+  &::after {
+    opacity: 0;
+    transform: translateY(-100%);
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1;
+    margin-top: 0.5em;
+    font-weight: bold;
+    margin-left: 1.5em;
+    content: '⭣';
+    font-size: .8em;
+    transform: translateY(-50%);
+  }
 }
 
 .video-teaser__slider--active .video-teaser__subtitle {
   transition: 300ms opacity 1100ms;
   opacity: 1;
   color: var(--color-text--inverted);
+
+  &::after {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 300ms opacity 1400ms, 300ms transform 1400ms cubic-bezier(0.3,0.7,.3,1.3);
+  }
 }
 
 .video-teaser-progress {
@@ -820,8 +861,15 @@
 .video-teaser__mute-button {
   // todo:
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  left: 10rem;
+  bottom: 10rem;
   z-index: 99;
+  outline: none;
+  cursor: pointer;
+
+  @include bp('phone') {
+    left: var(--size-gutter);
+    bottom: calc(var(--size-gutter) * 7);
+  }
 }
 </style>

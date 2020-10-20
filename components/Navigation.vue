@@ -119,6 +119,7 @@
 </template>
 
 <style lang="scss">
+  // mix-blend-mode: difference;
   .navigation {
     position: relative;
     --size-gutter-x: 1.5rem;
@@ -131,6 +132,7 @@
       right: 0;
       left: 0;
       z-index: 10;
+      font-size: 2rem;
     }
   }
 
@@ -144,10 +146,11 @@
   .navigation__drawer {
     padding: var(--size-gutter-x) var(--size-gutter);
   }
+
   .navigation__bar {
+    padding-bottom: calc(var(--size-gutter-x) * 1.1);
     @include bp('phone') {
-      height: 0;
-      padding: 0;
+      //padding: 0;
     }
   }
   .navigation__logo {
@@ -158,13 +161,8 @@
   .navigation__logo-link {
     display: inline-block;
     width: 16%;
-
-    @include bp('phone') {
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: var(--size-gutter-x) var(--size-gutter);
-    }
+    margin-bottom: -0.5rem;
+    outline: none;
   }
   .navigation__trigger {
     display: inline-block;
@@ -232,7 +230,7 @@
 
     @include bp('phone') {
       position: fixed;
-      top: 0;
+      top: 5.8rem;
       left: auto;
       right: 0;
       bottom: 0;
@@ -324,9 +322,6 @@
       opacity: 1;
       transition: 200ms opacity .7s;
     }
-    .navigation__burger {
-      color: #000;
-    }
     .navigation__trigger-icon {
       transform: rotate(90deg);
     }
@@ -374,12 +369,24 @@
 
   .navigation__location--drawer {
     display: none;
+    pointer-events: none;
+
     @include bp('phone') {
       display: block;
       margin-left: 0;
+      opacity: 0;
     }
+
     color: #000;
     fill: #000;
+  }
+
+  .navigation--isOpen .navigation__location--drawer {
+    @include bp('phone') {
+      pointer-events: all;
+      opacity: 1;
+      transition: 200ms opacity .7s;
+    }
   }
 
 </style>

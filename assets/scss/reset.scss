@@ -38,11 +38,14 @@ html {
   word-break: break-word;
 
   hyphens: auto;
+
+  height: -webkit-fill-available;
 }
 
 /* Set core body defaults */
 body {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   line-height: 1.5;
 }
 
@@ -70,6 +73,17 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+button,
+input,
+input::-webkit-input-placeholder,
+input::placeholder {
+  background: none;
+  border: 0;
+  appearance: none;
+  color: var(--color-text--inverted);
+  font-weight: 100;
 }
 
 /* Blur images when they have no alt attribute */

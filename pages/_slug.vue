@@ -66,7 +66,7 @@
     },
     mounted () {
       this.listenForScrollEvent();
-      window.addEventListener('scroll', this.listenForScrollEvent);
+      window.addEventListener('scroll', this.listenForScrollEvent, { passive: true });
     },
     beforeDestroy () {
       window.removeEventListener('scroll', this.listenForScrollEvent);

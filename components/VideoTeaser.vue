@@ -60,11 +60,13 @@
       };
     },
     computed: {
-      opacity () {
-        return 1 - Math.min(this.scrollRatio, 0.75);
-      },
+      // opacity () {
+      //   return 1 - Math.min(this.scrollRatio, 0.75);
+      // },
       videoScale () {
-        return (this.appWidth / this.appHeight > this.currentVideoWidth / this.currentVideoHeight) ? this.appWidth / this.currentVideoWidth : this.appHeight / this.currentVideoHeight;
+        return (this.appWidth / this.appHeight > this.currentVideoWidth / this.currentVideoHeight)
+          ? this.appWidth / this.currentVideoWidth
+          : this.appHeight / this.currentVideoHeight;
       },
       sliderIsOnAutoplay () {
         return this.loopVideos && !this.isSingleVideo;
@@ -81,8 +83,8 @@
 
       document.addEventListener('keyup', this.listenToArrowKeys);
       window.addEventListener('resize', this.resizeHandler);
-      this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       window.addEventListener('scroll', this.scrollHandler, { passive: true });
+      this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       this.scrollHandler();
     },
     beforeDestroy () {

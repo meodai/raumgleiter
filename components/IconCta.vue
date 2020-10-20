@@ -13,15 +13,19 @@
     },
     data () {
       return {
+        id: '',
       };
     },
+    mounted () {
+      this.id = this._uid;
+    }
   };
 </script>
 
 <template>
   <svg class="iconcta icon--cta iconcta--block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68.02 67.95">
     <defs v-if="name == 'communication'">
-      <clipPath id="communication-clip-path" transform="translate(-1.81 -0.15)">
+      <clipPath :id="`communication-clip-path-${id}`" transform="translate(-1.81 -0.15)">
         <path class="communication__boubble--mask" fill="none" d="M-9.49 77.35c.54 2.19 41.49-5.84 42.65-3.92L22.55 61A27.18 27.18 0 0157 22.16V-7.38C52.54-7.46-4.6-5.77-9.49-4.57"/>
       </clipPath>
     </defs>
@@ -55,7 +59,7 @@
       <rect class="thumb__jacket" width="14.83" height="31.67" x="5.52" y="31.51" rx="3.94"/>
     </g>
     <g v-if="name == 'communication'" class="communication">
-      <path clip-path="url(#communication-clip-path)" class="communication__boubble--left" d="M14 41.49a21.84 21.84 0 006.86 1.09 23.25 23.25 0 004.22-.39 21.77 21.77 0 0013-7.44 16.3 16.3 0 003.72-13.38 16.33 16.33 0 00-8.22-11.2 21.82 21.82 0 00-14.81-2.35 21.8 21.8 0 00-13 7.44 16.26 16.26 0 00-3.71 13.38 15.85 15.85 0 006 9.74c-.65 2-2.65 3-5 2.7a6.08 6.08 0 003.7 2.72A7 7 0 0014 41.49" data-name="communication__boubble--left" transform="translate(-1.81 -0.15)"/>
+      <path :clip-path="`url(#communication-clip-path-${id})`" class="communication__boubble--left" d="M14 41.49a21.84 21.84 0 006.86 1.09 23.25 23.25 0 004.22-.39 21.77 21.77 0 0013-7.44 16.3 16.3 0 003.72-13.38 16.33 16.33 0 00-8.22-11.2 21.82 21.82 0 00-14.81-2.35 21.8 21.8 0 00-13 7.44 16.26 16.26 0 00-3.71 13.38 15.85 15.85 0 006 9.74c-.65 2-2.65 3-5 2.7a6.08 6.08 0 003.7 2.72A7 7 0 0014 41.49" data-name="communication__boubble--left" transform="translate(-1.81 -0.15)"/>
 
       <g class="communication__boubble--right">
         <path class="communication__boubble-right" d="M60.68 51.61a10.43 10.43 0 007.09 6.22 13.37 13.37 0 01-9.83 2.37 16.32 16.32 0 01-10-5.44l-20 5-1-1.57a21.94 21.94 0 0113.48-32.71 22 22 0 0127.14 22.63l-.12 1.83-6.76 1.67" transform="translate(-1.81 -0.15)"/>

@@ -132,6 +132,38 @@
         transition-delay: calc(var(--inital-delay) + 1.4s);
       }
     }
+
+    .flashed__outline {
+      stroke-dasharray: 300 300;
+      stroke-dashoffset: -300;
+      transition: 650ms stroke-dashoffset cubic-bezier(0.3, 0.7, 0, 1.3);
+      transition-delay: calc(var(--inital-delay) + .5s);
+    }
+    .flashed__eye-left,
+    .flashed__eye-left__outline,
+    .flashed__eye-right,
+    .flashed__eye-right__outline,
+    .flashed__mouth {
+      opacity: 0;
+      transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+      transform-origin: 45% 45%;
+    }
+
+    .flashed__eye-left,
+    .flashed__eye-left__outline {
+      transform: scale(.5) rotate(1000deg);
+      transition-delay: calc(var(--inital-delay) + .8s);
+    }
+    .flashed__eye-right,
+    .flashed__eye-right__outline {
+      transform: scale(.5) rotate(-1000deg);
+      transition-delay: calc(var(--inital-delay) + .9s)
+    }
+
+    .flashed__mouth {
+      transform: scaleY(.1);
+      transition-delay: calc(var(--inital-delay) + 1s)
+    }
   }
 
   .calltoaction__block--visible {
@@ -139,11 +171,17 @@
     .heart__bump,
     .communication__boubble--left,
     .communication__boubble--mask,
-    .communication__boubble--right {
-      transform: translate(0, 0) scale(1);
+    .communication__boubble--right,
+    .flashed__eye-left,
+    .flashed__eye-left__outline,
+    .flashed__eye-right,
+    .flashed__eye-right__outline,
+    .flashed__mouth {
+      transform: translate(0, 0) scale(1) rotate(0);
       opacity: 1;
     }
-    .communication__line {
+    .communication__line,
+    .flashed__outline {
       stroke-dashoffset: 0;
     }
   }

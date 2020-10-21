@@ -1,4 +1,5 @@
 <script>
+  import Player from '@vimeo/player';
 
   export default {
     props: {
@@ -27,7 +28,7 @@
       initVideo () {
         this.loaded = true;
         this.$nextTick(() => {
-          this.player = new Vimeo.Player(this.$refs.video);
+          this.player = new Player(this.$refs.video);
           this.player.on('play', () => {
             this.playing = true;
           // canAutoPlay

@@ -224,12 +224,12 @@
        */
       createMask () {
         const slices = this.slices;
-        const can = document.createElement('canvas');
-        const ctx = can.getContext('2d');
+        const canvasElement = document.createElement('canvas');
+        const ctx = canvasElement.getContext('2d');
         const w = window.innerWidth;
         const h = window.innerHeight;
-        can.width = w;
-        can.height = h;
+        canvasElement.width = w;
+        canvasElement.height = h;
 
         for (let i = 0; i < slices; i++) {
           const gradient = ctx.createLinearGradient(
@@ -242,7 +242,7 @@
           ctx.fillRect(i * (w / slices), 0, w / slices, h);
         }
 
-        return can;
+        return canvasElement;
       },
       createVideoTexture (video, entryIndex) {
         const $video = document.createElement('video');
@@ -280,9 +280,9 @@
         const slide = new PIXI.Container();
         const partSize = this.partSize();
 
-        const displacementSprite = new PIXI.Sprite(
-          new PIXI.Texture.from(this.createMask()),
-        );
+        const maskCanvas = this.createMask();
+        const maskTexture = PIXI.Texture.from(maskCanvas);
+        const displacementSprite = new PIXI.Sprite(maskTexture);
 
         const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
         displacementFilter.scale.x = 40;

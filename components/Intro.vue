@@ -46,7 +46,7 @@
     },
     methods: {
       intersect (entries, observer) {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           this.$nuxt.$emit('intro-intersect', entry.isIntersecting);
         });
       },
@@ -56,9 +56,9 @@
 
 <template>
   <section
+    ref="root"
     class="intro l-design-width l-design-width--wide"
     :class="{'intro--inverted': !isWhite}"
-    ref="root"
   >
     <div class="intro__lead">
       <h2 class="intro__title t-title t-title--page">

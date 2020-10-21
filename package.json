@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@nuxt/http": "^0.6.0",
+    "@vimeo/player": "^2.14.1",
     "can-autoplay": "^3.0.0",
     "collect.js": "^4.28.4",
     "gsap": "^3.5.1",
-    "hls.js": "^0.14.15",
     "lazysizes": "^5.2.2",
     "mixitup": "^3.3.1",
     "nuxt": "^2.14.7",

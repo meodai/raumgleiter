@@ -19,7 +19,6 @@
     <Nuxt />
     <PageFooter v-if="!$config.livePreview || $config.devMode" />
     <!--Functional components -->
-    <Design />
     <Icons />
     <PreviewScrollPosition v-if="$config.livePreview" />
   </div>

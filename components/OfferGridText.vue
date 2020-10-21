@@ -34,6 +34,9 @@
         return this.fields.textBlocks.length > 1 ? this.fields.textBlocks.slice(1) : null;
       },
     },
+    beforeDestroy () {
+      this.visibleChildrenIndexes = {};
+    },
     methods: {
       visibilityChanged (isVisible, entry, i) {
         this.visibleChildrenIndexes[i] = isVisible;
@@ -43,9 +46,6 @@
         });
       },
     },
-    beforeDestroy () {
-      this.visibleChildrenIndexes = {};
-    }
   };
 </script>
 

@@ -20,7 +20,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
     script: [
-      { src: 'https://player.vimeo.com/api/player.js', defer: true },
+
     ],
   },
   /*
@@ -34,6 +34,7 @@ export default {
     '@/assets/scss/settings.scss',
     '@/assets/scss/tools.scss',
     '@/assets/scss/reset.scss',
+    '@/assets/scss/main.scss',
   ],
   styleResources: {
     scss: [

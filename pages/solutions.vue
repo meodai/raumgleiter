@@ -9,14 +9,14 @@
         en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
       },
     },
-    data: () => {
-      return {
-        filtersVisible: false,
-      };
-    },
     async asyncData ({ $craft }) {
       return {
         solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all(),
+      };
+    },
+    data: () => {
+      return {
+        filtersVisible: false,
       };
     },
     computed: {
@@ -25,10 +25,10 @@
       },
     },
     methods: {
-      visibilityChanged(isVisible, entry) {
+      visibilityChanged (isVisible, entry) {
         this.filtersVisible = isVisible;
-      }
-    }
+      },
+    },
   };
 </script>
 
@@ -48,11 +48,11 @@
     >
       <div class="l-design-width--wide filter__tabpanel-inner soutionfilter" :class="{'soutionfilter--filtersVisible': filtersVisible}">
         <ul
-          class="filter__filterlist"
           v-observe-visibility="{
             callback: visibilityChanged,
             once: true,
           }"
+          class="filter__filterlist"
         >
           <li
             v-for="anchor in solutionsPage.anchors"
@@ -88,7 +88,6 @@
       max-height: 100vh;
     }
   }
-
 
   .filter__filter {
     display: inline-block;

@@ -381,6 +381,7 @@
        */
       startSlider () {
         this.sliderHasStarted = true;
+        this.$emit('slide', this.entriesInOrder[0].index);
         this.slideIn(0);
       },
       slideToIndex (eq) {

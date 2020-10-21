@@ -1,54 +1,52 @@
 <script>
-  export default {
-
-  };
+export default {};
 </script>
 
-<template />
+<template/>
 
 <style lang="scss">
 
-  /*
-                                     __  _____  __    __   __
-                                    | |  | |  / /`  ( (` ( (`
-                                   |_|  |_|  \_\_, _)_) _)_)
-                                          `-.` '.-'
-                                       `-.    A   .-'.
-                                    `-.    -./_\.-    .-'
-                                        -.  /___\  .-
-                                    `-.   `/__|__\'   .-'.
-                                 `-.    -./.-"^"-.\.-      '
-                                    `-.  / <`(o)*> \  .-'
-                                 .-   .`/__`-...-'__\'   .-
-                                ,...`-./_/____|____\_\.-'.,.
-                                   ,-'    ,` . . ',   `-,
-                               _,-' /____/____.____\____\ `-,_
-                                       ,      |      .
-                                      /     ,.+.,     \
-   -<# ITCSS (Inverted Triangle CSS) -> (https://csswizardry.com/2018/11/itcss-and-skillshare/) #>-
-  __________________________________________________________________________________________________
-   \---------------------------/------------                          Generic CSS (Low specificity)
-    \                         /  1) Settings (Design)                              Y
-     \-----------------------/---------------- (optional Skin or Theme)            |
-      \                     /    2) Tools                                          |
-       \-------------------/--------------------                                   |
-        \                 /      3) Generic                                        |
-         \---------------/------------------------                                 |
-          \             /        4) Elements                                       |
-           \-----------/----------------------------                               |
-            \         /          5) Objects                                        |
-             \-------/--------------------------------                             |
-              \     /            6) Components                                     |
-               \---/------------------------------------                           |
-                \ /              7) Utilities (Trumps)                             V
-                 V                                                   Explicit CSS (High specificity)
-  1) Settings:             Global variables, config switches.
-  2) Tools:                Default mixins and functions.
-  3) Generic:              Ground-zero styles (Normalize.css, resets, box-sizing).
-  4) Elements:             Un-classed HTML elements (type selectors).
-  5) Objects:              Cosmetic-free design patterns
-  6) Components:           Designed components, chunks of UI.
-  7) Utilities/Trumps:     Helpers and overrides.
+/*
+                                   __  _____  __    __   __
+                                  | |  | |  / /`  ( (` ( (`
+                                 |_|  |_|  \_\_, _)_) _)_)
+                                        `-.` '.-'
+                                     `-.    A   .-'.
+                                  `-.    -./_\.-    .-'
+                                      -.  /___\  .-
+                                  `-.   `/__|__\'   .-'.
+                               `-.    -./.-"^"-.\.-      '
+                                  `-.  / <`(o)*> \  .-'
+                               .-   .`/__`-...-'__\'   .-
+                              ,...`-./_/____|____\_\.-'.,.
+                                 ,-'    ,` . . ',   `-,
+                             _,-' /____/____.____\____\ `-,_
+                                     ,      |      .
+                                    /     ,.+.,     \
+ -<# ITCSS (Inverted Triangle CSS) -> (https://csswizardry.com/2018/11/itcss-and-skillshare/) #>-
+__________________________________________________________________________________________________
+ \---------------------------/------------                          Generic CSS (Low specificity)
+  \                         /  1) Settings (Design)                              Y
+   \-----------------------/---------------- (optional Skin or Theme)            |
+    \                     /    2) Tools                                          |
+     \-------------------/--------------------                                   |
+      \                 /      3) Generic                                        |
+       \---------------/------------------------                                 |
+        \             /        4) Elements                                       |
+         \-----------/----------------------------                               |
+          \         /          5) Objects                                        |
+           \-------/--------------------------------                             |
+            \     /            6) Components                                     |
+             \---/------------------------------------                           |
+              \ /              7) Utilities (Trumps)                             V
+               V                                                   Explicit CSS (High specificity)
+1) Settings:             Global variables, config switches.
+2) Tools:                Default mixins and functions.
+3) Generic:              Ground-zero styles (Normalize.css, resets, box-sizing).
+4) Elements:             Un-classed HTML elements (type selectors).
+5) Objects:              Cosmetic-free design patterns
+6) Components:           Designed components, chunks of UI.
+7) Utilities/Trumps:     Helpers and overrides.
 
 */
 
@@ -77,12 +75,12 @@
   --color-layout--background-inverted: var(--color-black);
 
   @include bp('phone') {
-    --size-mouse: calc(3.2rem/1.4); // small title
-    --size-rat: calc(4.2rem/1.6);
-    --size-cat: calc(6.2rem/2); // title
-    --size-dog: calc(8.6rem/2);
-    --size-pony: calc(13rem/2); // large title
-    --size-horse: calc(20rem/2);
+    --size-mouse: calc(3.2rem / 1.4); // small title
+    --size-rat: calc(4.2rem / 1.6);
+    --size-cat: calc(6.2rem / 2); // title
+    --size-dog: calc(8.6rem / 2);
+    --size-pony: calc(13rem / 2); // large title
+    --size-horse: calc(20rem / 2);
   }
 }
 
@@ -91,32 +89,41 @@
 // 3) Generic
 @font-face {
   font-family: MatterSQ;
-  src: url("~assets/fonts/MatterSQTRIAL-Regular.otf") format("opentype");
+  src: url("../assets/fonts/MatterRaumgleiter-Regular.woff2") format("woff2"),
+  url("../assets/fonts/MatterRaumgleiter-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
 }
 
 @font-face {
   font-family: MatterSQ;
-  src: url("~assets/fonts/MatterSQTRIAL-SemiBold.otf") format("opentype");
+  src: url("../assets/fonts/MatterRaumgleiter-SemiBold.woff2") format("woff2"),
+  url("../assets/fonts/MatterRaumgleiter-SemiBold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
 }
 
 @font-face {
   font-family: MatterSQ;
-  src: url("~assets/fonts/MatterSQTRIAL-Heavy.otf") format("opentype");
+  src: url("../assets/fonts/MatterRaumgleiter-Heavy.woff2") format("woff2"),
+  url("../assets/fonts/MatterRaumgleiter-Heavy.woff") format("woff");
   font-weight: 900;
   font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
 }
 
 // 4) Elements
 
 :root {
   font-size: screen-ratio-mix(
-    .4, // 20% of the the font-size is relative to the screen width
-    1440, // artboard width
-    10, // target PX size (base font-size in the design)
+      .4, // 20% of the the font-size is relative to the screen width
+      1440, // artboard width
+      10, // target PX size (base font-size in the design)
     // 10px as a base so 1rem would be around 10px
   );
 }
@@ -151,6 +158,7 @@ a {
   color: var(--color-text);
   background: var(--c-design-background);
 }
+
 .c-design--inverted {
   --c-design-background: var(--color-layout--background-inverted);
   color: var(--color-text--inverted);

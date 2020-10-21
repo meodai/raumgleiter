@@ -90,7 +90,6 @@
       allow="autoplay; fullscreen"
       allowfullscreen
     />
-    <!--    <button @click="toggleMute">mute</button>-->
   </div>
 </template>
 

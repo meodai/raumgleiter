@@ -40,7 +40,6 @@
         currentSlideEq: 0,
         sliderHasStarted: false,
         videoIsPlaying: false,
-        isMuted: true,
         sliderTimeout: null,
         isTransitioning: false,
 
@@ -59,9 +58,9 @@
       },
       videoResolution () {
         const resolutions = {
-          1080: [1920,1080],
-          720: [1280,720],
-          480: [854,480],
+          1080: [1920, 1080],
+          720: [1280, 720],
+          480: [854, 480],
         };
         return resolutions[this.videoQuality];
       },
@@ -84,6 +83,16 @@
       },
       currentDuration () {
         return this.entriesInOrder[this.currentSlideEq].duration || this.timePerSlide;
+      },
+      isMuted () {
+        return this.$store.state.isMuted;
+      },
+    },
+    watch: {
+      isMuted () {
+        if (this.currentVideoElement) {
+          this.currentVideoElement.muted = this.isMuted;
+        }
       },
     },
     created () {
@@ -121,6 +130,7 @@
         this.$refs.canvas.appendChild(this.app.view);
 
         this.loadAllSlides();
+        this.checkAutoplay();
         ticker.start();
       },
       killApp () {
@@ -163,6 +173,17 @@
           height: window.innerHeight,
           resizeTo: window,
         });
+      },
+      checkAutoplay () {
+        if (!this.isMuted) {
+          canAutoPlay
+            .video({ timeout: 500, muted: false })
+            .then(({ result, error }) => {
+              if (!result) {
+                this.$store.commit('setMuteState', false);
+              }
+            });
+        }
       },
       /*
       Loading
@@ -572,10 +593,7 @@
       Mute
       */
       toggleMute () {
-        this.isMuted = !this.isMuted;
-        if (this.currentVideoElement) {
-          this.currentVideoElement.muted = this.isMuted;
-        }
+        this.$store.commit('setMuteState', !this.isMuted);
       },
       /*
       Helpers
@@ -635,7 +653,7 @@
       :class="{'play': videoIsPlaying}"
     />
     <button class="video-teaser__mute-button" @click="toggleMute">
-      <Unmute :is-muted="isMuted" />
+      <Unmute />
     </button>
   </div>
 </template>

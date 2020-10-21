@@ -1,16 +1,20 @@
 <script>
   export default {
-    props: {
-      isMuted: {
-        type: Boolean,
-        required: true,
+    computed: {
+      isMuted () {
+        return this.$store.state.isMuted;
       },
     },
   };
 </script>
 
 <template>
-  <svg class="icon-unmute" :class="{'icon-unmute--muted': isMuted}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 162.5 110.92">
+  <svg
+    class="icon-unmute"
+    :class="{'icon-unmute--muted': isMuted}"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 162.5 110.92"
+  >
 
     <path d="M6.08 81.53h28.71a6.09 6.09 0 013.44 1l37.44 25.4a6.09 6.09 0 009.52-5V7.91a6.09 6.09 0 00-9.52-5L38.23 28.33a6.1 6.1 0 01-3.44 1.06H6.08a6.05 6.05 0 00-6.08 6v40.14a6.06 6.06 0 006.08 6z"/>
     <g class="icon-unmute__on">

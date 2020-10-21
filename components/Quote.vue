@@ -30,7 +30,7 @@
 </script>
 
 <template>
-  <div class="quote" :class="[ fields.inverted && fields.background ? 'c-design--inverted' : 'c-design']">
+  <div class="quote" :class="[ fields.inverted && fields.background ? 'c-design--inverted' : 'c-design', fields.background && 'quote--background']">
     <div v-if="fields.background" class="quote__background">
       <ResponsiveImage class="quote__backgroundImage" :image="fields.background.image" />
     </div>
@@ -51,6 +51,12 @@
     padding: var(--size-pony);
     text-align: center;
     overflow: hidden;
+  }
+  .quote--background {
+    display: flex;
+    min-height: 90vh;
+    align-items: center;
+    justify-content: center;
   }
   .quote__block {
     position: relative;

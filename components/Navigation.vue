@@ -56,7 +56,7 @@
             :key="'menu'+menuItem.title"
             class="navigation__menuitem"
           >
-            <nuxt-link :to="localePath(menuItem.path)">
+            <nuxt-link :to="localePath(menuItem.path)" @click.native="$scrollToTop">
               {{ $t(menuItem.title) }}
             </nuxt-link>
           </li>
@@ -88,6 +88,7 @@
           <nuxt-link
             :to="localePath(dropdownItem.path)"
             role="menuitem"
+            @click.native="$scrollToTop"
           >
             <strong>{{ dropdownItem.title }}</strong>
             <p class="navigation__description">
@@ -102,7 +103,7 @@
           :key="'menu'+menuItem.title"
           class="navigation__menuitem"
         >
-          <nuxt-link :to="localePath(menuItem.path)">
+          <nuxt-link :to="localePath(menuItem.path)" @click.native="$scrollToTop">
             {{ $t(menuItem.title) }}
           </nuxt-link>
         </li>

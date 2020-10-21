@@ -53,12 +53,13 @@
         {{ fields.header }}
       </h3>
       <p>{{ fields.lead }}</p>
-      <a href="#">
+      <nuxt-link :to="localePath({ name: 'solutions' })">
         {{ fields.linkText }}
         <Icon
           class="offer-grid__icon"
           :name="'icon_arrow_right'"
-        /></a>
+        />
+      </nuxt-link>
     </div>
     <div class="offer-grid__images">
       <template v-for="(item, i) in fields.items">

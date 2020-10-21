@@ -834,6 +834,10 @@
   background: #fff;
 }
 
+.content--inverted {
+  background: #000000;
+}
+
 .video-teaser__mute-button {
   position: absolute;
   left: 10rem;

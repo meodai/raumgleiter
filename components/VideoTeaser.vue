@@ -1,6 +1,5 @@
 <script>
   import collect from 'collect.js';
-  import Hls from 'hls.js';
   import { throttle, debounce } from 'throttle-debounce';
 
   export default {
@@ -30,24 +29,13 @@
         type: Number,
         default: 8,
       },
-      videoQuality: {
-        type: String,
-        default: 'hls', // 'sd' || 'hd' || 'hls'
-      },
-      videoWidth: {
-        type: Number,
-        default: 1920,
-      },
-      videoHeight: {
-        type: Number,
-        default: 1080,
-      },
     },
     data () {
       return {
         app: null,
         pixiSlides: [],
         entriesInOrder: [],
+        videoElements: [],
         loadingCount: -1,
         currentSlideEq: 0,
         sliderHasStarted: false,
@@ -59,14 +47,30 @@
         appWidth: 0,
         appHeight: 0,
         scrollRatio: 0,
-        currentVideoDuration: 8,
-        currentVideoElement: null,
+        videoQuality: 720,
       };
     },
     computed: {
-      // opacity () {
-      //   return 1 - Math.min(this.scrollRatio, 0.75);
-      // },
+      currentVideoElement () {
+        return this.videoElements[this.currentSlideEq] || null;
+      },
+      currentEntry () {
+        return this.entriesInOrder[this.currentSlideEq] || null;
+      },
+      videoResolution () {
+        const resolutions = {
+          1080: [1920,1080],
+          720: [1280,720],
+          480: [854,480],
+        };
+        return resolutions[this.videoQuality];
+      },
+      videoWidth () {
+        return this.videoResolution[0];
+      },
+      videoHeight () {
+        return this.videoResolution[1];
+      },
       videoScale () {
         return (this.appWidth / this.appHeight > this.videoWidth / this.videoHeight)
           ? this.appWidth / this.videoWidth
@@ -78,11 +82,15 @@
       isSingleVideo () {
         return this.entries.length === 1;
       },
+      currentDuration () {
+        return this.entriesInOrder[this.currentSlideEq].duration || this.timePerSlide;
+      },
     },
     created () {
       this.loadEntriesInOrder();
     },
     mounted () {
+      this.setVideoQuality();
       this.startApp();
 
       document.addEventListener('keyup', this.listenToArrowKeys);
@@ -129,12 +137,11 @@
           this.app = null;
         }
         this.pixiSlides = [];
-        if (this.currentVideoElement) {
-          this.currentVideoElement.pause();
-        }
-        this.entriesInOrder.forEach((entry) => {
-          if (entry.hls) {
-            entry.hls.destroy();
+        this.videoElements.forEach((video) => {
+          if (video) {
+            video.pause();
+            video.removeAttribute('src'); // empty source
+            video.load();
           }
         });
       },
@@ -181,10 +188,11 @@
 
         if (entryToLoad.video) {
           // Load video
-          this.createVideoTexture(entryToLoad.video[this.videoQuality].url, this.loadingCount);
+          this.createVideoTexture(entryToLoad.video, this.loadingCount);
         } else {
           // Add a blank slide
           this.addSlide(PIXI.Texture.EMPTY, 'blank');
+          this.entriesInOrder[this.loadingCount].duration = this.timePerSlide;
           this.loadNextSlide();
         }
       },
@@ -216,79 +224,39 @@
 
         return can;
       },
-      createVideoTexture (src, entryIndex) {
+      createVideoTexture (video, entryIndex) {
         const $video = document.createElement('video');
-        const isHslFile = src.endsWith('m3u8');
+        // const isHslFile = src.endsWith('m3u8');
 
         $video.setAttribute('crossOrigin', 'anonymous');
         $video.setAttribute('preload', 'auto');
         $video.setAttribute('muted', null);
         $video.setAttribute('playsinline', null);
         $video.muted = true;
-        $video.autoplay = false;
 
-        // if (isHslFile) {
-        $video.width = this.videoWidth;
-        $video.height = this.videoHeight;
-        // }
-
-        // Slide to next slide 1.5s before video ends
-        // $video.addEventListener('timeupdate', () => {
-        //   const threshold = 1.5;
-        //   if ($video.currentTime >= $video.duration - threshold) {
-        //     this.videoReachedEnd();
-        //   }
-        // });
+        this.videoElements[entryIndex] = $video;
 
         $video.addEventListener('ended', () => {
           this.videoReachedEnd();
           this.videoEndHandler($video);
         });
 
-        // Load video source
-        if (Hls.isSupported() && isHslFile) {
-          const hls = new Hls({
-            // autoStartLoad: false,
-          });
-          hls.loadSource(src);
-          hls.attachMedia($video);
+        $video.addEventListener('loadedmetadata', () => {
+          this.entriesInOrder[entryIndex].duration = $video.duration;
+        });
 
-          this.entriesInOrder[entryIndex].hls = hls;
-
-          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        $video.addEventListener('play', () => {
+          if (this.currentSlideEq !== entryIndex) {
             $video.pause();
             $video.currentTime = 0;
-
-            const texture = PIXI.Texture.from($video);
-
-            // Keep texture size, when switching hls video level
-            this.keepHlsTextureSizeInSync(texture);
-            // hls.on(Hls.Events.LEVEL_SWITCHED, function () {});
-
-            this.addSlide(texture, 'video');
-            this.loadNextSlide();
-          });
-        } else if ($video.canPlayType('application/vnd.apple.mpegurl')) {
-          $video.src = src;
-
-          $video.addEventListener('loadedmetadata', () => {
-            $video.pause();
-            $video.currentTime = 0;
-
-            const texture = PIXI.Texture.from($video);
-            this.keepHlsTextureSizeInSync(texture);
-
-            this.addSlide(texture, 'video');
-            this.loadNextSlide();
-          });
-        }
-      },
-      keepHlsTextureSizeInSync (texture) {
-        texture.baseTexture.on('update', () => {
-          if (texture.width !== this.videoWidth) {
-            texture.baseTexture.setRealSize(this.videoWidth, this.videoHeight);
           }
-        }, this);
+        });
+
+        $video.src = video[this.videoQuality];
+        const texture = PIXI.Texture.from($video);
+
+        this.addSlide(texture, 'video');
+        this.loadNextSlide();
       },
       createSlide (texture) {
         const slide = new PIXI.Container();
@@ -413,11 +381,11 @@
       slide (eq = 0) {
         clearTimeout(this.sliderTimeout);
 
-        this.slideOut();
+        this.slideOut(eq);
         this.slideIn(eq);
         this.$emit('slide', this.entriesInOrder[eq].index);
       },
-      slideOut () {
+      slideOut (newSlideEq) {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
 
         if (!oldSlide) {
@@ -432,12 +400,17 @@
           ease: 'power4.out',
           delay: 0.3,
           onComplete: () => {
-            if (oldSlide.type === 'video') {
-              oldSlide.texture.baseTexture.resource.source.pause();
-              oldSlide.texture.baseTexture.resource.source.currentTime = 0;
-            }
+            this.stopAllVideosExcept(newSlideEq);
             oldSlide.slide.zOrder = 0;
           },
+        });
+      },
+      stopAllVideosExcept (eq) {
+        this.videoElements.forEach((video, key) => {
+          if (video && key !== eq) {
+            video.pause();
+            video.currentTime = 0;
+          }
         });
       },
       slideIn (eq) {
@@ -447,23 +420,22 @@
           return;
         }
 
-        newSlide.slide.zOrder = 2;
+        this.currentSlideEq = eq;
+
+        this.resetProgressBar();
 
         if (newSlide.type === 'video') {
-          this.currentVideoElement = newSlide.texture.baseTexture.resource.source;
-          this.currentVideoDuration = this.currentVideoElement.duration;
           this.currentVideoElement.muted = this.isMuted;
-          // on sliding in, start the video
           this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
           // to the next one (since there is no video event)
-          this.sliderTimeout = setTimeout(this.slideToNext, this.timePerSlide * 1000);
-          this.currentVideoDuration = this.timePerSlide;
-          this.currentVideoElement = null;
+          this.sliderTimeout = setTimeout(this.slideToNext, this.currentEntry.duration * 1000);
         }
 
-        this.resetSlicesPosition(newSlide.displacementFilter);
+        newSlide.slide.zOrder = 2;
+
+        this.resetSlicesPosition(newSlide);
 
         this.isTransitioning = true;
 
@@ -480,14 +452,10 @@
             });
           },
         });
-
-        this.currentSlideEq = eq;
-
-        this.resetProgressBar();
       },
 
-      resetSlicesPosition (displacementFilter) {
-        displacementFilter.scale.x = 40;
+      resetSlicesPosition (slide) {
+        slide.displacementFilter.scale.x = 40;
       },
 
       isAbleToSlide (swiping) {
@@ -550,7 +518,7 @@
 
       /*
       Progress bar
-       */
+      */
       resetProgressBar () {
         this.videoIsPlaying = false;
         setTimeout(() => {
@@ -559,15 +527,19 @@
       },
       /*
       Resize / Responsive
-       */
-      resizeHandler: throttle(500, function () {
+      */
+      setVideoQuality () {
+        this.videoQuality = 720;
+        // if (window.innerWidth < 400) {
+        //   this.videoQuality = 480;
+        // } else if (window.innerWidth < 1300) {
+        //   this.videoQuality = 720;
+        // } else {
+        //   this.videoQuality = 1080;
+        // }
+      },
+      resizeHandler: debounce(500, function () {
         this.setAppDimensions();
-        /*
-        this.killApp();
-        this.$nextTick(() => {
-          this.startApp();
-        });
-        */
       }),
       setAppDimensions () {
         this.appWidth = window.innerWidth;
@@ -575,13 +547,13 @@
 
         this.app.resize();
       },
-      scrollHandler () {
+      scrollHandler: throttle(50, function () {
         this.scrollRatio = window.scrollY / window.innerHeight;
 
         if (this.alphaFilter) {
           this.alphaFilter.alpha = Math.min(0.75, this.scrollRatio);
         }
-      },
+      }),
       toggleVisibility (isIntersecting) {
         if (!this.currentVideoElement) {
           return;
@@ -594,7 +566,7 @@
       },
       /*
       Mute
-       */
+      */
       toggleMute () {
         this.isMuted = !this.isMuted;
         if (this.currentVideoElement) {
@@ -603,13 +575,12 @@
       },
       /*
       Helpers
-       */
+      */
       partSize (multiplier = 1) {
         return 1 / this.slices * multiplier;
       },
     },
   };
-
 </script>
 
 <template>
@@ -656,7 +627,7 @@
     <div
       v-if="sliderIsOnAutoplay"
       class="video-teaser-progress"
-      :style="{'--timer': currentVideoDuration}"
+      :style="{'--timer': currentDuration}"
       :class="{'play': videoIsPlaying}"
     />
     <button class="video-teaser__mute-button" @click="toggleMute">

@@ -266,6 +266,11 @@
     a {
       display: block;
       padding-right: calc(var(--size-gutter) * 0.5);
+      text-decoration: none;
+
+      &:hover strong {
+        text-decoration: underline;
+      }
     }
   }
   .navigation__menu {

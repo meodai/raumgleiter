@@ -424,6 +424,7 @@
           onComplete: () => {
             this.stopAllVideosExceptCurrent();
             oldSlide.slide.zOrder = 0;
+            // oldSlide.slide.visible = false;
           },
         });
       },
@@ -432,6 +433,11 @@
           if (video && key !== this.currentSlideEq) {
             video.pause();
             video.currentTime = 0;
+          }
+        });
+        this.pixiSlides.forEach((slide, key) => {
+          if (slide.slide && key !== this.currentSlideEq) {
+            slide.slide.alpha = 0;
           }
         });
       },
@@ -454,7 +460,7 @@
           this.sliderTimeout = setTimeout(this.slideToNext, this.currentEntry.duration * 1000);
         }
 
-        this.resetSlicesPosition(newSlide, slideDirection);
+        this.prepareSlideForTransition(newSlide, slideDirection);
 
         newSlide.slide.zOrder = 2;
         this.isTransitioning = true;
@@ -475,8 +481,9 @@
         });
       },
 
-      resetSlicesPosition (slide, slideDirection) {
+      prepareSlideForTransition (slide, slideDirection) {
         slide.displacementFilter.scale.x = 40;
+        slide.slide.alpha = 1;
         if (!this.isTransitioning) {
           const directionMultiplier = slideDirection === 'prev' ? -1 : 1;
           slide.container.position.x = this.app.screen.width * 1.2 * directionMultiplier;

@@ -72,7 +72,7 @@
           v-for="(section, key) in mainSections"
           :key="'footer-main-links-'+key"
         >
-          <nuxt-link :to="localePath(section.path)">
+          <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
             {{ section.title }}
           </nuxt-link>
         </li>
@@ -82,7 +82,7 @@
           :key="'footer-aside-links-'+index"
           :class="{ 'footer__navgap footer__col': index === 0 }"
         >
-          <nuxt-link :to="localePath(section.path)">
+          <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
             {{ $t(section.title) }}
           </nuxt-link>
         </li>

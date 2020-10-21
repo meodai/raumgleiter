@@ -56,6 +56,7 @@ export default {
     { src: './plugins/lazysizes.js', mode: 'client' },
     { src: './plugins/canautoplay.js', mode: 'client' },
     { src: './plugins/touch.js', mode: 'client' },
+    { src: './plugins/scroll-to-top.js', mode: 'client' },
   ],
   /*
    ** Auto import components
@@ -93,6 +94,11 @@ export default {
     vuex: { syncLocale: true },
     langDir: 'lang/',
     lazy: true,
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      onlyOnRoot: true,
+    },
   },
   /*
    ** Build configuration

@@ -61,13 +61,13 @@
             </nuxt-link>
           </li>
         </ul>
-        <a class="navigation__location" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
+        <button class="navigation__location" @click.prevent="$scrollToBottom">
           <Icon
             class="navigation__locationIcon"
             :name="'location_plus'"
             :is-block="true"
           />
-        </a>
+        </button>
       </nav>
     </div>
     <nav
@@ -108,13 +108,13 @@
           </nuxt-link>
         </li>
       </ul>
-      <a class="navigation__location navigation__location--drawer" href="https://goo.gl/maps/XZx5zan9WGNbG3mA9">
+      <button class="navigation__location navigation__location--drawer" @click.prevent="$scrollToBottom">
         <Icon
           class="navigation__locationIcon"
           :name="'location_plus'"
           :is-block="true"
         />
-      </a>
+      </button>
     </nav>
   </div>
 </template>
@@ -361,6 +361,7 @@
   .navigation__location {
     display: inline-block;
     vertical-align: middle;
+    cursor: pointer;
     margin-left: var(--size-mouse);
 
     .navigation__locationIcon {

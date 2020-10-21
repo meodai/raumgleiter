@@ -35,7 +35,6 @@
         app: null,
         pixiSlides: [],
         entriesInOrder: [],
-        videoElements: [],
         loadingCount: -1,
         currentSlideEq: 0,
         sliderHasStarted: false,
@@ -51,7 +50,7 @@
     },
     computed: {
       currentVideoElement () {
-        return this.videoElements[this.currentSlideEq] || null;
+        return this.pixiSlides[this.currentSlideEq].video || null;
       },
       currentEntry () {
         return this.entriesInOrder[this.currentSlideEq] || null;
@@ -146,14 +145,14 @@
           });
           this.app = null;
         }
-        this.pixiSlides = [];
-        this.videoElements.forEach((video) => {
-          if (video) {
-            video.pause();
-            video.removeAttribute('src'); // empty source
-            video.load();
+        this.pixiSlides.forEach((slide) => {
+          if (slide.video) {
+            slide.video.pause();
+            slide.video.removeAttribute('src'); // empty source
+            slide.video.load();
           }
         });
+        this.pixiSlides = [];
       },
       /*
       Initialisation
@@ -255,8 +254,6 @@
         $video.setAttribute('playsinline', null);
         $video.muted = true;
 
-        this.videoElements[entryIndex] = $video;
-
         $video.addEventListener('ended', () => {
           this.videoReachedEnd();
           this.videoEndHandler($video);
@@ -344,6 +341,7 @@
           texture,
           type,
           displacementFilter,
+          video: type === 'video' ? texture.baseTexture.resource.source : null,
         });
 
         this.app.stage.addChild(slide);
@@ -422,22 +420,21 @@
           ease: 'power4.out',
           delay: 0.3,
           onComplete: () => {
-            this.stopAllVideosExceptCurrent();
+            this.stopAndHideAllSlidesExceptCurrent();
             oldSlide.slide.zOrder = 0;
-            // oldSlide.slide.visible = false;
           },
         });
       },
-      stopAllVideosExceptCurrent () {
-        this.videoElements.forEach((video, key) => {
-          if (video && key !== this.currentSlideEq) {
-            video.pause();
-            video.currentTime = 0;
-          }
-        });
+      stopAndHideAllSlidesExceptCurrent () {
         this.pixiSlides.forEach((slide, key) => {
-          if (slide.slide && key !== this.currentSlideEq) {
-            slide.slide.alpha = 0;
+          if (key !== this.currentSlideEq) {
+            if (slide.video) {
+              slide.video.pause();
+              slide.video.currentTime = 0;
+            }
+            if (slide.slide) {
+              slide.slide.alpha = 0;
+            }
           }
         });
       },

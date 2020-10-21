@@ -237,6 +237,15 @@
       opacity: 0;
     }
   }
+
+  .image-block__title:first-child {
+    margin-top: -0.6ex; // lineheight correction top
+
+    @include bp('phone') {
+      margin-top: 0;
+    }
+  }
+
   .image-block__title + * {
     margin-top: 1em;
   }

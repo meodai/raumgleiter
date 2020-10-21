@@ -1,6 +1,7 @@
 ---
 name: Bug report
 title: "[BUG]: "
+about: Create a report to help us improve
 labels: bug
 assignees: meodai
 ---

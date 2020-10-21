@@ -77,6 +77,11 @@
               class="person__link"
               :href="'tel:'+person.phone"
             >{{ person.phone }}</a>
+            <a
+              v-if="person.mobile"
+              class="person__link"
+              :href="'tel:'+person.mobile"
+            >{{ person.mobile }}</a>
             <ul class="person__links">
               <li
                 v-for="(link, j) in person.socialLinks"

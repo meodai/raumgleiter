@@ -88,10 +88,12 @@
       },
     },
     watch: {
-      isMuted () {
-        if (this.currentVideoElement) {
-          this.currentVideoElement.muted = this.isMuted;
-        }
+      isMuted (isMuted) {
+        this.pixiSlides.forEach((slide) => {
+          if (slide.video) {
+            slide.video.muted = isMuted;
+          }
+        });
       },
     },
     created () {
@@ -99,6 +101,7 @@
     },
     mounted () {
       this.setVideoQuality();
+      this.checkAutoplay();
       this.startApp();
 
       document.addEventListener('keyup', this.listenToArrowKeys);
@@ -129,7 +132,6 @@
         this.$refs.canvas.appendChild(this.app.view);
 
         this.loadAllSlides();
-        this.checkAutoplay();
         ticker.start();
       },
       killApp () {
@@ -172,17 +174,6 @@
           height: window.innerHeight,
           resizeTo: window,
         });
-      },
-      checkAutoplay () {
-        if (!this.isMuted) {
-          canAutoPlay
-            .video({ timeout: 500, muted: false })
-            .then(({ result, error }) => {
-              if (!result) {
-                this.$store.commit('setMuteState', false);
-              }
-            });
-        }
       },
       /*
       Loading
@@ -246,12 +237,11 @@
       },
       createVideoTexture (video, entryIndex) {
         const $video = document.createElement('video');
-        // const isHslFile = src.endsWith('m3u8');
 
         $video.setAttribute('crossOrigin', 'anonymous');
         $video.setAttribute('preload', 'auto');
-        $video.setAttribute('muted', null);
         $video.setAttribute('playsinline', null);
+        $video.setAttribute('muted', null);
         $video.muted = true;
 
         $video.addEventListener('ended', () => {
@@ -449,7 +439,6 @@
         this.resetProgressBar();
 
         if (newSlide.type === 'video') {
-          this.currentVideoElement.muted = this.isMuted;
           this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
@@ -584,7 +573,7 @@
         }
       }),
       toggleVisibility (isIntersecting) {
-        if (!this.currentVideoElement) {
+        if (!this.currentVideoElement || this.isTransitioning) {
           return;
         }
         if (isIntersecting === false && this.scrollRatio > 1) {
@@ -596,6 +585,15 @@
       /*
       Mute
       */
+      checkAutoplay () {
+        if (!this.isMuted) {
+          canAutoPlay
+            .video({ timeout: 500, muted: false })
+            .then(({ result, error }) => {
+              this.$store.commit('setMuteState', result);
+            });
+        }
+      },
       toggleMute () {
         this.$store.commit('setMuteState', !this.isMuted);
       },

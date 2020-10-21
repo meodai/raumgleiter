@@ -114,7 +114,7 @@
 
     <!--  Intro Block  -->
     <Pagebuilder
-      id="section-intro"
+      id="read-more"
       v-if="currentPage"
       :key="'page-intro-'+currentPage.slug"
       :slug="'intro'+currentPage.slug"

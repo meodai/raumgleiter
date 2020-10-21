@@ -63,8 +63,8 @@
     :class="{
       'calltoaction--fullwidth': fields.fullwidth,
       'calltoaction--image': fields.background,
-      'c-design': !fields.inverted,
-      'c-design--inverted': fields.inverted,
+      'c-design': !fields.inverted && fields.background,
+      'c-design--inverted': fields.inverted && fields.background,
     }"
   >
     <div v-if="fields.background" class="calltoaction__background">

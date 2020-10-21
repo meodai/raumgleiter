@@ -641,9 +641,9 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <a href="#section-intro">
+              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-              </a>
+              </nuxt-link>
             </h3>
           </div>
         </div>

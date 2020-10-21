@@ -1,16 +1,13 @@
 ---
 name: Bug report
-about: Create a report to help us improve
 title: "[BUG]: "
+about: Create a report to help us improve
 labels: bug
 assignees: meodai
 
 ---
 
-## Prerequisites
-
-* [ ] Can you reproduce the problem in safe mode?
-## Issue:
+## Issue
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -28,9 +25,12 @@ A clear and concise description of what you expected to happen.
 Paste the URL of the page you encountered the error on
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots. Just drag-and-drop them here.
 
 ## Browser
+Which browser did you use? 
+Mark it in the list below with an "x" like so:
+* [x] Browser
 
 ### Desktop
 * [ ] Edge 86
@@ -41,6 +41,7 @@ If applicable, add screenshots to help explain your problem.
 * [ ] Firefox 80
 * [ ] Safari 13
 * [ ] Safari 12
+
 #### Desktop OS
 * [ ] Windows
 * [ ] Linux

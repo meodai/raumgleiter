@@ -77,26 +77,27 @@
       </div>
     </div>
 
-    <template v-for="media in pictures">
-      <figure>
-        <ResponsiveImage
-          v-if="media.images && media.images.length > 0"
-          :image="media.images[0]"
-          class="project__picture"
-          :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
-        />
-        <VimeoEmbed
-          v-else-if="media.video && media.video.vimeoId !== null"
-          class="project__video"
-          :video="media.video"
-        />
-        <IframeEmbed
-          v-else-if="media.iframe && media.iframe.url !== null"
-          class="project__iframe"
-          :iframe="media.iframe"
-        />
-      </figure>
-    </template>
+    <figure
+      v-for="(media, key) in pictures"
+      :key="projectEntry.slug+'-project-media-'+key"
+    >
+      <ResponsiveImage
+        v-if="media.images && media.images.length > 0"
+        :image="media.images[0]"
+        class="project__picture"
+        :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
+      />
+      <VimeoEmbed
+        v-else-if="media.video && media.video.vimeoId !== null"
+        class="project__video"
+        :video="media.video"
+      />
+      <IframeEmbed
+        v-else-if="media.iframe && media.iframe.url !== null"
+        class="project__iframe"
+        :iframe="media.iframe"
+      />
+    </figure>
 
     <Pagebuilder :blocks="projectEntry.cta" />
 

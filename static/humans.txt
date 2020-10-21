@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+  Lukas Mettler -- Design & Art Direction -- https://lucmettler.com/
+  Joris Noordermeer -- Backend & Frontend -- http://nordermeer.ch/
+  David Aerne -- Frontend & Animation -- https://elastiq.ch/
+
+# THANKS
+
+
+# TECHNOLOGY COLOPHON
+
+  SCSS, CSS, PostCSS, HTML, Vanilla JS
+  VUE, nuxt, gsap, pixi.js, Netlify,
+  metatags.io, svgo, vscode,
+  iTerm, FishShell ... :D
+

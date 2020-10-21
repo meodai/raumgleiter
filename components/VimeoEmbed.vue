@@ -1,4 +1,5 @@
 <script>
+  import Player from '@vimeo/player';
 
   export default {
     props: {
@@ -27,7 +28,7 @@
       initVideo () {
         this.loaded = true;
         this.$nextTick(() => {
-          this.player = new Vimeo.Player(this.$refs.video);
+          this.player = new Player(this.$refs.video);
           this.player.on('play', () => {
             this.playing = true;
           // canAutoPlay
@@ -65,7 +66,7 @@
   <div
     v-observe-visibility="{
       callback: visibilityChanged,
-      throttle: 300,
+      throttle: 500,
       throttleOptions: {
         leading: 'visible',
       },
@@ -73,12 +74,12 @@
     class="vimeoEmbed"
     :style="{
       paddingBottom: (video.height / video.width * 100) + '%',
-      backgroundImage: loaded ? 'url(' + video.thumbnail + ')' : null,
     }"
   >
-    {{video.thumbnai}}
-    <!-- TODO: video thumbnail -->
-    <!-- <div class="vimeoEmbed__iframe" :style="{ backgroundImage: 'url(' + video.thumbnail + ')' }"></div>-->
+    <ResponsiveImage
+      class="vimeoEmbed__thumb"
+      :image="video.thumbImage"
+    />
     <iframe
       v-if="loaded"
       ref="video"
@@ -90,7 +91,6 @@
       allow="autoplay; fullscreen"
       allowfullscreen
     />
-    <!--    <button @click="toggleMute">mute</button>-->
   </div>
 </template>
 
@@ -107,5 +107,14 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.vimeoEmbed__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

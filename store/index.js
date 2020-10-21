@@ -2,6 +2,7 @@ import collect from 'collect.js';
 
 export const state = () => ({
   projectMixer: null,
+  isMuted: true,
   mainSectionsByLocale: null,
   asideSections: [
     {
@@ -25,6 +26,9 @@ export const mutations = {
   },
   setMainSections (state, sections) {
     state.mainSectionsByLocale = sections;
+  },
+  setMuteState (state, isMuted) {
+    state.isMuted = isMuted;
   },
 };
 

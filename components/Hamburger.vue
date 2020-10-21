@@ -15,7 +15,7 @@
 
 <template>
   <div class="hamburger" :class="{'hamburger--open': isOpen}">
-    <div class="hamburger__inner"></div>
+    <div class="hamburger__inner" />
   </div>
 </template>
 

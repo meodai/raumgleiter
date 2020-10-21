@@ -66,7 +66,7 @@
     },
     mounted () {
       this.listenForScrollEvent();
-      window.addEventListener('scroll', this.listenForScrollEvent);
+      window.addEventListener('scroll', this.listenForScrollEvent, { passive: true });
     },
     beforeDestroy () {
       window.removeEventListener('scroll', this.listenForScrollEvent);
@@ -114,8 +114,8 @@
 
     <!--  Intro Block  -->
     <Pagebuilder
-      id="section-intro"
       v-if="currentPage"
+      id="read-more"
       :key="'page-intro-'+currentPage.slug"
       :slug="'intro'+currentPage.slug"
       :blocks="currentIntroBlock"
@@ -123,9 +123,9 @@
 
     <!--  Page Content  -->
     <Pagebuilder
-      class="content"
       v-if="currentPage && hasEnteredRoute"
       :key="'page-content-'+currentPage.slug"
+      class="content"
       :slug="'content'+currentPage.slug"
       :blocks="currentPagebuilder"
     />

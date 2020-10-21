@@ -8,7 +8,7 @@
   }
 }
 
-@import '~/node_modules/dialog-typography/dist/dialog-typography';
+@import '../../node_modules/dialog-typography/dist/dialog-typography';
 
 //
 // Mixes the base-font-size with a given view-width ratio
@@ -26,5 +26,5 @@
   $target-px-size: 10 // target size in PX
 ) {
   $percent-size: $target-px-size / 16% * 100%;
-  @return calc(#{$percent-size - $percent-size * $screen-width-ratio}% + #{$screen-width-ratio * (100 / $design-width) * 10}vw);
+  @return calc(#{$percent-size - $percent-size * $screen-width-ratio * 1%} + #{$screen-width-ratio * (100 / $design-width) * 10vw});
 }

@@ -1,5 +1,11 @@
 <script>
   export default {
+    props: {
+      fields: {
+        type: Object,
+        required: true,
+      },
+    },
     /**
       fields = {
         icon: 'plaintext' || null,
@@ -28,12 +34,6 @@
         showFirst: false,
         showSecond: false,
       };
-    },
-    props: {
-      fields: {
-        type: Object,
-        required: true,
-      },
     },
     computed: {
       showFirstRow () {
@@ -64,7 +64,7 @@
       'calltoaction--fullwidth': fields.fullwidth,
       'calltoaction--image': fields.background,
       'c-design': !fields.inverted && fields.background,
-      'c-design--inverted': fields.inverted && fields.background
+      'c-design--inverted': fields.inverted && fields.background,
     }"
   >
     <div v-if="fields.background" class="calltoaction__background">

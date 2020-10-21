@@ -14,6 +14,8 @@ module.exports = {
   globals: {
     PIXI: true,
     gsap: true,
+    canAutoPlay: true,
+    // Vimeo: true,
   },
   plugins: [
   ],

@@ -1,6 +1,5 @@
 <script>
   import collect from 'collect.js';
-  import ProjectFilter from '../../components/ProjectFilter/ProjectFilter';
 
   export default {
     nuxtI18n: {
@@ -9,9 +8,6 @@
         fr: '/projets', // -> accessible at /fr/projets
         en: '/projects', // -> accessible at /en/projects
       },
-    },
-    components: {
-      ProjectFilter,
     },
     async asyncData ({ $craft }) {
       return {

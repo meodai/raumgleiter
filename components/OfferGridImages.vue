@@ -83,6 +83,7 @@
 
 <style lang="scss">
   .offer-grid {
+    overflow: hidden;
     //margin-top: var(--size-design-bezel);
   }
   .offer-grid__intro {

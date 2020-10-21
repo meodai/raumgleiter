@@ -14,9 +14,19 @@
         solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all(),
       };
     },
+    data: () => {
+      return {
+        filtersVisible: false,
+      };
+    },
     computed: {
       solutionsPage () {
         return this.solutionsPageByLocale[this.$i18n.locale];
+      },
+    },
+    methods: {
+      visibilityChanged (isVisible, entry) {
+        this.filtersVisible = isVisible;
       },
     },
   };
@@ -36,8 +46,14 @@
       class="filter__tabpanel filter__tabpanel--active"
       role="tabpanel"
     >
-      <div class="l-design-width--wide filter__tabpanel-inner">
-        <ul class="filter__filterlist">
+      <div class="l-design-width--wide filter__tabpanel-inner soutionfilter" :class="{'soutionfilter--filtersVisible': filtersVisible}">
+        <ul
+          v-observe-visibility="{
+            callback: visibilityChanged,
+            once: true,
+          }"
+          class="filter__filterlist"
+        >
           <li
             v-for="anchor in solutionsPage.anchors"
             :key="anchor.label"
@@ -97,6 +113,28 @@
     padding: .75rem 1.5rem;
     &[aria-selected] {
       text-decoration: underline;
+    }
+  }
+
+  //animation
+
+  .soutionfilter {
+    .filter__filter {
+      opacity: 0;
+      transform: translateY(2rem);
+      transition: 200ms opacity linear, 344ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+
+      @for $i from 1 through 50 {
+        &:nth-child(#{$i}) {
+          transition-delay: 500ms + $i * 30ms;
+        }
+      }
+    }
+  }
+  .soutionfilter--filtersVisible {
+    .filter__filter {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 </style>

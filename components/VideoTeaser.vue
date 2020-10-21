@@ -378,14 +378,14 @@
         const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
         this.slide(index);
       },
-      slide (eq = 0) {
+      slide (eq = 0, slideDirection = 'next') {
         clearTimeout(this.sliderTimeout);
 
-        this.slideOut(eq);
-        this.slideIn(eq);
+        this.slideOut(slideDirection);
+        this.slideIn(eq, slideDirection);
         this.$emit('slide', this.entriesInOrder[eq].index);
       },
-      slideOut (newSlideEq) {
+      slideOut (slideDirection) {
         const oldSlide = this.pixiSlides[this.currentSlideEq];
 
         if (!oldSlide) {
@@ -394,26 +394,27 @@
 
         oldSlide.slide.zOrder = 1;
         const videoSprite = oldSlide.container;
+        const directionMultiplier = slideDirection === 'next' ? -1 : 1;
 
         gsap.to(videoSprite.position, 1.1, {
-          x: -this.app.screen.width - (this.app.screen.width * 0.2),
+          x: this.app.screen.width * 1.2 * directionMultiplier,
           ease: 'power4.out',
           delay: 0.3,
           onComplete: () => {
-            this.stopAllVideosExcept(newSlideEq);
+            this.stopAllVideosExceptCurrent();
             oldSlide.slide.zOrder = 0;
           },
         });
       },
-      stopAllVideosExcept (eq) {
+      stopAllVideosExceptCurrent () {
         this.videoElements.forEach((video, key) => {
-          if (video && key !== eq) {
+          if (video && key !== this.currentSlideEq) {
             video.pause();
             video.currentTime = 0;
           }
         });
       },
-      slideIn (eq) {
+      slideIn (eq, slideDirection) {
         const newSlide = this.pixiSlides[eq];
 
         if (!newSlide) {
@@ -421,7 +422,6 @@
         }
 
         this.currentSlideEq = eq;
-
         this.resetProgressBar();
 
         if (newSlide.type === 'video') {
@@ -433,16 +433,16 @@
           this.sliderTimeout = setTimeout(this.slideToNext, this.currentEntry.duration * 1000);
         }
 
+        this.resetSlicesPosition(newSlide, slideDirection);
+
         newSlide.slide.zOrder = 2;
-
-        this.resetSlicesPosition(newSlide);
-
         this.isTransitioning = true;
 
         gsap.to(newSlide.container.position, 1.5, {
           x: 0,
           ease: 'power4.out',
           onComplete: () => {
+            newSlide.slide.zOrder = 2;
             gsap.to(newSlide.displacementFilter.scale, 1, {
               x: 1,
               ease: 'power4.out',
@@ -454,13 +454,17 @@
         });
       },
 
-      resetSlicesPosition (slide) {
+      resetSlicesPosition (slide, slideDirection) {
         slide.displacementFilter.scale.x = 40;
+        if (!this.isTransitioning) {
+          const directionMultiplier = slideDirection === 'prev' ? -1 : 1;
+          slide.container.position.x = this.app.screen.width * 1.2 * directionMultiplier;
+        }
       },
 
       isAbleToSlide (swiping) {
-        return !this.isTransitioning &&
-          !this.isSingleVideo &&
+        return !this.isSingleVideo &&
+          // !this.isTransitioning &&
           (this.loopVideos || (swiping && this.allowSwipe));
       },
 
@@ -482,7 +486,7 @@
           nextEq = this.getNextEq(nextEq);
         }
 
-        this.slide(nextEq);
+        this.slide(nextEq, 'next');
       },
       slideToPrev (swiping = false) {
         if (!this.isAbleToSlide(swiping)) {
@@ -495,7 +499,7 @@
           prevEq = this.getPrevEq(prevEq);
         }
 
-        this.slide(prevEq);
+        this.slide(prevEq, 'prev');
       },
 
       swipeToNext () {

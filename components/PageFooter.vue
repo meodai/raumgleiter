@@ -96,6 +96,7 @@
             :aria-selected="locale.code === $i18n.locale"
             :aria-label="locale.name"
             :to="switchLocalePath(locale.code)"
+            @click.native="$scrollToTop"
           >
             {{ locale.code.toUpperCase().charAt(0) }}
           </nuxt-link>

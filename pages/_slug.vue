@@ -88,7 +88,9 @@
         }
       },
       updateRouteToMatchTeaser () {
-        this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        }
       },
     },
     head () {

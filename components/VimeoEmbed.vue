@@ -65,7 +65,7 @@
   <div
     v-observe-visibility="{
       callback: visibilityChanged,
-      throttle: 300,
+      throttle: 500,
       throttleOptions: {
         leading: 'visible',
       },
@@ -73,12 +73,12 @@
     class="vimeoEmbed"
     :style="{
       paddingBottom: (video.height / video.width * 100) + '%',
-      backgroundImage: loaded ? 'url(' + video.thumbnail + ')' : null,
     }"
   >
-    {{video.thumbnai}}
-    <!-- TODO: video thumbnail -->
-    <!-- <div class="vimeoEmbed__iframe" :style="{ backgroundImage: 'url(' + video.thumbnail + ')' }"></div>-->
+    <ResponsiveImage
+      class="vimeoEmbed__thumb"
+      :image="video.thumbImage"
+    />
     <iframe
       v-if="loaded"
       ref="video"
@@ -107,5 +107,14 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.vimeoEmbed__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

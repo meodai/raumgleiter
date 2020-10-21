@@ -19,7 +19,7 @@
     v-if="image"
     class="lazyload"
     v-bind="$attrs"
-    :alt="image.title"
+    :alt="image.alt"
     :src="placeholderSrc"
     :data-src="image.src || false"
     :data-srcset="image.srcset"

@@ -97,7 +97,11 @@
       </div>
     </div>
 
-    <Pagebuilder slug="team" :blocks="teamPage.cta" />
+    <Pagebuilder
+      class="content"
+      slug="team"
+      :blocks="teamPage.cta"
+    />
   </div>
 </template>
 

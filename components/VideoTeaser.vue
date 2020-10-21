@@ -381,6 +381,7 @@
        */
       startSlider () {
         this.sliderHasStarted = true;
+        this.$emit('slide', this.entriesInOrder[0].index);
         this.slideIn(0);
       },
       slideToIndex (eq) {
@@ -641,9 +642,9 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <a href="#section-intro">
+              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-              </a>
+              </nuxt-link>
             </h3>
           </div>
         </div>
@@ -831,6 +832,10 @@
   position: relative;
   z-index: 1;
   background: #fff;
+}
+
+.content--inverted {
+  background: #000000;
 }
 
 .video-teaser__mute-button {

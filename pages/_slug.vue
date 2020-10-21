@@ -88,7 +88,9 @@
         }
       },
       updateRouteToMatchTeaser () {
-        this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        }
       },
     },
     head () {
@@ -126,6 +128,7 @@
       v-if="currentPage && hasEnteredRoute"
       :key="'page-content-'+currentPage.slug"
       class="content"
+      :class="{ 'content--inverted': currentPage.inverted }"
       :slug="'content'+currentPage.slug"
       :blocks="currentPagebuilder"
     />

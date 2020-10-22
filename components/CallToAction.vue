@@ -244,7 +244,7 @@
   // animation / transition
 
   .calltoaction__block {
-    --inital-delay: .5s;
+    --inital-delay: .15s;
 
     .calltoaction__icon,
     .calltoaction__subblock,
@@ -253,12 +253,12 @@
     .calltoaction__dots  {
       opacity: 0;
       transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
-      transform: translateY(-7rem);
+      transform: translateY(-2rem);
       transition-delay: var(--inital-delay);
     }
 
     .calltoaction__subblock {
-      transform: translateX(10rem);
+      transform: translateX(5rem);
 
       &:nth-child(1) {
         transition-delay: calc(var(--inital-delay) + 1s);
@@ -289,7 +289,7 @@
   }
 
   .calltoaction__block:nth-child(2) {
-    --inital-delay: 4.5s;
+    --inital-delay: 4.15s;
   }
 
   .calltoaction__block--visible {

@@ -273,6 +273,10 @@
         text-decoration: underline;
       }
     }
+
+    @include bp('tablet') {
+      flex: 1 1 auto;
+    }
   }
   .navigation__menu {
     display: inline-block;

@@ -46,7 +46,7 @@
         header: teamPage.header,
         lead: teamPage.lead,
       }"
-      :is-white="true"
+      :is-white="false"
     />
     <div class="l-design-width content">
       <div class="people">

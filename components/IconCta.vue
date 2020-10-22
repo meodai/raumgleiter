@@ -265,10 +265,10 @@
     }
 
     .flashed__outline {
-      stroke-dasharray: 300 300;
-      stroke-dashoffset: -300;
-      transition: 650ms stroke-dashoffset cubic-bezier(0.3, 0.7, 0, 1.3);
-      transition-delay: calc(var(--inital-delay) + .5s);
+      //stroke-dasharray: 300 300;
+      //stroke-dashoffset: -300;
+      //transition: 650ms stroke-dashoffset cubic-bezier(0.3, 0.7, 0, 1.3);
+      //transition-delay: calc(var(--inital-delay) + .5s);
     }
     .flashed__eye-left,
     .flashed__eye-left__outline,
@@ -282,12 +282,12 @@
 
     .flashed__eye-left,
     .flashed__eye-left__outline {
-      transform: scale(.5) rotate(1000deg);
+      transform: scale(.5);
       transition-delay: calc(var(--inital-delay) + .8s);
     }
     .flashed__eye-right,
     .flashed__eye-right__outline {
-      transform: scale(.5) rotate(-1000deg);
+      transform: scale(.5);
       transition-delay: calc(var(--inital-delay) + .9s)
     }
 
@@ -310,6 +310,9 @@
     .flashed__mouth {
       transform: translate(0, 0) scale(1) rotate(0);
       opacity: 1;
+    }
+    .flashed__mouth {
+      transform: translate(-2px, 0) scale(1) rotate(0);
     }
     .communication__line,
     .flashed__outline {

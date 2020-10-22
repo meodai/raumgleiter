@@ -760,14 +760,16 @@
 
   @include bp('phone') {
     top: 10rem;
+    right: 10rem;
     left: var(--size-gutter);
   }
 }
 
 .video-teaser__title {
   @include typo('title--hero');
+
   @include bp('phone') {
-    font-size: 5rem;
+    font-size: 6.5rem;
   }
 }
 
@@ -842,6 +844,16 @@
   z-index: 99;
   outline: none;
   cursor: pointer;
+
+  .icon-unmute {
+    width: 2.4rem;
+    height: 2.4rem;
+
+    @include bp('phone') {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+  }
 
   @include bp('phone') {
     left: var(--size-gutter);

@@ -94,9 +94,9 @@
               {{ fields.header }}
             </h3>
             <div aria-hidden class="calltoaction__dots">
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
           <div class="calltoaction__subblock">
@@ -104,9 +104,9 @@
               {{ fields.text }}
             </p>
             <div aria-hidden class="calltoaction__dots">
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
         </div>
@@ -133,9 +133,9 @@
               {{ fields.contactName }}
             </h3>
             <span aria-hidden class="calltoaction__dots">
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
+              <span></span>
+              <span></span>
+              <span></span>
             </span>
           </div>
           <div class="calltoaction__subblock">
@@ -144,9 +144,9 @@
               <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
             </p>
             <div aria-hidden class="calltoaction__dots">
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
         </div>
@@ -225,18 +225,26 @@
 
     user-select: none;
     margin-top: 0.2em;
-    display: inline-block;
+    display: inline-flex;
     background: #f2f2f2;
     color: var(--c-design-background);
     border-radius: 2em;
-    padding-left: .5em;
-    padding-right: .5em;
-    font-size: 2rem;
+    padding-left: .4em;
+    padding-right: .4em;
+    height: 1.22em; // line-height of text
+
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 
     span {
-      font-size: 2rem;
+      border-radius: 50%;
+      background: currentColor;
+      width: .7rem;
+      height: .7rem;
       opacity: .2;
       animation: dots 800ms linear infinite;
+      margin: 0 0.3rem;
 
       &:nth-child(2) {
         animation-delay: 200ms;

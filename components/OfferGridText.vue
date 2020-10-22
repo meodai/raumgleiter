@@ -85,7 +85,7 @@
   }
 
   .offer-grid-text__block {
-    margin-top: var(--size-cat);
+    margin-top: var(--size-stack);
 
     &:nth-child(2),
     &:nth-child(5) {

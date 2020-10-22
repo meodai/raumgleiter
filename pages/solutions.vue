@@ -35,6 +35,7 @@
 <template>
   <div>
     <intro
+      class="solutions__intro"
       :fields="{
         header: solutionsPage.header,
         lead: solutionsPage.lead,
@@ -117,6 +118,10 @@
   }
 
   //animation
+
+  .solutions__intro {
+    padding-bottom: calc(var(--size-design-bezel));
+  }
 
   .soutionfilter {
     .filter__filter {

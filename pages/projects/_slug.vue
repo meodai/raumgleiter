@@ -126,6 +126,13 @@
     }
   }
 
+  .project__title {
+    padding-right: var(--size-gutter);
+    @include bp('phone') {
+      padding-right: 0;
+    }
+  }
+
   .project__lead {
     @include typo('lead');
     flex: 0 1 50%;

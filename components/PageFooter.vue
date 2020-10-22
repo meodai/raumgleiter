@@ -234,6 +234,7 @@
       font-size: 1.4rem;
       padding: .2em .75em .3em;
       border-radius: 2rem;
+      appearance: none;
 
       @include bp('phone') {
         font-size: 2rem;
@@ -241,6 +242,7 @@
     }
 
     button {
+      line-height: 1;
       min-width: calc(9ch + 1.5rem);
       transition: 400ms min-width cubic-bezier(0.7, 0.3, 0 ,1);
     }
@@ -308,22 +310,22 @@
 
   @keyframes twerk {
     10%, 90% {
-      transform: translate3d(2px,0, 0) rotate(-1deg);
-      transform-origin: 150% 50%;
+      transform: translate3d(2px,0, 0) rotate(-.2deg);
+      transform-origin: 100% 50%;
     }
 
     20%, 80% {
-      transform: translate3d(2px,0, 0) rotate(2deg);
+      transform: translate3d(2px,0, 0) rotate(.2deg);
       transform-origin: -50% 50%;
     }
 
     30%, 50%, 70% {
-      transform: translate3d(-2px,0, 0) rotate(-1deg);
-      transform-origin: 150% 50%;
+      transform: translate3d(-2px,0, 0) rotate(-.2deg);
+      transform-origin: 100% 50%;
     }
 
     40%, 60% {
-      transform: translate3d(3px, 0, 0) rotate(2deg);
+      transform: translate3d(3px, 0, 0) rotate(.2deg);
       transform-origin: -50% 50%;
     }
   }

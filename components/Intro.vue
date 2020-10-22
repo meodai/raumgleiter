@@ -128,6 +128,13 @@
         background: var(--color-layout--background-inverted);
       }
     }
+
+    @include bp ('phone') {
+      &.l-design-width--wide {
+        padding-left: var(--size-design-bezel);
+        padding-right: var(--size-design-bezel);
+      }
+    }
   }
 
   .intro__lead {

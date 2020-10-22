@@ -105,6 +105,7 @@
   }
 
   .filter__tabs-wrap {
+    padding-top: 0;
     padding-bottom: 0;
   }
 

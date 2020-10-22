@@ -218,6 +218,7 @@
     margin-top: 0.2em;
     display: inline-block;
     background: #f2f2f2;
+    color: var(--c-design-background);
     border-radius: 2em;
     padding-left: .5em;
     padding-right: .5em;
@@ -266,7 +267,7 @@
     }
 
     .calltoaction__dots {
-      opacity: 1;
+      opacity: .8;
       transform: translateY(0);
       transition-delay: calc(var(--inital-delay) + 1.5s);
     }

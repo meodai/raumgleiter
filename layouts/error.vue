@@ -2,7 +2,7 @@
   export default {
     mounted () {
       const boot = p5 => {
-        let helix = chroma.cubehelix().start(0).rotations(-2).gamma(1).hue(1).lightness([.5, .9]);
+        let helix = chroma.cubehelix().start(0).rotations(-1).gamma(1).hue(2).lightness([.2, .7]);
         let i = 0;
         let j = 0;
         let multi = 1;

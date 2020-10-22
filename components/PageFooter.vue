@@ -10,6 +10,7 @@
         footerByLocale: null,
         isSuscribed: false,
         isSuscribing: false,
+        isInvalid: false,
       };
     },
     computed: {
@@ -23,13 +24,24 @@
         return this.$store.state.asideSections;
       },
     },
+    beforeDestroy () {
+      clearTimeout(this.timer);
+    },
     methods: {
       suscribe () {
-        this.isSuscribing = true;
-        setTimeout(() => {
-          this.isSuscribed = true;
-          this.isSuscribing = false;
-        }, 1500);
+        if (!this.$refs.input.validity.valid) {
+          this.isInvalid = true;
+          this.timer = setTimeout(() => {
+            this.isInvalid = false;
+          }, 2000);
+          console.log('invalid')
+        } else {
+          this.isSuscribing = true;
+          this.timer = setTimeout(() => {
+            this.isSuscribed = true;
+            this.isSuscribing = false;
+          }, 1500);
+        }
       },
     },
   };
@@ -72,9 +84,12 @@
           :class="{
             'footer__form--suscribed': isSuscribed,
             'footer__form--suscribing': isSuscribing,
+            'footer__form--invalid': isInvalid,
           }"
         >
           <input
+            ref="input"
+            :disabled="isSuscribed || isSuscribing"
             type="email"
             :placeholder="$t('email')"
             required="required"
@@ -237,6 +252,10 @@
       padding-right: 8.5rem;
       outline: none;
 
+      &:disabled {
+        color: rgba(#fff, .5);
+      }
+
       &:focus {
         box-shadow: 0 0 0 2px #fff;
       }
@@ -248,7 +267,6 @@
       bottom: 0;
       background: rgba(#7f7f7f, .75);
     }
-
 
     &--suscribing,
     &--suscribed {
@@ -278,6 +296,35 @@
       font-size: 1.5rem;
       padding-bottom: 0;
       animation: none;
+    }
+
+    &--invalid {
+      input {
+        color: red;
+      }
+      animation: 500ms twerk cubic-bezier(.3,.7,0,1.5) both;
+    }
+  }
+
+  @keyframes twerk {
+    10%, 90% {
+      transform: translate3d(2px,0, 0) rotate(-1deg);
+      transform-origin: 150% 50%;
+    }
+
+    20%, 80% {
+      transform: translate3d(2px,0, 0) rotate(2deg);
+      transform-origin: -50% 50%;
+    }
+
+    30%, 50%, 70% {
+      transform: translate3d(-2px,0, 0) rotate(-1deg);
+      transform-origin: 150% 50%;
+    }
+
+    40%, 60% {
+      transform: translate3d(3px, 0, 0) rotate(2deg);
+      transform-origin: -50% 50%;
     }
   }
 

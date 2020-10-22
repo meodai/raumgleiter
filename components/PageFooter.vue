@@ -53,7 +53,7 @@
       <a class="footer__logo-link footer__col" href="/">
         <Logo class="footer__logo" />
       </a>
-      <div class="footer__col">
+      <div class="footer__col footer__col--address">
         <address
           :aria-label="$t('address')"
           class="footer__address"
@@ -163,6 +163,7 @@
     }
     @include bp('phone') {
       font-size: 2.2rem;
+      text-align: center;
     }
   }
 
@@ -173,13 +174,13 @@
     padding: var(--size-rat);
 
     @include bp('phone') {
-      display: block;
+      flex-direction: column;
       padding: var(--size-design-bezel);
     }
   }
 
   .footer__col {
-    padding-right: var(--size-cat);
+    padding-right: 5%;
     flex: 1 1 20%;
 
     &:last-child {
@@ -191,6 +192,22 @@
   .footer__logo {
     min-width: 10rem;
     max-width: 13rem;
+    order: 1;
+  }
+
+  .footer__newsletter {
+    @include bp('phone') {
+      margin-top: var(--size-design-bezel);
+      order: 2;
+    }
+  }
+
+  .footer__col--address {
+    text-align: left;
+    @include bp('phone') {
+      order: 3;
+      margin-top: var(--size-design-bezel);
+    }
   }
 
   .footer__logo-link {
@@ -214,7 +231,7 @@
     display: block;
   }
   .footer__nav {
-    @include bp('phone') {
+    @include bp('tablet') {
       display: none;
     }
   }
@@ -238,11 +255,13 @@
     input, button {
       font-size: 1.4rem;
       padding: .2em .75em .3em;
-      border-radius: 2rem;
+      border-radius: 2em;
       appearance: none;
 
       @include bp('phone') {
         font-size: 2rem;
+        padding: .5em .75em .6em;
+        border-radius: 2em;
       }
     }
 
@@ -343,14 +362,22 @@
 
   .footer__lang {
 
-    @include bp('phone') {
+    @include bp('tablet') {
       display: block;
       position: absolute;
-      top: var(--size-design-bezel);
+      top: var(--size-rat);
+      right: var(--size-rat);
+    }
+
+    @include bp('phone') {
+      top: auto;
+      bottom: var(--size-design-bezel);
       right: var(--size-design-bezel);
+      margin-bottom: var(--size-mouse);
     }
 
     display: flex;
+
     a {
       padding: 0.5em;
 

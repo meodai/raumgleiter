@@ -185,8 +185,14 @@
     margin-left: 20%;
   }
 
+  .calltoaction__title {
+    @include typo('default');
+    color: currentColor;
+    font-weight: 900;
+  }
+
   .calltoaction__content {
-    padding-top: 0.5em;
+    padding-top: 0.2em;
     > * {
       padding-right: 0.5em;
     }
@@ -294,6 +300,9 @@
 
   .calltoaction__block:nth-child(2) {
     --inital-delay: 4.15s;
+    .calltoaction__title {
+      font-weight: 600;
+    }
   }
 
   .calltoaction__block--visible {

@@ -659,6 +659,8 @@
             <h3 class="video-teaser__subtitle">
               <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
+
+                <Icon class="video-teaser__subtitle-icon" :name="'icon_arrow_right'" />
               </nuxt-link>
             </h3>
           </div>
@@ -774,35 +776,29 @@
   text-transform: capitalize;
   margin-top: var(--size-rat);
   opacity: 0;
+}
 
-  &__link {
-    &::after {
-      opacity: 0;
-      display: inline-block;
-      vertical-align: top;
-      line-height: 1;
-      margin-top: 0.5em;
-      font-weight: bold;
-      margin-left: 1.5em;
-      content: '⭣';
-      font-size: .8em;
-      transform: translateY(-50%);
-    }
-  }
+.video-teaser__subtitle-icon {
+  opacity: 0;
+  display: inline-block;
+  position: relative;
+  top: .2rem;
+  margin-left: 1.5em;
+  transform: translateY(-50%) rotate(90deg);
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.video-teaser__slider--active .video-teaser__subtitle-icon {
+  opacity: 1;
+  transform: translateY(-2px) rotate(90deg);
+  //transition: 300ms opacity 1200ms, 300ms transform 1200ms cubic-bezier(0.3, 0.7, .3, 1.3);
 }
 
 .video-teaser__slider--active .video-teaser__subtitle {
   transition: 300ms opacity 1100ms;
   opacity: 1;
   color: var(--color-text--inverted);
-
-  &__link {
-    &::after {
-      opacity: 1;
-      transform: translateY(-2px);
-      transition: 300ms opacity 1400ms, 300ms transform 1400ms cubic-bezier(0.3, 0.7, .3, 1.3);
-    }
-  }
 }
 
 .video-teaser-progress {

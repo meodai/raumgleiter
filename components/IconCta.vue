@@ -241,7 +241,7 @@
       transform: translate(-2rem, 0) scale(.5);
     }
     .communication__boubble--mask {
-      transform: translate(2rem, 2rem);
+      transform: translate(1rem, 1rem);
       transition-delay: calc(var(--inital-delay) + 0.4s);
     }
     .communication__boubble--right {

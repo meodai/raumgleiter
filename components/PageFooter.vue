@@ -108,11 +108,12 @@
             {{ section.title }}
           </nuxt-link>
         </li>
-
+      </ul>
+      <ul class="footer__nav footer__nav--second footer__col">
         <li
           v-for="(section, index) in asideSections"
           :key="'footer-aside-links-'+index"
-          :class="{ 'footer__navgap footer__col': index === 0 }"
+          :class="{ 'footer__navgap': index === 0 }"
         >
           <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
             {{ $t(section.title) }}
@@ -200,6 +201,10 @@
     font-style: normal;
     margin-bottom: var(--size-mouse);
 
+    p + p {
+      margin-top: var(--size-footer-stack);
+    }
+
     @include bp('phone') {
       margin-top: var(--size-rat);
     }
@@ -226,7 +231,7 @@
 
   .footer__form {
     position: relative;
-    margin-top: var(--size-footer-stack);
+    margin-top: calc(2 * var(--size-footer-stack));
     margin-right: -0.75rem;
     margin-left: -0.75rem;
 
@@ -334,10 +339,6 @@
     100% {
       transform: translate(-50%, -50%) rotate(360deg);
     }
-  }
-
-  .footer__navgap {
-    margin-top: 2em;
   }
 
   .footer__lang {

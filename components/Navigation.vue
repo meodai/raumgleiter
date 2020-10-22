@@ -108,13 +108,6 @@
           </nuxt-link>
         </li>
       </ul>
-      <button class="navigation__location navigation__location--drawer" @click.prevent="$scrollToBottom">
-        <Icon
-          class="navigation__locationIcon"
-          :name="'location_plus'"
-          :is-block="true"
-        />
-      </button>
     </nav>
   </div>
 </template>
@@ -142,6 +135,7 @@
     z-index: 3;
     background-color: var(--color-layout--background-inverted);
     color: var(--color-text--inverted);
+    height: 6rem;
   }
   .navigation__bar,
   .navigation__drawer {
@@ -150,20 +144,29 @@
 
   .navigation__bar {
     padding-bottom: calc(var(--size-gutter-x) * 1.1);
-    @include bp('phone') {
-      //padding: 0;
-    }
   }
   .navigation__logo {
     width: 13rem;
     fill: currentColor;
     display: block;
+
+    @include bp('phone') {
+      width: 15rem;
+    }
   }
   .navigation__logo-link {
     display: inline-block;
     width: 16%;
     margin-bottom: -0.5rem;
     outline: none;
+
+    @include bp('phone') {
+      width: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   .navigation__trigger {
     display: inline-block;
@@ -187,7 +190,7 @@
     @include bp('phone') {
       position: absolute;
       top: 0;
-      right: 0;
+      left: 0;
       margin: var(--size-gutter-x) var(--size-gutter);
     }
   }
@@ -231,15 +234,17 @@
       z-index: 1;
       top: 0; right: 0; bottom: 0; left: 0;
       background: var(--color-layout--accent);
+
+      @include bp('phone') {
+        background: var(--color-layout--background-inverted);
+      }
     }
 
     @include bp('phone') {
       position: fixed;
       top: 5.8rem;
-      left: auto;
-      right: 0;
-      bottom: 0;
-      width: 60vw;
+      color: var(--color-text--inverted);
+      padding-bottom: calc(var(--size-gutter) * 2);
     }
   }
 
@@ -255,6 +260,13 @@
 
   .navigation__drawer-list--nav {
     display: none;
+    margin-left: var(--size-gutter);
+    padding-top: .3em;
+
+    .navigation__menuitem {
+      font-weight: 600;
+      margin-top: .6em;
+    }
 
     @include bp('phone') {
       display: block;
@@ -310,22 +322,20 @@
   .navigation__drawer:before {
     transform: translateY(-110%);
     transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
-
-    @include bp('phone') {
-      transform: translateX(110%);
-    }
   }
   .navigation__drawer-item {
     transform: translateY(-150%);
     transition: 250ms transform cubic-bezier(.7,.3,0,1);
+
+    @include bp('phone') {
+      opacity: 0;
+      transition: 200ms opacity linear, 250ms transform cubic-bezier(.7,.3,0,1);
+    }
+
     @for $i from 1 through 8 {
       &:nth-child(#{$i}) {
         transition-delay: (8 - $i) * 50ms;
       }
-    }
-
-    @include bp('phone') {
-      transform: translateX(110%);
     }
   }
   .navigation__drawer-list--nav {
@@ -347,22 +357,24 @@
     .navigation__drawer:before {
       transform: translateY(0%);
       transition: 650ms transform cubic-bezier(.7,.3,0,1);
-
-      @include bp('phone') {
-        transform: translateX(0%);
-      }
     }
     .navigation__drawer-item {
       transform: translateY(0%);
       transition: 450ms transform cubic-bezier(.7,.3,0,1);
 
-      @include bp('phone') {
-        transform: translateX(0%);
-      }
-
       @for $i from 1 through 8 {
         &:nth-child(#{$i}) {
           transition-delay: $i * 50ms;
+        }
+      }
+
+      @include bp('phone') {
+        opacity: 1;
+        transition: 300ms opacity, 450ms transform cubic-bezier(.7,.3,0,1);
+        @for $i from 1 through 8 {
+          &:nth-child(#{$i}) {
+            transition-delay: 150ms + $i * 50ms, $i * 50ms;
+          }
         }
       }
     }
@@ -383,27 +395,4 @@
       display: none;
     }
   }
-
-  .navigation__location--drawer {
-    display: none;
-    pointer-events: none;
-
-    @include bp('phone') {
-      display: block;
-      margin-left: 0;
-      opacity: 0;
-    }
-
-    color: #000;
-    fill: #000;
-  }
-
-  .navigation--isOpen .navigation__location--drawer {
-    @include bp('phone') {
-      pointer-events: all;
-      opacity: 1;
-      transition: 200ms opacity .7s;
-    }
-  }
-
 </style>

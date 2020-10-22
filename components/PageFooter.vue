@@ -8,6 +8,8 @@
     data () {
       return {
         footerByLocale: null,
+        isSuscribed: false,
+        isSuscribing: false,
       };
     },
     computed: {
@@ -19,6 +21,15 @@
       },
       asideSections () {
         return this.$store.state.asideSections;
+      },
+    },
+    methods: {
+      suscribe () {
+        this.isSuscribing = true;
+        setTimeout(() => {
+          this.isSuscribed = true;
+          this.isSuscribing = false;
+        }, 1500);
       },
     },
   };
@@ -58,13 +69,19 @@
           class="footer__form"
           action="#"
           method="post"
+          :class="{
+            'footer__form--suscribed': isSuscribed,
+            'footer__form--suscribing': isSuscribing,
+          }"
         >
           <input
             type="email"
             :placeholder="$t('email')"
             required="required"
           >
-          <button>{{ $t('subscribe') }}</button>
+          <button class="footer__button" @click.prevent="suscribe">
+            <span>{{ $t('subscribe') }}</span>
+          </button>
         </form>
       </article>
       <ul class="footer__nav footer__col">
@@ -207,6 +224,12 @@
         font-size: 2rem;
       }
     }
+
+    button {
+      min-width: calc(9ch + 1.5rem);
+      transition: 400ms min-width cubic-bezier(0.7, 0.3, 0 ,1);
+    }
+
     input {
       display: block;
       width: 100%;
@@ -222,7 +245,45 @@
       position: absolute;
       top: 0;
       right: 0;
+      bottom: 0;
       background: rgba(#7f7f7f, .75);
+    }
+
+
+    &--suscribing,
+    &--suscribed {
+      button {
+        min-width: calc(1ch + 1.5rem);
+
+        span {
+          display: none;
+        }
+
+        &::after {
+          position: absolute;
+          content: "◌";
+          font-size: 3.3rem;
+          line-height: 0.5;
+          padding-bottom: .39ex;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: 2s spin infinite linear;
+        }
+      }
+    }
+
+    &--suscribed button::after {
+      content: "✓";
+      font-size: 1.5rem;
+      padding-bottom: 0;
+      animation: none;
+    }
+  }
+
+  @keyframes spin {
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 

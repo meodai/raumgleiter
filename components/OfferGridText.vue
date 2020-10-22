@@ -122,17 +122,17 @@
   .offer-grid-text__subtext {
     opacity: 0;
     transform: translateY(15rem);
-    transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+    transition: 500ms opacity linear 100ms, 644ms transform cubic-bezier(0.7,0.3,0,1.3);
   }
 
   .offer-grid-text__subtitle {
     @include typo('title');
-    transition-delay: .5s, .5s;
+    transition-delay: .6s, .5s;
   }
 
   .offer-grid-text__subtext {
     margin-top: 1em;
-    transition-delay: .55s, .55s;
+    transition-delay: .65s, .55s;
   }
 
   .offer-grid-text__block--visible {

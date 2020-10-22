@@ -89,7 +89,7 @@
     transform: translate(-50%,2em);
     text-align: center;
 
-    transition: 500ms transform cubic-bezier(0.7, 0.3, 0, 1);
+    transition: 500ms transform cubic-bezier(0.3, 0.7, 0, 1);
     .project-grid-item__wrap:hover & {
       transform: translate(-50%,-50%);
     }

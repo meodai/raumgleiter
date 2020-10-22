@@ -255,7 +255,7 @@
     transform: translate(-50%,2em);
     text-align: center;
 
-    transition: 500ms transform cubic-bezier(0.7, 0.3, 0, 1);
+    transition: 500ms transform cubic-bezier(0.3, 0.7, 0, 1);
 
     .related__slide--noImage &,
     .related__slide:hover & {

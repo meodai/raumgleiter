@@ -152,17 +152,30 @@
   // animation
 
   .offer-grid__image {
-    opacity: 0;
-    transform: translate(-15rem, 15rem);
-    transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+    .offer-grid__caption {
+      --delay: 0ms;
+    }
+    img {
+      --delay: 50ms;
+    }
+
+    .offer-grid__caption, img {
+      opacity: 0;
+      transform: translate(-15rem, 15rem);
+      transition: 400ms opacity linear calc(200ms + var(--delay)), 644ms transform cubic-bezier(0.9,0,0.1,1) var(--delay);
+    }
 
     &:nth-child(2),
     &:nth-child(5) {
-      transition-delay: 400ms;
-      transform: translate(15rem, 15rem);
+      .offer-grid__caption, img {
+        transition-delay: calc(200ms + var(--delay) + 400ms), calc(var(--delay) + 400ms);
+        transform: translate(15rem, 15rem);
+      }
     }
     &:nth-child(3) {
-      transform: translate(0, 15rem);
+      .offer-grid__caption, img {
+        transform: translate(0, 15rem);
+      }
     }
 
     @include bp('phone') {
@@ -171,9 +184,11 @@
       &:nth-child(3),
       &:nth-child(4),
       &:nth-child(5) {
-        opacity: 0;
-        transform: translate(0, 15rem);
-        transition-delay: 0;
+        .offer-grid__caption, img {
+          opacity: 0;
+          transform: translate(0, 15rem);
+          transition-delay: 0;
+        }
       }
     }
   }
@@ -184,8 +199,10 @@
     &:nth-child(3),
     &:nth-child(4),
     &:nth-child(5) {
-      opacity: 1;
-      transform: translateY(0);
+      .offer-grid__caption, img {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 </style>

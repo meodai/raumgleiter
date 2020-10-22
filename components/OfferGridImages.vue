@@ -144,8 +144,8 @@
   }
 
   .offer-grid__icon {
-    width: .5em;
-    height: .5em;
+    width: 0.7em;
+    height: 0.7em;
     margin-left: .2em;
   }
 

@@ -143,6 +143,10 @@
     margin-top: var(--size-stack);
   }
 
+  .intro__paragraph {
+    line-height: 1.4;
+  }
+
   .intro__list-wrap {
     margin-top: var(--size-stack);
     float: right;
@@ -152,9 +156,14 @@
     font-weight: bold;
   }
 
+  .intro__list-title {
+    font-weight: 600;
+    padding-bottom: 1rem;
+  }
+
   .intro__list-item {
     margin-left: 1em;
-    margin-top: 1ex;
+    margin-top: .7ex;
     list-style: disc;
     opacity: 0;
     transform: translateY(2rem);

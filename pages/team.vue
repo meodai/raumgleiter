@@ -126,7 +126,7 @@
   }
 
   .person {
-    background: #f8f8f8;
+    background: var(--color-layout--accent);
     width: calc(33.33% - var(--size-mouse));
     flex: 0 0 calc(33.33% - var(--size-mouse));
     margin-left: var(--size-mouse);

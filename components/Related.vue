@@ -184,7 +184,7 @@
     top: 0;
     left: 75%;
     width: 50%;
-    background: #f8f8f8;
+    background: var(--color-layout--accent);
     will-change: transform;
     transform: translateX(220%);
     overflow: hidden;

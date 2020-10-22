@@ -208,7 +208,11 @@
 
   .navigation__description {
     @include typo('navigation');
+    color: #676767;
 
+    a:hover & {
+      color: var(--color-text);
+    }
     @include bp('phone') {
       display: none;
     }
@@ -226,7 +230,7 @@
       position: absolute;
       z-index: 1;
       top: 0; right: 0; bottom: 0; left: 0;
-      background: var(--color-layout--background);
+      background: var(--color-layout--accent);
     }
 
     @include bp('phone') {
@@ -269,8 +273,10 @@
       padding-right: calc(var(--size-gutter) * 0.5);
       text-decoration: none;
 
-      &:hover strong {
-        text-decoration: underline;
+      &:hover {
+        strong {
+          text-decoration: underline;
+        }
       }
     }
 

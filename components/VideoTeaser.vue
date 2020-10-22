@@ -771,6 +771,7 @@
 
 .video-teaser__subtitle {
   @include typo('default');
+  text-transform: capitalize;
   margin-top: var(--size-rat);
   opacity: 0;
 

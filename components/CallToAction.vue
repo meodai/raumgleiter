@@ -187,6 +187,9 @@
 
   .calltoaction__content {
     padding-top: 0.5em;
+    > * {
+      padding-right: 0.5em;
+    }
   }
 
   .calltoaction__background {

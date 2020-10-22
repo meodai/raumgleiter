@@ -59,12 +59,14 @@ ________________________________________________________________________________
 
   --color-black: #000;
   --color-white: #fff;
+  --color-grey: #f8f8f8;
 
   --color-text: var(--color-black);
   --color-text--inverted: var(--color-white);
 
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);
+  --color-layout--accent: var(--color-grey);
 
   @include bp('phone') {
     --size-mouse: calc(3.2rem / 1.4); // small title

@@ -50,9 +50,9 @@
 <template>
   <div v-if="footer" class="footer">
     <div class="footer__inner">
-      <a class="footer__logo-link footer__col" href="/">
+      <nuxt-link class="footer__logo-link footer__col" to="/">
         <Logo class="footer__logo" />
-      </a>
+      </nuxt-link>
       <div class="footer__col footer__col--address">
         <address
           :aria-label="$t('address')"
@@ -64,7 +64,11 @@
             v-for="(link, index) in footer.socialLinks"
             :key="'footer-social-'+index"
           >
-            <a :href="link.url" rel="noopener nofollow">
+            <a
+              :href="link.url"
+              rel="noopener nofollow"
+              target="_blank"
+            >
               <Icon
                 class="footer__socialIcon"
                 :name="link.type"
@@ -78,9 +82,9 @@
       <article class="footer__newsletter footer__col">
         <h4>{{ footer.newsletterLabel }}</h4>
         <form
+          ref="newsletterForm"
           class="footer__form"
           action="https://raumgleiter.us3.list-manage.com/subscribe/post"
-          ref="newsletterForm"
           method="post"
           :class="{
             'footer__form--subscribed': isSuscribed,
@@ -88,28 +92,51 @@
             'footer__form--invalid': isInvalid,
           }"
         >
-          <input type="hidden" name="u" value="b9d5ffac0197f1e308e810c0a">
-          <input type="hidden" name="id" value="c00e021b7f">
+          <input
+            type="hidden"
+            name="u"
+            value="b9d5ffac0197f1e308e810c0a"
+          >
+          <input
+            type="hidden"
+            name="id"
+            value="c00e021b7f"
+          >
           <div class="field-shift" aria-label="Please leave the following field empty">
             <label for="b_email">Email: </label>
-            <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+            <input
+              id="b_email"
+              type="email"
+              name="b_email"
+              tabindex="-1"
+              value=""
+              placeholder="youremail@gmail.com"
+            >
           </div>
           <input
+            id="MERGE0"
             ref="input"
             :disabled="isSuscribed || isSuscribing"
             type="email"
             autocapitalize="off"
             autocorrect="off"
             name="MERGE0"
-            id="MERGE0"
             :placeholder="$t('email')"
             required="required"
           >
           <button class="footer__button" @click.prevent="subscribe">
             <span>{{ $t('subscribe') }}</span>
           </button>
-          <input type="hidden" name="ht" value="973c3bfc297573920e674b4d5929035db0b4ce70:MTYwMzQ0Mzk2MC4zMjI1">
-          <input type="hidden" name="mc_signupsource" value="hosted">
+          <input
+            type="hidden"
+            name="ht"
+            value="973c3bfc297573920e674b4d5929035db0b4ce70:MTYwMzQ0Mzk2MC4zMjI1"
+          >
+          <input
+            type="hidden"
+            name="mc_signupsource"
+            value="hosted"
+          >
         </form>
       </article>
       <ul class="footer__nav footer__col">

@@ -9,7 +9,6 @@
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
       },
     },
-
     async asyncData ({ $craft, params, store }) {
       const projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
 
@@ -19,9 +18,14 @@
 
       return { projectEntryByLocale: projectEntryByLocale.all() };
     },
+    data () {
+      return {
+        locale: this.$i18n.locale,
+      };
+    },
     computed: {
       projectEntry () {
-        return this.projectEntryByLocale[this.$i18n.locale];
+        return this.projectEntryByLocale[this.locale];
       },
       firstPicture () {
         return this.projectEntry.firstImage;
@@ -30,7 +34,6 @@
         return this.projectEntry.media;
       },
     },
-
     head () {
       return {
         title: this.projectEntry.title,

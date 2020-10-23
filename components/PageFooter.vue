@@ -43,6 +43,12 @@
           this.isInvalid = false;
         }, 2000);
       },
+      getSwitchLocalePath (localeCode) {
+        if (this.$route.name.startsWith('projects-slug') && !this.$store.state.i18n.routeParams[localeCode]) {
+          return this.localePath('projects', localeCode);
+        }
+        return this.switchLocalePath(localeCode);
+      },
     },
   };
 </script>
@@ -168,7 +174,7 @@
           <nuxt-link
             :aria-selected="locale.code === $i18n.locale"
             :aria-label="locale.name"
-            :to="switchLocalePath(locale.code)"
+            :to="getSwitchLocalePath(locale.code)"
             @click.native="$scrollToTop"
           >
             {{ locale.code.toUpperCase().charAt(0) }}

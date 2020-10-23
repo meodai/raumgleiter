@@ -41,7 +41,7 @@
 
       this.observer.observe(this.$refs.root);
     },
-    beforeDestory () {
+    beforeDestroy () {
       this.observer.unobserve(this.$refs.root);
       this.observer.disconnect();
     },

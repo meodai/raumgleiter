@@ -202,7 +202,7 @@
           this.createVideoTexture(entryToLoad.video, this.loadingCount);
         } else {
           // Add a blank slide
-          this.addSlide(PIXI.Texture.EMPTY, 'blank');
+          this.addSlide(PIXI.Texture.EMPTY, 'blank', this.loadingCount);
           this.entriesInOrder[this.loadingCount].duration = this.timePerSlide;
           this.loadNextSlide();
         }
@@ -263,7 +263,7 @@
         $video.src = video[this.videoQuality];
         const texture = PIXI.Texture.from($video);
 
-        this.addSlide(texture, 'video');
+        this.addSlide(texture, 'video', entryIndex);
         this.loadNextSlide();
       },
       createSlide (texture) {
@@ -283,6 +283,26 @@
         const container = new PIXI.Container();
         const videoSprite = new PIXI.Sprite(texture);
 
+        this.setVideoSpriteSizeAndPosition(videoSprite);
+
+        container.position.x = this.appWidth * 3;
+        container.addChild(videoSprite);
+
+        // Todo: do we actually need to add a mask?
+        // this.addMaskToVideoContainer();
+
+        slide.addChild(container);
+
+        return { slide, container, partSize, displacementFilter };
+      },
+      addMaskToVideoContainer (container) {
+        const rect = new PIXI.Graphics();
+        rect.beginFill(0xFFFFFF);
+        rect.drawRect(0, 0, this.appWidth, this.appHeight);
+        rect.endFill();
+        container.mask = rect;
+      },
+      setVideoSpriteSizeAndPosition (videoSprite) {
         const moveDelta = {
           x: 0, y: 0,
         };
@@ -297,31 +317,11 @@
         videoSprite.width = this.videoScale * this.videoWidth;
         videoSprite.height = this.videoScale * this.videoHeight;
 
-        const rect = new PIXI.Graphics();
-        // Rectangle
-        rect.beginFill(0xFFFFFF);
-        rect.drawRect(
-          0,
-          0,
-          this.appWidth,
-          this.appHeight,
-        );
-        rect.endFill();
-
-        container.position.x = this.appWidth * 3;
         videoSprite.position.x = 0;
-
         videoSprite.position.x -= moveDelta.x / 2;
         videoSprite.position.y -= moveDelta.y / 2;
-
-        container.addChild(videoSprite);
-        container.mask = rect;
-
-        slide.addChild(container);
-
-        return { slide, container, partSize, displacementFilter };
       },
-      addSlide (texture, type) {
+      addSlide (texture, type, index) {
         const { slide, container, partSize, displacementFilter } = this.createSlide(texture);
 
         this.pixiSlides.push({
@@ -332,6 +332,7 @@
           type,
           displacementFilter,
           video: type === 'video' ? texture.baseTexture.resource.source : null,
+          index,
         });
 
         this.app.stage.addChild(slide);
@@ -341,12 +342,7 @@
         const cover = new PIXI.Graphics();
         // cover angle
         cover.beginFill(0x000000);
-        cover.drawRect(
-          0,
-          0,
-          this.appWidth,
-          this.appHeight,
-        );
+        cover.drawRect(0, 0, this.appWidth, this.appHeight);
         cover.endFill();
 
         container.addChild(cover);
@@ -557,14 +553,23 @@
         //   this.videoQuality = 1080;
         // }
       },
-      resizeHandler: debounce(500, function () {
+      resizeHandler: debounce(250, function () {
         this.setAppDimensions();
+        this.resizeVideoSprites();
       }),
       setAppDimensions () {
         this.appWidth = window.innerWidth;
         this.appHeight = window.innerHeight;
 
         this.app.resize();
+      },
+      resizeVideoSprites () {
+        this.pixiSlides.forEach((pixiSlide) => {
+          if (pixiSlide.index === this.currentSlideEq) {
+            pixiSlide.container.position.x = 0;
+          }
+          this.setVideoSpriteSizeAndPosition(pixiSlide.container.children[0]);
+        });
       },
       scrollHandler: throttle(50, function () {
         this.scrollRatio = window.scrollY / window.innerHeight;

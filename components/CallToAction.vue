@@ -94,9 +94,9 @@
               {{ fields.header }}
             </h3>
             <div aria-hidden class="calltoaction__dots">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span />
+              <span />
+              <span />
             </div>
           </div>
           <div class="calltoaction__subblock">
@@ -104,9 +104,9 @@
               {{ fields.text }}
             </p>
             <div aria-hidden class="calltoaction__dots">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span />
+              <span />
+              <span />
             </div>
           </div>
         </div>
@@ -133,9 +133,9 @@
               {{ fields.contactName }}
             </h3>
             <span aria-hidden class="calltoaction__dots">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span />
+              <span />
+              <span />
             </span>
           </div>
           <div class="calltoaction__subblock">
@@ -144,9 +144,9 @@
               <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
             </p>
             <div aria-hidden class="calltoaction__dots">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span />
+              <span />
+              <span />
             </div>
           </div>
         </div>

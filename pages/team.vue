@@ -88,7 +88,11 @@
                 :key="'team-'+i+'-social-'+link.type+'-'+j"
                 class="person__linksitem"
               >
-                <a :href="link.url" rel="nofollow noopener">
+                <a
+                  :href="link.url"
+                  rel="nofollow noopener"
+                  target="_blank"
+                >
                   <Icon
                     class="calltoaction__icon"
                     :name="link.type"

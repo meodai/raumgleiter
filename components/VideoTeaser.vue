@@ -91,12 +91,8 @@
       },
     },
     watch: {
-      isMuted (isMuted) {
-        this.pixiSlides.forEach((slide) => {
-          if (slide.video) {
-            slide.video.muted = isMuted;
-          }
-        });
+      isMuted () {
+        this.updateVideoMutedState();
       },
     },
     created () {
@@ -559,6 +555,7 @@
       resizeHandler: debounce(250, function () {
         this.setAppDimensions();
         this.resizeVideoSprites();
+        this.resizeAlphaCover();
       }),
       setAppDimensions () {
         this.appWidth = window.innerWidth;
@@ -575,6 +572,7 @@
         });
       },
       resizeAlphaCover () {
+        console.log(this.alphaCover);
         if (this.alphaCover) {
           this.alphaCover.children[0].width = this.appWidth;
           this.alphaCover.children[0].height = this.appHeight;
@@ -602,21 +600,38 @@
       */
       checkAutoplay () {
         if (!this.isMuted) {
+          // If the videos were unmuted before,
+          // check if we can start them unmuted again
           canAutoPlay
             .video({ timeout: 500, muted: false })
             .then(({ result, error }) => {
-              this.$store.commit('setMuteState', result);
+              // set mute state
+              this.$store.commit('setMuteState', !result);
+              if (result === true) {
+                // activate sound if we're allowed to
+                this.updateVideoMutedState();
+              }
             });
         }
       },
       toggleMute () {
         this.$store.commit('setMuteState', !this.isMuted);
       },
+      updateVideoMutedState () {
+        this.pixiSlides.forEach((slide) => {
+          if (slide.video) {
+            slide.video.muted = this.isMuted;
+          }
+        });
+      },
       /*
       Helpers
       */
       partSize (multiplier = 1) {
         return 1 / this.slices * multiplier;
+      },
+      scrollDown () {
+        window.scrollTo(0, window.innerHeight);
       },
     },
   };
@@ -656,9 +671,9 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
+              <button @click="scrollDown" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-              </nuxt-link>
+              </button>
             </h3>
           </div>
         </div>
@@ -671,11 +686,10 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
+              <button @click="scrollDown" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-
                 <Icon class="video-teaser__subtitle-icon" :name="'icon_arrow_right'" />
-              </nuxt-link>
+              </button>
             </h3>
           </div>
         </div>
@@ -792,6 +806,13 @@
   text-transform: capitalize;
   margin-top: var(--size-rat);
   opacity: 0;
+
+  &__link {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .video-teaser__subtitle-icon {
@@ -799,7 +820,7 @@
   display: inline-block;
   position: relative;
   top: .2rem;
-  margin-left: 1.5em;
+  margin-left: .25em;
   transform: translateY(-50%) rotate(90deg);
   width: 1.4rem;
   height: 1.4rem;

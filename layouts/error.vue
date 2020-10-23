@@ -52,11 +52,14 @@
 </script>
 
 <template>
+  <div>
     <div ref="error" class="error-page" />
+  </div>
 </template>
 
 <style lang="scss">
   .error-page {
+    max-height: 100vh;
     overflow: hidden;
     background-color: #000000;
   }

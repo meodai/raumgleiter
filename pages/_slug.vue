@@ -5,12 +5,16 @@
   export default {
     key: 'homepage',
     name: 'Page',
-    // transition: 'swipedown',
-    components: {},
-    async asyncData ({ $craft }) {
-      const pagesByLocale = collect(await $craft('pages')).groupBy('locale').all();
+    async asyncData ({ $craft, params, error }) {
+      const pagesByLocale = collect(await $craft('pages'));
 
-      return { pagesByLocale };
+      if (params.slug && !pagesByLocale.contains('slug', params.slug)) {
+        return error({ statusCode: 404 });
+      }
+
+      return {
+        pagesByLocale: pagesByLocale.groupBy('locale').all(),
+      };
     },
     data () {
       return {

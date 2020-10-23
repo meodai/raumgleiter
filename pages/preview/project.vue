@@ -10,7 +10,7 @@
         .first();
 
       if (!$config.devMode && (!$config.livePreview || !projectEntryPreview)) {
-        return error({ statusCode: 404, message: 'Page not found' });
+        return error({ statusCode: 404 });
       }
 
       await store.dispatch('i18n/setRouteParams', projectEntryPreview.locale_slugs);

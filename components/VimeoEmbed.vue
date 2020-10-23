@@ -14,10 +14,8 @@
         loaded: false,
         // muted: true,
         playing: false,
+        showThumbnail: true,
       };
-    },
-    mounted () {
-
     },
     beforeDestroy () {
       if (this.player) {
@@ -31,6 +29,7 @@
           this.player = new Player(this.$refs.video);
           this.player.on('play', () => {
             this.playing = true;
+            this.showThumbnail = false;
           // canAutoPlay
           //   .video({timeout: 100, muted: false})
           //   .then(({result, error}) => {
@@ -77,6 +76,7 @@
     }"
   >
     <ResponsiveImage
+      v-if="showThumbnail"
       class="vimeoEmbed__thumb"
       :image="video.thumbImage"
     />
@@ -105,8 +105,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: -1px;
+  right: -1px;
 }
 
 .vimeoEmbed__thumb {

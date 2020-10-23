@@ -18,6 +18,7 @@ export const state = () => ({
       title: 'about',
     },
   ],
+  footerByLocale: [],
 });
 
 export const mutations = {
@@ -27,6 +28,9 @@ export const mutations = {
   setMainSections (state, sections) {
     state.mainSectionsByLocale = sections;
   },
+  setFooterData (state, footerByLocale) {
+    state.footerByLocale = footerByLocale;
+  },
   setMuteState (state, isMuted) {
     state.isMuted = isMuted;
   },
@@ -34,7 +38,9 @@ export const mutations = {
 
 export const getters = {
   getMainSections (state) {
-    return state.mainSectionsByLocale[state.i18n.locale] ? state.mainSectionsByLocale[state.i18n.locale].entries : [];
+    return state.mainSectionsByLocale && state.mainSectionsByLocale[state.i18n.locale]
+      ? state.mainSectionsByLocale[state.i18n.locale].entries
+      : [];
   },
 };
 
@@ -52,5 +58,8 @@ export const actions = {
       .keyBy('locale')
       .all();
     commit('setMainSections', sections);
+
+    const footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
+    commit('setFooterData', footerByLocale);
   },
 };

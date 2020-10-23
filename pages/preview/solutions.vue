@@ -11,7 +11,7 @@
         .first();
 
       if (!$config.devMode && (!$config.livePreview || !solutionsPagePreview)) {
-        return error({ statusCode: 404, message: 'Page not found' });
+        return error({ statusCode: 404 });
       }
 
       return { solutionsPage: solutionsPagePreview };

@@ -1,13 +1,7 @@
 <script>
-  import collect from 'collect.js';
-
   export default {
-    async fetch () {
-      this.footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
-    },
     data () {
       return {
-        footerByLocale: null,
         isSuscribed: false,
         isSuscribing: false,
         isInvalid: false,
@@ -23,25 +17,31 @@
       asideSections () {
         return this.$store.state.asideSections;
       },
+      footerByLocale () {
+        return this.$store.state.footerByLocale;
+      },
     },
     beforeDestroy () {
       clearTimeout(this.timer);
     },
     methods: {
-      suscribe () {
+      subscribe () {
         if (!this.$refs.input.validity.valid) {
-          this.isInvalid = true;
-          this.timer = setTimeout(() => {
-            this.isInvalid = false;
-          }, 2000);
-          console.log('invalid')
+          this.setInvalid();
         } else {
           this.isSuscribing = true;
+          this.$refs.newsletterForm.submit();
           this.timer = setTimeout(() => {
-            this.isSuscribed = true;
             this.isSuscribing = false;
-          }, 1500);
+            this.$refs.input.value = '';
+          }, 2000);
         }
+      },
+      setInvalid () {
+        this.isInvalid = true;
+        this.timer = setTimeout(() => {
+          this.isInvalid = false;
+        }, 2000);
       },
     },
   };
@@ -79,24 +79,37 @@
         <h4>{{ footer.newsletterLabel }}</h4>
         <form
           class="footer__form"
-          action="#"
+          action="https://raumgleiter.us3.list-manage.com/subscribe/post"
+          ref="newsletterForm"
           method="post"
           :class="{
-            'footer__form--suscribed': isSuscribed,
-            'footer__form--suscribing': isSuscribing,
+            'footer__form--subscribed': isSuscribed,
+            'footer__form--subscribing': isSuscribing,
             'footer__form--invalid': isInvalid,
           }"
         >
+          <input type="hidden" name="u" value="b9d5ffac0197f1e308e810c0a">
+          <input type="hidden" name="id" value="c00e021b7f">
+          <div class="field-shift" aria-label="Please leave the following field empty">
+            <label for="b_email">Email: </label>
+            <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+          </div>
           <input
             ref="input"
             :disabled="isSuscribed || isSuscribing"
             type="email"
+            autocapitalize="off"
+            autocorrect="off"
+            name="MERGE0"
+            id="MERGE0"
             :placeholder="$t('email')"
             required="required"
           >
-          <button class="footer__button" @click.prevent="suscribe">
+          <button class="footer__button" @click.prevent="subscribe">
             <span>{{ $t('subscribe') }}</span>
           </button>
+          <input type="hidden" name="ht" value="973c3bfc297573920e674b4d5929035db0b4ce70:MTYwMzQ0Mzk2MC4zMjI1">
+          <input type="hidden" name="mc_signupsource" value="hosted">
         </form>
       </article>
       <ul class="footer__nav footer__col">
@@ -294,8 +307,8 @@
       background: rgba(#7f7f7f, .75);
     }
 
-    &--suscribing,
-    &--suscribed {
+    &--subscribing,
+    &--subscribed {
       button {
         min-width: calc(1ch + 1.5rem);
 
@@ -317,7 +330,7 @@
       }
     }
 
-    &--suscribed button::after {
+    &--subscribed button::after {
       content: "✓";
       font-size: 1.5rem;
       padding-bottom: 0;
@@ -411,5 +424,9 @@
   .footer__logoicon {
     width: 100%;
     height: 100%;
+  }
+
+  .field-shift {
+    left: -9999px; position: absolute;
   }
 </style>

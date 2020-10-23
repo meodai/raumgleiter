@@ -8,7 +8,7 @@
         .keyBy('locale');
 
       if (!$config.devMode && (!$config.livePreview || !pageEntryByLocale.count())) {
-        return error({ statusCode: 404, message: 'Page not found' });
+        return error({ statusCode: 404 });
       }
 
       await store.dispatch('i18n/setRouteParams', pageEntryByLocale.first().locale_slugs);

@@ -160,12 +160,18 @@
     margin-bottom: -0.5rem;
     outline: none;
 
+    @include bp('tablet') {
+      width: auto;
+      margin-right: 1em;
+    }
+
     @include bp('phone') {
       width: auto;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      margin-right: 0;
     }
   }
   .navigation__trigger {

@@ -1,13 +1,7 @@
 <script>
-  import collect from 'collect.js';
-
   export default {
-    async fetch () {
-      this.footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
-    },
     data () {
       return {
-        footerByLocale: null,
         isSuscribed: false,
         isSuscribing: false,
         isInvalid: false,
@@ -22,6 +16,9 @@
       },
       asideSections () {
         return this.$store.state.asideSections;
+      },
+      footerByLocale () {
+        return this.$store.state.footerByLocale;
       },
     },
     beforeDestroy () {

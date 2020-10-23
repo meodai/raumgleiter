@@ -29,7 +29,9 @@
           this.player = new Player(this.$refs.video);
           this.player.on('play', () => {
             this.playing = true;
-            this.showThumbnail = false;
+            setTimeout(() => {
+              this.showThumbnail = false;
+            }, 200);
           // canAutoPlay
           //   .video({timeout: 100, muted: false})
           //   .then(({result, error}) => {
@@ -76,9 +78,11 @@
     }"
   >
     <ResponsiveImage
-      v-if="showThumbnail"
       class="vimeoEmbed__thumb"
       :image="video.thumbImage"
+      :style="{
+        opacity: showThumbnail ? 1 : 0,
+      }"
     />
     <iframe
       v-if="loaded"

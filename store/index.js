@@ -34,7 +34,9 @@ export const mutations = {
 
 export const getters = {
   getMainSections (state) {
-    return state.mainSectionsByLocale[state.i18n.locale] ? state.mainSectionsByLocale[state.i18n.locale].entries : [];
+    return state.mainSectionsByLocale && state.mainSectionsByLocale[state.i18n.locale]
+      ? state.mainSectionsByLocale[state.i18n.locale].entries
+      : [];
   },
 };
 

@@ -618,6 +618,9 @@
       partSize (multiplier = 1) {
         return 1 / this.slices * multiplier;
       },
+      scrollDown () {
+        window.scrollTo(0, window.innerHeight);
+      },
     },
   };
 </script>
@@ -656,9 +659,9 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
+              <button @click="scrollDown" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-              </nuxt-link>
+              </button>
             </h3>
           </div>
         </div>
@@ -671,11 +674,10 @@
               {{ entry.title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <nuxt-link :to="{ hash: 'read-more' }" class="video-teaser__subtitle__link">
+              <button @click="scrollDown" class="video-teaser__subtitle__link">
                 {{ entry.subtitle }}
-
                 <Icon class="video-teaser__subtitle-icon" :name="'icon_arrow_right'" />
-              </nuxt-link>
+              </button>
             </h3>
           </div>
         </div>
@@ -792,6 +794,13 @@
   text-transform: capitalize;
   margin-top: var(--size-rat);
   opacity: 0;
+
+  &__link {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .video-teaser__subtitle-icon {
@@ -799,7 +808,7 @@
   display: inline-block;
   position: relative;
   top: .2rem;
-  margin-left: 1.5em;
+  margin-left: .25em;
   transform: translateY(-50%) rotate(90deg);
   width: 1.4rem;
   height: 1.4rem;

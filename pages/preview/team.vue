@@ -11,7 +11,7 @@
         .first();
 
       if (!$config.devMode && (!$config.livePreview || !teamPagePreview)) {
-        return error({ statusCode: 404, message: 'Page not found' });
+        return error({ statusCode: 404 });
       }
 
       return { teamPage: teamPagePreview };

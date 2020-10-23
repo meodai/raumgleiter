@@ -136,6 +136,7 @@ export default {
         '/preview/team', '/en/preview/team', '/fr/preview/team',
       ] : [],
     ],
+    fallback: '404.html',
   },
   privateRuntimeConfig: {
     http: {

@@ -203,4 +203,5 @@
   .iconSprite {
     display: none;
   }
+
 </style>

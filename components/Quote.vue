@@ -79,6 +79,7 @@
   .quote__footer {
     @include typo('default');
     margin-top: var(--size-gutter);
+    color: currentColor;
   }
 
   .quote__background {

@@ -91,12 +91,8 @@
       },
     },
     watch: {
-      isMuted (isMuted) {
-        this.pixiSlides.forEach((slide) => {
-          if (slide.video) {
-            slide.video.muted = isMuted;
-          }
-        });
+      isMuted () {
+        this.updateVideoMutedState();
       },
     },
     created () {
@@ -604,15 +600,29 @@
       */
       checkAutoplay () {
         if (!this.isMuted) {
+          // If the videos were unmuted before,
+          // check if we can start them unmuted again
           canAutoPlay
             .video({ timeout: 500, muted: false })
             .then(({ result, error }) => {
-              this.$store.commit('setMuteState', result);
+              // set mute state
+              this.$store.commit('setMuteState', !result);
+              if (result === true) {
+                // activate sound if we're allowed to
+                this.updateVideoMutedState();
+              }
             });
         }
       },
       toggleMute () {
         this.$store.commit('setMuteState', !this.isMuted);
+      },
+      updateVideoMutedState () {
+        this.pixiSlides.forEach((slide) => {
+          if (slide.video) {
+            slide.video.muted = this.isMuted;
+          }
+        });
       },
       /*
       Helpers

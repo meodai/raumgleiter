@@ -46,6 +46,9 @@
         appHeight: 0,
         scrollRatio: 0,
         videoQuality: 720,
+
+        alphaFilter: null,
+        alphaCover: null,
       };
     },
     computed: {
@@ -570,6 +573,12 @@
           }
           this.setVideoSpriteSizeAndPosition(pixiSlide.container.children[0]);
         });
+      },
+      resizeAlphaCover () {
+        if (this.alphaCover) {
+          this.alphaCover.children[0].width = this.appWidth;
+          this.alphaCover.children[0].height = this.appHeight;
+        }
       },
       scrollHandler: throttle(50, function () {
         this.scrollRatio = window.scrollY / window.innerHeight;

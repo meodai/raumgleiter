@@ -853,6 +853,11 @@
   left: 0;
   right: 0;
 
+  @include bp('phone') {
+    position: fixed;
+    top: 6rem;
+  }
+
   &::after {
     position: absolute;
     content: '';

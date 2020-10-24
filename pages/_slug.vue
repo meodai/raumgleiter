@@ -5,16 +5,19 @@
   export default {
     key: 'homepage',
     name: 'Page',
-    async asyncData ({ $craft, params, error }) {
+    async asyncData ({ $craft, params, error, store }) {
       const pagesByLocale = collect(await $craft('pages'));
       const seoData = collect(await $craft('seo'))
         .groupBy('locale')
         .map(page => page.first())
         .all();
+      const currentPage = pagesByLocale.where('slug', params.slug);
 
-      if (params.slug && !pagesByLocale.contains('slug', params.slug)) {
+      if (params.slug && pagesByLocale.count() < 1) {
         return error({ statusCode: 404 });
       }
+
+      await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
 
       return {
         pagesByLocale: pagesByLocale.groupBy('locale').all(),

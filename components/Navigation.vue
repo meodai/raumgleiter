@@ -7,7 +7,7 @@
     },
     computed: {
       menuItems () {
-        return this.$store.state.asideSections;
+        return this.$store.getters.getAsideSections;
       },
       dropdownItems () {
         return this.$store.getters.getMainSections;
@@ -104,7 +104,7 @@
           class="navigation__menuitem"
         >
           <nuxt-link :to="localePath(menuItem.path)" @click.native="$scrollToTop">
-            {{ $t(menuItem.title) }}
+            {{ menuItem.title }}
           </nuxt-link>
         </li>
       </ul>

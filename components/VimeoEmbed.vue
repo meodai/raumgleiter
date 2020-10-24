@@ -31,7 +31,7 @@
             this.playing = true;
             setTimeout(() => {
               this.showThumbnail = false;
-            }, 200);
+            }, 1000);
           // canAutoPlay
           //   .video({timeout: 100, muted: false})
           //   .then(({result, error}) => {

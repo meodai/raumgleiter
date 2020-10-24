@@ -5,9 +5,6 @@ export default {
   all: 'All',
 
   // header / footer
-  projects: 'Projects',
-  team: 'Team',
-  about: 'About',
   explore: 'Explore',
   mainNavigation: 'main navigation',
 

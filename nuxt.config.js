@@ -149,6 +149,7 @@ export default {
   generate: {
     exclude: [
       ...process.env.LIVE_PREVIEW !== 'true' && process.env.DEV_MODE !== 'true' ? [
+        '/design-inventory', '/en/design-inventory', '/fr/design-inventory',
         '/preview', '/en/preview', '/fr/preview',
         '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
         '/preview/project', '/en/preview/project', '/fr/preview/project',

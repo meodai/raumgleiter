@@ -15,7 +15,7 @@
         return this.$store.getters.getMainSections;
       },
       asideSections () {
-        return this.$store.state.asideSections;
+        return this.$store.getters.getAsideSections;
       },
       footerByLocale () {
         return this.$store.state.footerByLocale;
@@ -162,7 +162,7 @@
           :class="{ 'footer__navgap': index === 0 }"
         >
           <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
-            {{ $t(section.title) }}
+            {{ section.title }}
           </nuxt-link>
         </li>
       </ul>

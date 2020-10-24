@@ -22,5 +22,9 @@ export default {
   unmute: 'Ton einschalten',
 
   // Project
+  mission: 'Aufgabe',
+  client: 'Kunde',
+  services: 'Leistungen',
+  benefit: 'Benefit',
   moreWorlds: 'Weitere Welten.',
 };

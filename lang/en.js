@@ -22,5 +22,9 @@ export default {
   unmute: 'Unmute',
 
   // Project
+  mission: 'Mission',
+  client: 'Client',
+  services: 'Services',
+  benefit: 'Benefit',
   moreWorlds: 'Other worlds.',
 };

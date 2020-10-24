@@ -7,7 +7,10 @@
     name: 'Page',
     async asyncData ({ $craft, params, error }) {
       const pagesByLocale = collect(await $craft('pages'));
-      const seoData = collect(await $craft('seo')).groupBy('locale').all();
+      const seoData = collect(await $craft('seo'))
+        .groupBy('locale')
+        .map(page => page.first())
+        .all();
 
       if (params.slug && !pagesByLocale.contains('slug', params.slug)) {
         return error({ statusCode: 404 });
@@ -62,6 +65,14 @@
         return this.currentPage && this.currentPage.pagebuilder.length > 1
           ? this.currentPage.pagebuilder.slice(1) : [];
       },
+      metaDescription () {
+        return this.hasEnteredRoute && this.currentPage && this.currentIntroBlock[0].fields.body
+          ? this.currentIntroBlock[0].fields.body
+          : this.seoData[this.$i18n.locale].metaDescription || null;
+      },
+      shareImage () {
+        return this.seoData[this.$i18n.locale].shareImage || null;
+      },
     },
     watch: {
       '$nuxt.$route.params.slug' () {
@@ -107,14 +118,12 @@
           {
             hid: 'description',
             name: 'description',
-            content: this.hasEnteredRoute && this.currentPage && this.currentIntroBlock[0].fields.body
-              ? this.currentIntroBlock[0].fields.body
-              : this.seoData[this.$i18n.locale][0].metaDescription,
+            content: this.metaDescription,
           },
           {
             hid: 'og:image',
             property: 'og:image',
-            content: this.seoData[this.$i18n.locale][0].shareImage,
+            content: this.shareImage,
           },
         ],
       };

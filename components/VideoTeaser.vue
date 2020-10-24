@@ -812,6 +812,7 @@
 
   &__link {
     cursor: pointer;
+    padding: 0;
     &:hover {
       text-decoration: underline;
     }

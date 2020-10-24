@@ -1,5 +1,6 @@
 export default function ({ $config, $http, query }, inject) {
   const $craft = function (slug) {
+    // console.log('REQUEST ' + slug + '.json');
     return $http.$get(`/${slug}.json${this.query}`).then(data => data.data);
   };
 

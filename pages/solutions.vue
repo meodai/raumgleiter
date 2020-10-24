@@ -29,6 +29,11 @@
         this.filtersVisible = isVisible;
       },
     },
+    head () {
+      return {
+        title: this.solutionsPage.title || null,
+      };
+    },
   };
 </script>
 

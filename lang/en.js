@@ -20,4 +20,7 @@ export default {
   // video
   mute: 'Mute',
   unmute: 'Unmute',
+
+  // Project
+  moreWorlds: 'Other worlds.',
 };

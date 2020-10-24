@@ -36,7 +36,7 @@
     },
     head () {
       return {
-        title: this.projectEntry.title,
+        title: this.projectEntry.title || null,
         // meta: [
         //   { hid: 'description', name: 'description', content: this.description },
         //   { hid: 'og:description', name: 'og:description', content: this.description },

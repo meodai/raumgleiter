@@ -10,7 +10,7 @@ export default {
    */
   head: {
     title: 'Raumgleiter',
-    titleTemplate: '%s - Raumgleiter',
+    titleTemplate: '%s | Raumgleiter',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -23,9 +23,7 @@ export default {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#000000' },
       { rel: 'msapplication-TileColor', content: '#9f00a7' },
     ],
-    script: [
-
-    ],
+    script: [],
   },
   pwa: {
     meta: {
@@ -106,9 +104,9 @@ export default {
   i18n: {
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'de', file: 'de.js' },
-      { code: 'en', file: 'en.js' },
-      { code: 'fr', file: 'fr.js' },
+      { code: 'de', iso: 'de-CH', file: 'de.js' },
+      { code: 'en', iso: 'en-GB', file: 'en.js', isCatchallLocale: true },
+      { code: 'fr', iso: 'fr-CH', file: 'fr.js' },
     ],
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },
@@ -120,6 +118,8 @@ export default {
       cookieKey: 'i18n_redirected',
       onlyOnRoot: true,
     },
+    baseUrl: 'https://raumgleiter.com',
+    seo: true,
   },
   /*
    ** Build configuration

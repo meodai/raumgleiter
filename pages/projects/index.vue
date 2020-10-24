@@ -67,6 +67,11 @@
         this.$store.commit('setProjectMixer', mixer);
       },
     },
+    head () {
+      return {
+        title: this.projectIndexPage ? this.projectIndexPage.title : null,
+      };
+    },
   };
 </script>
 

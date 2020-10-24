@@ -7,6 +7,7 @@
     name: 'Page',
     async asyncData ({ $craft, params, error }) {
       const pagesByLocale = collect(await $craft('pages'));
+      const seoData = collect(await $craft('seo')).groupBy('locale').all();
 
       if (params.slug && !pagesByLocale.contains('slug', params.slug)) {
         return error({ statusCode: 404 });
@@ -14,6 +15,7 @@
 
       return {
         pagesByLocale: pagesByLocale.groupBy('locale').all(),
+        seoData,
       };
     },
     data () {
@@ -99,8 +101,22 @@
     },
     head () {
       return {
-      // title: this.currentSection.name,
-      // titleTemplate: this.hasScrolledDown ? '%s - Raumgleiter' : 'Raumgleiter',
+        title: this.currentPage ? this.currentPage.title : null,
+        titleTemplate: this.hasEnteredRoute ? '%s | Raumgleiter' : 'Raumgleiter',
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content: this.hasEnteredRoute && this.currentPage && this.currentIntroBlock[0].fields.body
+              ? this.currentIntroBlock[0].fields.body
+              : this.seoData[this.$i18n.locale][0].metaDescription,
+          },
+          {
+            hid: 'og:image',
+            property: 'og:image',
+            content: this.seoData[this.$i18n.locale][0].shareImage,
+          },
+        ],
       };
     },
   };

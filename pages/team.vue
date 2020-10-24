@@ -29,6 +29,11 @@
         }];
       },
     },
+    head () {
+      return {
+        title: this.teamPage.title || null,
+      };
+    },
   };
 </script>
 

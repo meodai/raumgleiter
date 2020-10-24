@@ -668,11 +668,11 @@
         <div class="video-teaser__slideInner">
           <div class="video-teaser__header">
             <h2 class="video-teaser__title">
-              {{ entry.title }}
+              {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
               <button @click="scrollDown" class="video-teaser__subtitle__link">
-                {{ entry.subtitle }}
+                {{ entries[entry.index].subtitle }}
               </button>
             </h3>
           </div>
@@ -683,11 +683,11 @@
         <div class="video-teaser__slideInner">
           <div class="video-teaser__header">
             <h2 class="video-teaser__title">
-              {{ entry.title }}
+              {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
               <button @click="scrollDown" class="video-teaser__subtitle__link">
-                {{ entry.subtitle }}<Icon
+                {{ entries[entry.index].subtitle }}<Icon
                   class="video-teaser__subtitle-icon"
                   :class="{ 'video-teaser__subtitle-icon--visible': !isTransitioning }"
                   :name="'icon_arrow_right'"

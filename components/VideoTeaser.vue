@@ -572,7 +572,6 @@
         });
       },
       resizeAlphaCover () {
-        console.log(this.alphaCover);
         if (this.alphaCover) {
           this.alphaCover.children[0].width = this.appWidth;
           this.alphaCover.children[0].height = this.appHeight;

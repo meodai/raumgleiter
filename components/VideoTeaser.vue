@@ -679,7 +679,7 @@
         </div>
       </div>
 
-      <div v-show="!isTransitioning">
+      <div :style="{ opacity: isTransitioning ? 0 : 1 }">
         <div class="video-teaser__slideInner">
           <div class="video-teaser__header">
             <h2 class="video-teaser__title">
@@ -687,8 +687,11 @@
             </h2>
             <h3 class="video-teaser__subtitle">
               <button @click="scrollDown" class="video-teaser__subtitle__link">
-                {{ entry.subtitle }}
-                <Icon class="video-teaser__subtitle-icon" :name="'icon_arrow_right'" />
+                {{ entry.subtitle }}<Icon
+                  class="video-teaser__subtitle-icon"
+                  :class="{ 'video-teaser__subtitle-icon--visible': !isTransitioning }"
+                  :name="'icon_arrow_right'"
+                />
               </button>
             </h3>
           </div>
@@ -820,16 +823,21 @@
   display: inline-block;
   position: relative;
   top: .2rem;
-  margin-left: .25em;
+  margin-left: .5em;
   transform: translateY(-50%) rotate(90deg);
   width: 1.4rem;
   height: 1.4rem;
 }
 
 .video-teaser__slider--active .video-teaser__subtitle-icon {
+  opacity: 0;
+  transform: translateY(-20px) rotate(90deg);
+  transition: 300ms opacity, 300ms transform cubic-bezier(0.3, 0.7, .3, 1.3);
+}
+
+.video-teaser__slider--active .video-teaser__subtitle-icon--visible {
   opacity: 1;
   transform: translateY(-2px) rotate(90deg);
-  //transition: 300ms opacity 1200ms, 300ms transform 1200ms cubic-bezier(0.3, 0.7, .3, 1.3);
 }
 
 .video-teaser__slider--active .video-teaser__subtitle {

@@ -57,7 +57,7 @@
             class="navigation__menuitem"
           >
             <nuxt-link :to="localePath(menuItem.path)" @click.native="$scrollToTop">
-              {{ $t(menuItem.title) }}
+              {{ menuItem.title }}
             </nuxt-link>
           </li>
         </ul>

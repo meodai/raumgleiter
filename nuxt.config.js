@@ -104,9 +104,9 @@ export default {
   i18n: {
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'de', iso: 'de-CH', file: 'de.js' },
-      { code: 'en', iso: 'en-GB', file: 'en.js', isCatchallLocale: true },
-      { code: 'fr', iso: 'fr-CH', file: 'fr.js' },
+      { code: 'de', iso: 'de', file: 'de.js' },
+      { code: 'en', iso: 'en', file: 'en.js' },
+      { code: 'fr', iso: 'fr', file: 'fr.js' },
     ],
     defaultLocale: 'de',
     vueI18n: { fallbackLocale: 'en' },

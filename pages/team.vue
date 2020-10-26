@@ -135,6 +135,7 @@
   }
 
   .person {
+    position: relative;
     background: var(--color-layout--accent);
     width: calc(33.33% - var(--size-mouse));
     flex: 0 0 calc(33.33% - var(--size-mouse));
@@ -158,7 +159,7 @@
   }
 
   .person__body {
-    padding: var(--size-mouse);
+    padding: var(--size-mouse) var(--size-mouse) calc(var(--size-mouse) * 4);
   }
 
   .person__link {
@@ -194,4 +195,12 @@
       width: 100%;
     }
   }
+
+  .person__links {
+    position: absolute;
+    bottom: var(--size-mouse);
+    left: 0;
+    right: 0;
+  }
+
 </style>

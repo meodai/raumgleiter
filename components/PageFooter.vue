@@ -351,7 +351,6 @@
             <a
               :href="link.url"
               rel="noopener nofollow"
-              target="_blank"
               data-i
             >
 

@@ -96,7 +96,6 @@
                 <a
                   :href="link.url"
                   rel="nofollow noopener"
-                  target="_blank"
                 >
                   <Icon
                     class="calltoaction__icon"

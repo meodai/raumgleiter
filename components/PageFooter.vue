@@ -292,6 +292,14 @@
         loop();
       },
       start () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          return window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+
         if (process.client && !this.hide) {
           this.place();
         }

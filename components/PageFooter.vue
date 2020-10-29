@@ -130,7 +130,7 @@
               }, i * 100);
             });
           });
-        }
+        };
 
         sparcle();
       },
@@ -329,6 +329,7 @@
     v-if="footer"
     ref="root"
     class="footer"
+    :class="{'playfield': hide}"
   >
     <div class="footer__inner" :class="{'footer__inner--hide': hide}">
       <nuxt-link class="footer__logo-link footer__col" data-i to="/#">
@@ -804,6 +805,7 @@
   $orange: #d47946;
   $red: #7a2c1f;
 
+
   .sparcle {
     position: absolute;
     display: block;
@@ -843,5 +845,15 @@
       box-shadow: 0 0 0 0 $red;
       transform: rotate(45deg) scale(0.25) translateZ(0);
     }
+  }
+
+  .playfield::after {
+    font-size: 1.4rem;
+    font-family: monospace;
+    content: '[ move: ← arrow keys → | space: shoot ]';
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 </style>

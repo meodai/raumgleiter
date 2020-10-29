@@ -36,7 +36,7 @@
       boom (x, y) {
         const prefixes = ['webkit', 'moz', 'ms', ''];
 
-        function prefixedEvent(element, type, callback) {
+        function prefixedEvent (element, type, callback) {
           for (let p = 0; p < prefixes.length; p++) {
             if (!prefixes[p]) {
               type = type.toLowerCase();
@@ -50,16 +50,16 @@
           const unit = percent ? '%' : 'px';
           rotation = rotation || 0;
 
-          const transfromString = 'translate('+ x + unit + ', '+ y + unit + ') '
-                          + 'scale(' + scale + ') '
-                          + 'rotate(' + rotation + 'deg)';
+          const transfromString = 'translate(' + x + unit + ', ' + y + unit + ') ' +
+            'scale(' + scale + ') ' +
+            'rotate(' + rotation + 'deg)';
 
           $e.style.webkitTransform = transfromString;
           $e.style.MozTransform = transfromString;
           $e.style.transform = transfromString;
         }
 
-        function createParticle(x, y, scale) {
+        function createParticle (x, y, scale) {
           const $particle = document.createElement('i');
           const $sparcle = document.createElement('i');
 
@@ -140,7 +140,7 @@
         const els = Array.from(this.$refs.root.querySelectorAll('[data-i]'));
         const rootRect = this.$refs.root.getBoundingClientRect();
 
-        this.enemies = els.map($el => {
+        this.enemies = els.map(($el) => {
           const rect = $el.getBoundingClientRect();
 
           return {
@@ -340,7 +340,11 @@
     :class="{'playfield': hide}"
   >
     <div class="footer__inner" :class="{'footer__inner--hide': hide}">
-      <nuxt-link class="footer__logo-link footer__col" data-i to="/#">
+      <nuxt-link
+        class="footer__logo-link footer__col"
+        data-i
+        to="/#"
+      >
         <Logo class="footer__logo" />
       </nuxt-link>
 
@@ -373,7 +377,9 @@
       </div>
 
       <article class="footer__newsletter footer__col">
-        <h4 data-i>{{ footer.newsletterLabel }}</h4>
+        <h4 data-i>
+          {{ footer.newsletterLabel }}
+        </h4>
         <form
           ref="newsletterForm"
           class="footer__form"
@@ -396,7 +402,7 @@
             name="id"
             value="c00e021b7f"
           >
-          <div  class="field-shift" aria-label="Please leave the following field empty">
+          <div class="field-shift" aria-label="Please leave the following field empty">
             <label for="b_email">Email: </label>
             <input
               id="b_email"
@@ -459,8 +465,8 @@
       <ul :aria-label="$t('language')" class="footer__lang footer__col">
         <li
           v-for="locale in $i18n.locales"
-          data-i
           :key="locale.code"
+          data-i
         >
           <nuxt-link
             :aria-selected="locale.code === $i18n.locale"
@@ -772,7 +778,6 @@
     left: -9999px; position: absolute;
   }
 
-
   // don't ask any question
   .boom {
     position: absolute;
@@ -811,7 +816,6 @@
   $yellow: #fde655;
   $orange: #d47946;
   $red: #7a2c1f;
-
 
   .sparcle {
     position: absolute;

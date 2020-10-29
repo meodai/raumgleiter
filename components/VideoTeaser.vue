@@ -670,7 +670,7 @@
               {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <button @click="scrollDown" class="video-teaser__subtitle__link">
+              <button class="video-teaser__subtitle__link" @click="scrollDown">
                 {{ entries[entry.index].subtitle }}
               </button>
             </h3>
@@ -685,7 +685,7 @@
               {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <button @click="scrollDown" class="video-teaser__subtitle__link">
+              <button class="video-teaser__subtitle__link" @click="scrollDown">
                 {{ entries[entry.index].subtitle }}<Icon
                   class="video-teaser__subtitle-icon"
                   :class="{ 'video-teaser__subtitle-icon--visible': !isTransitioning }"

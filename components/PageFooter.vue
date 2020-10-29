@@ -855,6 +855,7 @@
   }
 
   .playfield::after {
+    overflow: visible;
     font-size: 1.4rem;
     font-family: monospace;
     content: '[ move: ← arrow keys → | space: shoot ]';

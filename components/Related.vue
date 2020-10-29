@@ -14,18 +14,19 @@
       return {
         activeSlide: 0,
         sliderIsRunning: false,
+        randomisedEntries: [],
       };
     },
 
     computed: {
       images () {
-        return collect(this.fields.entries).pluck('image').toArray() || [];
+        return collect(this.randomisedEntries).pluck('image').toArray() || [];
       },
       titles () {
-        return collect(this.fields.entries).pluck('title').toArray() || [];
+        return collect(this.randomisedEntries).pluck('title').toArray() || [];
       },
       slugs () {
-        return collect(this.fields.entries).pluck('slug').toArray() || [];
+        return collect(this.randomisedEntries).pluck('slug').toArray() || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;
@@ -35,7 +36,9 @@
       },
     },
 
-    mounted () {},
+    mounted () {
+      this.randomisedEntries = collect(this.fields.entries).shuffle().all();
+    },
 
     beforeDestroy () {
       this.stopSlider();
@@ -135,7 +138,7 @@
       </div>
       <div class="related__slides">
         <div
-          v-for="(entry, i) in fields.entries"
+          v-for="(entry, i) in randomisedEntries"
           :key="'related'+ i + entry.title"
           :ref="'slide'"
           class="related__slide"

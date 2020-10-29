@@ -223,6 +223,34 @@
           }
         };
 
+        const theEnd = () => {
+          const rightBox = document.querySelector('.endboss__eye--right').getBoundingClientRect();
+          const leftBox = document.querySelector('.endboss__eye--left').getBoundingClientRect();
+
+          document.querySelector('.endboss__eye--right').style.left = rightBox.left + 'px';
+          document.querySelector('.endboss__eye--right').style.top = rightBox.top - rootRect.top + 'px';
+
+          document.querySelector('.endboss__eye--left').style.left = leftBox.left + 'px';
+          document.querySelector('.endboss__eye--left').style.top = leftBox.top - rootRect.top + 'px';
+
+          gsap.to(document.querySelector('.endboss__eye--right'), 1.5, {
+            top: player.left + player.width * 0.5,
+            left: (player.top + player.height * 0.5),
+            scale: 0.2,
+            ease: 'power4.in',
+
+          });
+          gsap.to(document.querySelector('.endboss__eye--left'), 1.5, {
+            top: player.left + player.width * 0.5,
+            left: (player.top + player.height * 0.5),
+            scale: 0.2,
+            ease: 'power4.in',
+
+            onComplete: () => {
+            },
+          });
+        };
+
         const shootNow = (from, to, callBack) => {
           const $shot = document.createElement('div');
 
@@ -274,7 +302,11 @@
                     enemy.left + enemy.width * 0.5,
                     enemy.top + enemy.height * 0.5,
                   );
+                  if (!this.enemies.length) {
+                    theEnd();
+                  }
                 });
+                theEnd();
                 return true;
               }
             });
@@ -479,6 +511,9 @@
         class="footer__logoicon"
       />
     </a>
+    <div v-if="hide" class="endboss"><img src="/boss.gif" alt="raumgleiter end boss" /></div>
+    <i v-if="hide" class="endboss__eye endboss__eye--left" />
+    <i v-if="hide" class="endboss__eye endboss__eye--right" />
   </div>
 </template>
 
@@ -855,5 +890,36 @@
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .endboss {
+    position: absolute;
+    top: 0;
+    width: 30%;
+    right: 0;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    &__eye {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: red;
+      width: 1rem; height: 1rem;
+      border-radius: 50%;
+      top: 18%;
+      left: 80.2%;
+      transform:  scale(4);
+    }
+
+    &__eye--right {
+      top: 17%;
+      left: 82.1%;
+    }
+    &__eye--left {
+    }
   }
 </style>

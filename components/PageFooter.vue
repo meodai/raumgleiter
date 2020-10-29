@@ -5,6 +5,7 @@
         isSuscribed: false,
         isSuscribing: false,
         isInvalid: false,
+        hide: false,
       };
     },
     computed: {
@@ -23,9 +24,164 @@
     },
     beforeDestroy () {
       clearTimeout(this.timer);
+      if (this.hide) {
+        this.enemies.forEach((el) => {
+          this.$refs.root.removeChild(el.$el);
+        });
+        this.$refs.roott.removeChild(this.player);
+        this.hide = false;
+      }
     },
     methods: {
-      subscribe () {
+      place () {
+        this.hide = true;
+
+        const els = Array.from(this.$refs.root.querySelectorAll('[data-i]'));
+        const rootRect = this.$refs.root.getBoundingClientRect();
+
+        this.enemies = els.map($el => {
+          const rect = $el.getBoundingClientRect();
+
+          return {
+            $el: $el.cloneNode(true),
+            top: rect.top - rootRect.top,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height,
+          };
+        }).sort((el, el2) => el2.top - el.top);
+
+        this.enemies.forEach((el) => {
+          el.$el.style = `
+            position: absolute;
+            left: ${el.left}px;
+            top: ${el.top}px;
+            width: ${el.width}px;
+            height: ${el.height}px;
+            list-style: none;
+          `;
+
+          this.$refs.root.appendChild(el.$el);
+        });
+
+        const p = this.$refs.root.querySelector('[data-p]');
+        const prect = p.getBoundingClientRect();
+
+        const player = {
+          $el: p.cloneNode(true),
+          top: prect.top - rootRect.top,
+          left: prect.left,
+          width: prect.width,
+          height: prect.height,
+        };
+
+        this.player = player;
+
+        let x = 0;
+
+        const placePlayer = () => {
+          player.$el.style = `
+            position: absolute;
+            left: ${player.left}px;
+            top: ${player.top}px;
+            width: ${prect.width}px;
+            height: ${prect.height}px;
+            margin: 0;
+          `;
+        };
+
+        placePlayer();
+
+        this.$refs.root.appendChild(player.$el);
+
+        p.style = 'opacity: 0; pointer-events: none;';
+
+        let shoot = false;
+
+        const logKey = (e) => {
+          if (e.code === 'ArrowLeft') {
+            x -= player.width * 0.2;
+          } else if (e.code === 'ArrowRight') {
+            x += player.width * 0.2;
+          } else if (e.code === 'Space') {
+            shoot = true;
+          }
+        };
+
+        document.addEventListener('keydown', logKey);
+
+        const isColliding = (rect1, rect2) => {
+          if (rect1.left < rect2.left + rect2.width &&
+            rect1.left + rect1.width > rect2.left /* &&
+            rect1.top < rect2.top + rect2.height &&
+            rect1.top + rect1.height > rect2.top */
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        };
+
+        const shootNow = (from, to, callBack) => {
+          const $shot = document.createElement('div');
+
+          $shot.style = `
+            position: absolute;
+            left: ${from.left + from.width * 0.5 - 3}px;
+            top: ${from.top}px;
+            height: ${from.height}px;
+            width: 6px;
+            background: hotpink;
+            z-index: 100;
+          `;
+
+          this.$refs.root.appendChild($shot);
+          const dist = to.top - from.top;
+
+          this.$nextTick(() => {
+            gsap.to($shot, 0.5, {
+              y: dist,
+              ease: 'power4.in',
+              onComplete: () => {
+                this.$refs.root.removeChild($shot);
+                callBack();
+              },
+            });
+          });
+        };
+
+        const loop = () => {
+          if (x) {
+            player.left += x;
+            placePlayer();
+            x = 0;
+          }
+
+          if (shoot) {
+            this.enemies.find((enemy, i) => {
+              if (isColliding(enemy, player)) {
+                this.enemies.splice(i, 1);
+                shootNow(player, enemy, () => {
+                  this.$refs.root.removeChild(enemy.$el);
+                });
+                return true;
+              }
+            });
+
+            shoot = false;
+          }
+
+          this.hide && requestAnimationFrame(loop);
+        };
+
+        loop();
+      },
+      start () {
+        if (process.client && !this.hide) {
+          this.place();
+        }
+      },
+      suscribe () {
         if (!this.$refs.input.validity.valid) {
           this.setInvalid();
         } else {
@@ -54,13 +210,19 @@
 </script>
 
 <template>
-  <div v-if="footer" class="footer">
-    <div class="footer__inner">
-      <nuxt-link class="footer__logo-link footer__col" to="/">
+  <div
+    v-if="footer"
+    ref="root"
+    class="footer"
+  >
+    <div class="footer__inner" :class="{'footer__inner--hide': hide}">
+      <nuxt-link class="footer__logo-link footer__col" data-i to="/#">
         <Logo class="footer__logo" />
       </nuxt-link>
+
       <div class="footer__col footer__col--address">
         <address
+          data-i
           :aria-label="$t('address')"
           class="footer__address"
           v-html="footer.address"
@@ -74,7 +236,9 @@
               :href="link.url"
               rel="noopener nofollow"
               target="_blank"
+              data-i
             >
+
               <Icon
                 class="footer__socialIcon"
                 :name="link.type"
@@ -86,12 +250,13 @@
       </div>
 
       <article class="footer__newsletter footer__col">
-        <h4>{{ footer.newsletterLabel }}</h4>
+        <h4 data-i>{{ footer.newsletterLabel }}</h4>
         <form
           ref="newsletterForm"
           class="footer__form"
           action="https://raumgleiter.us3.list-manage.com/subscribe/post"
           method="post"
+          data-i
           :class="{
             'footer__form--subscribed': isSuscribed,
             'footer__form--subscribing': isSuscribing,
@@ -108,7 +273,7 @@
             name="id"
             value="c00e021b7f"
           >
-          <div class="field-shift" aria-label="Please leave the following field empty">
+          <div  class="field-shift" aria-label="Please leave the following field empty">
             <label for="b_email">Email: </label>
             <input
               id="b_email"
@@ -149,6 +314,7 @@
         <li
           v-for="(section, key) in mainSections"
           :key="'footer-main-links-'+key"
+          data-i
         >
           <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
             {{ section.title }}
@@ -159,6 +325,7 @@
         <li
           v-for="(section, index) in asideSections"
           :key="'footer-aside-links-'+index"
+          data-i
           :class="{ 'footer__navgap': index === 0 }"
         >
           <nuxt-link :to="localePath(section.path)" @click.native="$scrollToTop">
@@ -169,6 +336,7 @@
       <ul :aria-label="$t('language')" class="footer__lang footer__col">
         <li
           v-for="locale in $i18n.locales"
+          data-i
           :key="locale.code"
         >
           <nuxt-link
@@ -183,17 +351,29 @@
       </ul>
     </div>
 
-    <nuxt-link class="footer__logo-bottomlink" to="/">
+    <nuxt-link
+      class="footer__logo-bottomlink"
+      to="/#"
+    >
       <Icon
+        data-p
         :name="'raumgleiter_symbol'"
         :is-block="true"
         class="footer__logoicon"
       />
     </nuxt-link>
+    <button class="clickme" @click="start">raumgleiter</button>
   </div>
 </template>
 
 <style lang="scss">
+  .clickme {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: .75rem;
+  }
   .footer {
     position: relative;
     z-index: 1;
@@ -207,6 +387,7 @@
     path {
       fill: var(--color-text--inverted);
     }
+
     @include bp('phone') {
       font-size: 2.2rem;
       text-align: center;
@@ -223,6 +404,11 @@
       flex-direction: column;
       padding: var(--size-design-bezel);
     }
+  }
+
+  .footer__inner--hide {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .footer__col {

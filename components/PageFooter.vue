@@ -33,6 +33,107 @@
       }
     },
     methods: {
+      boom (x, y) {
+        const prefixes = ['webkit', 'moz', 'ms', ''];
+
+        function prefixedEvent(element, type, callback) {
+          for (let p = 0; p < prefixes.length; p++) {
+            if (!prefixes[p]) {
+              type = type.toLowerCase();
+            }
+            element.addEventListener(prefixes[p] + type, callback, false);
+          }
+        }
+
+        function transform ($e, x, y, scale, rotation, percent) {
+          x = x || 0; y = y || 0; scale = scale || 1;
+          const unit = percent ? '%' : 'px';
+          rotation = rotation || 0;
+
+          const transfromString = 'translate('+ x + unit + ', '+ y + unit + ') '
+                          + 'scale(' + scale + ') '
+                          + 'rotate(' + rotation + 'deg)';
+
+          $e.style.webkitTransform = transfromString;
+          $e.style.MozTransform = transfromString;
+          $e.style.transform = transfromString;
+        }
+
+        function createParticle(x, y, scale) {
+          const $particle = document.createElement('i');
+          const $sparcle = document.createElement('i');
+
+          $particle.className = 'particle';
+          $sparcle.className = 'sparcle';
+
+          transform($particle, x, y, scale);
+          $particle.appendChild($sparcle);
+
+          return $particle;
+        }
+
+        function explode ($container) {
+          const particles = [];
+
+          particles.push(createParticle(0, 0, 1.2));
+          particles.push(createParticle(50, -15, 0.4));
+          particles.push(createParticle(50, -105, 0.2));
+          particles.push(createParticle(-10, -60, 0.8));
+          particles.push(createParticle(-10, 60, 0.4));
+          particles.push(createParticle(-50, -60, 0.2));
+          particles.push(createParticle(-50, -15, 0.75));
+          particles.push(createParticle(-100, -15, 0.4));
+          particles.push(createParticle(-100, -15, 0.2));
+          particles.push(createParticle(-100, -115, 0.2));
+          particles.push(createParticle(80, -15, 0.1));
+
+          particles.forEach((particle) => {
+            $container.appendChild(particle);
+            prefixedEvent(particle, 'AnimationEnd', function () {
+              setTimeout(() => {
+                requestAnimationFrame(() => {
+                  $container.removeChild(this);
+                });
+              }, 100);
+            });
+          });
+        }
+
+        function exolpodeGroup (x, y, trans) {
+          const $container = document.createElement('div');
+
+          $container.className = 'boom';
+          $container.style.top = y + 'px';
+          $container.style.left = x + 'px';
+
+          transform($container, trans.x, trans.y, trans.scale, trans.r, true);
+
+          explode($container);
+
+          return $container;
+        }
+
+        const sparcle = () => {
+          const explosions = [];
+
+          explosions.push(exolpodeGroup(x, y, { scale: 1, x: -50, y: -50, r: 0 }));
+          explosions.push(exolpodeGroup(x, y, { scale: 0.5, x: -30, y: -50, r: 180 }));
+          explosions.push(exolpodeGroup(x, y, { scale: 0.5, x: -50, y: -20, r: -90 }));
+
+          const audio = new Audio('/boom.mp3');
+          audio.play();
+
+          requestAnimationFrame(() => {
+            explosions.forEach((boum, i) => {
+              setTimeout(() => {
+                this.$refs.root.appendChild(boum);
+              }, i * 100);
+            });
+          });
+        }
+
+        sparcle();
+      },
       place () {
         this.hide = true;
 
@@ -133,6 +234,8 @@
             width: 6px;
             background: hotpink;
             z-index: 100;
+            transform: scaleY(.2);
+            transform-origin: 0 100%;
           `;
 
           this.$refs.root.appendChild($shot);
@@ -141,10 +244,14 @@
           this.$nextTick(() => {
             gsap.to($shot, 0.5, {
               y: dist,
+              scaleY: 1,
               ease: 'power4.in',
+
               onComplete: () => {
                 this.$refs.root.removeChild($shot);
-                callBack();
+                if (callBack) {
+                  callBack();
+                };
               },
             });
           });
@@ -158,15 +265,23 @@
           }
 
           if (shoot) {
-            this.enemies.find((enemy, i) => {
+            const found = this.enemies.find((enemy, i) => {
               if (isColliding(enemy, player)) {
                 this.enemies.splice(i, 1);
                 shootNow(player, enemy, () => {
                   this.$refs.root.removeChild(enemy.$el);
+                  this.boom(
+                    enemy.left + enemy.width * 0.5,
+                    enemy.top + enemy.height * 0.5,
+                  );
                 });
                 return true;
               }
             });
+
+            if (!found) {
+              shootNow(player, { top: 0, height: 0 });
+            }
 
             shoot = false;
           }
@@ -351,9 +466,10 @@
       </ul>
     </div>
 
-    <nuxt-link
+    <a
       class="footer__logo-bottomlink"
-      to="/#"
+      href="#"
+      @click.prevent="start"
     >
       <Icon
         data-p
@@ -361,8 +477,7 @@
         :is-block="true"
         class="footer__logoicon"
       />
-    </nuxt-link>
-    <button class="clickme" @click="start">raumgleiter</button>
+    </a>
   </div>
 </template>
 
@@ -647,5 +762,86 @@
 
   .field-shift {
     left: -9999px; position: absolute;
+  }
+
+
+  // don't ask any question
+  .boom {
+    position: absolute;
+    width: 20rem; height: 20rem;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      display: block;
+      width: 2rem; height: 2rem;
+      background: rgba(#fff,.05);
+      transform: rotate(45deg);
+      outline: 10px solid rgba(#fff,.04);
+    }
+  }
+
+  .particle {
+    position: absolute;
+    display: block;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+
+    @for $i from 0 through 20 {
+      &:nth-child(#{$i + 1}) {
+        .sparcle {
+          animation-delay: $i * 50ms;
+        }
+      }
+    }
+  }
+
+  $white: #e4f9fa;
+  $yellow: #fde655;
+  $orange: #d47946;
+  $red: #7a2c1f;
+
+  .sparcle {
+    position: absolute;
+    display: block;
+    top: 0; left: 0;
+    width: 3rem; height: 3rem;
+    background: rgba($white,0);
+    transform: rotate(45deg) scale(0.2) translateZ(0);
+    animation: explode 333ms;
+
+    box-shadow: 0 0 0 0 $yellow;
+  }
+
+  @keyframes explode {
+    0% {
+      background-color: $white;
+      transform: rotate(45deg) scale(1.2) translateZ(0);
+      box-shadow: 0 0 0 0 $yellow;
+    }
+    40% {
+      background-color: rgba($white,.1);
+    }
+    50% {
+      transform: rotate(45deg) scale(1) translateZ(0);
+      box-shadow: 0 0 0 10px $yellow;
+      background-color: rgba($white,0);
+    }
+    60% {
+      box-shadow: 0 0 0 50px $orange;
+      transform: rotate(45deg) scale(0.5) translateZ(0);
+    }
+    70% {
+      background-color: rgba($white,0);
+      box-shadow: 0 0 0 30px $red;
+    }
+    100% {
+      background-color: $red;
+      box-shadow: 0 0 0 0 $red;
+      transform: rotate(45deg) scale(0.25) translateZ(0);
+    }
   }
 </style>

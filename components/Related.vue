@@ -36,7 +36,7 @@
       },
     },
 
-    mounted () {
+    created () {
       this.randomisedEntries = collect(this.fields.entries).shuffle().all();
     },
 

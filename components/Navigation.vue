@@ -29,7 +29,7 @@
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
     <div class="navigation__bar">
-      <nuxt-link class="navigation__logo-link" to="/">
+      <nuxt-link class="navigation__logo-link" :to="localePath('/')">
         <Logo class="navigation__logo" />
       </nuxt-link>
       <button

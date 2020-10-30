@@ -27,7 +27,7 @@
       },
       timePerSlide: {
         type: Number,
-        default: 8,
+        default: 2,
       },
     },
     data () {

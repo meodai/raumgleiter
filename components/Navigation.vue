@@ -186,6 +186,7 @@
     line-height: 1;
     outline: none;
     cursor: pointer;
+    margin-top: 0.1em;
 
     .icon {
       stroke: #fff;
@@ -270,8 +271,7 @@
     padding-top: .3em;
 
     .navigation__menuitem {
-      font-weight: 600;
-      margin-top: .6em;
+      margin-top: 0.6em;
     }
 
     @include bp('phone') {

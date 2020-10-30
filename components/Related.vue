@@ -2,7 +2,6 @@
   import collect from 'collect.js';
 
   export default {
-
     props: {
       fields: {
         type: Object,

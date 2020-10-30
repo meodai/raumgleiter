@@ -1,9 +1,9 @@
 ---
 name: Bug report
-title: "[BUG]: "
+title: "[bug/feature/change]:  "
 about: Create a report to help us improve
-labels: bug
-assignees: meodai
+labels: late-bug
+assignees: 
 
 ---
 

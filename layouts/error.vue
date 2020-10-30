@@ -6,7 +6,7 @@
     methods: {
       init () {
         if (process.client) {
-          const p5 = require('p5');
+          const P5 = require('p5');
           const chroma = require('chroma-js');
 
           const boot = (p5) => {
@@ -49,7 +49,8 @@
             };
           };
 
-          p5(boot);
+          // eslint-disable-next-line no-new
+          new P5(boot);
         }
       },
     },

@@ -327,11 +327,12 @@
   }
   .navigation__drawer:before {
     transform: translateY(-110%);
-    transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
+    transition: 250ms transform cubic-bezier(.7,.3,0,1) 250ms;
   }
   .navigation__drawer-item {
+    opacity: 0;
     transform: translateY(-150%);
-    transition: 250ms transform cubic-bezier(.7,.3,0,1);
+    transition: 200ms opacity, 250ms transform cubic-bezier(.7,.3,0,1);
 
     @include bp('phone') {
       opacity: 0;
@@ -340,7 +341,7 @@
 
     @for $i from 1 through 8 {
       &:nth-child(#{$i}) {
-        transition-delay: (8 - $i) * 50ms;
+        transition-delay: (8 - $i) * 40ms;
       }
     }
   }
@@ -362,24 +363,25 @@
     }
     .navigation__drawer:before {
       transform: translateY(0%);
-      transition: 650ms transform cubic-bezier(.7,.3,0,1);
+      transition: 250ms transform cubic-bezier(.7,.3,0,1);
     }
     .navigation__drawer-item {
+      opacity: 1;
       transform: translateY(0%);
-      transition: 450ms transform cubic-bezier(.7,.3,0,1);
+      transition: 400ms opacity linear, 350ms transform cubic-bezier(.7,.3,0,1);
 
       @for $i from 1 through 8 {
         &:nth-child(#{$i}) {
-          transition-delay: $i * 50ms;
+          transition-delay: $i * 20ms;
         }
       }
 
       @include bp('phone') {
         opacity: 1;
-        transition: 300ms opacity, 450ms transform cubic-bezier(.7,.3,0,1);
+        transition: 200ms opacity, 250ms transform cubic-bezier(0.7, 0.3, 0, 1);
         @for $i from 1 through 8 {
           &:nth-child(#{$i}) {
-            transition-delay: 150ms + $i * 50ms, $i * 50ms;
+            transition-delay: 100ms + $i * 20ms, $i * 20ms;
           }
         }
       }

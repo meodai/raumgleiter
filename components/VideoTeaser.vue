@@ -49,6 +49,8 @@
 
         alphaFilter: null,
         alphaCover: null,
+
+        slideTransitionSpeed: 0.6,
       };
     },
     computed: {
@@ -401,10 +403,10 @@
         const videoSprite = oldSlide.container;
         const directionMultiplier = slideDirection === 'next' ? -1 : 1;
 
-        gsap.to(videoSprite.position, 1.1, {
-          x: this.app.screen.width * 1.2 * directionMultiplier,
+        gsap.to(videoSprite.position, this.slideTransitionSpeed * 0.8, {
+          x: this.app.screen.width * this.slideTransitionSpeed * 0.8 * directionMultiplier,
           ease: 'power4.out',
-          delay: 0.3,
+          delay: this.slideTransitionSpeed * 0.2,
           onComplete: () => {
             this.stopAndHideAllSlidesExceptCurrent();
             oldSlide.slide.zOrder = 0;
@@ -447,12 +449,12 @@
         newSlide.slide.zOrder = 2;
         this.isTransitioning = true;
 
-        gsap.to(newSlide.container.position, 1.5, {
+        gsap.to(newSlide.container.position, this.slideTransitionSpeed, {
           x: 0,
           ease: 'power4.out',
           onComplete: () => {
             newSlide.slide.zOrder = 2;
-            gsap.to(newSlide.displacementFilter.scale, 1, {
+            gsap.to(newSlide.displacementFilter.scale, this.slideTransitionSpeed * 0.7, {
               x: 1,
               ease: 'power4.out',
               onComplete: () => {
@@ -770,14 +772,14 @@
 .video-teaser__slider--active .video-teaser__slice {
   @for $i from 1 through 6 {
     &:nth-child(#{$i}) .video-teaser__slideInner {
-      transition-delay: 100ms + $i * 100ms;
+      transition-delay: 20ms + $i * 50ms;
     }
   }
 }
 
 .video-teaser__slider--active .video-teaser__slideInner {
   transform: translateX(0%);
-  transition: 800ms transform cubic-bezier(0.7, 0.3, 0, 1);
+  transition: 400ms transform cubic-bezier(0.7, 0.3, 0, 1);
 
 }
 
@@ -841,7 +843,7 @@
 }
 
 .video-teaser__slider--active .video-teaser__subtitle {
-  transition: 300ms opacity 1100ms;
+  transition: 300ms opacity 800ms;
   opacity: 1;
   color: var(--color-text--inverted);
 }

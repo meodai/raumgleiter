@@ -262,7 +262,7 @@
   // animation / transition
 
   .calltoaction__block {
-    --inital-delay: .15s;
+    --inital-delay: .1s;
 
     .calltoaction__icon,
     .calltoaction__subblock,
@@ -270,7 +270,7 @@
     .calltoaction__content,
     .calltoaction__dots  {
       opacity: 0;
-      transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+      transition: 100ms opacity linear, 344ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
       transform: translateY(-2rem);
       transition-delay: var(--inital-delay);
     }
@@ -279,35 +279,35 @@
       transform: translateX(5rem);
 
       &:nth-child(1) {
-        transition-delay: calc(var(--inital-delay) + 1s);
+        transition-delay: calc(var(--inital-delay) + .5s);
       }
     }
 
     .calltoaction__dots {
       opacity: .8;
       transform: translateY(0);
-      transition-delay: calc(var(--inital-delay) + 1.5s);
+      transition-delay: calc(var(--inital-delay) + 1s);
     }
 
     .calltoaction__title {
-      transition-delay: calc(var(--inital-delay) + 1.5s);
+      transition-delay: calc(var(--inital-delay) + 1s);
     }
 
     .calltoaction__subblock:nth-child(2) {
-      transition-delay: calc(var(--inital-delay) + 2s);
+      transition-delay: calc(var(--inital-delay) + 1.5s);
 
       .calltoaction__dots {
-        transition-delay: calc(var(--inital-delay) + 3.2s);
+        transition-delay: calc(var(--inital-delay) + 2s);
       }
     }
 
     .calltoaction__content {
-      transition-delay: calc(var(--inital-delay) + 3.2s);
+      transition-delay: calc(var(--inital-delay) + 2s);
     }
   }
 
   .calltoaction__block:nth-child(2) {
-    --inital-delay: 4.15s;
+    --inital-delay: 2.15s;
     .calltoaction__title {
       font-weight: 600;
     }

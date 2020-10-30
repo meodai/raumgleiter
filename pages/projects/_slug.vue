@@ -47,8 +47,8 @@
 </script>
 
 <template>
-  <div>
-    <article class="project l-design-width">
+  <article>
+    <div class="project l-design-width">
       <div class="project__head">
         <h1 class="project__title t-title t-title--page">
           {{ projectEntry.title }}
@@ -104,15 +104,15 @@
       </figure>
 
       <Pagebuilder :blocks="projectEntry.cta" />
-    </article>
+    </div>
 
     <Related
       :fields="{
         title: $t('moreWorlds'),
         entries: projectEntry.relatedEntries,
       }"
-  />
-  </div>
+    />
+  </article>
 </template>
 
 <style lang="scss">

@@ -58,7 +58,11 @@
         </p>
       </div>
 
-      <ResponsiveImage class="project__cover" :image="projectEntry.image" />
+      <ResponsiveImage
+        v-if="projectEntry.image"
+        class="project__cover"
+        :image="projectEntry.image"
+      />
 
       <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
         <div class="project__bodydata">

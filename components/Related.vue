@@ -234,6 +234,10 @@
     }
   }
 
+  .related__slide--landscape .related__image {
+    object-fit: cover;
+  }
+
   .related__overlay {
     position: absolute;
     top: 0;

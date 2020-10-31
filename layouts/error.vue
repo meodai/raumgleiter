@@ -20,6 +20,8 @@
             p5.setup = () => {
               const cnv = p5.createCanvas(p5.windowWidth, p5.windowHeight);
               cnv.parent($page);
+              p5.textFont('MatterSQ');
+              p5.textStyle(p5.BOLD);
               p5.textAlign(p5.CENTER);
               p5.fill(0);
               p5.rect(0, 0, p5.windowWidth, p5.windowHeight);

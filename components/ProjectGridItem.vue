@@ -83,6 +83,10 @@
 
   .project-grid-item__title {
     position: absolute;
+
+    word-break: keep-all;
+    hyphens: manual;
+
     top: 50%;
     left: 50%;
     color: var(--color-text--inverted);

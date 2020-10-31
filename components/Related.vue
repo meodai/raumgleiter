@@ -262,6 +262,8 @@
   }
 
   .related__title {
+    word-break: keep-all;
+    hyphens: manual;
     position: absolute;
     top: 50%;
     left: 50%;

@@ -152,6 +152,11 @@
     }
   }
 
+  .person__name {
+    word-break: keep-all;
+    hyphens: manual;
+  }
+
   .person__role {
     font-size: 1em;
     margin-bottom: var(--size-mouse);

@@ -64,7 +64,7 @@
         <button class="navigation__location" @click.prevent="$scrollToBottom">
           <Icon
             class="navigation__locationIcon"
-            :name="'location_plus'"
+            :name="'raumgleiter_symbol'"
             :is-block="true"
           />
         </button>

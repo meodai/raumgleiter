@@ -551,8 +551,7 @@
   }
 
   .footer__logo {
-    min-width: 10rem;
-    max-width: 13rem;
+    width: 13rem;
     order: 1;
   }
 
@@ -605,6 +604,11 @@
   .footer__address li:first-child a,
   .footer__nav li:first-child a {
     padding-top: 0;
+  }
+
+  .footer__nav--second {
+    flex-shrink: 1;
+    flex-basis: auto;
   }
 
   .footer__form {

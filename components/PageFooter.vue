@@ -304,7 +304,7 @@
           this.place();
         }
       },
-      suscribe () {
+      subscribe () {
         if (!this.$refs.input.validity.valid) {
           this.setInvalid();
         } else {

@@ -92,15 +92,16 @@
 
   .filter__tab {
     border: none;
-    border-bottom: 3px solid currentColor;
+    border-bottom: 3px solid #aaa;
     background: transparent;
-    color: #aaaaaa;
+    color: #aaa;
     padding: .2em .5em;
     margin-right: 1em;
     outline: none;
 
     &[aria-selected] {
       color: var(--color-text);
+      border-bottom-color: var(--color-text);
     }
   }
 

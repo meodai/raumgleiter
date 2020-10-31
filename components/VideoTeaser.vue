@@ -277,7 +277,7 @@
 
         const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
         displacementFilter.scale.x = 40;
-        displacementFilter.scale.y = 1;
+        displacementFilter.scale.y = 0;
 
         slide.filters = [displacementFilter];
 
@@ -455,7 +455,7 @@
           onComplete: () => {
             newSlide.slide.zOrder = 2;
             gsap.to(newSlide.displacementFilter.scale, this.slideTransitionSpeed * 0.7, {
-              x: 1,
+              x: 0,
               ease: 'power4.out',
               onComplete: () => {
                 this.isTransitioning = false;

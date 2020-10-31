@@ -626,7 +626,7 @@
       @include bp('phone') {
         font-size: 2rem;
         padding: .5em .75em .6em;
-        border-radius: 2em;
+        //border-radius: 0;
       }
     }
 

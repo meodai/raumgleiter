@@ -42,7 +42,6 @@
     transition-duration: 150ms, 150ms;
     transition-property: transform, color;
     transition-delay: 100ms, 0;
-    border-radius: 2px;
     background-color: currentColor;
   }
 

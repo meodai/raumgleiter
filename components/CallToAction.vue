@@ -70,7 +70,7 @@
     <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />
     </div>
-    <div class="calltoaction__content">
+    <div class="calltoaction__inner">
       <aside
         v-if="showFirstRow"
         v-observe-visibility="{
@@ -128,8 +128,8 @@
           :is-block="true"
         />
         <div class="calltoaction__text">
-          <div class="calltoaction__subblock">
-            <h3 v-if="fields.contactName" class="calltoaction__title">
+          <div v-if="fields.contactName" class="calltoaction__subblock">
+            <h3 class="calltoaction__title">
               {{ fields.contactName }}
             </h3>
             <span aria-hidden class="calltoaction__dots">
@@ -166,7 +166,7 @@
     perspective: 2px;
     overflow: hidden;
 
-    .calltoaction__content {
+    .calltoaction__inner {
       position: relative;
       margin: 0 auto;
     }
@@ -194,7 +194,10 @@
   .calltoaction__content {
     padding-top: 0.2em;
     > * {
-      padding-right: 0.5em;
+      margin-right: .4em;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 

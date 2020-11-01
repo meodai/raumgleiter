@@ -752,7 +752,8 @@
   .footer__socialIcon {
     width: 2.6rem;
     height: 2.6rem;
-    --color-icon-contrast: #000;
+
+    --color-icon-contrast: var(--color-layout--background-inverted);
   }
   .footer__social {
     > * {

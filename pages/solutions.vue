@@ -83,7 +83,7 @@
     & + & {
       margin-top: 0;
     }
-    background: #f2f2f2;
+    background: var(--color-layout--accent);
     text-align: left;
     overflow: hidden;
     max-height: 0;

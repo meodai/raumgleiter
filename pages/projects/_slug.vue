@@ -157,7 +157,7 @@
   .project__lead,
   .project__body {
     strong {
-      color: #aaaaaa;
+      color: var(--color-text--accent);
       font-weight: 700;
     }
   }

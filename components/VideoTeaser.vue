@@ -862,7 +862,7 @@
   &::after {
     position: absolute;
     content: '';
-    background: #fff;
+    background: var(--color-text--inverted);
     left: 0;
     top: 0;
     right: 0;
@@ -880,11 +880,11 @@
 .content {
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: var(--color-text--inverted);
 }
 
 .content--inverted {
-  background: #000000;
+  background: var(--color-layout--background-inverted);
 }
 
 .video-teaser__mute-button {

@@ -95,7 +95,7 @@
       margin-top: 1em;
     }
     a {
-      color: #aaa;
+      color: var(--color-text--accent);
     }
   }
   .offer-grid__images {

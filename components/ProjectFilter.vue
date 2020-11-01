@@ -94,7 +94,7 @@
     border: none;
     border-bottom: 3px solid #aaa;
     background: transparent;
-    color: #aaa;
+    color: var(--color-text--accent);
     padding: .2em .5em;
     margin-right: 1em;
     outline: none;
@@ -112,10 +112,12 @@
 
   .filter__tabpanel {
     margin-top: .5rem;
+
     & + & {
       margin-top: 0;
     }
-    background: #f2f2f2;
+
+    background: var(--color-layout--accent);
     text-align: left;
     overflow: hidden;
     max-height: 0;

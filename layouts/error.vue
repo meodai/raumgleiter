@@ -69,6 +69,6 @@
   .error-page {
     max-height: 100vh;
     overflow: hidden;
-    background-color: #000000;
+    background-color: var(--color-layout--background-inverted);
   }
 </style>

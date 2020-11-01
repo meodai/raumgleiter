@@ -188,7 +188,7 @@
     margin-top: 0.1em;
 
     .icon {
-      stroke: #fff;
+      stroke: var(--color-text--inverted);
       height: 0.7em;
       width: 1em;
     }
@@ -217,7 +217,7 @@
 
   .navigation__description {
     @include typo('navigation');
-    color: #676767;
+    opacity: 0.6;
 
     a:hover & {
       color: var(--color-text);

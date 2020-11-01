@@ -229,7 +229,7 @@
     user-select: none;
     margin-top: 0.2em;
     display: inline-flex;
-    background: #f2f2f2;
+    background: var(--color-layout--accent);
     color: var(--c-design-background);
     border-radius: 2em;
     padding-left: .4em;

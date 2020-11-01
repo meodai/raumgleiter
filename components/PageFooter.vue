@@ -578,11 +578,6 @@
     font-style: normal;
     margin-bottom: var(--size-mouse);
 
-    p + p {
-      margin-top: var(--size-footer-stack);
-
-    }
-
     @include bp('phone') {
       margin-top: var(--size-rat);
     }

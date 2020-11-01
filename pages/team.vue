@@ -153,8 +153,7 @@
   }
 
   .person__name {
-    word-break: keep-all;
-    hyphens: manual;
+    @include typo('nobreak');
   }
 
   .person__role {

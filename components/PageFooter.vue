@@ -580,6 +580,7 @@
 
     p + p {
       margin-top: var(--size-footer-stack);
+
     }
 
     @include bp('phone') {
@@ -589,6 +590,8 @@
 
   .footer__address > * {
     display: block;
+
+    @include typo('nobreak');
   }
   .footer__nav {
     @include bp('tablet') {

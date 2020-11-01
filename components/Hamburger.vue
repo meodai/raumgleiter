@@ -14,9 +14,9 @@
 </script>
 
 <template>
-  <div class="hamburger" :class="{'hamburger--open': isOpen}">
-    <div class="hamburger__inner" />
-  </div>
+  <span class="hamburger" :class="{'hamburger--open': isOpen}">
+    <span class="hamburger__inner" />
+  </span>
 </template>
 
 <style lang="scss">

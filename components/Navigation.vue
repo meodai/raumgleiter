@@ -71,7 +71,6 @@
       </nav>
     </div>
     <nav
-      role="menu"
       aria-labelledby="navigation-trigger"
       class="navigation__drawer"
     >

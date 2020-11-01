@@ -94,9 +94,11 @@ img:not([alt]) {
 /* Remove all animations and transitions for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
   * {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.01s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.01s !important;
     scroll-behavior: auto !important;
+    animation-delay: 0 !important;
+    transition-delay: 0 !important;
   }
 }

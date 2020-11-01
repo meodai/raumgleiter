@@ -93,7 +93,7 @@
             <h3 v-if="fields.header" class="calltoaction__title">
               {{ fields.header }}
             </h3>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -103,7 +103,7 @@
             <p class="calltoaction__content">
               {{ fields.text }}
             </p>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -132,7 +132,7 @@
             <h3 class="calltoaction__title">
               {{ fields.contactName }}
             </h3>
-            <span aria-hidden class="calltoaction__dots">
+            <span aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -143,7 +143,7 @@
               <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
               <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
             </p>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />

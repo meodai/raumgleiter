@@ -17,7 +17,7 @@
       };
     },
     mounted () {
-      this.id = this._uid;
+      this.id = this._uid || new Date().getMilliseconds();
     },
   };
 </script>

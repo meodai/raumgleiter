@@ -112,6 +112,8 @@
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$on('intro-intersect', this.toggleVisibility);
 
+      this.$nuxt.$on('logoClick', this.slideToStart);
+
       this.scrollHandler();
     },
     beforeDestroy () {
@@ -121,6 +123,7 @@
       window.removeEventListener('scroll', this.scrollHandler);
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$off('intro-intersect', this.toggleVisibility);
+      this.$nuxt.$off('logoClick', this.slideToStart);
     },
     methods: {
       startApp () {
@@ -385,6 +388,9 @@
         const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
         this.slide(index);
       },
+      slideToStart () {
+        this.slide(0);
+      },
       slide (eq = 0, slideDirection = 'next') {
         clearTimeout(this.sliderTimeout);
 
@@ -402,6 +408,10 @@
         oldSlide.slide.zOrder = 1;
         const videoSprite = oldSlide.container;
         const directionMultiplier = slideDirection === 'next' ? -1 : 1;
+
+        gsap.to(oldSlide.slide, this.slideTransitionSpeed * 0.8, {
+          alpha: 0,
+        });
 
         gsap.to(videoSprite.position, this.slideTransitionSpeed * 0.8, {
           x: this.app.screen.width * this.slideTransitionSpeed * 0.8 * directionMultiplier,

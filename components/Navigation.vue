@@ -22,6 +22,9 @@
       toggleDrawer () {
         this.isOpen = !this.isOpen;
       },
+      logoClick () {
+        this.$nuxt.$emit('logoClick');
+      },
     },
   };
 </script>
@@ -29,7 +32,11 @@
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
     <div class="navigation__bar">
-      <nuxt-link class="navigation__logo-link" :to="localePath('/')">
+      <nuxt-link
+        class="navigation__logo-link"
+        :to="localePath('/')"
+        @click.native="logoClick"
+      >
         <Logo class="navigation__logo" />
       </nuxt-link>
       <button

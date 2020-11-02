@@ -596,7 +596,7 @@
         }
         if (isIntersecting === false && this.scrollRatio > 1) {
           this.currentVideoElement.pause();
-        } else if (this.scrollRatio < 1) {
+        } else if (isIntersecting) {
           this.currentVideoElement.play();
         }
       },

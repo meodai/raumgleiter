@@ -658,6 +658,7 @@
       :key="'video-teaser-slice-'+i"
       :class="{
         'video-teaser__slider--active': currentSlideEq === i,
+        'video-teaser__slider--noVideo': !!!entry.video,
       }"
       class="video-teaser__slider"
       :aria-hidden="(currentSlideEq !== i)"
@@ -781,6 +782,22 @@
     &:nth-child(#{$i}) .video-teaser__slideInner {
       transition-delay: 20ms + $i * 50ms;
     }
+  }
+}
+
+.video-teaser__slider--active.video-teaser__slider--noVideo {
+  opacity: 0;
+  transform: scale(.9);
+  animation: 600ms show ease-out forwards 400ms;
+}
+
+@keyframes show {
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

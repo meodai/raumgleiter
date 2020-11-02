@@ -37,6 +37,7 @@
         entriesInOrder: [],
         loadingCount: -1,
         currentSlideEq: 0,
+        currentSlideHasVideo: false,
         sliderHasStarted: false,
         videoIsPlaying: false,
         sliderTimeout: null,
@@ -274,7 +275,6 @@
         const maskCanvas = this.createMask();
         const maskTexture = PIXI.Texture.from(maskCanvas);
         const displacementSprite = new PIXI.Sprite(maskTexture);
-
         const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
         displacementFilter.scale.x = 40;
         displacementFilter.scale.y = 0;
@@ -436,7 +436,11 @@
         this.currentSlideEq = eq;
         this.resetProgressBar();
 
-        if (newSlide.type === 'video') {
+        const slideHasVideo = newSlide.type === 'video';
+
+        this.currentSlideHasVideo = slideHasVideo;
+
+        if (slideHasVideo) {
           this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
@@ -643,6 +647,7 @@
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
     class="video-teaser"
+    :class="{'video-teaser--hasVideo': currentSlideHasVideo}"
   >
     <div
       ref="canvas"
@@ -651,7 +656,9 @@
     <section
       v-for="(entry, i) in entriesInOrder"
       :key="'video-teaser-slice-'+i"
-      :class="{'video-teaser__slider--active': currentSlideEq === i}"
+      :class="{
+        'video-teaser__slider--active': currentSlideEq === i,
+      }"
       class="video-teaser__slider"
       :aria-hidden="(currentSlideEq !== i)"
     >
@@ -887,13 +894,19 @@
   background: var(--color-layout--background-inverted);
 }
 
+.video-teaser--hasVideo .video-teaser__mute-button {
+  opacity: 1;
+}
+
 .video-teaser__mute-button {
+  opacity: 0;
   position: absolute;
   left: 10rem;
   bottom: 10rem;
   z-index: 99;
   outline: none;
   cursor: pointer;
+  transition: 200ms opacity linear;
 
   .icon-unmute {
     width: 2.4rem;

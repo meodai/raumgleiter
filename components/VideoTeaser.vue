@@ -882,11 +882,17 @@
   color: var(--color-text--inverted);
 }
 
+
 .video-teaser-progress {
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+
+  .video-teaser--hasVideo & {
+    opacity: 1;
+  }
 
   @include bp('phone') {
     position: fixed;

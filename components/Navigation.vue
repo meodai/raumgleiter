@@ -149,7 +149,7 @@
 
 <style lang="scss">
   .page {
-    padding-top: var(--size-nav-height, 10rem);
+    padding-top: var(--size-nav-height, 6rem);
   }
 
   // mix-blend-mode: difference;

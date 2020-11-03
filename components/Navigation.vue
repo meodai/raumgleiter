@@ -119,19 +119,25 @@
 </template>
 
 <style lang="scss">
+  .page {
+    padding-top: var(--size-nav-height, 10rem);
+  }
+
   // mix-blend-mode: difference;
   .navigation {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;
     @include typo('navigationTitles');
 
     @include bp('phone') {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: 10;
+
       font-size: 2rem;
     }
   }
@@ -139,7 +145,8 @@
   .navigation__bar {
     position: relative;
     z-index: 3;
-    background-color: var(--color-layout--background-inverted);
+    //background-color: var(--color-layout--background-inverted);
+    background: rgba(#000,.82);
     color: var(--color-text--inverted);
     height: 6rem;
   }
@@ -245,7 +252,7 @@
       content: '';
       position: absolute;
       z-index: 1;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: -6rem; right: 0; bottom: 0; left: 0;
       background: var(--color-layout--accent);
 
       @include bp('phone') {

@@ -14,7 +14,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="page">
     <Navigation v-if="!$config.livePreview || $config.devMode" />
     <Nuxt />
     <PageFooter v-if="!$config.livePreview || $config.devMode" />

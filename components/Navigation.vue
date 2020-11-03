@@ -4,7 +4,7 @@
     data () {
       return {
         isOpen: false,
-        isScrollingDown: true,
+        isScrollingDown: false,
         lastScrollPosition: 0,
       };
     },

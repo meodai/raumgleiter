@@ -1,8 +1,11 @@
 <script>
+ import { throttle } from 'throttle-debounce';
   export default {
     data () {
       return {
         isOpen: false,
+        isScrollingDown: true,
+        lastScrollPosition: 0,
       };
     },
     computed: {
@@ -18,6 +21,12 @@
         this.isOpen = false;
       },
     },
+    mounted () {
+      window.addEventListener('scroll', this.scrollHandler);
+    },
+    beforeDestroy () {
+      window.removeEventListener('scroll', this.scrollHandler);
+    },
     methods: {
       toggleDrawer () {
         this.isOpen = !this.isOpen;
@@ -25,12 +34,32 @@
       logoClick () {
         this.$nuxt.$emit('logoClick');
       },
+      scrollHandler: throttle(50, function () {
+        if (window.scrollY < this.lastScrollPosition) {
+          this.isScrollingDown = false;
+        } else {
+          this.isScrollingDown = true;
+          this.isOpen = false;
+        }
+
+        if (window.scrollY < 100) {
+          this.isScrollingDown = false;
+        }
+
+        this.lastScrollPosition = window.scrollY;
+      }),
     },
   };
 </script>
 
 <template>
-  <div class="navigation" :class="{'navigation--isOpen': isOpen}">
+  <div
+    class="navigation"
+    :class="{
+      'navigation--isOpen': isOpen,
+      'navigation--hide': isScrollingDown,
+    }"
+  >
     <div class="navigation__bar">
       <nuxt-link
         class="navigation__logo-link"
@@ -131,6 +160,13 @@
     left: 0;
     z-index: 10;
     backdrop-filter: blur(5px);
+
+    transition: 400ms transform cubic-bezier(.7,.3,0,1) 50ms;
+
+    &--hide {
+      transform: translateY(-101%);
+      transition: 400ms transform cubic-bezier(.7,.3,0,1) 400ms;
+    }
 
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;

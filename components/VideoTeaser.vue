@@ -723,7 +723,7 @@
       :style="{'--timer': currentDuration}"
       :class="{'play': videoIsPlaying}"
     />
-    <button class="video-teaser__mute-button" @click="toggleMute">
+    <button aria-label="Toggle video sound" class="video-teaser__mute-button" @click="toggleMute">
       <Unmute />
     </button>
   </div>

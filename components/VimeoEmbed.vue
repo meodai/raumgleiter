@@ -7,6 +7,10 @@
         type: Object,
         required: true,
       },
+      preload: {
+        type: Boolean,
+        default: false,
+      },
     },
     data () {
       return {
@@ -16,6 +20,11 @@
         playing: false,
         showThumbnail: true,
       };
+    },
+    mounted () {
+      if (this.preload) {
+        this.initVideo();
+      }
     },
     beforeDestroy () {
       if (this.player) {
@@ -78,6 +87,7 @@
     }"
   >
     <ResponsiveImage
+      v-if="video.thumbImage"
       class="vimeoEmbed__thumb"
       :image="video.thumbImage"
       :style="{

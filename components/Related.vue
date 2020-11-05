@@ -36,15 +36,13 @@
     },
 
     created () {
-      let entries = collect(this.fields.entries).shuffle().all();
+      let entries = collect(this.fields.entries).shuffle();
 
-      if (entries.length < 4) {
-        entries = [...entries, ...entries];
+      if (entries.count() < 4) {
+        entries = entries.merge(entries);
       }
 
-      console.log(entries)
-
-      this.randomisedEntries = entries;
+      this.randomisedEntries = entries.all();
     },
 
     beforeDestroy () {

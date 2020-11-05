@@ -69,7 +69,7 @@
           ? this.currentPage.pagebuilder.slice(1) : [];
       },
       metaDescription () {
-        return this.hasEnteredRoute && this.currentPage && this.currentIntroBlock[0].fields.body
+        return this.hasEnteredRoute && this.currentIntroBlock && this.currentIntroBlock[0].fields.body
           ? this.currentIntroBlock[0].fields.body
           : this.seoData[this.$i18n.locale].metaDescription || null;
       },

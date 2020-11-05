@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
   /*
    ** Nuxt target
@@ -159,6 +161,22 @@ export default {
       ] : [],
     ],
     fallback: '404.html',
+    routes () {
+      const baseUrl = process.env.API_URL || 'https://api.raumgleiter.noo.work';
+      return axios.get(baseUrl + '/projects.json').then((res) => {
+        return res.data.data.map((project) => {
+          const route = {
+            de: '/projekte/',
+            en: '/en/projects/',
+            fr: '/fr/projets/',
+          };
+          return {
+            route: route[project.locale] + project.slug,
+            payload: { id: project.id },
+          };
+        });
+      });
+    },
   },
   privateRuntimeConfig: {
     http: {

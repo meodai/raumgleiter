@@ -9,12 +9,28 @@
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
       },
     },
-    async asyncData ({ $craft, params, store }) {
-      const projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
+    async asyncData ({ $craft, params, store, error, payload }) {
+      let project = null;
+      if (payload && payload.id) {
+        project = payload;
+      } else {
+        const projectEntriesByLocale = collect(await $craft('projects'));
+        const projectIndex = projectEntriesByLocale.search(entry => entry.slug === params.slug);
 
-      if (projectEntryByLocale.count()) {
-        await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
+        if (projectIndex === false) {
+          return error({ statusCode: 404 });
+        }
+
+        project = projectEntriesByLocale.get(projectIndex);
       }
+
+      const projectEntryByLocale = collect(await $craft(`projects/${project.id}`)).keyBy('locale');
+
+      if (projectEntryByLocale.count() < 1) {
+        return error({ statusCode: 404 });
+      }
+
+      await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
 
       return { projectEntryByLocale: projectEntryByLocale.all() };
     },

@@ -32,6 +32,7 @@
     "@nuxtjs/eslint-config": "^4.0.0",
     "@nuxtjs/eslint-module": "^3.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
+    "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
     "eslint": "^7.12.0",

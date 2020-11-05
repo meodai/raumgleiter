@@ -26,5 +26,5 @@ export default {
   client: 'Kunde',
   services: 'Leistungen',
   benefit: 'Benefit',
-  moreWorlds: 'Weitere Welten.',
+  moreWorlds: 'weitere Welten',
 };

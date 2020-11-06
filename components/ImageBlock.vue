@@ -176,7 +176,10 @@
       v-else-if="hasIframe"
       class="image-block__iframe"
     >
-      <IframeEmbed :iframe="fields.iframe" />
+      <IframeEmbed
+        :iframe="fields.iframe"
+        :title="fields.header"
+      />
     </div>
   </article>
 </template>

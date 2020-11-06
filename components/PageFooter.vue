@@ -346,6 +346,7 @@
         to="/#"
       >
         <Logo class="footer__logo" />
+        <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
 
       <div class="footer__col footer__col--address">
@@ -365,7 +366,7 @@
               rel="noopener nofollow"
               data-i
             >
-
+              <span class="sr-only">{{ link.type }}</span>
               <Icon
                 class="footer__socialIcon"
                 :name="link.type"
@@ -413,6 +414,7 @@
               placeholder="youremail@gmail.com"
             >
           </div>
+          <label for="MERGE0" :aria-label="$t('email')"></label>
           <input
             id="MERGE0"
             ref="input"
@@ -462,7 +464,11 @@
           </nuxt-link>
         </li>
       </ul>
-      <ul :aria-label="$t('language')" class="footer__lang footer__col">
+      <ul
+        :aria-label="$t('language')"
+        class="footer__lang footer__col"
+        role="listbox"
+      >
         <li
           v-for="locale in $i18n.locales"
           :key="locale.code"
@@ -472,6 +478,8 @@
             :aria-selected="locale.code === $i18n.locale"
             :aria-label="locale.name"
             :to="getSwitchLocalePath(locale.code)"
+            :hreflang="$i18n.locale"
+            role="option"
             @click.native="$scrollToTop"
           >
             {{ locale.code.toUpperCase().charAt(0) }}
@@ -491,6 +499,7 @@
         :is-block="true"
         class="footer__logoicon"
       />
+      <span class="sr-only">Do not click!</span>
     </a>
   </div>
 </template>

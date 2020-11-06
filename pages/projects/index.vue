@@ -78,6 +78,9 @@
     head () {
       return {
         title: this.projectIndexPage ? this.projectIndexPage.title : null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.projectIndexPage ? this.projectIndexPage.lead.substr(0, 160) : null },
+        ],
       };
     },
   };

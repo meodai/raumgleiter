@@ -27,7 +27,7 @@
     data () {
       return {
         allowTouchSwipe: true,
-        currentSlide: 0,
+        currentSlide: -1,
       };
     },
     computed: {
@@ -37,8 +37,8 @@
       pagesInCurrentLocale () {
         return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;
       },
-      currentVideoTeaser () {
-        return this.videoTeasers[this.currentSlide];
+      currentVideoTeaserSlug () {
+        return this.videoTeasers[this.currentSlide] ? this.videoTeasers[this.currentSlide].slug : null;
       },
       currentPageIndexByRoute () {
         return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
@@ -79,7 +79,7 @@
     },
     watch: {
       '$nuxt.$route.params.slug' () {
-        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
           this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
         }
       },
@@ -108,8 +108,8 @@
         }
       },
       updateRouteToMatchTeaser () {
-        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
-          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
+          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaserSlug } }));
         }
       },
     },

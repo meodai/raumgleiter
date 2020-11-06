@@ -7,6 +7,6 @@
     [headers.values]
         Referrer-Policy = "strict-origin-when-cross-origin"
         X-Content-Type-Options = "nosniff"
-        X-Frame-Options = "ALLOW-FROM cms.raumgleiter.noo.work cms.dev.raumgleiter.noo.work cms.raumgleiter.com"
-        Content-Security-Policy = "frame-ancestors cms.raumgleiter.noo.work cms.dev.raumgleiter.noo.work cms.raumgleiter.com"
+        X-Frame-Options = "ALLOW-FROM cms.raumgleiter.noo.work cms.raumgleiter.com"
+        Content-Security-Policy = "frame-ancestors cms.raumgleiter.noo.work cms.raumgleiter.com"
         X-XSS-Protection = "1; mode=block"

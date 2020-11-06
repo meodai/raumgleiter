@@ -224,6 +224,10 @@
         };
 
         const theEnd = () => {
+
+          this.$refs.boss = `
+            left: ${player.left}px;
+          `;
           const rightBox = document.querySelector('.endboss__eye--right').getBoundingClientRect();
           const leftBox = document.querySelector('.endboss__eye--left').getBoundingClientRect();
 
@@ -511,7 +515,7 @@
         class="footer__logoicon"
       />
     </a>
-    <div v-if="hide" class="endboss"><img src="/boss.gif" alt="raumgleiter end boss" /></div>
+    <div v-if="hide" ref="boss" class="endboss"><img src="/boss.gif" alt="raumgleiter end boss" /></div>
     <i v-if="hide" class="endboss__eye endboss__eye--left" />
     <i v-if="hide" class="endboss__eye endboss__eye--right" />
   </div>
@@ -894,9 +898,9 @@
 
   .endboss {
     position: absolute;
-    top: 0;
+    bottom: 0;
     width: 30%;
-    right: 0;
+    left: 0;
 
     img {
       width: 100%;

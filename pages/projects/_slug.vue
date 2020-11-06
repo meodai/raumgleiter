@@ -77,13 +77,13 @@
       <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
         <div class="project__bodydata">
           <aside :aria-label="$t('client')">
-            <p><strong>{{ $t('client') }}.</strong> {{ projectEntry.projectData[1] }}</p>
+            <p><strong>{{ $t('client') }}.</strong> <span v-html="projectEntry.projectData[1]"></span></p>
           </aside>
           <aside :aria-label="$t('services')">
-            <p><strong>{{ $t('services') }}.</strong> {{ projectEntry.projectData[2] }}</p>
+            <p><strong>{{ $t('services') }}.</strong> <span v-html="projectEntry.projectData[2]"></span></p>
           </aside>
           <aside :aria-label="$t('benefit')">
-            <p><strong>{{ $t('benefit') }}.</strong> {{ projectEntry.projectData[3] }}</p>
+            <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]"></span></p>
           </aside>
         </div>
         <div class="project__bodyimagewrap">
@@ -186,6 +186,10 @@
   .project__bodydata {
     flex: 0 1 50%;
     width: 50%;
+
+    a {
+      text-decoration: underline;
+    }
 
     @include bp('phone') {
       width: auto;

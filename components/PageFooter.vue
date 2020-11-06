@@ -462,7 +462,11 @@
           </nuxt-link>
         </li>
       </ul>
-      <ul :aria-label="$t('language')" class="footer__lang footer__col">
+      <ul
+        :aria-label="$t('language')"
+        class="footer__lang footer__col"
+        role="listbox"
+      >
         <li
           v-for="locale in $i18n.locales"
           :key="locale.code"
@@ -472,6 +476,8 @@
             :aria-selected="locale.code === $i18n.locale"
             :aria-label="locale.name"
             :to="getSwitchLocalePath(locale.code)"
+            :hreflang="$i18n.locale"
+            role="option"
             @click.native="$scrollToTop"
           >
             {{ locale.code.toUpperCase().charAt(0) }}

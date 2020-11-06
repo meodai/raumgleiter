@@ -5,6 +5,6 @@ export default function ({ $config, $http, query }, inject) {
   };
 
   inject('craft', $craft.bind({
-    query: $config.livePreview && query.token ? '?token=' + query.token : '',
+    query: $config.livePreview && query.token ? '?token=' + query.token : ($config.livePreview ? '?preview=true' : ''),
   }));
 }

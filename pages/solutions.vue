@@ -23,6 +23,11 @@
       solutionsPage () {
         return this.solutionsPageByLocale[this.$i18n.locale];
       },
+      metaDescription () {
+        return this.solutionsPage.metaDescription
+          ? this.solutionsPage.metaDescription.substr(0, 160)
+          : null;
+      },
     },
     methods: {
       visibilityChanged (isVisible, entry) {
@@ -33,7 +38,7 @@
       return {
         title: this.solutionsPage.title || null,
         meta: [
-          { hid: 'description', name: 'description', content: this.solutionsPage ? this.solutionsPage.lead.substr(0, 160) : null },
+          { hid: 'description', name: 'description', content: this.metaDescription },
         ],
       };
     },

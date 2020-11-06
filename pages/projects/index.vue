@@ -53,6 +53,11 @@
 
         return filterClasses.count() ? filterClasses.join(', ') : 'all';
       },
+      metaDescription () {
+        return this.projectIndexPage.metaDescription
+          ? this.projectIndexPage.metaDescription.substr(0, 160)
+          : null;
+      },
     },
     watch: {
       '$route.query' () {
@@ -79,7 +84,7 @@
       return {
         title: this.projectIndexPage ? this.projectIndexPage.title : null,
         meta: [
-          { hid: 'description', name: 'description', content: this.projectIndexPage ? this.projectIndexPage.lead.substr(0, 160) : null },
+          { hid: 'description', name: 'description', content: this.metaDescription },
         ],
       };
     },

@@ -37,6 +37,9 @@
     head () {
       return {
         title: this.teamPage.title || null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.teamPage ? this.teamPage.lead.substr(0, 160) : null },
+        ],
       };
     },
   };
@@ -102,6 +105,7 @@
                   :href="link.url"
                   rel="nofollow noopener"
                 >
+                  <span class="sr-only">{{ link.type }}</span>
                   <Icon
                     class="calltoaction__icon"
                     :name="link.type"

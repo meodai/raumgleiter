@@ -5,6 +5,10 @@
         type: Object,
         required: true,
       },
+      title: {
+        type: String,
+        default: 'Showcase',
+      },
     },
   };
 </script>
@@ -14,6 +18,7 @@
     class="iframeEmbed"
   >
     <iframe
+      :title="title"
       class="iframeEmbed__iframe lazyload"
       :data-src="iframe.url"
       width="100%"

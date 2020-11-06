@@ -38,6 +38,7 @@
         @click.native="logoClick"
       >
         <Logo class="navigation__logo" />
+        <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
       <button
         aria-label="Explore Menu"

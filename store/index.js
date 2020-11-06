@@ -4,20 +4,7 @@ export const state = () => ({
   projectMixer: null,
   isMuted: true,
   sectionsByLocale: null,
-  // asideSections: [
-  //   {
-  //     path: 'projects',
-  //     title: 'projects',
-  //   },
-  //   {
-  //     path: 'team',
-  //     title: 'team',
-  //   },
-  //   {
-  //     path: { name: 'slug', params: { slug: 'about' } },
-  //     title: 'about',
-  //   },
-  // ],
+  seoData: {},
   footerByLocale: [],
 });
 
@@ -30,6 +17,9 @@ export const mutations = {
   },
   setFooterData (state, footerByLocale) {
     state.footerByLocale = footerByLocale;
+  },
+  setSeoData (state, seoData) {
+    state.seoData = seoData;
   },
   setMuteState (state, isMuted) {
     state.isMuted = isMuted;
@@ -69,5 +59,11 @@ export const actions = {
 
     const footerByLocale = collect(await this.$craft('footer')).keyBy('locale').all();
     commit('setFooterData', footerByLocale);
+
+    const seoData = collect(await this.$craft('seo'))
+      .groupBy('locale')
+      .map(page => page.first())
+      .all();
+    commit('setSeoData', seoData);
   },
 };

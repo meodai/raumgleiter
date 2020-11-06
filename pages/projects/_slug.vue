@@ -35,14 +35,22 @@
       pictures () {
         return this.projectEntry.media;
       },
+      description () {
+        return this.projectEntry.projectData[0] || null;
+      },
+      shareImage () {
+        return this.projectEntry.meta.shareImage || null;
+      },
     },
     head () {
       return {
         title: this.projectEntry.title || null,
-        // meta: [
-        //   { hid: 'description', name: 'description', content: this.description },
-        //   { hid: 'og:description', name: 'og:description', content: this.description },
-        // ],
+        meta: [
+          { hid: 'description', name: 'description', content: this.description },
+          { hid: 'og:description', name: 'og:description', content: this.description },
+          { hid: 'og:image', property: 'og:image', content: this.shareImage },
+          { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.shareImage },
+        ],
       };
     },
   };

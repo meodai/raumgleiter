@@ -8,6 +8,9 @@ export default {
   explore: 'Explore',
   mainNavigation: 'main navigation',
 
+  // links
+  learnMore: 'Learn more',
+
   // Footer
   address: 'Our address',
   subscribe: 'subscribe',

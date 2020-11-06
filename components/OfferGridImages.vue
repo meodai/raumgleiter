@@ -3,7 +3,6 @@
  fields = {
     header: 'plaintext' || null,
     lead: 'plaintext' || null,
-    linkText: 'plaintext' || null,
 
     items: [
       {
@@ -54,7 +53,7 @@
       </h3>
       <p>{{ fields.lead }}</p>
       <nuxt-link :to="localePath({ name: 'solutions' })">
-        {{ fields.linkText }}
+        {{ $t('learnMore') }}
         <Icon
           class="offer-grid__icon"
           :name="'icon_arrow_right'"

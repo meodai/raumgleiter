@@ -118,16 +118,9 @@
         title: this.currentPage ? this.currentPage.title : null,
         titleTemplate: this.hasEnteredRoute ? '%s | Raumgleiter' : 'Raumgleiter',
         meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: this.metaDescription,
-          },
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: this.shareImage,
-          },
+          { hid: 'description', name: 'description', content: this.metaDescription },
+          { hid: 'og:image', property: 'og:image', content: this.shareImage },
+          { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
         ],
       };
     },

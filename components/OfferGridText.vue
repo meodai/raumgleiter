@@ -68,9 +68,9 @@
         class="offer-grid-text__block"
         :class="{'offer-grid-text__block--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i])}"
       >
-        <h4 class="offer-grid-text__subtitle">
+        <h3 class="offer-grid-text__subtitle">
           {{ textBlock.header }}
-        </h4>
+        </h3>
         <p class="offer-grid-text__subtext">
           {{ textBlock.body }}
         </p>

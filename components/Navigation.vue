@@ -155,12 +155,14 @@
     padding-bottom: calc(var(--size-gutter-x) * 1.1);
   }
   .navigation__logo {
-    width: 13rem;
+    width: 16rem;
     fill: currentColor;
     display: block;
+    margin-right: 1rem;
 
     @include bp('phone') {
       width: 15rem;
+      margin-right: 0;
     }
   }
   .navigation__logo-link {
@@ -196,6 +198,7 @@
     outline: none;
     cursor: pointer;
     margin-top: 0.1em;
+    margin-left: -0.2em;
 
     .icon {
       stroke: var(--color-text--inverted);

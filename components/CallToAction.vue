@@ -140,7 +140,7 @@
           </div>
           <div class="calltoaction__subblock">
             <p class="calltoaction__content">
-              <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
+              <a v-if="fields.phone" :href="'tel:'+fields.phone.replaceAll(' ', '')">{{ fields.phone }}</a>
               <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
             </p>
             <div aria-hidden="true" class="calltoaction__dots">

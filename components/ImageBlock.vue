@@ -47,9 +47,16 @@
       hasIframe () {
         return this.fields.iframe && this.fields.iframe.url;
       },
+      linkPath () {
+        if (!this.fields.link) {
+          return false;
+        }
+        return {
+          name: 'slug',
+          params: { slug: this.fields.link },
+        };
+      },
     },
-
-    mounted () {},
 
     beforeDestroy () {
       this.stopSlider();
@@ -122,6 +129,13 @@
         {{ fields.header }}
       </h3>
       <p>{{ fields.body }}</p>
+      <nuxt-link v-if="linkPath" :to="localePath(linkPath)">
+        {{ $t('learnMore') }}
+        <Icon
+          class="image-block__icon"
+          :name="'icon_arrow_right'"
+        />
+      </nuxt-link>
     </div>
 
     <!-- Images -->
@@ -228,6 +242,12 @@
     flex: 0 0 calc(40% - var(--image-block-gutter));
     margin-left: var(--image-block-gutter);
     margin-bottom: var(--image-block-gutter);
+
+    a {
+      display: block;
+      margin-top: 1em;
+      color: var(--color-text--accent);
+    }
   }
   .image-block__image {
     width: 100%;
@@ -260,6 +280,12 @@
     .image-block__content {
       padding: 0 10%;
     }
+  }
+
+  .image-block__icon {
+    width: 0.7em;
+    height: 0.7em;
+    margin-left: .2em;
   }
 
   .image-block--background {

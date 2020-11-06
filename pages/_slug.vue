@@ -13,11 +13,11 @@
         .all();
       const currentPage = pagesByLocale.where('slug', params.slug);
 
-      if (params.slug && pagesByLocale.count() < 1) {
+      if (params.slug && currentPage.count() < 1) {
         return error({ statusCode: 404 });
+      } else {
+        await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
       }
-
-      await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
 
       return {
         pagesByLocale: pagesByLocale.groupBy('locale').all(),
@@ -27,7 +27,7 @@
     data () {
       return {
         allowTouchSwipe: true,
-        currentSlide: 0,
+        currentSlide: -1,
       };
     },
     computed: {
@@ -37,8 +37,8 @@
       pagesInCurrentLocale () {
         return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;
       },
-      currentVideoTeaser () {
-        return this.videoTeasers[this.currentSlide];
+      currentVideoTeaserSlug () {
+        return this.videoTeasers[this.currentSlide] ? this.videoTeasers[this.currentSlide].slug : null;
       },
       currentPageIndexByRoute () {
         return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
@@ -79,7 +79,7 @@
     },
     watch: {
       '$nuxt.$route.params.slug' () {
-        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
+        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
           this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
         }
       },
@@ -108,8 +108,8 @@
         }
       },
       updateRouteToMatchTeaser () {
-        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaser.slug) {
-          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaser.slug } }));
+        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
+          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaserSlug } }));
         }
       },
     },
@@ -118,16 +118,9 @@
         title: this.currentPage ? this.currentPage.title : null,
         titleTemplate: this.hasEnteredRoute ? '%s | Raumgleiter' : 'Raumgleiter',
         meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: this.metaDescription,
-          },
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: this.shareImage,
-          },
+          { hid: 'description', name: 'description', content: this.metaDescription },
+          { hid: 'og:image', property: 'og:image', content: this.shareImage },
+          { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
         ],
       };
     },

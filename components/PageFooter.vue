@@ -137,7 +137,7 @@
       place () {
         this.hide = true;
 
-        const els = Array.from(this.$refs.root.querySelectorAll('[data-i]'));
+        const els = Array.from(this.$refs.root.querySelectorAll('[data-i], [data-ic] > *'));
         const rootRect = this.$refs.root.getBoundingClientRect();
 
         this.enemies = els.map(($el) => {
@@ -350,7 +350,7 @@
 
       <div class="footer__col footer__col--address">
         <address
-          data-i
+          data-ic
           :aria-label="$t('address')"
           class="footer__address"
           v-html="footer.address"
@@ -551,7 +551,7 @@
   }
 
   .footer__logo {
-    width: 13rem;
+    width: 16rem;
     order: 1;
   }
 

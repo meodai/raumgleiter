@@ -21,6 +21,7 @@
     <nuxt-link
       class="project-grid-item__wrap"
       :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
+      @click.native="$scrollToTop"
     >
       <ResponsiveImage
         v-if="project.image"

@@ -83,7 +83,10 @@
             <VimeoEmbed :video="item.video" />
           </div>
           <div v-else-if="item.iframe && item.iframe.url">
-            <IframeEmbed :iframe="item.iframe" />
+            <IframeEmbed
+              :iframe="item.iframe"
+              :title="item.caption"
+            />
           </div>
           <figcaption class="offer-grid__caption">
             {{ item.caption }}

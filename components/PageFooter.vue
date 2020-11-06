@@ -413,6 +413,7 @@
               placeholder="youremail@gmail.com"
             >
           </div>
+          <label for="MERGE0" :aria-label="$t('email')"></label>
           <input
             id="MERGE0"
             ref="input"

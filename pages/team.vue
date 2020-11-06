@@ -28,6 +28,11 @@
           index: 0,
         }];
       },
+      metaDescription () {
+        return this.teamPage.metaDescription
+          ? this.teamPage.metaDescription.substr(0, 160)
+          : null;
+      },
     },
     methods: {
       formattedPhone (phone) {
@@ -38,7 +43,7 @@
       return {
         title: this.teamPage.title || null,
         meta: [
-          { hid: 'description', name: 'description', content: this.teamPage ? this.teamPage.lead.substr(0, 160) : null },
+          { hid: 'description', name: 'description', content: this.metaDescription },
         ],
       };
     },

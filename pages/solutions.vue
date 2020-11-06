@@ -32,6 +32,9 @@
     head () {
       return {
         title: this.solutionsPage.title || null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.solutionsPage ? this.solutionsPage.lead.substr(0, 160) : null },
+        ],
       };
     },
   };

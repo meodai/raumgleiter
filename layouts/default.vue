@@ -2,7 +2,9 @@
   export default {
     computed: {
       metaDescription () {
-        return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
+        return this.$store.state.seoData[this.$i18n.locale].metaDescription
+          ? this.$store.state.seoData[this.$i18n.locale].metaDescription.substr(0, 160) || null
+          : null;
       },
       shareImage () {
         return this.$store.state.seoData[this.$i18n.locale].shareImage || null;

@@ -29,6 +29,11 @@
         }];
       },
     },
+    methods: {
+      formattedPhone (phone) {
+        return phone ? phone.replace(/\s/g,'') : null;
+      },
+    },
     head () {
       return {
         title: this.teamPage.title || null,
@@ -80,12 +85,12 @@
             <a
               v-if="person.phone"
               class="person__link"
-              :href="'tel:'+person.phone.replaceAll(' ', '')"
+              :href="'tel:'+formattedPhone(person.phone)"
             >{{ person.phone }}</a>
             <a
               v-if="person.mobile"
               class="person__link"
-              :href="'tel:'+person.mobile.replaceAll(' ', '')"
+              :href="'tel:'+formattedPhone(person.mobile)"
             >{{ person.mobile }}</a>
             <ul class="person__links">
               <li

@@ -224,7 +224,6 @@
         };
 
         const theEnd = () => {
-
           this.$refs.boss = `
             left: ${player.left}px;
           `;
@@ -915,7 +914,9 @@
     position: absolute;
     bottom: 0;
     width: 30%;
-    left: 0;
+    height: 80%;
+    left: 50%;
+    transform: translateX(-50%);
 
     img {
       width: 100%;

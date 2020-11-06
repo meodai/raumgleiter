@@ -66,21 +66,25 @@
         <figure
           :key="'offer-grid-images'+i"
           v-observe-visibility="{
-            callback: (isVisible, entry) => {visibilityChanged(isVisible, entry, i)},
+            callback: (isVisible, entry) => {
+              visibilityChanged(isVisible, entry, i)
+            },
             once: true,
           }"
           class="offer-grid__image"
-          :class="{'offer-grid__image--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i])}"
+          :class="{
+            'offer-grid__image--visible': (!changes && visibleChildrenIndexes.hasOwnProperty(i) && visibleChildrenIndexes[i]) || (item.iframe && item.iframe.url),
+          }"
         >
           <ResponsiveImage
             v-if="item.images.length"
             :image="item.images[0]"
           />
           <div v-else-if="item.video && item.video.vimeoId">
-            <VimeoEmbed :video="item.video" :preload="true" />
+            <VimeoEmbed :video="item.video" />
           </div>
           <div v-else-if="item.iframe && item.iframe.url">
-            <IframeEmbed :iframe="item.iframe" :preload="true" />
+            <IframeEmbed :iframe="item.iframe" />
           </div>
           <figcaption class="offer-grid__caption">
             {{ item.caption }}

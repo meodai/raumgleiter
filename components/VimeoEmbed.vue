@@ -7,10 +7,6 @@
         type: Object,
         required: true,
       },
-      preload: {
-        type: Boolean,
-        default: false,
-      },
     },
     data () {
       return {
@@ -20,11 +16,6 @@
         playing: false,
         showThumbnail: true,
       };
-    },
-    mounted () {
-      if (this.preload) {
-        this.initVideo();
-      }
     },
     beforeDestroy () {
       if (this.player) {

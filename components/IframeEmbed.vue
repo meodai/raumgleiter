@@ -5,10 +5,6 @@
         type: Object,
         required: true,
       },
-      preload: {
-        type: Boolean,
-        default: false,
-      },
     },
   };
 </script>
@@ -19,7 +15,6 @@
   >
     <iframe
       class="iframeEmbed__iframe lazyload"
-      :src="preload ? iframe.url : false"
       :data-src="iframe.url"
       width="100%"
       height="100%"

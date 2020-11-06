@@ -80,12 +80,12 @@
             <a
               v-if="person.phone"
               class="person__link"
-              :href="'tel:'+person.phone"
+              :href="'tel:'+person.phone.replaceAll(' ', '')"
             >{{ person.phone }}</a>
             <a
               v-if="person.mobile"
               class="person__link"
-              :href="'tel:'+person.mobile"
+              :href="'tel:'+person.mobile.replaceAll(' ', '')"
             >{{ person.mobile }}</a>
             <ul class="person__links">
               <li

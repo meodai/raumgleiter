@@ -346,6 +346,7 @@
         to="/#"
       >
         <Logo class="footer__logo" />
+        <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
 
       <div class="footer__col footer__col--address">
@@ -365,7 +366,7 @@
               rel="noopener nofollow"
               data-i
             >
-
+              <span class="sr-only">{{ link.type }}</span>
               <Icon
                 class="footer__socialIcon"
                 :name="link.type"
@@ -498,6 +499,7 @@
         :is-block="true"
         class="footer__logoicon"
       />
+      <span class="sr-only">Do not click!</span>
     </a>
   </div>
 </template>

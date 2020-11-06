@@ -105,6 +105,7 @@
                   :href="link.url"
                   rel="nofollow noopener"
                 >
+                  <span class="sr-only">{{ link.type }}</span>
                   <Icon
                     class="calltoaction__icon"
                     :name="link.type"

@@ -1,5 +1,13 @@
 <script>
   export default {
+    computed: {
+      metaDescription () {
+        return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
+      },
+      shareImage () {
+        return this.$store.state.seoData[this.$i18n.locale].shareImage || null;
+      },
+    },
     head () {
       return {
         htmlAttrs: {
@@ -8,6 +16,11 @@
         bodyAttrs: {
           class: this.$config.livePreview ? 'livePreviewEnabled' : null,
         },
+        meta: [
+          { hid: 'description', name: 'description', content: this.metaDescription },
+          { hid: 'og:image', property: 'og:image', content: this.shareImage },
+          { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
+        ],
       };
     },
   };

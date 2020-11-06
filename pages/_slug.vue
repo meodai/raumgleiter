@@ -7,10 +7,6 @@
     name: 'Page',
     async asyncData ({ $craft, params, error, store }) {
       const pagesByLocale = collect(await $craft('pages'));
-      const seoData = collect(await $craft('seo'))
-        .groupBy('locale')
-        .map(page => page.first())
-        .all();
       const currentPage = pagesByLocale.where('slug', params.slug);
 
       if (params.slug && currentPage.count() < 1) {
@@ -21,7 +17,6 @@
 
       return {
         pagesByLocale: pagesByLocale.groupBy('locale').all(),
-        seoData,
       };
     },
     data () {
@@ -70,11 +65,8 @@
       },
       metaDescription () {
         return this.hasEnteredRoute && this.currentIntroBlock && this.currentIntroBlock[0].fields.body
-          ? this.currentIntroBlock[0].fields.body
-          : this.seoData[this.$i18n.locale].metaDescription || null;
-      },
-      shareImage () {
-        return this.seoData[this.$i18n.locale].shareImage || null;
+          ? this.currentIntroBlock[0].fields.lead
+          : this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
       },
     },
     watch: {
@@ -119,8 +111,6 @@
         titleTemplate: this.hasEnteredRoute ? '%s | Raumgleiter' : 'Raumgleiter',
         meta: [
           { hid: 'description', name: 'description', content: this.metaDescription },
-          { hid: 'og:image', property: 'og:image', content: this.shareImage },
-          { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
         ],
       };
     },

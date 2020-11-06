@@ -169,10 +169,12 @@ export default {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     devMode: process.env.DEV_MODE === 'true',
     http: {
-      // browserBaseURL: process.env.API_URL || 'https://api.raumgleiter.noo.work',
-      browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true'
-        ? process.env.API_URL || 'https://api.raumgleiter.noo.work'
-        : '',
+      // Expose api url to browser
+      browserBaseURL: process.env.API_URL || 'https://api.raumgleiter.noo.work',
+      // Keep api url from being exposed to browser
+      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true'
+      //   ? process.env.API_URL || 'https://api.raumgleiter.noo.work'
+      //   : '',
     },
   },
 };

@@ -70,7 +70,7 @@
     <div v-if="fields.background" class="calltoaction__background">
       <ResponsiveImage class="calltoaction__backgroundImage" :image="fields.background.image" />
     </div>
-    <div class="calltoaction__content">
+    <div class="calltoaction__inner">
       <aside
         v-if="showFirstRow"
         v-observe-visibility="{
@@ -93,7 +93,7 @@
             <h3 v-if="fields.header" class="calltoaction__title">
               {{ fields.header }}
             </h3>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -103,7 +103,7 @@
             <p class="calltoaction__content">
               {{ fields.text }}
             </p>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -128,11 +128,11 @@
           :is-block="true"
         />
         <div class="calltoaction__text">
-          <div class="calltoaction__subblock">
-            <h3 v-if="fields.contactName" class="calltoaction__title">
+          <div v-if="fields.contactName" class="calltoaction__subblock">
+            <h3 class="calltoaction__title">
               {{ fields.contactName }}
             </h3>
-            <span aria-hidden class="calltoaction__dots">
+            <span aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -143,7 +143,7 @@
               <a v-if="fields.phone" :href="'tel:'+fields.phone">{{ fields.phone }}</a>
               <a v-if="fields.email" :href="'mailto:'+fields.email">{{ fields.email }}</a>
             </p>
-            <div aria-hidden class="calltoaction__dots">
+            <div aria-hidden="true" class="calltoaction__dots">
               <span />
               <span />
               <span />
@@ -166,7 +166,7 @@
     perspective: 2px;
     overflow: hidden;
 
-    .calltoaction__content {
+    .calltoaction__inner {
       position: relative;
       margin: 0 auto;
     }
@@ -194,7 +194,10 @@
   .calltoaction__content {
     padding-top: 0.2em;
     > * {
-      padding-right: 0.5em;
+      margin-right: .4em;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 
@@ -226,7 +229,7 @@
     user-select: none;
     margin-top: 0.2em;
     display: inline-flex;
-    background: #f2f2f2;
+    background: var(--color-layout--accent);
     color: var(--c-design-background);
     border-radius: 2em;
     padding-left: .4em;
@@ -262,7 +265,7 @@
   // animation / transition
 
   .calltoaction__block {
-    --inital-delay: .15s;
+    --inital-delay: .1s;
 
     .calltoaction__icon,
     .calltoaction__subblock,
@@ -270,7 +273,7 @@
     .calltoaction__content,
     .calltoaction__dots  {
       opacity: 0;
-      transition: 300ms opacity linear, 644ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
+      transition: 100ms opacity linear, 344ms transform cubic-bezier(0.3, 0.7, 0, 1.3);
       transform: translateY(-2rem);
       transition-delay: var(--inital-delay);
     }
@@ -279,35 +282,35 @@
       transform: translateX(5rem);
 
       &:nth-child(1) {
-        transition-delay: calc(var(--inital-delay) + 1s);
+        transition-delay: calc(var(--inital-delay) + .5s);
       }
     }
 
     .calltoaction__dots {
       opacity: .8;
       transform: translateY(0);
-      transition-delay: calc(var(--inital-delay) + 1.5s);
+      transition-delay: calc(var(--inital-delay) + 1s);
     }
 
     .calltoaction__title {
-      transition-delay: calc(var(--inital-delay) + 1.5s);
+      transition-delay: calc(var(--inital-delay) + 1s);
     }
 
     .calltoaction__subblock:nth-child(2) {
-      transition-delay: calc(var(--inital-delay) + 2s);
+      transition-delay: calc(var(--inital-delay) + 1.5s);
 
       .calltoaction__dots {
-        transition-delay: calc(var(--inital-delay) + 3.2s);
+        transition-delay: calc(var(--inital-delay) + 2s);
       }
     }
 
     .calltoaction__content {
-      transition-delay: calc(var(--inital-delay) + 3.2s);
+      transition-delay: calc(var(--inital-delay) + 2s);
     }
   }
 
   .calltoaction__block:nth-child(2) {
-    --inital-delay: 4.15s;
+    --inital-delay: 2.15s;
     .calltoaction__title {
       font-weight: 600;
     }

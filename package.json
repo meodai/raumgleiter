@@ -23,8 +23,8 @@
     "nuxt-i18n": "^6.15.4",
     "p5": "^1.1.9",
     "pixi.js": "^5.3.3",
-    "sass": "^1.27.0",
-    "throttle-debounce": "^2.3.0",
+    "sass": "^1.29.0",
+    "throttle-debounce": "^3.0.1",
     "vue-observe-visibility": "^0.4.6",
     "vue2-touch-events": "^2.3.2"
   },
@@ -34,12 +34,12 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
-    "eslint": "^7.12.0",
+    "eslint": "^7.12.1",
     "eslint-plugin-nuxt": "^1.0.0",
     "git-cz": "^4.7.1",
     "modern-css-reset": "^1.1.1",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^10.0.4",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.0.5",
     "vue-template-compiler": "^2.6.12"
   },
   "config": {

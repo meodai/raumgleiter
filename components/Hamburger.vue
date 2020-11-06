@@ -14,9 +14,9 @@
 </script>
 
 <template>
-  <div class="hamburger" :class="{'hamburger--open': isOpen}">
-    <div class="hamburger__inner" />
-  </div>
+  <span class="hamburger" :class="{'hamburger--open': isOpen}">
+    <span class="hamburger__inner" />
+  </span>
 </template>
 
 <style lang="scss">
@@ -42,7 +42,6 @@
     transition-duration: 150ms, 150ms;
     transition-property: transform, color;
     transition-delay: 100ms, 0;
-    border-radius: 2px;
     background-color: currentColor;
   }
 

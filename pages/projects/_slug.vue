@@ -9,12 +9,14 @@
         en: '/projects/:slug', // -> accessible at /en/projects/:slug
       },
     },
-    async asyncData ({ $craft, params, store }) {
+    async asyncData ({ $craft, params, store, error }) {
       const projectEntryByLocale = collect(await $craft(`projects/${params.slug}`)).keyBy('locale');
 
-      if (projectEntryByLocale.count()) {
-        await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
+      if (projectEntryByLocale.count() < 1) {
+        return error({ statusCode: 404 });
       }
+
+      await store.dispatch('i18n/setRouteParams', projectEntryByLocale.first().locale_slugs);
 
       return { projectEntryByLocale: projectEntryByLocale.all() };
     },
@@ -47,62 +49,68 @@
 </script>
 
 <template>
-  <article class="project l-design-width">
-    <div class="project__head">
-      <h1 class="project__title t-title t-title--page">
-        {{ projectEntry.title }}
-      </h1>
-      <p class="project__lead" :aria-label="$t('mission')">
-        <strong>{{ $t('mission') }}.</strong> {{ projectEntry.projectData[0] }}
-      </p>
-    </div>
-
-    <ResponsiveImage class="project__cover" :image="projectEntry.image" />
-
-    <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
-      <div class="project__bodydata">
-        <aside :aria-label="$t('client')">
-          <p><strong>{{ $t('client') }}.</strong> {{ projectEntry.projectData[1] }}</p>
-        </aside>
-        <aside :aria-label="$t('services')">
-          <p><strong>{{ $t('services') }}.</strong> {{ projectEntry.projectData[2] }}</p>
-        </aside>
-        <aside :aria-label="$t('benefit')">
-          <p><strong>{{ $t('benefit') }}.</strong> {{ projectEntry.projectData[3] }}</p>
-        </aside>
+  <article>
+    <div class="project l-design-width">
+      <div class="project__head">
+        <h1 class="project__title t-title t-title--page">
+          {{ projectEntry.title }}
+        </h1>
+        <p class="project__lead" :aria-label="$t('mission')">
+          <strong>{{ $t('mission') }}.</strong> {{ projectEntry.projectData[0] }}
+        </p>
       </div>
-      <div class="project__bodyimagewrap">
-        <ResponsiveImage
-          v-if="firstPicture"
-          class="project__bodyimage"
-          :image="firstPicture"
-        />
-      </div>
-    </div>
 
-    <figure
-      v-for="(media, key) in pictures"
-      :key="projectEntry.slug+'-project-media-'+key"
-    >
       <ResponsiveImage
-        v-if="media.images && media.images.length > 0"
-        :image="media.images[0]"
-        class="project__picture"
-        :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
+        v-if="projectEntry.image"
+        class="project__cover"
+        :image="projectEntry.image"
       />
-      <VimeoEmbed
-        v-else-if="media.video && media.video.vimeoId !== null"
-        class="project__video"
-        :video="media.video"
-      />
-      <IframeEmbed
-        v-else-if="media.iframe && media.iframe.url !== null"
-        class="project__iframe"
-        :iframe="media.iframe"
-      />
-    </figure>
 
-    <Pagebuilder :blocks="projectEntry.cta" />
+      <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
+        <div class="project__bodydata">
+          <aside :aria-label="$t('client')">
+            <p><strong>{{ $t('client') }}.</strong> {{ projectEntry.projectData[1] }}</p>
+          </aside>
+          <aside :aria-label="$t('services')">
+            <p><strong>{{ $t('services') }}.</strong> {{ projectEntry.projectData[2] }}</p>
+          </aside>
+          <aside :aria-label="$t('benefit')">
+            <p><strong>{{ $t('benefit') }}.</strong> {{ projectEntry.projectData[3] }}</p>
+          </aside>
+        </div>
+        <div class="project__bodyimagewrap">
+          <ResponsiveImage
+            v-if="firstPicture"
+            class="project__bodyimage"
+            :image="firstPicture"
+          />
+        </div>
+      </div>
+
+      <figure
+        v-for="(media, key) in pictures"
+        :key="projectEntry.slug+'-project-media-'+key"
+      >
+        <ResponsiveImage
+          v-if="media.images && media.images.length > 0"
+          :image="media.images[0]"
+          class="project__picture"
+          :class="{'project__picture--portrait': media.images[0].orientation === 'portrait'}"
+        />
+        <VimeoEmbed
+          v-else-if="media.video && media.video.vimeoId !== null"
+          class="project__video"
+          :video="media.video"
+        />
+        <IframeEmbed
+          v-else-if="media.iframe && media.iframe.url !== null"
+          class="project__iframe"
+          :iframe="media.iframe"
+        />
+      </figure>
+
+      <Pagebuilder :blocks="projectEntry.cta" />
+    </div>
 
     <Related
       :fields="{
@@ -130,7 +138,9 @@
   }
 
   .project__title {
+    flex-grow: 1;
     padding-right: var(--size-gutter);
+
     @include bp('phone') {
       padding-right: 0;
     }
@@ -138,7 +148,8 @@
 
   .project__lead {
     @include typo('lead');
-    flex: 0 1 50%;
+    flex: 0 1 auto;
+    max-width: 50%;
 
     @include bp('phone') {
       margin-top: var(--size-gutter);
@@ -148,7 +159,7 @@
   .project__lead,
   .project__body {
     strong {
-      color: #aaaaaa;
+      color: var(--color-text--accent);
       font-weight: 700;
     }
   }

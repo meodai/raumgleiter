@@ -2,7 +2,6 @@
   import collect from 'collect.js';
 
   export default {
-
     props: {
       fields: {
         type: Object,
@@ -14,18 +13,19 @@
       return {
         activeSlide: 0,
         sliderIsRunning: false,
+        randomisedEntries: [],
       };
     },
 
     computed: {
       images () {
-        return collect(this.fields.entries).pluck('image').toArray() || [];
+        return collect(this.randomisedEntries).pluck('image').toArray() || [];
       },
       titles () {
-        return collect(this.fields.entries).pluck('title').toArray() || [];
+        return collect(this.randomisedEntries).pluck('title').toArray() || [];
       },
       slugs () {
-        return collect(this.fields.entries).pluck('slug').toArray() || [];
+        return collect(this.randomisedEntries).pluck('slug').toArray() || [];
       },
       firstImage () {
         return this.hasImages ? this.images[0] : null;
@@ -35,7 +35,15 @@
       },
     },
 
-    mounted () {},
+    created () {
+      let entries = collect(this.fields.entries).shuffle();
+
+      if (entries.count() < 4) {
+        entries = entries.merge(entries);
+      }
+
+      this.randomisedEntries = entries.all();
+    },
 
     beforeDestroy () {
       this.stopSlider();
@@ -135,7 +143,7 @@
       </div>
       <div class="related__slides">
         <div
-          v-for="(entry, i) in fields.entries"
+          v-for="(entry, i) in randomisedEntries"
           :key="'related'+ i + entry.title"
           :ref="'slide'"
           class="related__slide"
@@ -229,6 +237,10 @@
       visibility: hidden;
       opacity: 0;
     }
+  }
+
+  .related__slide--landscape .related__image {
+    object-fit: cover;
   }
 
   .related__overlay {

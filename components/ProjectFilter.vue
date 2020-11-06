@@ -92,15 +92,16 @@
 
   .filter__tab {
     border: none;
-    border-bottom: 3px solid currentColor;
+    border-bottom: 3px solid #aaa;
     background: transparent;
-    color: #aaaaaa;
+    color: var(--color-text--accent);
     padding: .2em .5em;
     margin-right: 1em;
     outline: none;
 
     &[aria-selected] {
       color: var(--color-text);
+      border-bottom-color: var(--color-text);
     }
   }
 
@@ -111,10 +112,12 @@
 
   .filter__tabpanel {
     margin-top: .5rem;
+
     & + & {
       margin-top: 0;
     }
-    background: #f2f2f2;
+
+    background: var(--color-layout--accent);
     text-align: left;
     overflow: hidden;
     max-height: 0;

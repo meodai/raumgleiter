@@ -96,7 +96,6 @@
                 <a
                   :href="link.url"
                   rel="nofollow noopener"
-                  target="_blank"
                 >
                   <Icon
                     class="calltoaction__icon"
@@ -151,6 +150,10 @@
       width: calc(100% - var(--size-mouse));
       flex: 0 0 calc(100% - var(--size-mouse));
     }
+  }
+
+  .person__name {
+    @include typo('nobreak');
   }
 
   .person__role {

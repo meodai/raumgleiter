@@ -183,12 +183,12 @@
     overflow: hidden;
 
     &:nth-child(2n) {
-      background: #f2f2f2;
+      background: var(--color-layout--accent);
     }
   }
 
   .c-design--inverted .image-block:nth-child(2n) {
-    background: #000000;
+    background: var(--color-layout--background-inverted);
   }
 
   .image-block__video,

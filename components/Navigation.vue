@@ -22,6 +22,9 @@
       toggleDrawer () {
         this.isOpen = !this.isOpen;
       },
+      logoClick () {
+        this.$nuxt.$emit('logoClick');
+      },
     },
   };
 </script>
@@ -29,10 +32,15 @@
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
     <div class="navigation__bar">
-      <nuxt-link class="navigation__logo-link" to="/">
+      <nuxt-link
+        class="navigation__logo-link"
+        :to="localePath('/')"
+        @click.native="logoClick"
+      >
         <Logo class="navigation__logo" />
       </nuxt-link>
       <button
+        aria-label="Explore Menu"
         id="navigation-trigger"
         aria-haspopup="true"
         aria-controls="navigation-dropdown"
@@ -61,17 +69,18 @@
             </nuxt-link>
           </li>
         </ul>
-        <button class="navigation__location" @click.prevent="$scrollToBottom">
+        <button
+          aria-hidden="true"
+          class="navigation__location" @click.prevent="$scrollToBottom">
           <Icon
             class="navigation__locationIcon"
-            :name="'location_plus'"
+            :name="'raumgleiter_symbol'"
             :is-block="true"
           />
         </button>
       </nav>
     </div>
     <nav
-      role="menu"
       aria-labelledby="navigation-trigger"
       class="navigation__drawer"
     >
@@ -146,12 +155,14 @@
     padding-bottom: calc(var(--size-gutter-x) * 1.1);
   }
   .navigation__logo {
-    width: 13rem;
+    width: 16rem;
     fill: currentColor;
     display: block;
+    margin-right: 1rem;
 
     @include bp('phone') {
       width: 15rem;
+      margin-right: 0;
     }
   }
   .navigation__logo-link {
@@ -186,9 +197,11 @@
     line-height: 1;
     outline: none;
     cursor: pointer;
+    margin-top: 0.1em;
+    margin-left: -0.2em;
 
     .icon {
-      stroke: #fff;
+      stroke: var(--color-text--inverted);
       height: 0.7em;
       width: 1em;
     }
@@ -217,7 +230,7 @@
 
   .navigation__description {
     @include typo('navigation');
-    color: #676767;
+    opacity: 0.6;
 
     a:hover & {
       color: var(--color-text);
@@ -270,8 +283,7 @@
     padding-top: .3em;
 
     .navigation__menuitem {
-      font-weight: 600;
-      margin-top: .6em;
+      margin-top: 0.6em;
     }
 
     @include bp('phone') {
@@ -327,11 +339,12 @@
   }
   .navigation__drawer:before {
     transform: translateY(-110%);
-    transition: 450ms transform cubic-bezier(.7,.3,0,1) 250ms;
+    transition: 250ms transform cubic-bezier(.7,.3,0,1) 250ms;
   }
   .navigation__drawer-item {
+    opacity: 0;
     transform: translateY(-150%);
-    transition: 250ms transform cubic-bezier(.7,.3,0,1);
+    transition: 200ms opacity, 250ms transform cubic-bezier(.7,.3,0,1);
 
     @include bp('phone') {
       opacity: 0;
@@ -340,7 +353,7 @@
 
     @for $i from 1 through 8 {
       &:nth-child(#{$i}) {
-        transition-delay: (8 - $i) * 50ms;
+        transition-delay: (8 - $i) * 40ms;
       }
     }
   }
@@ -362,24 +375,25 @@
     }
     .navigation__drawer:before {
       transform: translateY(0%);
-      transition: 650ms transform cubic-bezier(.7,.3,0,1);
+      transition: 250ms transform cubic-bezier(.7,.3,0,1);
     }
     .navigation__drawer-item {
+      opacity: 1;
       transform: translateY(0%);
-      transition: 450ms transform cubic-bezier(.7,.3,0,1);
+      transition: 400ms opacity linear, 350ms transform cubic-bezier(.7,.3,0,1);
 
       @for $i from 1 through 8 {
         &:nth-child(#{$i}) {
-          transition-delay: $i * 50ms;
+          transition-delay: $i * 20ms;
         }
       }
 
       @include bp('phone') {
         opacity: 1;
-        transition: 300ms opacity, 450ms transform cubic-bezier(.7,.3,0,1);
+        transition: 200ms opacity, 250ms transform cubic-bezier(0.7, 0.3, 0, 1);
         @for $i from 1 through 8 {
           &:nth-child(#{$i}) {
-            transition-delay: 150ms + $i * 50ms, $i * 50ms;
+            transition-delay: 100ms + $i * 20ms, $i * 20ms;
           }
         }
       }

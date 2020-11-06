@@ -27,7 +27,7 @@
       },
       timePerSlide: {
         type: Number,
-        default: 8,
+        default: 3,
       },
     },
     data () {
@@ -37,6 +37,7 @@
         entriesInOrder: [],
         loadingCount: -1,
         currentSlideEq: 0,
+        currentSlideHasVideo: false,
         sliderHasStarted: false,
         videoIsPlaying: false,
         sliderTimeout: null,
@@ -49,6 +50,8 @@
 
         alphaFilter: null,
         alphaCover: null,
+
+        slideTransitionSpeed: 0.6,
       };
     },
     computed: {
@@ -109,6 +112,8 @@
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$on('intro-intersect', this.toggleVisibility);
 
+      this.$nuxt.$on('logoClick', this.slideToStart);
+
       this.scrollHandler();
     },
     beforeDestroy () {
@@ -118,6 +123,7 @@
       window.removeEventListener('scroll', this.scrollHandler);
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$off('intro-intersect', this.toggleVisibility);
+      this.$nuxt.$off('logoClick', this.slideToStart);
     },
     methods: {
       startApp () {
@@ -272,10 +278,9 @@
         const maskCanvas = this.createMask();
         const maskTexture = PIXI.Texture.from(maskCanvas);
         const displacementSprite = new PIXI.Sprite(maskTexture);
-
         const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
         displacementFilter.scale.x = 40;
-        displacementFilter.scale.y = 1;
+        displacementFilter.scale.y = 0;
 
         slide.filters = [displacementFilter];
 
@@ -383,6 +388,9 @@
         const index = collect(this.entriesInOrder).search(entry => entry.index === eq);
         this.slide(index);
       },
+      slideToStart () {
+        this.slide(0);
+      },
       slide (eq = 0, slideDirection = 'next') {
         clearTimeout(this.sliderTimeout);
 
@@ -401,10 +409,14 @@
         const videoSprite = oldSlide.container;
         const directionMultiplier = slideDirection === 'next' ? -1 : 1;
 
-        gsap.to(videoSprite.position, 1.1, {
-          x: this.app.screen.width * 1.2 * directionMultiplier,
+        gsap.to(oldSlide.slide, this.slideTransitionSpeed * 0.8, {
+          alpha: 0,
+        });
+
+        gsap.to(videoSprite.position, this.slideTransitionSpeed * 0.8, {
+          x: this.app.screen.width * this.slideTransitionSpeed * 0.8 * directionMultiplier,
           ease: 'power4.out',
-          delay: 0.3,
+          delay: this.slideTransitionSpeed * 0.2,
           onComplete: () => {
             this.stopAndHideAllSlidesExceptCurrent();
             oldSlide.slide.zOrder = 0;
@@ -434,7 +446,11 @@
         this.currentSlideEq = eq;
         this.resetProgressBar();
 
-        if (newSlide.type === 'video') {
+        const slideHasVideo = newSlide.type === 'video';
+
+        this.currentSlideHasVideo = slideHasVideo;
+
+        if (slideHasVideo) {
           this.currentVideoElement.play();
         } else {
           // if it is a blank slide, set a timeout to slide
@@ -447,13 +463,13 @@
         newSlide.slide.zOrder = 2;
         this.isTransitioning = true;
 
-        gsap.to(newSlide.container.position, 1.5, {
+        gsap.to(newSlide.container.position, this.slideTransitionSpeed, {
           x: 0,
           ease: 'power4.out',
           onComplete: () => {
             newSlide.slide.zOrder = 2;
-            gsap.to(newSlide.displacementFilter.scale, 1, {
-              x: 1,
+            gsap.to(newSlide.displacementFilter.scale, this.slideTransitionSpeed * 0.7, {
+              x: 0,
               ease: 'power4.out',
               onComplete: () => {
                 this.isTransitioning = false;
@@ -590,7 +606,7 @@
         }
         if (isIntersecting === false && this.scrollRatio > 1) {
           this.currentVideoElement.pause();
-        } else if (this.scrollRatio < 1) {
+        } else if (isIntersecting) {
           this.currentVideoElement.play();
         }
       },
@@ -641,6 +657,7 @@
     v-touch:swipe.left="swipeToNext"
     v-touch:swipe.right="swipeToPrev"
     class="video-teaser"
+    :class="{'video-teaser--hasVideo': currentSlideHasVideo}"
   >
     <div
       ref="canvas"
@@ -649,7 +666,10 @@
     <section
       v-for="(entry, i) in entriesInOrder"
       :key="'video-teaser-slice-'+i"
-      :class="{'video-teaser__slider--active': currentSlideEq === i}"
+      :class="{
+        'video-teaser__slider--active': currentSlideEq === i,
+        'video-teaser__slider--noVideo': !!!entry.video,
+      }"
       class="video-teaser__slider"
       :aria-hidden="(currentSlideEq !== i)"
     >
@@ -670,7 +690,7 @@
               {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <button @click="scrollDown" class="video-teaser__subtitle__link">
+              <button class="video-teaser__subtitle__link" @click="scrollDown">
                 {{ entries[entry.index].subtitle }}
               </button>
             </h3>
@@ -685,7 +705,7 @@
               {{ entries[entry.index].title }}
             </h2>
             <h3 class="video-teaser__subtitle">
-              <button @click="scrollDown" class="video-teaser__subtitle__link">
+              <button class="video-teaser__subtitle__link" @click="scrollDown">
                 {{ entries[entry.index].subtitle }}<Icon
                   class="video-teaser__subtitle-icon"
                   :class="{ 'video-teaser__subtitle-icon--visible': !isTransitioning }"
@@ -703,7 +723,7 @@
       :style="{'--timer': currentDuration}"
       :class="{'play': videoIsPlaying}"
     />
-    <button class="video-teaser__mute-button" @click="toggleMute">
+    <button aria-label="Toggle video sound" class="video-teaser__mute-button" @click="toggleMute">
       <Unmute />
     </button>
   </div>
@@ -770,15 +790,40 @@
 .video-teaser__slider--active .video-teaser__slice {
   @for $i from 1 through 6 {
     &:nth-child(#{$i}) .video-teaser__slideInner {
-      transition-delay: 100ms + $i * 100ms;
+      transition-delay: 20ms + $i * 50ms;
     }
   }
 }
 
+.video-teaser__slider--active.video-teaser__slider--noVideo {
+  opacity: 0;
+  transform: scale(.9);
+  animation: 600ms show ease-out forwards 400ms;
+}
+
+@keyframes show {
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.video-teaser__slider.video-teaser__slider--noVideo .video-teaser__slideInner {
+  transform: translateX(-120%);
+  transition: 300ms transform cubic-bezier(0.7, 0.3, 0, 1), 400ms opacity;
+}
+
+.video-teaser__slider--active.video-teaser__slider--noVideo .video-teaser__slideInner {
+  transform: translateX(0%);
+  transition: 400ms transform cubic-bezier(0.7, 0.3, 0, 1);
+}
+
 .video-teaser__slider--active .video-teaser__slideInner {
   transform: translateX(0%);
-  transition: 800ms transform cubic-bezier(0.7, 0.3, 0, 1);
-
+  transition: 400ms transform cubic-bezier(0.7, 0.3, 0, 1);
 }
 
 .video-teaser__header {
@@ -841,16 +886,21 @@
 }
 
 .video-teaser__slider--active .video-teaser__subtitle {
-  transition: 300ms opacity 1100ms;
+  transition: 300ms opacity 800ms;
   opacity: 1;
   color: var(--color-text--inverted);
 }
 
 .video-teaser-progress {
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+
+  .video-teaser--hasVideo & {
+    opacity: 1;
+  }
 
   @include bp('phone') {
     position: fixed;
@@ -860,7 +910,7 @@
   &::after {
     position: absolute;
     content: '';
-    background: #fff;
+    background: var(--color-text--inverted);
     left: 0;
     top: 0;
     right: 0;
@@ -878,20 +928,26 @@
 .content {
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: var(--color-text--inverted);
 }
 
 .content--inverted {
-  background: #000000;
+  background: var(--color-layout--background-inverted);
+}
+
+.video-teaser--hasVideo .video-teaser__mute-button {
+  opacity: 1;
 }
 
 .video-teaser__mute-button {
+  opacity: 0;
   position: absolute;
   left: 10rem;
   bottom: 10rem;
   z-index: 99;
   outline: none;
   cursor: pointer;
+  transition: 200ms opacity linear;
 
   .icon-unmute {
     width: 2.4rem;

@@ -78,6 +78,7 @@
     }"
   >
     <ResponsiveImage
+      v-if="video.thumbImage"
       class="vimeoEmbed__thumb"
       :image="video.thumbImage"
       :style="{

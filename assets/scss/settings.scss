@@ -39,12 +39,16 @@ $dialog-typo: (
     ),
     navigationTitles: (
       font-size: 1.6rem,
-      font-weight: 900,
+      font-weight: 600,
     ),
     navigation: (
       font-size: 1.4rem,
       font-weight: 600,
     ),
+    nobreak: (
+      word-break: keep-all,
+      hyphens: manual,
+    )
   ),
   phone: (
     default: (
@@ -58,7 +62,7 @@ $dialog-typo: (
 );
 
 $dialog-breakpoints: (
-  desktop: 'min-width: 769px',
-  tablet: 'max-width: 768px',
+  desktop: 'min-width: 1001px',
+  tablet: 'max-width: 1000px',
   phone: 'max-width: 540px'
 );

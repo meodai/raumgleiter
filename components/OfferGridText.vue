@@ -81,7 +81,7 @@
 
 <style lang="scss">
   .offer-grid-text {
-    --color-layout--background: #f8f8f8;
+    --color-layout--background: var(--color-layout--accent);
   }
 
   .offer-grid-text__block {

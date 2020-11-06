@@ -19,6 +19,11 @@
           .all(),
       };
     },
+    data () {
+      return {
+        randomisedProjects: [],
+      };
+    },
     computed: {
       categoriesInCurrentLocale () {
         return this.categoriesByLocale[this.$i18n.locale];
@@ -54,6 +59,9 @@
         this.mixer.filter(this.filterClass);
       },
     },
+    created () {
+      this.randomisedProjects = collect(this.projectsInCurrentLocale).shuffle().all();
+    },
     mounted () {
       this.initMixer();
     },
@@ -77,12 +85,12 @@
 
 <template>
   <div>
-    <intro
+    <Intro
+      :is-white="true"
       :fields="{
         header: projectIndexPage.header,
         lead: projectIndexPage.lead,
       }"
-      :is-white="true"
     />
 
     <!-- Filter -->
@@ -99,7 +107,7 @@
         class="grid"
       >
         <ProjectGridItem
-          v-for="project in projectsInCurrentLocale"
+          v-for="project in randomisedProjects"
           :key="'project'+project.slug"
           class="grid-item mix"
           :project="project"

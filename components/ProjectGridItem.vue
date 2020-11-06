@@ -21,6 +21,7 @@
     <nuxt-link
       class="project-grid-item__wrap"
       :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
+      @click.native="$scrollToTop"
     >
       <ResponsiveImage
         v-if="project.image"
@@ -83,6 +84,9 @@
 
   .project-grid-item__title {
     position: absolute;
+
+    @include typo('nobreak');
+
     top: 50%;
     left: 50%;
     color: var(--color-text--inverted);

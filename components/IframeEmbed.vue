@@ -1,5 +1,4 @@
 <script>
-
   export default {
     props: {
       iframe: {
@@ -7,11 +6,6 @@
         required: true,
       },
     },
-    data () {
-      return {};
-    },
-    mounted () {},
-    methods: {},
   };
 </script>
 

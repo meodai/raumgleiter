@@ -11,7 +11,7 @@
 <template>
   <svg
     class="icon-unmute"
-    :class="{'icon-unmute--muted': isMuted}"
+    :class="{'icon-unmute--muted': !isMuted}"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 162.5 110.92"
   >
@@ -35,8 +35,9 @@
     width: 1.2em;
     height: auto;
     overflow: visible;
+
     &:hover .icon-unmute__vol {
-      opacity: 0;
+      opacity: 0s;
     }
     &:hover .icon-unmute__off {
       opacity: 1;
@@ -49,7 +50,7 @@
 
   .icon-unmute__off {
     transition: 200ms opacity linear;
-    opacity: 0;
+    opacity: 1;
   }
 
   .icon-unmute--muted {

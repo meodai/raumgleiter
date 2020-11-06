@@ -59,10 +59,12 @@ ________________________________________________________________________________
 
   --color-black: #000;
   --color-white: #fff;
-  --color-grey: #f8f8f8;
+  --color-grey: #f2f2f2;
+  --color-grey--dark: #aaa;
 
   --color-text: var(--color-black);
   --color-text--inverted: var(--color-white);
+  --color-text--accent: var(--color-grey--dark);
 
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);

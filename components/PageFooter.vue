@@ -551,7 +551,7 @@
   }
 
   .footer__logo {
-    width: 13rem;
+    width: 16rem;
     order: 1;
   }
 

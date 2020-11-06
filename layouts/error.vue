@@ -55,6 +55,11 @@
           new P5(boot);
         }
       },
+      head () {
+        return {
+          title: 'Page not found',
+        };
+      },
     },
   };
 </script>

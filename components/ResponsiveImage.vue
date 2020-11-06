@@ -8,7 +8,7 @@
     },
     computed: {
       placeholderSrc () {
-        return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${this.image.width} ${this.image.height}"%3E%3C/svg%3E`;
+        return `data:image/svg+xml,%3Csvg%20xmlns="http://www.w3.org/2000/svg"%20viewBox="0%200%20${this.image.width}%20${this.image.height}"%3E%3C/svg%3E`;
       },
     },
   };

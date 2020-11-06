@@ -13,11 +13,11 @@
         .all();
       const currentPage = pagesByLocale.where('slug', params.slug);
 
-      if (params.slug && pagesByLocale.count() < 1) {
+      if (params.slug && currentPage.count() < 1) {
         return error({ statusCode: 404 });
+      } else {
+        await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
       }
-
-      await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
 
       return {
         pagesByLocale: pagesByLocale.groupBy('locale').all(),

@@ -52,6 +52,8 @@
         alphaCover: null,
 
         slideTransitionSpeed: 0.6,
+
+        startedLoadingFirstVideo: false,
       };
     },
     computed: {
@@ -254,10 +256,6 @@
           this.videoEndHandler($video);
         });
 
-        $video.addEventListener('loadedmetadata', () => {
-          this.entriesInOrder[entryIndex].duration = $video.duration;
-        });
-
         $video.addEventListener('play', () => {
           if (this.currentSlideEq !== entryIndex) {
             $video.pause();
@@ -265,8 +263,17 @@
           }
         });
 
+        $video.addEventListener('loadedmetadata', () => {
+          this.entriesInOrder[entryIndex].duration = $video.duration;
+          if (!this.startedLoadingFirstVideo) {
+            this.startedLoadingFirstVideo = true;
+            $video.play();
+          }
+        });
+
         $video.src = video[this.videoQuality];
         const texture = PIXI.Texture.from($video);
+        texture.baseTexture.resource.autoPlay = false;
 
         this.addSlide(texture, 'video', entryIndex);
         this.loadNextSlide();
@@ -299,13 +306,13 @@
 
         return { slide, container, partSize, displacementFilter };
       },
-      addMaskToVideoContainer (container) {
-        const rect = new PIXI.Graphics();
-        rect.beginFill(0xFFFFFF);
-        rect.drawRect(0, 0, this.appWidth, this.appHeight);
-        rect.endFill();
-        container.mask = rect;
-      },
+      // addMaskToVideoContainer (container) {
+      //   const rect = new PIXI.Graphics();
+      //   rect.beginFill(0xFFFFFF);
+      //   rect.drawRect(0, 0, this.appWidth, this.appHeight);
+      //   rect.endFill();
+      //   container.mask = rect;
+      // },
       setVideoSpriteSizeAndPosition (videoSprite) {
         const moveDelta = {
           x: 0, y: 0,

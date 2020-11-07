@@ -164,7 +164,7 @@ export default {
   },
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.API_URL || 'https://api.raumgleiter.noo.work',
+      baseURL: process.env.API_URL || 'https://api.raumgleiter.com',
     },
   },
   publicRuntimeConfig: {
@@ -172,10 +172,10 @@ export default {
     devMode: process.env.DEV_MODE === 'true',
     http: {
       // Expose api url to browser
-      browserBaseURL: process.env.API_URL || 'https://api.raumgleiter.noo.work',
+      browserBaseURL: process.env.API_URL || 'https://api.raumgleiter.com',
       // Keep api url from being exposed to browser
       // browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true'
-      //   ? process.env.API_URL || 'https://api.raumgleiter.noo.work'
+      //   ? process.env.API_URL || 'https://api.raumgleiter.com'
       //   : '',
     },
   },

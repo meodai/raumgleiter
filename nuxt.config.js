@@ -33,7 +33,7 @@ export default {
       name: 'Raumgleiter',
       theme_color: '#ffffff',
       ogImage: false,
-      ogHost: 'https://raumgleiter.com/',
+      ogHost: 'https://www.raumgleiter.com/',
     },
     manifest: {
       name: 'Raumgleiter',
@@ -120,7 +120,7 @@ export default {
       cookieKey: 'i18n_redirected',
       onlyOnRoot: true,
     },
-    baseUrl: 'https://raumgleiter.com',
+    baseUrl: 'https://www.raumgleiter.com',
     seo: true,
   },
   /*

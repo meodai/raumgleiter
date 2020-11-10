@@ -151,6 +151,7 @@
         >
           <nuxt-link
             :to="localePath({ name: 'projects-slug', params: { slug: slugs[i] } })"
+            @click.native="$scrollToTop"
           >
             <ResponsiveImage
               v-if="images[i]"

@@ -421,6 +421,7 @@
             :disabled="isSuscribed || isSuscribing"
             type="email"
             autocapitalize="off"
+            autocomplete="off"
             autocorrect="off"
             name="MERGE0"
             :placeholder="$t('email')"

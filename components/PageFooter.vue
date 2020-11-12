@@ -381,11 +381,14 @@
         <h4 data-i>
           {{ footer.newsletterLabel }}
         </h4>
+
+        <!-- Begin Mailchimp Signup Form -->
         <form
           ref="newsletterForm"
-          class="footer__form"
-          action="https://raumgleiter.us3.list-manage.com/subscribe/post"
+          action="https://raumgleiter.us3.list-manage.com/subscribe/post?u=b9d5ffac0197f1e308e810c0a&amp;id=c00e021b7f"
           method="post"
+          novalidate
+          class="footer__form"
           data-i
           :class="{
             'footer__form--subscribed': isSuscribed,
@@ -393,35 +396,36 @@
             'footer__form--invalid': isInvalid,
           }"
         >
-          <input type="hidden" name="u" value="b9d5ffac0197f1e308e810c0a">
-          <input type="hidden" name="id" value="c00e021b7f">
-          <label for="MERGE0" :aria-label="$t('email')"></label>
+          <label for="mce-EMAIL" :aria-label="$t('email')" />
           <input
-            id="MERGE0"
+            id="mce-EMAIL"
             ref="input"
             :disabled="isSuscribed || isSuscribing"
             type="email"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            name="MERGE0"
+            name="EMAIL"
             :placeholder="$t('email')"
             required="required"
           >
-          <button class="footer__button" type="submit">
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div class="field-shift" aria-hidden="true">
+            <input
+              type="text"
+              name="b_b9d5ffac0197f1e308e810c0a_c00e021b7f"
+              tabindex="-1"
+              value=""
+            >
+          </div>
+          <button
+            class="footer__button"
+            type="submit"
+          >
             <span>{{ $t('subscribe') }}</span>
           </button>
-          <input
-            type="hidden"
-            name="ht"
-            value="fe961cb12891b7ea0fbe0c4edead447eaf71e18d:MTYwNTE3MjY3NS42Mjg3"
-          >
-          <input
-            type="hidden"
-            name="mc_signupsource"
-            value="hosted"
-          >
         </form>
+        <!--End mc_embed_signup-->
       </article>
       <ul class="footer__nav footer__col">
         <li

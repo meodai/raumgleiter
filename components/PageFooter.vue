@@ -393,26 +393,17 @@
             'footer__form--invalid': isInvalid,
           }"
         >
-          <input
-            type="hidden"
-            name="u"
-            value="b9d5ffac0197f1e308e810c0a"
-          >
-          <input
-            type="hidden"
-            name="id"
-            value="c00e021b7f"
-          >
-          <div class="field-shift" aria-label="Please leave the following field empty">
+          <input type="hidden" name="u" value="b9d5ffac0197f1e308e810c0a">
+          <input type="hidden" name="id" value="c00e021b7f">
+          <div class="field-shift" aria-label="Please leave the following three fields empty">
+            <label for="b_name">Name: </label>
+            <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
+
             <label for="b_email">Email: </label>
-            <input
-              id="b_email"
-              type="email"
-              name="b_email"
-              tabindex="-1"
-              value=""
-              placeholder="youremail@gmail.com"
-            >
+            <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+
+            <label for="b_comment">Comment: </label>
+            <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
           </div>
           <label for="MERGE0" :aria-label="$t('email')"></label>
           <input
@@ -433,7 +424,7 @@
           <input
             type="hidden"
             name="ht"
-            value="973c3bfc297573920e674b4d5929035db0b4ce70:MTYwMzQ0Mzk2MC4zMjI1"
+            value="fe961cb12891b7ea0fbe0c4edead447eaf71e18d:MTYwNTE3MjY3NS42Mjg3"
           >
           <input
             type="hidden"

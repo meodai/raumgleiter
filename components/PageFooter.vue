@@ -309,7 +309,7 @@
           this.setInvalid();
         } else {
           this.isSuscribing = true;
-          this.$refs.newsletterForm.submit();
+          // this.$refs.newsletterForm.submit();
           this.timer = setTimeout(() => {
             this.isSuscribing = false;
             this.$refs.input.value = '';
@@ -418,7 +418,7 @@
             :placeholder="$t('email')"
             required="required"
           >
-          <button class="footer__button" @click.prevent="subscribe">
+          <button class="footer__button" type="submit">
             <span>{{ $t('subscribe') }}</span>
           </button>
           <input

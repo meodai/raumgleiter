@@ -23,11 +23,14 @@
       :to="localePath({ name: 'projects-slug', params: { slug: project.slug } })"
       @click.native="$scrollToTop"
     >
-      <ResponsiveImage
-        v-if="project.image"
-        class="project-grid-item__image"
-        :image="project.image"
-      />
+      <client-only>
+        <ResponsiveImage
+          :key="'projectImage'+project.slug"
+          v-if="project.image"
+          class="project-grid-item__image"
+          :image="project.image"
+        />
+      </client-only>
       <div class="project-grid-item__overlay">
         <h2 class="project-grid-item__title">
           {{ project.title }}

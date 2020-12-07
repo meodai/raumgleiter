@@ -116,7 +116,7 @@
       >
         <ProjectGridItem
           v-for="project in randomisedProjects"
-          :key="'project'+project.slug"
+          :key="'project-grid-item-'+project.slug"
           class="grid-item mix"
           :project="project"
         />

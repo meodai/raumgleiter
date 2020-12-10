@@ -1,5 +1,6 @@
 <script>
   import collect from 'collect.js';
+  import {debounce} from "throttle-debounce";
 
   export default {
     nuxtI18n: {
@@ -58,17 +59,24 @@
           ? this.projectIndexPage.metaDescription.substr(0, 160)
           : null;
       },
+      projectSearchQuery () {
+        return this.$store.state.projectSearchQuery;
+      },
     },
     watch: {
-      '$route.query' () {
-        this.mixer.filter(this.filterClass);
+      filterClass () {
+        this.filterProjects();
       },
+      projectSearchQuery: debounce(200, function () {
+        this.filterProjects();
+      }),
     },
     created () {
       this.randomisedProjects = collect(this.projectsInCurrentLocale).shuffle().all();
     },
     mounted () {
       this.initMixer();
+      this.filterProjects();
     },
     methods: {
       initMixer () {
@@ -78,6 +86,22 @@
           },
         });
         this.$store.commit('setProjectMixer', mixer);
+      },
+      filterProjects () {
+        if (!this.projectSearchQuery) {
+          this.mixer.filter(this.filterClass);
+        } else {
+          const matchedProjects = collect(this.projectsInCurrentLocale)
+            .filter((project) => {
+              return project.title.toLowerCase().search(this.projectSearchQuery.toLowerCase()) !== -1;
+            })
+            .map(project => this.$refs['project-' + project.slug][0].$el)
+            .filter(($el) => {
+              return this.filterClass === 'all' || $el.matches(this.filterClass);
+            })
+            .all();
+          this.mixer.filter(matchedProjects);
+        }
       },
     },
     head () {
@@ -103,7 +127,6 @@
 
     <ProjectSearchbar />
 
-
     <!-- Filter -->
     <ProjectFilter
       :categories="{
@@ -111,7 +134,6 @@
         offer: categoriesInCurrentLocale['offers'],
       }"
     />
-
 
     <div class="l-design-width grid__warp">
       <ol
@@ -121,6 +143,7 @@
         <ProjectGridItem
           v-for="project in randomisedProjects"
           :key="'project-grid-item-'+project.slug"
+          :ref="'project-'+project.slug"
           class="grid-item mix"
           :project="project"
         />

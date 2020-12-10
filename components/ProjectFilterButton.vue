@@ -24,16 +24,19 @@
       // },
       queryPathObject () {
         // if filter is inclusive
-        // const query = JSON.parse(JSON.stringify(this.$route.query));
+        const queries = JSON.parse(JSON.stringify(this.$route.query));
         // query[this.category.group] = this.queryStringToToggleCategory;
         // Object.keys(query).forEach(key => (query[key] === '') && delete query[key]);
         // return query;
         // if filter is exclusive
         if (this.isEnabled) {
-          return '';
+          return queries.search ? { search: queries.search } : '';
         } else {
           const query = {};
           query[this.category.group] = this.id;
+          if (queries.search) {
+            query.search = queries.search;
+          }
           return query;
         }
       },

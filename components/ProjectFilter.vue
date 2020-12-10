@@ -16,6 +16,13 @@
         activeTabLabel: 'sector',
       };
     },
+    mounted () {
+      Object.keys(this.categories).forEach((categoryName) => {
+        if (this.$route.query[categoryName + 's']) {
+          this.activeTabLabel = categoryName;
+        }
+      });
+    },
     methods: {
       setActive (groupName = null) {
         this.activeTabLabel = groupName;

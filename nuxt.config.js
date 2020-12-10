@@ -158,6 +158,7 @@ export default {
         '/preview/projectIndex', '/en/preview/projectIndex', '/fr/preview/projectIndex',
         '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
         '/preview/team', '/en/preview/team', '/fr/preview/team',
+        '/preview/imprint', '/en/preview/imprint', '/fr/preview/imprint',
       ] : [],
     ],
     fallback: '404.html',

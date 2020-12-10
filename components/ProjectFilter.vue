@@ -1,9 +1,9 @@
 <script>
-  import FilterButton from './FilterButton';
+  import ProjectFilterButton from './ProjectFilterButton';
 
   export default {
     components: {
-      FilterButton,
+      ProjectFilterButton,
     },
     props: {
       categories: {
@@ -70,7 +70,7 @@
             :key="'cat'+category.id"
             class="filter__filter"
           >
-            <FilterButton :category="category" />
+            <ProjectFilterButton :category="category" />
           </li>
         </ul>
       </div>

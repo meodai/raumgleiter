@@ -101,6 +101,9 @@
       }"
     />
 
+    <ProjectSearchbar />
+
+
     <!-- Filter -->
     <ProjectFilter
       :categories="{
@@ -108,6 +111,7 @@
         offer: categoriesInCurrentLocale['offers'],
       }"
     />
+
 
     <div class="l-design-width grid__warp">
       <ol

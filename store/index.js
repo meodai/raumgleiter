@@ -6,6 +6,7 @@ export const state = () => ({
   sectionsByLocale: null,
   seoData: {},
   footerByLocale: [],
+  projectSearchQuery: '',
 });
 
 export const mutations = {
@@ -23,6 +24,9 @@ export const mutations = {
   },
   setMuteState (state, isMuted) {
     state.isMuted = isMuted;
+  },
+  setProjectSearchQuery (state, projectSearchQuery) {
+    state.projectSearchQuery = projectSearchQuery;
   },
 };
 

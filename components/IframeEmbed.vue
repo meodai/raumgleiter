@@ -27,7 +27,7 @@
       allow="fullscreen"
       allowfullscreen
     />
-    <!-- Icon: iframe.icon = 'play' || 'interactive' -->
+    <!-- Icon: iframe.icon = 'play' || 'experience' -->
   </div>
 </template>
 

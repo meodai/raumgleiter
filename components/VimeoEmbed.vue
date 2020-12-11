@@ -12,15 +12,37 @@
       return {
         player: null,
         loaded: false,
-        // muted: true,
+        muted: true,
         playing: false,
         showThumbnail: true,
       };
+    },
+    computed: {
+      soundEnabled () {
+        return this.video.hasSound;
+      },
+    },
+    watch: {
+      muted () {
+        if (!this.soundEnabled) {
+          return;
+        }
+        if (!this.muted) {
+          this.$nuxt.$emit('mute-videos', this.video.vimeoId);
+        }
+        if (this.player) {
+          this.player.setMuted(this.muted);
+        }
+      },
+    },
+    created () {
+      this.$nuxt.$on('mute-videos', this.onUnmuteOtherVideo);
     },
     beforeDestroy () {
       if (this.player) {
         this.player.destroy();
       }
+      this.$nuxt.$off('mute-videos', this.onUnmuteOtherVideo);
     },
     methods: {
       initVideo () {
@@ -32,21 +54,19 @@
             setTimeout(() => {
               this.showThumbnail = false;
             }, 1000);
-          // canAutoPlay
-          //   .video({timeout: 100, muted: false})
-          //   .then(({result, error}) => {
-          //     if(result)
-          //       this.player.setMuted(false);
-          //     }
-          //   })
           });
         });
       },
 
-      // toggleMute () {
-      //   this.muted = !this.muted;
-      //   this.player.setMuted(this.muted);
-      // },
+      toggleMute () {
+        this.muted = !this.muted;
+      },
+
+      onUnmuteOtherVideo (unmutedVideoId) {
+        if (unmutedVideoId !== this.video.vimeoId) {
+          this.muted = true;
+        }
+      },
 
       visibilityChanged (isVisible) {
         if (!this.loaded) {
@@ -77,6 +97,13 @@
       paddingBottom: (video.height / video.width * 100) + '%',
     }"
   >
+    <button
+      v-if="soundEnabled"
+      style="z-index: 999; position: absolute; top: 0;"
+      @click="toggleMute"
+    >
+      {{ muted ? 'unmute' : 'mute' }}
+    </button>
     <ResponsiveImage
       v-if="video.thumbImage"
       class="vimeoEmbed__thumb"

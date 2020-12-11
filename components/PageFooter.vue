@@ -471,6 +471,11 @@
             {{ locale.code.toUpperCase().charAt(0) }}
           </nuxt-link>
         </li>
+        <li>
+          <nuxt-link :to="localePath('imprint')" @click.native="$scrollToTop">
+            {{ $t('imprint')}}
+          </nuxt-link>
+        </li>
       </ul>
     </div>
 

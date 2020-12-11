@@ -7,6 +7,7 @@ export default {
   // header / footer
   explore: 'Explore',
   mainNavigation: 'Hauptnavigation',
+  imprint: 'Impressum',
 
   // links
   learnMore: 'Mehr erfahren',

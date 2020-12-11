@@ -27,6 +27,7 @@
       allow="fullscreen"
       allowfullscreen
     />
+    <!-- Icon: iframe.icon = 'play' || 'interactive' -->
   </div>
 </template>
 

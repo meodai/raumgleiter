@@ -23,7 +23,6 @@ package = "@netlify/plugin-sitemap"
     './dist/404.html',
   ]
 
-
 [[plugins]]
   package = "netlify-plugin-cache-nuxt"
 

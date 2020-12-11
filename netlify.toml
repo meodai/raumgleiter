@@ -13,10 +13,13 @@
 
 [[plugins]]
   package = "@netlify/plugin-sitemap"
-  [plugins.inputs]
+
+    [plugins.inputs]
     exclude = [
       '200',
       '404',
+      '/200',
+      '/404',
       '200.html',
       '404.html',
     ]

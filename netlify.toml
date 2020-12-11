@@ -1,20 +1,31 @@
 [build]
-    publish = "dist"
-    command = "npm run generate"
+  publish = "dist"
+  command = "npm run generate"
 
 [[headers]]
-    for = "/*"
-    [headers.values]
-        Referrer-Policy = "strict-origin-when-cross-origin"
-        X-Content-Type-Options = "nosniff"
-        X-Frame-Options = "ALLOW-FROM cms.raumgleiter.noo.work cms.raumgleiter.com"
-        Content-Security-Policy = "frame-ancestors cms.raumgleiter.noo.work cms.raumgleiter.com"
-        X-XSS-Protection = "1; mode=block"
+for = "/*"
+  [headers.values]
+  Referrer-Policy = "strict-origin-when-cross-origin"
+  X-Content-Type-Options = "nosniff"
+  X-Frame-Options = "ALLOW-FROM cms.raumgleiter.noo.work cms.raumgleiter.com"
+  Content-Security-Policy = "frame-ancestors cms.raumgleiter.noo.work cms.raumgleiter.com"
+  X-XSS-Protection = "1; mode=block"
+
+[[headers]]
+for = "/_nuxt/*"
+  [headers.values]
+  Cache-Control = "max-age=365000000, immutable"
 
 [[plugins]]
-  package = "@netlify/plugin-sitemap"
+package = "@netlify/plugin-sitemap"
+  [plugins.inputs]
+  exclude = [
+    './dist/404.html',
+  ]
 
-    [plugins.inputs]
-    exclude = [
-      './dist/404.html',
-    ]
+
+[[plugins]]
+  package = "netlify-plugin-cache-nuxt"
+
+[[plugins]]
+  package = "netlify-plugin-submit-sitemap"

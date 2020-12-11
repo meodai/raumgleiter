@@ -10,3 +10,13 @@
         X-Frame-Options = "ALLOW-FROM cms.raumgleiter.noo.work cms.raumgleiter.com"
         Content-Security-Policy = "frame-ancestors cms.raumgleiter.noo.work cms.raumgleiter.com"
         X-XSS-Protection = "1; mode=block"
+
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+  [plugins.inputs]
+    exclude = [
+      '200',
+      '404',
+      '200.html',
+      '404.html',
+    ]

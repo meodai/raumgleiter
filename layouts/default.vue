@@ -1,15 +1,5 @@
 <script>
   export default {
-    computed: {
-      metaDescription () {
-        return this.$store.state.seoData[this.$i18n.locale].metaDescription
-          ? this.$store.state.seoData[this.$i18n.locale].metaDescription.substr(0, 160) || null
-          : null;
-      },
-      shareImage () {
-        return this.$store.state.seoData[this.$i18n.locale].shareImage || null;
-      },
-    },
     head () {
       return {
         htmlAttrs: {
@@ -20,10 +10,20 @@
         },
         meta: [
           { hid: 'description', name: 'description', content: this.metaDescription },
+          { hid: 'og:description', name: 'og:description', content: this.metaDescription },
+          { hid: 'twitter:description', name: 'twitter:description', content: this.metaDescription },
           { hid: 'og:image', property: 'og:image', content: this.shareImage },
           { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
         ],
       };
+    },
+    computed: {
+      metaDescription () {
+        return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
+      },
+      shareImage () {
+        return this.$store.state.seoData[this.$i18n.locale].shareImage || null;
+      },
     },
   };
 </script>

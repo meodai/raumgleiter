@@ -14,6 +14,7 @@
           { hid: 'twitter:description', name: 'twitter:description', content: this.metaDescription },
           { hid: 'og:image', property: 'og:image', content: this.shareImage },
           { hid: 'twitter:image', property: 'twitter:image', content: this.shareImage },
+          ...this.$config.livePreview ? [{ hid: 'robots', name: 'robots', content: 'noindex nofollow' }] : [],
         ],
       };
     },

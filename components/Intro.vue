@@ -68,12 +68,18 @@
       <h2 class="intro__title t-title t-title--page">
         {{ fields.header }}
       </h2>
-      <p v-if="fields.lead" class="intro__leadtext t-lead">
-        {{ fields.lead }}
-      </p>
-      <p v-if="fields.body" class="intro__paragraph">
-        {{ fields.body }}
-      </p>
+      <nl2br
+        v-if="fields.lead"
+        tag="p"
+        :text="fields.lead"
+        class-name="intro__leadtext t-lead"
+      />
+      <nl2br
+        v-if="fields.body"
+        tag="p"
+        :text="fields.body"
+        class-name="intro__paragraph"
+      />
     </div>
     <aside
       v-for="(offers, index) in fields.offers"

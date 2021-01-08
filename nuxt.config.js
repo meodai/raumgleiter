@@ -78,6 +78,7 @@ export default {
     { src: './plugins/canautoplay.js', mode: 'client' },
     { src: './plugins/touch.js', mode: 'client' },
     { src: './plugins/scroll-to-top.js', mode: 'client' },
+    { src: './plugins/nl2br.js', mode: 'client' },
   ],
   /*
    ** Auto import components

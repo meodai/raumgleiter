@@ -26,6 +26,7 @@
     "sass": "^1.30.0",
     "semantic-release": "^17.3.0",
     "throttle-debounce": "^3.0.1",
+    "vue-nl2br": "^0.1.2",
     "vue-observe-visibility": "^0.4.6",
     "vue2-touch-events": "^3.0.0"
   },

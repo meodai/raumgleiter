@@ -99,6 +99,7 @@ export default {
     '@nuxt/http',
     'nuxt-i18n',
     '@nuxtjs/style-resources',
+    '@nuxtjs/gtm',
   ],
   /*
    ** Multi-language config
@@ -141,6 +142,12 @@ export default {
         },
       },
     },
+  },
+  /*
+   ** GTM :-(
+   */
+  gtm: {
+    id: 'GTM-M6DS6TH',
   },
   /*
    ** Add routes

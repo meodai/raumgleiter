@@ -123,6 +123,9 @@
 </template>
 
 <style lang="scss">
+  .page {
+    padding-top: var(--size-nav-height, 6rem);
+  }
   // mix-blend-mode: difference;
   .navigation {
     position: fixed;
@@ -131,7 +134,6 @@
     right: 0;
     left: 0;
     z-index: 10;
-    backdrop-filter: blur(5px);
 
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;

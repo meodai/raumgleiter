@@ -41,14 +41,81 @@
 </script>
 
 <template>
-  <div class="l-design-width">
+  <div class="search">
     <label for="search">
       <input
         id="search"
         v-model="searchText"
         type="text"
-        style="color: black; border: 2px solid black"
+        class="input--search"
+        placeholder="Project"
       >
     </label>
+    <Icon
+      class="search__icon"
+      :name="'icon_search'"
+    />
   </div>
 </template>
+
+<style lang="scss">
+.search {
+  position: relative;
+}
+.search > .search__icon {
+  position: absolute;
+  top: .15em;
+  right: .5em;
+  stroke: var(--color-text--inverted);
+  fill: var(--color-text--inverted);
+
+  @include bp('tablet') {
+    top: .4em;
+    right: .75em;
+  }
+}
+.search:focus-within > .search__icon {
+  stroke: var(--color-text);
+  fill: var(--color-text);
+}
+.input--search {
+  font-size: 1.4rem;
+  padding: .2em .75em .3em;
+  border-radius: 2em;
+  appearance: none;
+  display: block;
+  width: 100%;
+  background: rgba(#aaa, .5);
+  padding-right: 3.5rem;
+  outline: none;
+  color: var(--color-text--inverted);
+
+  &:disabled {
+    color: rgba(#fff, .5);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px #fff;
+    color: var(--color-text);
+  }
+
+  @include bp('tablet') {
+    font-size: 2rem;
+    padding: .5em .75em .6em;
+    //border-radius: 0;
+  }
+}
+.search__icon {
+  display: inline-block;
+  width: .75em;
+  height: 0.8em;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  @include bp('tablet') {
+    width: 1em;
+    height: 1.25em;
+  }
+}
+</style>

@@ -61,6 +61,10 @@
           </button>
         </li>
       </ul>
+
+      <div class="filter__input">
+        <ProjectSearchbar />
+      </div>
     </div>
     <section
       v-for="(group, groupName) in categories"
@@ -90,9 +94,26 @@
     text-align: center;
   }
 
+  .filter__tabs-wrap {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @include bp('tablet') {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  }
+
   .filter__tabs {
     display: inline-block;
+    margin-right: var(--size-stack);
+
+    @include bp('tablet') {
+      margin-right: 0;
+    }
   }
+
   .filter__tabs > * {
     display: inline-block;
   }
@@ -110,11 +131,20 @@
       color: var(--color-text);
       border-bottom-color: var(--color-text);
     }
+
+    @include bp('tablet') {
+      margin-top: var(--size-stack);
+    }
   }
 
-  .filter__tabs-wrap {
-    padding-top: 0;
-    padding-bottom: 0;
+  .filter__input {
+    display: inline-block;
+
+    @include bp('tablet') {
+      display: block;
+      width: 100%;
+      max-width: 40rem;
+    }
   }
 
   .filter__tabpanel {

@@ -125,8 +125,6 @@
       }"
     />
 
-    <ProjectSearchbar />
-
     <!-- Filter -->
     <ProjectFilter
       :categories="{

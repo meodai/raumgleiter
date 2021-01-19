@@ -29,12 +29,27 @@
 
 <template>
   <div>
-    <div class="l-design-width content">
+    <div class="l-design-width content imprint">
       <div v-html="imprintPage.body"></div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-
+  .imprint h2 {
+    margin-top: var(--size-pony);
+  }
+  .imprint h2:first-child {
+    margin-top: 0;
+  }
+  .imprint h3,
+  .imprint h4 {
+    color: var(--color-text--accent);
+  }
+  .imprint h3 {
+    margin-top: var(--size-cat);
+  }
+  .imprint h4 {
+    margin-top: var(--size-mouse);
+  }
 </style>

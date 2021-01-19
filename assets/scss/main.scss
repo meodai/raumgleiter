@@ -69,6 +69,7 @@ ________________________________________________________________________________
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);
   --color-layout--accent: var(--color-grey);
+  --color-layout--backdrop: rgba(0, 0,0, 0.9);
 
   @include bp('phone') {
     --size-mouse: calc(3.2rem / 1.4); // small title

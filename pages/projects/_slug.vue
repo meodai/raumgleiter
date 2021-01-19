@@ -86,6 +86,7 @@
           <aside :aria-label="$t('benefit')">
             <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]" /></p>
           </aside>
+          <!-- <a href="#" class="project__link">More info</a> -->
         </div>
         <div class="project__bodyimagewrap">
           <ResponsiveImage
@@ -188,14 +189,15 @@
     flex: 0 1 50%;
     width: 50%;
 
-    a {
-      text-decoration: underline;
-    }
-
     @include bp('phone') {
       width: auto;
     }
   }
+
+  .project__link {
+    text-decoration: none;
+  }
+
   .project__bodyimagewrap {
     margin-left: var(--size-dog);
     flex: 0 1 50%;

@@ -17,7 +17,7 @@
     "can-autoplay": "^3.0.0",
     "chroma-js": "^2.1.0",
     "collect.js": "^4.28.6",
-    "gsap": "^3.5.1",
+    "gsap": "^3.6.0",
     "lazysizes": "^5.2.2",
     "mixitup": "^3.3.1",
     "nuxt": "^2.14.10",

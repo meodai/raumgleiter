@@ -31,4 +31,5 @@ export default {
   services: 'Services',
   benefit: 'Benefit',
   moreWorlds: 'other worlds',
+  moreInfo: 'More info',
 };

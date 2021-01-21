@@ -86,7 +86,12 @@
           <aside :aria-label="$t('benefit')">
             <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]" /></p>
           </aside>
-          <!-- <a href="#" class="project__link">More info</a> -->
+          <a
+            v-if="projectEntry.projectLink"
+            :href="projectEntry.projectLink.url"
+            class="project__link">
+            {{ $('moreInfo') }}
+          </a>
         </div>
         <div class="project__bodyimagewrap">
           <ResponsiveImage

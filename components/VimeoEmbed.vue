@@ -97,8 +97,8 @@
       paddingBottom: (video.height / video.width * 100) + '%',
     }"
   >
+    <!--v-if="soundEnabled"-->
     <button
-      v-if="soundEnabled"
       style="z-index: 999; position: absolute; top: 0;"
       @click="toggleMute"
     >

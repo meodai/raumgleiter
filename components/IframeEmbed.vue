@@ -33,7 +33,7 @@
       @click="allowInteractions()"
     >
       <Icon
-        :name="iframe.icon || 'icon_scroll_down'"
+        :name="iframe.icon || 'icon_embed'"
         class="iframeEmbed__overlayIcon"
       />
     </div>
@@ -77,11 +77,11 @@
 
   justify-content: center;
   align-items: center;
+  color: var(--color-text--inverted);
 }
 
 .iframeEmbed__overlayIcon {
-  stroke: var(--color-text--inverted);
-  fill: var(--color-text--inverted);
+  stroke: none;
 }
 
 .iframeEmbed__overlay--hidden {

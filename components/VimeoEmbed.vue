@@ -99,10 +99,12 @@
   >
     <!--v-if="soundEnabled"-->
     <button
-      style="z-index: 999; position: absolute; top: 0;"
+      aria-label="Toggle video sound"
+      class="vimeoEmbed__unmute"
       @click="toggleMute"
     >
-      {{ muted ? 'unmute' : 'mute' }}
+      <Unmute />
+      <!--{{ muted ? 'unmute' : 'mute' }}-->
     </button>
     <ResponsiveImage
       v-if="video.thumbImage"
@@ -126,7 +128,7 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .vimeoEmbed {
   position: relative;
   background-size: 100% auto;
@@ -148,5 +150,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.vimeoEmbed__unmute {
+  opacity: 1;
+  position: absolute;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 99;
+  outline: none;
+  cursor: pointer;
+  transition: 200ms opacity linear;
+
+  .icon-unmute {
+    width: 2.4rem;
+    height: 2.4rem;
+
+    @include bp('phone') {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+  }
 }
 </style>

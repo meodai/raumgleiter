@@ -64,7 +64,7 @@
         <h1 class="project__title t-title t-title--page">
           {{ projectEntry.title }}
         </h1>
-        <p class="project__lead" :aria-label="$t('mission')">
+        <p class="project__lead" :aria-label="$t('mission')" v-if="projectEntry.projectData[0]">
           <strong>{{ $t('mission') }}.</strong> {{ projectEntry.projectData[0] }}
         </p>
       </div>
@@ -77,13 +77,13 @@
 
       <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
         <div class="project__bodydata">
-          <aside :aria-label="$t('client')">
+          <aside :aria-label="$t('client')" v-if="projectEntry.projectData[1]">
             <p><strong>{{ $t('client') }}.</strong> <span v-html="projectEntry.projectData[1]" /></p>
           </aside>
-          <aside :aria-label="$t('services')">
+          <aside :aria-label="$t('services')" v-if="projectEntry.projectData[2]">
             <p><strong>{{ $t('services') }}.</strong> <span v-html="projectEntry.projectData[2]" /></p>
           </aside>
-          <aside :aria-label="$t('benefit')">
+          <aside :aria-label="$t('benefit')" v-if="projectEntry.projectData[3]">
             <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]" /></p>
           </aside>
           <a

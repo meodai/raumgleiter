@@ -12,7 +12,12 @@
     },
     async asyncData ({ $craft }) {
       return {
-        projectEntriesByLocale: collect(await $craft('projects')).groupBy('locale').all(),
+        projectEntriesByLocale: collect(await $craft('projects'))
+          .filter((project) => {
+            return project.categories.sectors.length > 0 || project.categories.offers.length > 0;
+          })
+          .groupBy('locale')
+          .all(),
         projectIndexPageByLocale: collect(await $craft('projectIndex')).keyBy('locale').all(),
         categoriesByLocale: collect(await $craft('categories'))
           .groupBy('locale')

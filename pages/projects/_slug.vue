@@ -90,7 +90,7 @@
             v-if="projectEntry.projectLink"
             :href="projectEntry.projectLink.url"
             class="project__link">
-            {{ $('moreInfo') }}
+            {{ $t('moreInfo') }}
           </a>
         </div>
         <div class="project__bodyimagewrap">

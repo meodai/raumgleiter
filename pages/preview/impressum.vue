@@ -6,7 +6,7 @@
     extends: imprint,
     async asyncData ({ $craft, query, error, $config }) {
       // Get page in selected locale
-      const imprintPagePreview = collect(await $craft('imprint'))
+      const imprintPagePreview = collect(await $craft('impressum'))
         .filter(imprintPagePreview => imprintPagePreview.locale === query.locale)
         .first();
 

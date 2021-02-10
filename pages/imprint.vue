@@ -5,7 +5,7 @@
     nuxtI18n: {
       paths: {
         de: '/impressum',
-        fr: '/imprimer',
+        fr: '/impressum',
         en: '/imprint',
       },
     },

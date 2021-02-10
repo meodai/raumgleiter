@@ -301,7 +301,7 @@
       />
     </symbol>
     <symbol
-      id="icon_embed"
+      id="experience"
       viewBox="0 0 104.19 116.77"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -311,7 +311,7 @@
       <polygon points="58.23 63.29 58.23 116.77 104.19 90.24 104.19 37.09 58.23 63.29" fill="currentColor" />
     </symbol>
     <symbol
-      id="icon_play"
+      id="play"
       viewBox="0 0 138 138"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"

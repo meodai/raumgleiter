@@ -33,7 +33,7 @@
       @click="allowInteractions()"
     >
       <Icon
-        :name="iframe.icon || 'icon_embed'"
+        :name="iframe.icon || 'experience'"
         class="iframeEmbed__overlayIcon"
       />
     </div>

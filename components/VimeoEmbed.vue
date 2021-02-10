@@ -12,26 +12,30 @@
       return {
         player: null,
         loaded: false,
+        // Mute videos by default
         muted: true,
         playing: false,
         showThumbnail: true,
       };
     },
     computed: {
+      isMuted () {
+        return this.$store.state.isMuted || this.muted;
+      },
       soundEnabled () {
         return this.video.hasSound;
       },
     },
     watch: {
-      muted () {
+      isMuted () {
         if (!this.soundEnabled) {
           return;
         }
-        if (!this.muted) {
+        if (!this.isMuted) {
           this.$nuxt.$emit('mute-videos', this.video.vimeoId);
         }
         if (this.player) {
-          this.player.setMuted(this.muted);
+          this.player.setMuted(this.isMuted);
         }
       },
     },
@@ -59,7 +63,8 @@
       },
 
       toggleMute () {
-        this.muted = !this.muted;
+        this.muted = !this.isMuted;
+        this.$store.commit('setMuteState', this.muted);
       },
 
       onUnmuteOtherVideo (unmutedVideoId) {
@@ -97,14 +102,13 @@
       paddingBottom: (video.height / video.width * 100) + '%',
     }"
   >
-    <!--v-if="soundEnabled"-->
     <button
+      v-if="soundEnabled"
       aria-label="Toggle video sound"
       class="vimeoEmbed__unmute"
       @click="toggleMute"
     >
       <Unmute />
-      <!--{{ muted ? 'unmute' : 'mute' }}-->
     </button>
     <ResponsiveImage
       v-if="video.thumbImage"

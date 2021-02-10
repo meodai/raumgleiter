@@ -3,8 +3,8 @@
   import collect from 'collect.js';
 
   export default {
-    key: 'homepage',
     name: 'Page',
+    key: 'homepage',
     async asyncData ({ $craft, params, error, store }) {
       const pagesByLocale = collect(await $craft('pages'));
       const currentPage = pagesByLocale.where('slug', params.slug);
@@ -57,11 +57,13 @@
       },
       currentIntroBlock () {
         return this.currentPage && this.currentPage.pagebuilder.length
-          ? [this.currentPage.pagebuilder[0]] : [];
+          ? [this.currentPage.pagebuilder[0]]
+          : [];
       },
       currentPagebuilder () {
         return this.currentPage && this.currentPage.pagebuilder.length > 1
-          ? this.currentPage.pagebuilder.slice(1) : [];
+          ? this.currentPage.pagebuilder.slice(1)
+          : [];
       },
       metaDescription () {
         return this.hasEnteredRoute && this.currentIntroBlock && this.currentIntroBlock[0].fields.body

@@ -25,8 +25,8 @@
     >
       <client-only>
         <ResponsiveImage
-          :key="'projectImage'+project.slug"
           v-if="project.image"
+          :key="'projectImage'+project.slug"
           class="project-grid-item__image"
           :image="project.image"
         />

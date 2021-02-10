@@ -43,7 +43,7 @@
         return this.fields.contactName || this.fields.phone || this.fields.email;
       },
       formattedPhone () {
-        return this.fields.phone ? this.fields.phone.replace(/\s/g,'') : null;
+        return this.fields.phone ? this.fields.phone.replace(/\s/g, '') : null;
       },
     },
     methods: {

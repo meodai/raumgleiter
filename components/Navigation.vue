@@ -41,8 +41,8 @@
         <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
       <button
-        aria-label="Explore Menu"
         id="navigation-trigger"
+        aria-label="Explore Menu"
         aria-haspopup="true"
         aria-controls="navigation-dropdown"
         :aria-expanded="isOpen"
@@ -72,7 +72,9 @@
         </ul>
         <button
           aria-hidden="true"
-          class="navigation__location" @click.prevent="$scrollToBottom">
+          class="navigation__location"
+          @click.prevent="$scrollToBottom"
+        >
           <Icon
             class="navigation__locationIcon"
             :name="'raumgleiter_symbol'"

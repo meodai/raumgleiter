@@ -14,6 +14,14 @@
         teamPageByLocale: collect(await $craft('team')).keyBy('locale').all(),
       };
     },
+    head () {
+      return {
+        title: this.teamPage.title || null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.metaDescription },
+        ],
+      };
+    },
     computed: {
       teamPage () {
         return this.teamPageByLocale[this.$i18n.locale];
@@ -36,16 +44,8 @@
     },
     methods: {
       formattedPhone (phone) {
-        return phone ? phone.replace(/\s/g,'') : null;
+        return phone ? phone.replace(/\s/g, '') : null;
       },
-    },
-    head () {
-      return {
-        title: this.teamPage.title || null,
-        meta: [
-          { hid: 'description', name: 'description', content: this.metaDescription },
-        ],
-      };
     },
   };
 </script>

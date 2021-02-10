@@ -1,6 +1,6 @@
 <script>
   import collect from 'collect.js';
-  import {debounce} from "throttle-debounce";
+  import { debounce } from 'throttle-debounce';
 
   export default {
     nuxtI18n: {

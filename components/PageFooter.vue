@@ -475,7 +475,7 @@
       <ul class="footer__legal">
         <li>
           <nuxt-link :to="localePath('imprint')" @click.native="$scrollToTop">
-            {{ $t('imprint')}}
+            {{ $t('imprint') }}
           </nuxt-link>
         </li>
       </ul>
@@ -523,7 +523,6 @@
       text-align: center;
     }
   }
-
 
   .footer__inner {
     position: relative;

@@ -14,15 +14,15 @@
         imprintPageByLocale: collect(await $craft('impressum')).keyBy('locale').all(),
       };
     },
-    computed: {
-      imprintPage () {
-        return this.imprintPageByLocale[this.$i18n.locale];
-      },
-    },
     head () {
       return {
         title: this.imprintPage.title || null,
       };
+    },
+    computed: {
+      imprintPage () {
+        return this.imprintPageByLocale[this.$i18n.locale];
+      },
     },
   };
 </script>
@@ -30,7 +30,7 @@
 <template>
   <div>
     <div class="l-design-width content imprint">
-      <div v-html="imprintPage.body"></div>
+      <div v-html="imprintPage.body" />
     </div>
   </div>
 </template>

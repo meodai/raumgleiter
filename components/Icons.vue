@@ -300,6 +300,25 @@
         stroke-width="4"
       />
     </symbol>
+    <symbol
+      id="experience"
+      viewBox="0 0 104.19 116.77"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+      <polygon points="45.96 63.29 0 37.09 0 90.24 45.96 116.77 45.96 63.29" fill="currentColor" />
+      <polygon points="52.1 0 6.19 26.51 52.1 52.67 98 26.51 52.1 0" fill="currentColor" />
+      <polygon points="58.23 63.29 58.23 116.77 104.19 90.24 104.19 37.09 58.23 63.29" fill="currentColor" />
+    </symbol>
+    <symbol
+      id="play"
+      viewBox="0 0 138 138"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+      <path d="M70,138.92a69,69,0,1,1,69-69A69,69,0,0,1,70,138.92ZM70,11.53a58.39,58.39,0,1,0,58.38,58.4h0A58.46,58.46,0,0,0,70,11.53Z" transform="translate(-1 -0.92)" fill="currentColor" />
+      <polygon points="112.44 69 47.43 31.47 47.43 106.53 112.44 69" fill="currentColor" />
+    </symbol>
   </svg>
 </template>
 

@@ -25,6 +25,18 @@
         locale: this.$i18n.locale,
       };
     },
+    head () {
+      return {
+        title: this.projectEntry.title || null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.description },
+          { hid: 'og:description', name: 'og:description', content: this.description },
+          { hid: 'twitter:description', name: 'twitter:description', content: this.description },
+          { hid: 'og:image', property: 'og:image', content: this.shareImage },
+          { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.shareImage },
+        ],
+      };
+    },
     computed: {
       projectEntry () {
         return this.projectEntryByLocale[this.locale];
@@ -41,17 +53,6 @@
       shareImage () {
         return this.projectEntry.meta.shareImage || null;
       },
-    },
-    head () {
-      return {
-        title: this.projectEntry.title || null,
-        meta: [
-          { hid: 'description', name: 'description', content: this.description },
-          { hid: 'og:description', name: 'og:description', content: this.description },
-          { hid: 'og:image', property: 'og:image', content: this.shareImage },
-          { hid: 'twitter:image', name: 'twitter:image', property: 'twitter:image', content: this.shareImage },
-        ],
-      };
     },
   };
 </script>
@@ -77,14 +78,20 @@
       <div class="project__body" :class="{'project__body--landscape': firstPicture && firstPicture.orientation === 'landscape'}">
         <div class="project__bodydata">
           <aside :aria-label="$t('client')">
-            <p><strong>{{ $t('client') }}.</strong> <span v-html="projectEntry.projectData[1]"></span></p>
+            <p><strong>{{ $t('client') }}.</strong> <span v-html="projectEntry.projectData[1]" /></p>
           </aside>
           <aside :aria-label="$t('services')">
-            <p><strong>{{ $t('services') }}.</strong> <span v-html="projectEntry.projectData[2]"></span></p>
+            <p><strong>{{ $t('services') }}.</strong> <span v-html="projectEntry.projectData[2]" /></p>
           </aside>
           <aside :aria-label="$t('benefit')">
-            <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]"></span></p>
+            <p><strong>{{ $t('benefit') }}.</strong> <span v-html="projectEntry.projectData[3]" /></p>
           </aside>
+          <a
+            v-if="projectEntry.projectLink"
+            :href="projectEntry.projectLink.url"
+            class="project__link">
+            {{ $('moreInfo') }}
+          </a>
         </div>
         <div class="project__bodyimagewrap">
           <ResponsiveImage
@@ -187,14 +194,15 @@
     flex: 0 1 50%;
     width: 50%;
 
-    a {
-      text-decoration: underline;
-    }
-
     @include bp('phone') {
       width: auto;
     }
   }
+
+  .project__link {
+    text-decoration: none;
+  }
+
   .project__bodyimagewrap {
     margin-left: var(--size-dog);
     flex: 0 1 50%;

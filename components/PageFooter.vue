@@ -341,7 +341,7 @@
   >
     <div class="footer__inner" :class="{'footer__inner--hide': hide}">
       <nuxt-link
-        class="footer__logo-link footer__col"
+        class="footer__logo-link"
         data-i
         to="/#"
       >
@@ -349,7 +349,7 @@
         <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
 
-      <div class="footer__col footer__col--address">
+      <div class="footer__col--address">
         <address
           data-ic
           :aria-label="$t('address')"
@@ -377,7 +377,7 @@
         </ul>
       </div>
 
-      <article class="footer__newsletter footer__col">
+      <article class="footer__newsletter">
         <h4 data-i>
           {{ footer.newsletterLabel }}
         </h4>
@@ -427,7 +427,7 @@
         </form>
         <!--End mc_embed_signup-->
       </article>
-      <ul class="footer__nav footer__col">
+      <ul class="footer__nav">
         <li
           v-for="(section, key) in mainSections"
           :key="'footer-main-links-'+key"
@@ -438,7 +438,7 @@
           </nuxt-link>
         </li>
       </ul>
-      <ul class="footer__nav footer__nav--second footer__col">
+      <ul class="footer__nav footer__nav--second">
         <li
           v-for="(section, index) in asideSections"
           :key="'footer-aside-links-'+index"
@@ -452,7 +452,7 @@
       </ul>
       <ul
         :aria-label="$t('language')"
-        class="footer__lang footer__col"
+        class="footer__lang"
         role="listbox"
       >
         <li
@@ -472,21 +472,27 @@
           </nuxt-link>
         </li>
       </ul>
+      <ul class="footer__legal">
+        <li>
+          <nuxt-link :to="localePath('imprint')" @click.native="$scrollToTop">
+            {{ $t('imprint')}}
+          </nuxt-link>
+        </li>
+      </ul>
+      <a
+        class="footer__logo-bottomlink"
+        href="#"
+        @click.prevent="start"
+      >
+        <Icon
+          data-p
+          :name="'raumgleiter_symbol'"
+          :is-block="true"
+          class="footer__logoicon"
+        />
+        <span class="sr-only">Do not click!</span>
+      </a>
     </div>
-
-    <a
-      class="footer__logo-bottomlink"
-      href="#"
-      @click.prevent="start"
-    >
-      <Icon
-        data-p
-        :name="'raumgleiter_symbol'"
-        :is-block="true"
-        class="footer__logoicon"
-      />
-      <span class="sr-only">Do not click!</span>
-    </a>
   </div>
 </template>
 
@@ -518,15 +524,37 @@
     }
   }
 
+
   .footer__inner {
     position: relative;
-    display: flex;
-    justify-content: space-between;
     padding: var(--size-rat);
+    display: grid;
+    grid-template-columns: min-content 1fr max-content 1fr 1fr;
+    grid-template-rows: 1fr min-content;
+    gap: 5% 5%;
+    grid-template-areas:
+      "logo-link address newsletter primary-nav secondary-nav"
+      "lang legal logo-icon . .";
 
+    @include bp('tablet') {
+      grid-template-columns: min-content 1fr max-content 1fr 1fr;
+      grid-template-rows: 1fr min-content;
+      gap: 5% 5%;
+      grid-template-areas:
+        "logo-link address newsletter newsletter newsletter"
+        "lang logo-icon logo-icon logo-icon legal";
+    }
     @include bp('phone') {
-      flex-direction: column;
       padding: var(--size-design-bezel);
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: min-content min-content min-content min-content min-content;
+      gap: var(--size-design-bezel) 5%;
+      grid-template-areas:
+        "logo-link logo-link"
+        "newsletter newsletter"
+        "address address"
+        "lang legal"
+        "logo-icon logo-icon";
     }
   }
 
@@ -535,47 +563,26 @@
     pointer-events: none;
   }
 
-  .footer__col {
-    padding-right: 5%;
-    flex: 1 1 20%;
-
-    &:last-child {
-      flex: 1 0 1px;
-      padding-right: 0;
-    }
-  }
-
   .footer__logo {
     width: 16rem;
-    order: 1;
   }
 
   .footer__newsletter {
-    @include bp('phone') {
-      margin-top: var(--size-design-bezel);
-      order: 2;
-    }
+    grid-area: newsletter;
   }
 
   .footer__col--address {
     text-align: left;
-    @include bp('phone') {
-      order: 3;
-      margin-top: var(--size-design-bezel);
-    }
   }
 
   .footer__logo-link {
-    flex: 1 0 1px;
+    grid-area: logo-link;
   }
 
   .footer__address {
+    grid-area: address;
     font-style: normal;
     margin-bottom: var(--size-mouse);
-
-    @include bp('phone') {
-      margin-top: var(--size-rat);
-    }
   }
 
   .footer__address > * {
@@ -584,6 +591,8 @@
     @include typo('nobreak');
   }
   .footer__nav {
+    grid-area: primary-nav;
+
     @include bp('tablet') {
       display: none;
     }
@@ -600,8 +609,17 @@
   }
 
   .footer__nav--second {
-    flex-shrink: 1;
-    flex-basis: auto;
+    grid-area: secondary-nav;
+  }
+
+  .footer__legal {
+    grid-area: legal;
+    display: flex;
+    align-items: center;
+
+    @include bp('tablet') {
+      justify-content: flex-end;
+    }
   }
 
   .footer__form {
@@ -719,21 +737,8 @@
   }
 
   .footer__lang {
-
-    @include bp('tablet') {
-      display: block;
-      position: absolute;
-      top: var(--size-rat);
-      right: var(--size-rat);
-    }
-
-    @include bp('phone') {
-      top: auto;
-      bottom: var(--size-design-bezel);
-      right: var(--size-design-bezel);
-      margin-bottom: var(--size-mouse);
-    }
-
+    grid-area: lang;
+    align-items: center;
     display: flex;
 
     a {
@@ -762,12 +767,16 @@
   }
 
   .footer__logo-bottomlink {
+    grid-area: logo-icon;
+    align-items: center;
+
     display: block;
     width: 4rem;
     height: 4rem;
     margin: var(--size-gutter) auto;
   }
   .footer__logoicon {
+    grid-area: logo-icon;
     width: 100%;
     height: 100%;
   }

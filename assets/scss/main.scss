@@ -49,6 +49,7 @@ ________________________________________________________________________________
   --size-rat: 4.2rem;
   --size-cat: 6.2rem; // title
   --size-dog: 8.6rem;
+  --size-wolf: 11rem;
   --size-pony: 13rem; // large title
   --size-horse: 20rem;
 
@@ -69,12 +70,14 @@ ________________________________________________________________________________
   --color-layout--background: var(--color-white);
   --color-layout--background-inverted: var(--color-black);
   --color-layout--accent: var(--color-grey);
+  --color-layout--backdrop: rgba(0, 0,0, 0.9);
 
   @include bp('phone') {
     --size-mouse: calc(3.2rem / 1.4); // small title
     --size-rat: calc(4.2rem / 1.6);
     --size-cat: calc(6.2rem / 2); // title
     --size-dog: calc(8.6rem / 2);
+    --size-wolf: calc(11rem / 2);
     --size-pony: calc(13rem / 2); // large title
     --size-horse: calc(20rem / 2);
   }

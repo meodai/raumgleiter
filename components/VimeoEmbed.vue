@@ -12,15 +12,41 @@
       return {
         player: null,
         loaded: false,
-        // muted: true,
+        // Mute videos by default
+        muted: true,
         playing: false,
         showThumbnail: true,
       };
+    },
+    computed: {
+      isMuted () {
+        return this.$store.state.isMuted || this.muted;
+      },
+      soundEnabled () {
+        return this.video.hasSound;
+      },
+    },
+    watch: {
+      isMuted () {
+        if (!this.soundEnabled) {
+          return;
+        }
+        if (!this.isMuted) {
+          this.$nuxt.$emit('mute-videos', this.video.vimeoId);
+        }
+        if (this.player) {
+          this.player.setMuted(this.isMuted);
+        }
+      },
+    },
+    created () {
+      this.$nuxt.$on('mute-videos', this.onUnmuteOtherVideo);
     },
     beforeDestroy () {
       if (this.player) {
         this.player.destroy();
       }
+      this.$nuxt.$off('mute-videos', this.onUnmuteOtherVideo);
     },
     methods: {
       initVideo () {
@@ -32,21 +58,20 @@
             setTimeout(() => {
               this.showThumbnail = false;
             }, 1000);
-          // canAutoPlay
-          //   .video({timeout: 100, muted: false})
-          //   .then(({result, error}) => {
-          //     if(result)
-          //       this.player.setMuted(false);
-          //     }
-          //   })
           });
         });
       },
 
-      // toggleMute () {
-      //   this.muted = !this.muted;
-      //   this.player.setMuted(this.muted);
-      // },
+      toggleMute () {
+        this.muted = !this.isMuted;
+        this.$store.commit('setMuteState', this.muted);
+      },
+
+      onUnmuteOtherVideo (unmutedVideoId) {
+        if (unmutedVideoId !== this.video.vimeoId) {
+          this.muted = true;
+        }
+      },
 
       visibilityChanged (isVisible) {
         if (!this.loaded) {
@@ -77,6 +102,14 @@
       paddingBottom: (video.height / video.width * 100) + '%',
     }"
   >
+    <button
+      v-if="soundEnabled"
+      aria-label="Toggle video sound"
+      class="vimeoEmbed__unmute"
+      @click="toggleMute"
+    >
+      <Unmute />
+    </button>
     <ResponsiveImage
       v-if="video.thumbImage"
       class="vimeoEmbed__thumb"
@@ -99,7 +132,7 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .vimeoEmbed {
   position: relative;
   background-size: 100% auto;
@@ -121,5 +154,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.vimeoEmbed__unmute {
+  opacity: 1;
+  position: absolute;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 99;
+  outline: none;
+  cursor: pointer;
+  transition: 200ms opacity linear;
+
+  .icon-unmute {
+    width: 2.4rem;
+    height: 2.4rem;
+
+    @include bp('phone') {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+  }
 }
 </style>

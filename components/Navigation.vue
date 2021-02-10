@@ -123,19 +123,23 @@
 </template>
 
 <style lang="scss">
+  .page {
+    padding-top: var(--size-nav-height, 6rem);
+  }
   // mix-blend-mode: difference;
   .navigation {
-    position: relative;
+    position: fixed;
+
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;
     @include typo('navigationTitles');
 
     @include bp('phone') {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: 10;
       font-size: 2rem;
     }
   }
@@ -252,7 +256,7 @@
       content: '';
       position: absolute;
       z-index: 1;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: -6rem; right: 0; bottom: 0; left: 0;
       background: var(--color-layout--accent);
 
       @include bp('phone') {

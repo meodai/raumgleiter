@@ -7,6 +7,7 @@ export default {
   // header / footer
   explore: 'Explore',
   mainNavigation: 'Hauptnavigation',
+  imprint: 'Impressum',
 
   // links
   learnMore: 'Mehr erfahren',
@@ -30,4 +31,5 @@ export default {
   services: 'Leistungen',
   benefit: 'Benefit',
   moreWorlds: 'weitere Welten',
+  moreInfo: 'Mehr Informationen',
 };

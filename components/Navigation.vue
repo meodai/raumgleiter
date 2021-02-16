@@ -41,8 +41,8 @@
         <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
       <button
-        aria-label="Explore Menu"
         id="navigation-trigger"
+        aria-label="Explore Menu"
         aria-haspopup="true"
         aria-controls="navigation-dropdown"
         :aria-expanded="isOpen"
@@ -72,7 +72,9 @@
         </ul>
         <button
           aria-hidden="true"
-          class="navigation__location" @click.prevent="$scrollToBottom">
+          class="navigation__location"
+          @click.prevent="$scrollToBottom"
+        >
           <Icon
             class="navigation__locationIcon"
             :name="'raumgleiter_symbol'"
@@ -123,19 +125,23 @@
 </template>
 
 <style lang="scss">
+  .page {
+    padding-top: var(--size-nav-height, 6rem);
+  }
   // mix-blend-mode: difference;
   .navigation {
-    position: relative;
+    position: fixed;
+
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+
     --size-gutter-x: 1.5rem;
     font-size: 1.6rem;
     @include typo('navigationTitles');
 
     @include bp('phone') {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: 10;
       font-size: 2rem;
     }
   }
@@ -252,7 +258,7 @@
       content: '';
       position: absolute;
       z-index: 1;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: -6rem; right: 0; bottom: 0; left: 0;
       background: var(--color-layout--accent);
 
       @include bp('phone') {

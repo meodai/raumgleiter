@@ -1,9 +1,9 @@
 <script>
-  import FilterButton from './FilterButton';
+  import ProjectFilterButton from './ProjectFilterButton';
 
   export default {
     components: {
-      FilterButton,
+      ProjectFilterButton,
     },
     props: {
       categories: {
@@ -15,6 +15,13 @@
       return {
         activeTabLabel: 'sector',
       };
+    },
+    mounted () {
+      Object.keys(this.categories).forEach((categoryName) => {
+        if (this.$route.query[categoryName + 's']) {
+          this.activeTabLabel = categoryName;
+        }
+      });
     },
     methods: {
       setActive (groupName = null) {
@@ -54,6 +61,10 @@
           </button>
         </li>
       </ul>
+
+      <div class="filter__input">
+        <ProjectSearchbar />
+      </div>
     </div>
     <section
       v-for="(group, groupName) in categories"
@@ -70,7 +81,7 @@
             :key="'cat'+category.id"
             class="filter__filter"
           >
-            <FilterButton :category="category" />
+            <ProjectFilterButton :category="category" />
           </li>
         </ul>
       </div>
@@ -83,9 +94,26 @@
     text-align: center;
   }
 
+  .filter__tabs-wrap {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @include bp('tablet') {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  }
+
   .filter__tabs {
     display: inline-block;
+    margin-right: var(--size-stack);
+
+    @include bp('tablet') {
+      margin-right: 0;
+    }
   }
+
   .filter__tabs > * {
     display: inline-block;
   }
@@ -103,11 +131,20 @@
       color: var(--color-text);
       border-bottom-color: var(--color-text);
     }
+
+    @include bp('tablet') {
+      margin-top: var(--size-stack);
+    }
   }
 
-  .filter__tabs-wrap {
-    padding-top: 0;
-    padding-bottom: 0;
+  .filter__input {
+    display: inline-block;
+
+    @include bp('tablet') {
+      display: block;
+      width: 100%;
+      max-width: 40rem;
+    }
   }
 
   .filter__tabpanel {

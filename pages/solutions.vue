@@ -19,6 +19,14 @@
         filtersVisible: false,
       };
     },
+    head () {
+      return {
+        title: this.solutionsPage.title || null,
+        meta: [
+          { hid: 'description', name: 'description', content: this.metaDescription },
+        ],
+      };
+    },
     computed: {
       solutionsPage () {
         return this.solutionsPageByLocale[this.$i18n.locale];
@@ -33,14 +41,6 @@
       visibilityChanged (isVisible, entry) {
         this.filtersVisible = isVisible;
       },
-    },
-    head () {
-      return {
-        title: this.solutionsPage.title || null,
-        meta: [
-          { hid: 'description', name: 'description', content: this.metaDescription },
-        ],
-      };
     },
   };
 </script>

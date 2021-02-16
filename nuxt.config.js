@@ -1,3 +1,5 @@
+import axios from 'axios';
+import collect from 'collect.js';
 export default {
   /*
    ** Nuxt target
@@ -158,33 +160,54 @@ export default {
    */
   generate: {
     exclude: [
-      ...process.env.LIVE_PREVIEW !== 'true' && process.env.DEV_MODE !== 'true' ? [
-        '/design-inventory', '/en/design-inventory', '/fr/design-inventory',
-        '/preview', '/en/preview', '/fr/preview',
-        '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
-        '/preview/project', '/en/preview/project', '/fr/preview/project',
-        '/preview/projectIndex', '/en/preview/projectIndex', '/fr/preview/projectIndex',
-        '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
-        '/preview/team', '/en/preview/team', '/fr/preview/team',
-      ] : [],
+      ...process.env.LIVE_PREVIEW !== 'true' && process.env.DEV_MODE !== 'true'
+        ? [
+          '/design-inventory', '/en/design-inventory', '/fr/design-inventory',
+          '/preview', '/en/preview', '/fr/preview',
+          '/preview/pagebuilder', '/en/preview/pagebuilder', '/fr/preview/pagebuilder',
+          '/preview/project', '/en/preview/project', '/fr/preview/project',
+          '/preview/projectIndex', '/en/preview/projectIndex', '/fr/preview/projectIndex',
+          '/preview/solutions', '/en/preview/solutions', '/fr/preview/solutions',
+          '/preview/team', '/en/preview/team', '/fr/preview/team',
+          '/preview/imprint', '/en/preview/imprint', '/fr/preview/imprint',
+        ]
+        : [],
     ],
     fallback: '404.html',
+    // Fetch hidden projects
+    routes () {
+      return axios.get(process.env.API_URL + '/projects.json').then((res) => {
+        return collect(res.data.data)
+          .filter((project) => {
+            return project.categories.sectors.length === 0 && project.categories.offers.length === 0;
+          })
+          .map((project) => {
+            switch (project.locale) {
+              case 'en':
+                return '/en/projects/' + project.slug;
+              case 'fr':
+                return '/fr/projets/' + project.slug;
+              default:
+                return '/projekte/' + project.slug;
+            }
+          })
+          .all();
+      });
+    },
   },
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.API_URL || 'https://api.raumgleiter.com',
+      baseURL: process.env.API_URL,
     },
   },
   publicRuntimeConfig: {
     livePreview: process.env.LIVE_PREVIEW === 'true',
     devMode: process.env.DEV_MODE === 'true',
     http: {
-      // Expose api url to browser
-      browserBaseURL: process.env.API_URL || 'https://api.raumgleiter.com',
       // Keep api url from being exposed to browser
-      // browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true'
-      //   ? process.env.API_URL || 'https://api.raumgleiter.com'
-      //   : '',
+      browserBaseURL: process.env.LIVE_PREVIEW === 'true' || process.env.DEV_MODE === 'true'
+        ? process.env.API_URL
+        : '',
     },
   },
 };

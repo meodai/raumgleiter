@@ -74,12 +74,14 @@
         :text="fields.lead"
         class-name="intro__leadtext t-lead"
       />
-      <nl2br
-        v-if="fields.body"
-        tag="p"
-        :text="fields.body"
-        class-name="intro__paragraph"
-      />
+<!--      <nl2br-->
+<!--        v-if="fields.body"-->
+<!--        tag="p"-->
+<!--        :text="fields.body"-->
+<!--        class-name="intro__paragraph"-->
+<!--      />-->
+      <!-- Needs to be able to render links -->
+      <p class="intro__paragraph" v-html="fields.body"></p>
     </div>
     <aside
       v-for="(offers, index) in fields.offers"

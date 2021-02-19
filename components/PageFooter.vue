@@ -472,13 +472,13 @@
           </nuxt-link>
         </li>
       </ul>
-<!--      <ul class="footer__legal">-->
-<!--        <li>-->
-<!--          <nuxt-link :to="localePath('imprint')" @click.native="$scrollToTop">-->
-<!--            {{ $t('imprint') }}-->
-<!--          </nuxt-link>-->
-<!--        </li>-->
-<!--      </ul>-->
+      <ul class="footer__legal">
+        <li>
+          <nuxt-link :to="localePath('imprint')" @click.native="$scrollToTop">
+            {{ $t('imprint') }}
+          </nuxt-link>
+        </li>
+      </ul>
       <a
         class="footer__logo-bottomlink"
         href="#"

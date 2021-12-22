@@ -25,9 +25,7 @@ export default {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#000000' },
       { rel: 'msapplication-TileColor', content: '#9f00a7' },
     ],
-    script: [
-      { async: true, defer: true, 'data-domain': 'raumgleiter.com', src: 'https://prism.raumgleiter.com/js/index.js' },
-    ],
+    script: [],
   },
   pwa: {
     meta: {

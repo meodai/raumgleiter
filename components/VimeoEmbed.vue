@@ -25,6 +25,13 @@
       soundEnabled () {
         return this.video.hasSound;
       },
+      embedUrl () {
+        let url = `https://player.vimeo.com/video/${this.video.vimeoId}?`;
+        if (this.video.hash) {
+          url += `h=${this.video.hash}&`;
+        }
+        return url + 'background=1';
+      },
     },
     watch: {
       isMuted () {
@@ -122,7 +129,7 @@
       v-if="loaded"
       ref="video"
       class="vimeoEmbed__iframe"
-      :src="loaded ? `https://player.vimeo.com/video/${video.vimeoId}?background=1` : null"
+      :src="loaded ? embedUrl : null"
       width="100%"
       height="100%"
       frameborder="0"

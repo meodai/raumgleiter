@@ -19,7 +19,7 @@
     >
       <div class="banner">
 
-        <MarqueeText :duration="7">
+        <MarqueeText :duration="14">
           <div class="banner__loop">
             {{ currentBannerData.text }}
           </div>
@@ -53,7 +53,7 @@
     background-color: #ffffff;
     z-index: 90;
     font-size: 2.4rem;
-    padding-top: 0.35rem;
+    padding-top: 0.1rem;
   }
 
   .banner__loop {
@@ -62,6 +62,7 @@
     white-space: nowrap;
     font-size: 2.4rem;
     width: 100vw;
+    max-width: 1400px;
     text-align: right;
   }
 
@@ -82,7 +83,7 @@
     justify-content: space-around;
 
     & > div {
-      padding-top: 0.35rem;
+      padding-top: 0.1rem;
       text-decoration: underline;
       text-decoration-thickness: 2px;
     }

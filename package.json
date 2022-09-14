@@ -26,6 +26,7 @@
     "pixi.js": "^5.3.7",
     "sass": "^1.32.7",
     "throttle-debounce": "^3.0.1",
+    "vue-dynamic-marquee": "^0.1.7",
     "vue-nl2br": "^0.1.2",
     "vue-observe-visibility": "^1.0.0",
     "vue-slide-up-down": "^2.0.1",

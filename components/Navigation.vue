@@ -31,6 +31,7 @@
 
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
+    <Banner />
     <div class="navigation__bar">
       <nuxt-link
         class="navigation__logo-link"

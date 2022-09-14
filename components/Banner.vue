@@ -18,10 +18,28 @@
       :duration="500"
     >
       <div class="banner">
-        <nuxt-link :to="localePath('/'+currentBannerData.link)" v-if="currentBannerData.link">
-          <BannerInner />
+
+        <MarqueeText :duration="7">
+          <div class="banner__loop">
+            {{ currentBannerData.text }}
+          </div>
+        </MarqueeText>
+
+        <nuxt-link
+          v-if="currentBannerData.link"
+          :to="localePath('/'+currentBannerData.link)"
+          class="banner__link"
+        >
+          <div
+            v-if="currentBannerData.hoverText"
+            class="banner__hover"
+          >
+              <div>
+                {{ currentBannerData.hoverText }}
+              </div>
+          </div>
         </nuxt-link>
-        <BannerInner v-else />
+
       </div>
     </slide-up-down>
   </div>
@@ -43,17 +61,24 @@
     hyphens: none;
     white-space: nowrap;
     font-size: 2.4rem;
+    width: 100vw;
+    text-align: right;
+  }
+
+  .banner__link {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .banner__hover {
     opacity: 0;
     transition: opacity 0.1s;
-    position: absolute;
-    top: 0;
-    background-color: #aaffff;
+    display: flex;
+    background-color: #ffffff;
     width: 100%;
     height: 100%;
-    display: flex;
     justify-content: space-around;
 
     & > div {

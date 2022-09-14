@@ -80,7 +80,6 @@ export default {
     { src: './plugins/scroll-to-top.js', mode: 'client' },
     { src: './plugins/nl2br.js', mode: 'client' },
     { src: './plugins/slide-up-down.js' },
-    { src: './plugins/marquee.js', mode: 'client' },
   ],
   /*
    ** Auto import components

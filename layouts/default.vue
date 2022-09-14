@@ -19,6 +19,12 @@
       };
     },
     computed: {
+      navHeight() {
+        return this.$store.getters.getBannerStatus && this.isOnHome ? 'calc(6rem + 44px)' : '6rem';
+      },
+      isOnHome() {
+        return ['/', '/en', '/fr', '/en/', '/fr/'].includes(this.$route.path);
+      },
       metaDescription () {
         return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
       },
@@ -30,7 +36,7 @@
 </script>
 
 <template>
-  <div class="page">
+  <div class="page" :style="{ paddingTop: navHeight }">
     <Navigation v-if="!$config.livePreview || $config.devMode" />
     <Nuxt />
     <PageFooter v-if="!$config.livePreview || $config.devMode" />

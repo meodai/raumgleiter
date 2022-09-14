@@ -1,5 +1,6 @@
 import axios from 'axios';
 import collect from 'collect.js';
+
 export default {
   /*
    ** Nuxt target
@@ -14,16 +15,16 @@ export default {
     title: 'Raumgleiter',
     titleTemplate: '%s | Raumgleiter',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#000000' },
-      { rel: 'msapplication-TileColor', content: '#9f00a7' },
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      {rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png'},
+      {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png'},
+      {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png'},
+      {rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#000000'},
+      {rel: 'msapplication-TileColor', content: '#9f00a7'},
     ],
     script: [],
   },
@@ -68,17 +69,18 @@ export default {
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    { src: './plugins/mixitup.js', mode: 'client' },
-    { src: './plugins/pixi.js', mode: 'client' },
-    { src: './plugins/gsap.js', mode: 'client' },
-    { src: './plugins/preview.js', mode: 'client' },
-    { src: './plugins/craft.js' },
-    { src: './plugins/intersection-observer.js', mode: 'client' },
-    { src: './plugins/lazysizes.js', mode: 'client' },
-    { src: './plugins/canautoplay.js', mode: 'client' },
-    { src: './plugins/touch.js', mode: 'client' },
-    { src: './plugins/scroll-to-top.js', mode: 'client' },
-    { src: './plugins/nl2br.js', mode: 'client' },
+    {src: './plugins/mixitup.js', mode: 'client'},
+    {src: './plugins/pixi.js', mode: 'client'},
+    {src: './plugins/gsap.js', mode: 'client'},
+    {src: './plugins/preview.js', mode: 'client'},
+    {src: './plugins/craft.js'},
+    {src: './plugins/intersection-observer.js', mode: 'client'},
+    {src: './plugins/lazysizes.js', mode: 'client'},
+    {src: './plugins/canautoplay.js', mode: 'client'},
+    {src: './plugins/touch.js', mode: 'client'},
+    {src: './plugins/scroll-to-top.js', mode: 'client'},
+    {src: './plugins/nl2br.js', mode: 'client'},
+    {src: './plugins/slide-up-down.js'},
   ],
   /*
    ** Auto import components
@@ -108,13 +110,13 @@ export default {
   i18n: {
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'de', iso: 'de', file: 'de.js' },
-      { code: 'en', iso: 'en', file: 'en.js' },
-      { code: 'fr', iso: 'fr', file: 'fr.js' },
+      {code: 'de', iso: 'de', file: 'de.js'},
+      {code: 'en', iso: 'en', file: 'en.js'},
+      {code: 'fr', iso: 'fr', file: 'fr.js'},
     ],
     defaultLocale: 'de',
-    vueI18n: { fallbackLocale: 'en' },
-    vuex: { syncLocale: true },
+    vueI18n: {fallbackLocale: 'en'},
+    vuex: {syncLocale: true},
     langDir: 'lang/',
     lazy: true,
     detectBrowserLanguage: {
@@ -173,24 +175,43 @@ export default {
     ],
     fallback: '404.html',
     // Fetch hidden projects
-    routes () {
-      return axios.get(process.env.API_URL + '/projects.json').then((res) => {
-        return collect(res.data.data)
-          .filter((project) => {
-            return project.categories.sectors.length === 0 && project.categories.offers.length === 0;
-          })
-          .map((project) => {
-            switch (project.locale) {
-              case 'en':
-                return '/en/projects/' + project.slug;
-              case 'fr':
-                return '/fr/projets/' + project.slug;
-              default:
-                return '/projekte/' + project.slug;
-            }
-          })
-          .all();
+    routes: function () {
+      let projects = axios.get(process.env.API_URL + '/projects.json')
+      .then((res) => res.data.data)
+      .then((data) => {
+        return collect(data)
+        .filter((project) => {
+          return project.categories.sectors.length === 0 && project.categories.offers.length === 0;
+        })
+        .map((project) => {
+          switch (project.locale) {
+            case 'en':
+              return '/en/projects/' + project.slug;
+            case 'fr':
+              return '/fr/projets/' + project.slug;
+            default:
+              return '/projekte/' + project.slug;
+          }
+        }).all();
       });
+
+      let hiddenPages = axios.get(process.env.API_URL + '/hiddenPages.json')
+      .then((res) => res.data.data)
+      .then((data) => {
+        return collect(data)
+        .map((page) => {
+          switch (page.locale) {
+            case 'en':
+              return '/en/p/' + page.slug;
+            case 'fr':
+              return '/fr/p/' + page.slug;
+            default:
+              return '/p/' + page.slug;
+          }
+        }).all();
+      });
+
+      return Promise.all([projects, hiddenPages]).then((values) => values.flat());
     },
   },
   privateRuntimeConfig: {

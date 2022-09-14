@@ -5,6 +5,7 @@ export const state = () => ({
   isMuted: true,
   sectionsByLocale: null,
   seoData: {},
+  bannerData: {},
   footerByLocale: [],
   projectSearchQuery: '',
 });
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setSeoData (state, seoData) {
     state.seoData = seoData;
+  },
+  setBannerData (state, bannerData) {
+    state.bannerData = bannerData;
   },
   setMuteState (state, isMuted) {
     state.isMuted = isMuted;
@@ -41,6 +45,16 @@ export const getters = {
       ? state.sectionsByLocale[state.i18n.locale].asideEntries
       : [];
   },
+  getCurrentBannerData (state) {
+    return state.bannerData[state.i18n.locale] ?? [];
+  },
+  getBannerStatus (state, getters) {
+    if (getters.getCurrentBannerData.length <1) {
+      return false;
+    }
+
+    return getters.getCurrentBannerData.status === true && getters.getCurrentBannerData.text;
+  }
 };
 
 export const actions = {
@@ -69,5 +83,8 @@ export const actions = {
       .map(page => page.first())
       .all();
     commit('setSeoData', seoData);
+
+    const bannerData = collect(await this.$craft('banner')).keyBy('locale').all();
+    commit('setBannerData', bannerData);
   },
-};
+}

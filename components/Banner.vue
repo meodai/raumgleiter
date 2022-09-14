@@ -49,11 +49,11 @@
   .banner {
     position: relative;
     width: 100%;
-    height: 34px;
+    height: 44px;
     background-color: #ffffff;
     z-index: 90;
     font-size: 2.4rem;
-    padding-top: 0.1rem;
+    padding-top: 0.5rem;
   }
 
   .banner__loop {
@@ -83,7 +83,7 @@
     justify-content: space-around;
 
     & > div {
-      padding-top: 0.1rem;
+      padding-top: 0.5rem;
       text-decoration: underline;
       text-decoration-thickness: 2px;
     }

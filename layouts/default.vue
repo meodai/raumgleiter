@@ -20,7 +20,7 @@
     },
     computed: {
       navHeight() {
-        return this.$store.getters.getBannerStatus && this.isOnHome ? 'calc(6rem + 34px)' : '6rem';
+        return this.$store.getters.getBannerStatus && this.isOnHome ? 'calc(6rem + 44px)' : '6rem';
       },
       isOnHome() {
         return ['/', '/en', '/fr', '/en/', '/fr/'].includes(this.$route.path);

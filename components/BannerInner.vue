@@ -4,38 +4,33 @@
       currentBannerData() {
         return this.$store.getters.getCurrentBannerData;
       },
-      isOnHome() {
-        return ['/', '/en', '/fr', '/en/', '/fr/'].includes(this.$route.path);
-      },
     },
   };
 </script>
 
 <template>
-  <div>
-    <slide-up-down
-      :active="isOnHome"
-      :duration="500"
+  <div class="banner__inner">
+    <DynamicMarquee
+      direction="row"
+      :reverse="true"
+      :repeat="false"
     >
-      <div class="banner">
-        <nuxt-link :to="localePath('/'+currentBannerData.link)" v-if="currentBannerData.link">
-          <BannerInner />
-        </nuxt-link>
-        <BannerInner v-else />
+        <div class="banner__loop">
+          {{ currentBannerData.text }}
+        </div>
+    </DynamicMarquee>
+    <div class="banner__hover" v-if="currentBannerData.link && currentBannerData.hoverText">
+      <div>
+        {{ currentBannerData.hoverText }}
       </div>
-    </slide-up-down>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-  .banner {
-    position: relative;
+  .banner__inner {
     width: 100%;
-    height: 34px;
-    background-color: #ffffff;
-    z-index: 90;
-    font-size: 2.4rem;
-    padding-top: 0.35rem;
+    height: 100%;
   }
 
   .banner__loop {
@@ -50,7 +45,7 @@
     transition: opacity 0.1s;
     position: absolute;
     top: 0;
-    background-color: #aaffff;
+    background-color: #ffffff;
     width: 100%;
     height: 100%;
     display: flex;

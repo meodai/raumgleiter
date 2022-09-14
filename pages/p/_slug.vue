@@ -12,23 +12,29 @@
       },
     },
     async asyncData ({ $craft, params, error, store }) {
-      const pagesByLocale = collect(await $craft('hiddenPages'));
-      const currentPage = pagesByLocale.where('slug', params.slug).first();
+      const pagesByLocale = collect(await $craft('hiddenPages'))
+        .where('slug', params.slug)
+        .keyBy('locale');
 
-      if (!currentPage) {
+      if (pagesByLocale.count() < 1) {
         return error({ statusCode: 404 });
       }
 
-      await store.dispatch('i18n/setRouteParams', currentPage.locale_slugs);
+      await store.dispatch('i18n/setRouteParams', pagesByLocale.first().locale_slugs);
 
       return {
-        currentPage,
+        pagesByLocale: pagesByLocale.all(),
       };
     },
     head () {
       return {
         title: this.currentPage.title || null,
       };
+    },
+    computed: {
+      currentPage () {
+        return this.pagesByLocale[this.$i18n.locale];
+      },
     },
   };
 </script>

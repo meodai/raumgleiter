@@ -6,6 +6,9 @@
       };
     },
     computed: {
+      showBanner() {
+        return this.$store.getters.getBannerStatus;
+      },
       menuItems () {
         return this.$store.getters.getAsideSections;
       },
@@ -31,7 +34,7 @@
 
 <template>
   <div class="navigation" :class="{'navigation--isOpen': isOpen}">
-    <Banner />
+    <Banner v-if="showBanner" />
     <div class="navigation__bar">
       <nuxt-link
         class="navigation__logo-link"
@@ -126,9 +129,9 @@
 </template>
 
 <style lang="scss">
-  .page {
-    padding-top: var(--size-nav-height, 6rem);
-  }
+  //.page {
+  //  padding-top: var(--size-nav-height, 6rem);
+  //}
   // mix-blend-mode: difference;
   .navigation {
     position: fixed;

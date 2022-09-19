@@ -44,21 +44,21 @@
         <Logo class="navigation__logo" />
         <span class="sr-only">Raumgleiter</span>
       </nuxt-link>
-      <button
-        id="navigation-trigger"
-        aria-label="Explore Menu"
-        aria-haspopup="true"
-        aria-controls="navigation-dropdown"
-        :aria-expanded="isOpen"
-        class="navigation__trigger"
-        @click="toggleDrawer"
-      >
-        <span class="navigation__triggerInner">
-          {{ $t('explore') }}
-          <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />
-        </span>
-        <Hamburger class="navigation__burger" :is-open="isOpen" />
-      </button>
+<!--      <button-->
+<!--        id="navigation-trigger"-->
+<!--        aria-label="Explore Menu"-->
+<!--        aria-haspopup="true"-->
+<!--        aria-controls="navigation-dropdown"-->
+<!--        :aria-expanded="isOpen"-->
+<!--        class="navigation__trigger"-->
+<!--        @click="toggleDrawer"-->
+<!--      >-->
+<!--        <span class="navigation__triggerInner">-->
+<!--          {{ $t('explore') }}-->
+<!--          <Icon class="navigation__trigger-icon" :name="'icon_arrow_right'" />-->
+<!--        </span>-->
+<!--        <Hamburger class="navigation__burger" :is-open="isOpen" />-->
+<!--      </button>-->
       <nav
         class="navigation__company"
         :aria-label="$t('mainNavigation')"

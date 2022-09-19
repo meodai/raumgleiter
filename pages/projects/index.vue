@@ -10,7 +10,8 @@
         en: '/projects', // -> accessible at /en/projects
       },
     },
-    async asyncData ({ $craft }) {
+    async asyncData ({ $craft, redirect }) {
+      return redirect('/');
       return {
         projectEntriesByLocale: collect(await $craft('projects'))
           .filter((project) => {

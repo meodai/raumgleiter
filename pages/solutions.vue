@@ -9,7 +9,8 @@
         en: '/virtual-solutions', // -> accessible at /en/virtual-solutions
       },
     },
-    async asyncData ({ $craft }) {
+    async asyncData ({ $craft, redirect }) {
+      return redirect('/');
       return {
         solutionsPageByLocale: collect(await $craft('solutions')).keyBy('locale').all(),
       };

@@ -5,7 +5,7 @@
   export default {
     name: 'Page',
     key: 'homepage',
-    async asyncData ({ $craft, params, error, store }) {
+    async asyncData ({ $craft, params, error, store, redirect }) {
       const pagesByLocale = collect(await $craft('pages'));
       // const currentPage = pagesByLocale.where('slug', params.slug);
       const currentPage = pagesByLocale.first();
@@ -13,7 +13,9 @@
       // if (params.slug && currentPage.count() < 1) {
       //   return error({ statusCode: 404 });
       if (params.slug) {
-        return error({ statusCode: 404 });
+        // console.log(params.slug);
+        return redirect('/');
+        // return error({ statusCode: 404 });
       } else {
         // await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
         await store.dispatch('i18n/setRouteParams', currentPage.locale_slugs);

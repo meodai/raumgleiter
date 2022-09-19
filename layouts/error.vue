@@ -1,6 +1,7 @@
 <script>
   export default {
     created () {
+      return this.$router.push('/');
       this.$store.dispatch('nuxtServerInit');
     },
     mounted () {

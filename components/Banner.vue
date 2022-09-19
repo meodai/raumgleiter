@@ -53,6 +53,7 @@
     font-size: 24px;
     min-width: 100vw;
     max-width: 1400px;
+    padding: 0 30px;
     text-align: right;
   }
 

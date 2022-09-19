@@ -51,7 +51,7 @@
     hyphens: none;
     white-space: nowrap;
     font-size: 24px;
-    width: 100vw;
+    min-width: 100vw;
     max-width: 1400px;
     text-align: right;
   }

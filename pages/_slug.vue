@@ -13,12 +13,11 @@
       // if (params.slug && currentPage.count() < 1) {
       //   return error({ statusCode: 404 });
       if (params.slug) {
-        // console.log(params.slug);
         return redirect('/');
         // return error({ statusCode: 404 });
-      } else {
+      // } else {
         // await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
-        await store.dispatch('i18n/setRouteParams', currentPage.locale_slugs);
+        // await store.dispatch('i18n/setRouteParams', currentPage.locale_slugs);
       }
 
       return {
@@ -30,6 +29,9 @@
         allowTouchSwipe: true,
         currentSlide: -1,
       };
+    },
+    created() {
+      this.$store.dispatch('nuxtServerInit');
     },
     computed: {
       hasEnteredRoute () {

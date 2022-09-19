@@ -39,10 +39,10 @@
   .banner {
     position: relative;
     width: 100%;
-    height: 44px;
+    height: 1.8em;
     background-color: #ffffff;
     z-index: 90;
-    font-size: 24px;
+    font-size: 2.4rem;
     padding-top: 0.5rem;
   }
 
@@ -50,7 +50,7 @@
     word-break: keep-all;
     hyphens: none;
     white-space: nowrap;
-    font-size: 24px;
+    font-size: 2.4rem;
     min-width: 100vw;
     max-width: 1400px;
     padding: 0 30px;
@@ -62,7 +62,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    font-size: 24px;
+    font-size: 2.4rem;
   }
 
   .banner__hover {

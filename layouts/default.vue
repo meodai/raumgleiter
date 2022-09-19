@@ -20,7 +20,7 @@
     },
     computed: {
       navHeight() {
-        return this.$store.getters.getBannerStatus ? 'calc(6rem + 44px)' : '6rem';
+        return this.$store.getters.getBannerStatus ? 'calc(6rem + 4.2rem)' : '6rem';
       },
       metaDescription () {
         return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;

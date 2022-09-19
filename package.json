@@ -28,7 +28,6 @@
     "throttle-debounce": "^3.0.1",
     "vue-nl2br": "^0.1.2",
     "vue-observe-visibility": "^1.0.0",
-    "vue-slide-up-down": "^2.0.1",
     "vue2-touch-events": "^3.1.1"
   },
   "devDependencies": {

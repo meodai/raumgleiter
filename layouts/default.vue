@@ -20,10 +20,7 @@
     },
     computed: {
       navHeight() {
-        return this.$store.getters.getBannerStatus && this.isOnHome ? 'calc(6rem + 44px)' : '6rem';
-      },
-      isOnHome() {
-        return ['/', '/en', '/fr', '/en/', '/fr/'].includes(this.$route.path);
+        return this.$store.getters.getBannerStatus ? 'calc(6rem + 44px)' : '6rem';
       },
       metaDescription () {
         return this.$store.state.seoData[this.$i18n.locale].metaDescription || null;

@@ -80,7 +80,6 @@ export default {
     {src: './plugins/touch.js', mode: 'client'},
     {src: './plugins/scroll-to-top.js', mode: 'client'},
     {src: './plugins/nl2br.js', mode: 'client'},
-    {src: './plugins/slide-up-down.js'},
   ],
   /*
    ** Auto import components

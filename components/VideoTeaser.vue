@@ -114,7 +114,7 @@
       this.$nuxt.$on('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$on('intro-intersect', this.toggleVisibility);
 
-      this.$nuxt.$on('logoClick', this.slideToStart);
+      // this.$nuxt.$on('logoClick', this.slideToStart);
 
       this.scrollHandler();
     },
@@ -125,7 +125,7 @@
       window.removeEventListener('scroll', this.scrollHandler);
       this.$nuxt.$off('video-teaser-slide', this.slideToIndex);
       this.$nuxt.$off('intro-intersect', this.toggleVisibility);
-      this.$nuxt.$off('logoClick', this.slideToStart);
+      // this.$nuxt.$off('logoClick', this.slideToStart);
     },
     methods: {
       startApp () {

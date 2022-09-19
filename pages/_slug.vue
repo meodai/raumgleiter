@@ -7,12 +7,16 @@
     key: 'homepage',
     async asyncData ({ $craft, params, error, store }) {
       const pagesByLocale = collect(await $craft('pages'));
-      const currentPage = pagesByLocale.where('slug', params.slug);
+      // const currentPage = pagesByLocale.where('slug', params.slug);
+      const currentPage = pagesByLocale.first();
 
-      if (params.slug && currentPage.count() < 1) {
+      // if (params.slug && currentPage.count() < 1) {
+      //   return error({ statusCode: 404 });
+      if (params.slug) {
         return error({ statusCode: 404 });
       } else {
-        await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
+        // await store.dispatch('i18n/setRouteParams', currentPage.first().locale_slugs);
+        await store.dispatch('i18n/setRouteParams', currentPage.locale_slugs);
       }
 
       return {
@@ -27,7 +31,7 @@
     },
     computed: {
       hasEnteredRoute () {
-        return this.$route.params.slug !== undefined;
+        return true; //this.$route.params.slug !== undefined;
       },
       pagesInCurrentLocale () {
         return collect(this.pagesByLocale[this.$i18n.locale]).toArray() || false;
@@ -36,10 +40,11 @@
         return this.videoTeasers[this.currentSlide] ? this.videoTeasers[this.currentSlide].slug : null;
       },
       currentPageIndexByRoute () {
-        return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
+        // return collect(this.pagesInCurrentLocale).search(page => page.slug === this.$nuxt.$route.params.slug) || 0;
+        return 0;
       },
       currentPageIndex () {
-        return this.$route.params.slug ? this.currentPageIndexByRoute : this.currentSlide;
+        return 0; //this.$route.params.slug ? this.currentPageIndexByRoute : this.currentSlide;
       },
       currentPage () {
         return this.pagesInCurrentLocale ? this.pagesInCurrentLocale[this.currentPageIndex] : false;
@@ -71,13 +76,13 @@
           : this.$store.state.seoData[this.$i18n.locale].metaDescription || null;
       },
     },
-    watch: {
-      '$nuxt.$route.params.slug' () {
-        if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
-          this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
-        }
-      },
-    },
+    // watch: {
+    //   '$nuxt.$route.params.slug' () {
+    //     if (this.getRouteBaseName() === 'slug' && this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
+    //       this.$nuxt.$emit('video-teaser-slide', this.currentPageIndexByRoute);
+    //     }
+    //   },
+    // },
     mounted () {
       this.listenForScrollEvent();
       window.addEventListener('scroll', this.listenForScrollEvent, { passive: true });
@@ -102,9 +107,9 @@
         }
       },
       updateRouteToMatchTeaser () {
-        if (this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
-          this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaserSlug } }));
-        }
+        // if (this.$nuxt.$route.params.slug !== this.currentVideoTeaserSlug) {
+        //   this.$router.push(this.localePath({ name: 'slug', params: { slug: this.currentVideoTeaserSlug } }));
+        // }
       },
     },
     head () {

@@ -853,6 +853,7 @@
 
 .video-teaser__title {
   @include typo('title--hero');
+  hyphens: none;
 
   @include bp('phone') {
     font-size: 6.5rem;

@@ -148,6 +148,10 @@
   .intro__lead {
     width: 74%;
 
+    .intro__title {
+      hyphens: none;
+    }
+
     @include bp(tablet) {
       width: auto;
     }

@@ -196,6 +196,7 @@
 
   .calltoaction__content {
     padding-top: 0.2em;
+    hyphens: none;
     > * {
       margin-right: .4em;
       &:last-child {

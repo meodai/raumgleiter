@@ -39,7 +39,11 @@
       let entries = collect(this.fields.entries).shuffle();
 
       if (entries.count() < 4) {
-        entries = entries.merge(entries);
+        entries = collect([...entries.all(), ...entries.all()]);
+      }
+
+      if (entries.count() < 4) {
+        entries = collect([...entries.all(), ...entries.all()]);
       }
 
       this.randomisedEntries = entries.all();

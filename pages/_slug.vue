@@ -130,6 +130,9 @@
 
 <template>
   <div :class="{ 'c-design--inverted': currentPage && currentPage.inverted }">
+
+    <BannerTwo />
+
     <VideoTeaserContainer>
       <VideoTeaser
         :entries="videoTeasers"

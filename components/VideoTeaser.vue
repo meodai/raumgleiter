@@ -94,6 +94,9 @@
       isMuted () {
         return this.$store.state.isMuted;
       },
+      showRedBanner() {
+        return this.$store.getters.getBannerTwoStatus;
+      },
     },
     watch: {
       isMuted () {
@@ -676,6 +679,7 @@
       :class="{
         'video-teaser__slider--active': currentSlideEq === i,
         'video-teaser__slider--noVideo': !!!entry.video,
+        'video-teaser__slider--hasBanner': showRedBanner,
       }"
       class="video-teaser__slider"
       :aria-hidden="(currentSlideEq !== i)"
@@ -848,6 +852,16 @@
     top: 10rem;
     right: 10rem;
     left: var(--size-gutter);
+  }
+}
+
+
+.video-teaser__slider--hasBanner {
+  .video-teaser__header {
+    right: 28rem;
+    @include bp('phone') {
+      right: 10rem;
+    }
   }
 }
 

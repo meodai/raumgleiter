@@ -175,24 +175,28 @@ export default {
     fallback: '404.html',
     // Fetch hidden projects
     routes: function () {
-      let projects = axios.get(process.env.API_URL + '/projects.json')
-      .then((res) => res.data.data)
-      .then((data) => {
-        return collect(data)
-        .filter((project) => {
-          return project.categories.sectors.length === 0 && project.categories.offers.length === 0;
-        })
-        .map((project) => {
-          switch (project.locale) {
-            case 'en':
-              return '/en/projects/' + project.slug;
-            case 'fr':
-              return '/fr/projets/' + project.slug;
-            default:
-              return '/projekte/' + project.slug;
-          }
-        }).all();
-      });
+      let projects = collect([]);
+
+      if(process.env.DEV_MODE !== 'true') {
+        projects = axios.get(process.env.API_URL + '/projects.json')
+        .then((res) => res.data.data)
+        .then((data) => {
+          return collect(data)
+          .filter((project) => {
+            return project.categories.sectors.length === 0 && project.categories.offers.length === 0;
+          })
+          .map((project) => {
+            switch (project.locale) {
+              case 'en':
+                return '/en/projects/' + project.slug;
+              case 'fr':
+                return '/fr/projets/' + project.slug;
+              default:
+                return '/projekte/' + project.slug;
+            }
+          }).all();
+        });
+      }
 
       let hiddenPages = axios.get(process.env.API_URL + '/hiddenPages.json')
       .then((res) => res.data.data)

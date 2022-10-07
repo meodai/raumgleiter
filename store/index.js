@@ -53,7 +53,14 @@ export const getters = {
       return false;
     }
 
-    return getters.getCurrentBannerData.status === true && getters.getCurrentBannerData.text;
+    return (getters.getCurrentBannerData.status === true && getters.getCurrentBannerData.text);
+  },
+  getBannerTwoStatus (state, getters) {
+    if (getters.getCurrentBannerData.length <1) {
+      return false;
+    }
+
+    return (getters.getCurrentBannerData.status2 === true && getters.getCurrentBannerData.text2);
   }
 };
 

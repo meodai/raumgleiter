@@ -14,7 +14,8 @@
         // Approx. map char number to size
         // Ref: https://stackoverflow.com/a/345203
         const chars = this.currentBannerData.text2.length;
-        const value = (chars - 2) * 0.037 + 10;
+        // 0.037
+        const value = (chars - 2) * 0.025 + 10;
         return value + 'em';
       }
     },

@@ -24,29 +24,31 @@
 
 <template>
     <div v-if="bannerTwoStatus">
-      <a
-        v-if="currentBannerData.link2"
-        :href="currentBannerData.link2"
-        class="bannerTwo"
-        :style="{ marginTop: navHeight, width: 'calc(30px + '+bannerWidth+')' }"
-      >
-        <nl2br
-          tag="div"
-          :text="currentBannerData.text2"
-          class-name="bannerTwo__text"
-        />
-      </a>
-      <div
-        v-else
-        class="bannerTwo"
-        :style="{ marginTop: navHeight, width: 'calc(30px + '+bannerWidth+')' }"
-      >
-        <nl2br
-          tag="div"
-          :text="currentBannerData.text2"
-          class-name="bannerTwo__text"
-        />
-      </div>
+      <template v-if="currentBannerData.link2">
+        <a
+          :href="currentBannerData.link2"
+          class="bannerTwo"
+          :style="{ marginTop: navHeight, maxWidth: 'calc(30px + '+bannerWidth+')' }"
+        >
+          <nl2br
+            tag="div"
+            :text="currentBannerData.text2"
+            class-name="bannerTwo__text"
+          />
+        </a>
+      </template>
+      <template v-else>
+        <div
+          class="bannerTwo"
+          :style="{ marginTop: navHeight, maxWidth: 'calc(30px + '+bannerWidth+')' }"
+        >
+          <nl2br
+            tag="div"
+            :text="currentBannerData.text2"
+            class-name="bannerTwo__text"
+          />
+        </div>
+      </template>
     </div>
 </template>
 
@@ -83,7 +85,7 @@
   @include bp('phone') {
     .bannerTwo {
       right: auto;
-      top: 50%;
+      top: 60%;
       left: 50%;
       transform: translate(-50%, -50%);
     }

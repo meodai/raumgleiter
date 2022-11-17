@@ -143,22 +143,30 @@
       />
     </VideoTeaserContainer>
 
-    <!--  Intro Block  -->
-    <Pagebuilder
-      v-if="currentPage"
-      :key="'page-intro-'+currentPage.slug"
-      :slug="'intro'+currentPage.slug"
-      :blocks="currentIntroBlock"
-    />
+<!--    &lt;!&ndash;  Intro Block  &ndash;&gt;-->
+<!--    <Pagebuilder-->
+<!--      v-if="currentPage"-->
+<!--      :key="'page-intro-'+currentPage.slug"-->
+<!--      :slug="'intro'+currentPage.slug"-->
+<!--      :blocks="currentIntroBlock"-->
+<!--    />-->
 
-    <!--  Page Content  -->
+<!--    &lt;!&ndash;  Page Content  &ndash;&gt;-->
+<!--    <Pagebuilder-->
+<!--      v-if="currentPage && hasEnteredRoute"-->
+<!--      :key="'page-content-'+currentPage.slug"-->
+<!--      class="content"-->
+<!--      :class="{ 'content&#45;&#45;inverted': currentPage.inverted }"-->
+<!--      :slug="'content'+currentPage.slug"-->
+<!--      :blocks="currentPagebuilder"-->
+<!--    />-->
+
     <Pagebuilder
-      v-if="currentPage && hasEnteredRoute"
-      :key="'page-content-'+currentPage.slug"
       class="content"
       :class="{ 'content--inverted': currentPage.inverted }"
       :slug="'content'+currentPage.slug"
-      :blocks="currentPagebuilder"
+      :blocks="currentPage.pagebuilder"
     />
+
   </div>
 </template>

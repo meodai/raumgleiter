@@ -1,7 +1,9 @@
 [build]
   publish = "dist"
   command = "npm run generate"
-  NODE_OPTIONS = "--openssl-legacy-provider"
+
+[build.environment]
+NODE_OPTIONS = "--openssl-legacy-provider"
 
 [[headers]]
   for = "/*"

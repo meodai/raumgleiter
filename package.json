@@ -1,6 +1,5 @@
 {
   "name": "raumgleiter",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -24,33 +23,24 @@
     "nuxt-i18n": "^6.28.1",
     "p5": "^1.5.0",
     "pixi.js": "^5.3.12",
-    "sass": "^1.56.1",
-    "throttle-debounce": "^3.0.1",
+    "throttle-debounce": "^5.0.0",
     "vue-nl2br": "^0.1.2",
     "vue-observe-visibility": "^1.0.0",
     "vue2-touch-events": "^3.2.2"
   },
   "devDependencies": {
-    "@netlify/plugin-sitemap": "^0.7.0",
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/style-resources": "^1.2.1",
-    "axios": "^0.21.4",
+    "axios": "^1.1.3",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
     "eslint": "^7.32.0",
     "eslint-plugin-nuxt": "^2.0.0",
-    "git-cz": "^4.9.0",
     "modern-css-reset": "^1.4.0",
     "netlify-plugin-cache-nuxt": "0.0.2",
-    "netlify-plugin-submit-sitemap": "^0.2.3",
-    "node-sass": "^5.0.0",
+    "sass": "^1.56.1",
     "sass-loader": "^10.4.1",
     "vue-template-compiler": "^2.7.14"
-  },
-  "config": {
-    "commitizen": {
-      "path": "git-cz"
-    }
   }
 }

@@ -1,6 +1,7 @@
 [build]
   publish = "dist"
   command = "npm run generate"
+  NODE_OPTIONS = "--openssl-legacy-provider"
 
 [[headers]]
   for = "/*"
@@ -16,15 +17,15 @@
   [headers.values]
     Cache-Control = "max-age=365000000, immutable"
 
-[[plugins]]
-  package = "@netlify/plugin-sitemap"
-  [plugins.inputs]
-    exclude = [
-      './dist/404.html',
-    ]
+#[[plugins]]
+#  package = "@netlify/plugin-sitemap"
+#  [plugins.inputs]
+#    exclude = [
+#      './dist/404.html',
+#    ]
 
 [[plugins]]
   package = "netlify-plugin-cache-nuxt"
 
-[[plugins]]
-  package = "netlify-plugin-submit-sitemap"
+#[[plugins]]
+#  package = "netlify-plugin-submit-sitemap"

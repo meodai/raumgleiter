@@ -34,7 +34,7 @@
   <div>
     <div
       v-for="(block, index) in blocks"
-      :key="slug+'block'+index+block.type"
+      :key="$i18n.locale+slug+'block'+index+block.type"
     >
       <component
         :is="block.type"
@@ -42,7 +42,7 @@
       >
         <div
           v-for="(childBlock, childIndex) in block.children"
-          :key="slug+'block'+index+block.type+'-'+childIndex+childBlock.type"
+          :key="$i18n.locale+slug+'block'+index+block.type+'-'+childIndex+childBlock.type"
         >
           <component
             :is="childBlock.type"

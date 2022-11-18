@@ -8,6 +8,7 @@ export default {
    */
   target: 'static',
   modern: 'client',
+  srcDir: 'src',
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head

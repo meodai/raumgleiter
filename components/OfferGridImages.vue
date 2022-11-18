@@ -120,7 +120,7 @@
 .offer-grid__images {
   display: flex;
   flex-wrap: wrap;
-  margin-left: calc(var(--size-rat) * -1);
+  margin-left: calc(-1 * var(--size-rat));
 }
 
 .offer-grid__image {
@@ -192,7 +192,7 @@
   &:nth-child(2),
   &:nth-child(5) {
     .offer-grid__caption, img {
-      transition-delay: calc(200ms + var(--delay) + 400ms), calc(var(--delay) + 400ms);
+      transition-delay: calc(600ms + var(--delay)), calc(var(--delay) + 400ms);
       transform: translate(15rem, 15rem);
     }
   }
@@ -212,7 +212,7 @@
       .offer-grid__caption, img {
         opacity: 0;
         transform: translate(0, 15rem);
-        transition-delay: 0;
+        transition-delay: 0ms;
       }
     }
   }

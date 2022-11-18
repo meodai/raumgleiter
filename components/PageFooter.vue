@@ -304,18 +304,18 @@
           this.place();
         }
       },
-      subscribe () {
-        if (!this.$refs.input.validity.valid) {
-          this.setInvalid();
-        } else {
-          this.isSuscribing = true;
-          // this.$refs.newsletterForm.submit();
-          this.timer = setTimeout(() => {
-            this.isSuscribing = false;
-            this.$refs.input.value = '';
-          }, 2000);
-        }
-      },
+      // subscribe () {
+      //   if (!this.$refs.input.validity.valid) {
+      //     this.setInvalid();
+      //   } else {
+      //     this.isSuscribing = true;
+      //     // this.$refs.newsletterForm.submit();
+      //     this.timer = setTimeout(() => {
+      //       this.isSuscribing = false;
+      //       this.$refs.input.value = '';
+      //     }, 2000);
+      //   }
+      // },
       setInvalid () {
         this.isInvalid = true;
         this.timer = setTimeout(() => {
@@ -378,55 +378,56 @@
       </div>
 
       <article class="footer__newsletter">
-        <h4 data-i>
-          {{ footer.newsletterLabel }}
-        </h4>
+<!--        <h4 data-i>-->
+<!--          {{ footer.newsletterLabel }}-->
+<!--        </h4>-->
 
-        <!-- Begin Mailchimp Signup Form -->
-        <form
-          ref="newsletterForm"
-          action="https://raumgleiter.us3.list-manage.com/subscribe/post?u=b9d5ffac0197f1e308e810c0a&amp;id=c00e021b7f"
-          method="post"
-          novalidate
-          class="footer__form"
-          data-i
-          :class="{
-            'footer__form--subscribed': isSuscribed,
-            'footer__form--subscribing': isSuscribing,
-            'footer__form--invalid': isInvalid,
-          }"
-        >
-          <label for="mce-EMAIL" :aria-label="$t('email')" />
-          <input
-            id="mce-EMAIL"
-            ref="input"
-            :disabled="isSuscribed || isSuscribing"
-            type="email"
-            autocapitalize="off"
-            autocomplete="off"
-            autocorrect="off"
-            name="EMAIL"
-            :placeholder="$t('email')"
-            required="required"
-          >
-          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-          <div class="field-shift" aria-hidden="true">
-            <input
-              type="text"
-              name="b_b9d5ffac0197f1e308e810c0a_c00e021b7f"
-              tabindex="-1"
-              value=""
-            >
-          </div>
-          <button
-            class="footer__button"
-            type="submit"
-          >
-            <span>{{ $t('subscribe') }}</span>
-          </button>
-        </form>
+<!--        &lt;!&ndash; Begin Mailchimp Signup Form &ndash;&gt;-->
+<!--        <form-->
+<!--          ref="newsletterForm"-->
+<!--          action="https://raumgleiter.us3.list-manage.com/subscribe/post?u=b9d5ffac0197f1e308e810c0a&amp;id=c00e021b7f"-->
+<!--          method="post"-->
+<!--          novalidate-->
+<!--          class="footer__form"-->
+<!--          data-i-->
+<!--          :class="{-->
+<!--            'footer__form&#45;&#45;subscribed': isSuscribed,-->
+<!--            'footer__form&#45;&#45;subscribing': isSuscribing,-->
+<!--            'footer__form&#45;&#45;invalid': isInvalid,-->
+<!--          }"-->
+<!--        >-->
+<!--          <label for="mce-EMAIL" :aria-label="$t('email')" />-->
+<!--          <input-->
+<!--            id="mce-EMAIL"-->
+<!--            ref="input"-->
+<!--            :disabled="isSuscribed || isSuscribing"-->
+<!--            type="email"-->
+<!--            autocapitalize="off"-->
+<!--            autocomplete="off"-->
+<!--            autocorrect="off"-->
+<!--            name="EMAIL"-->
+<!--            :placeholder="$t('email')"-->
+<!--            required="required"-->
+<!--          >-->
+<!--          &lt;!&ndash; real people should not fill this in and expect good things - do not remove this or risk form bot signups&ndash;&gt;-->
+<!--          <div class="field-shift" aria-hidden="true">-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              name="b_b9d5ffac0197f1e308e810c0a_c00e021b7f"-->
+<!--              tabindex="-1"-->
+<!--              value=""-->
+<!--            >-->
+<!--          </div>-->
+<!--          <button-->
+<!--            class="footer__button"-->
+<!--            type="submit"-->
+<!--          >-->
+<!--            <span>{{ $t('subscribe') }}</span>-->
+<!--          </button>-->
+<!--        </form>-->
         <!--End mc_embed_signup-->
       </article>
+
       <ul class="footer__nav">
         <li
           v-for="(section, key) in mainSections"

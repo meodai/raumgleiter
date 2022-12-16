@@ -2,10 +2,10 @@
   "name": "raumgleiter",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' nuxt",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' nuxt build",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' nuxt start",
+    "generate": "NODE_OPTIONS='--openssl-legacy-provider' nuxt generate",
     "lint:js": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },
@@ -24,7 +24,7 @@
     "p5": "^1.5.0",
     "pixi.js": "^5.3.12",
     "throttle-debounce": "^5.0.0",
-    "vue-nl2br": "^0.1.2",
+    "vue-nl2br": "^0.2.0",
     "vue-observe-visibility": "^1.0.0",
     "vue2-touch-events": "^3.2.2"
   },
@@ -32,14 +32,14 @@
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/style-resources": "^1.2.1",
-    "axios": "^1.1.3",
+    "axios": "^1.2.1",
     "babel-eslint": "^10.1.0",
     "dialog-typography": "^1.2.0",
     "eslint": "^7.32.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "modern-css-reset": "^1.4.0",
     "netlify-plugin-cache-nuxt": "0.0.2",
-    "sass": "^1.56.1",
+    "sass": "^1.56.2",
     "sass-loader": "^10.4.1",
     "vue-template-compiler": "^2.7.14"
   }

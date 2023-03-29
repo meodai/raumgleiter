@@ -455,7 +455,7 @@
         :aria-label="$t('language')"
         class="footer__lang"
         role="listbox"
-        v-show="$route.name !== 'index'"
+        v-show="!$route.name.startsWith('index')"
       >
         <li
           v-for="locale in $i18n.locales"

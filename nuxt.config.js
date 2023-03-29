@@ -120,11 +120,12 @@ export default {
     vuex: {syncLocale: true},
     langDir: 'lang/',
     lazy: true,
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      onlyOnRoot: true,
-    },
+    detectBrowserLanguage: false,
+    // detectBrowserLanguage: {
+    //   useCookie: true,
+    //   cookieKey: 'i18n_redirected',
+    //   onlyOnRoot: true,
+    // },
     baseUrl: 'https://www.raumgleiter.com',
     seo: true,
   },

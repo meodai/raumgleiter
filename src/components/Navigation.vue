@@ -38,9 +38,10 @@
     <div class="navigation__bar">
       <nuxt-link
         class="navigation__logo-link"
-        :to="localePath('/')"
+        :to="'/'"
         @click.native="logoClick"
       >
+<!--        :to="localePath('/')"-->
         <Logo class="navigation__logo" />
         <span class="sr-only">Raumgleiter</span>
       </nuxt-link>

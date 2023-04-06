@@ -27,6 +27,8 @@ export default {
       {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png'},
       {rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#000000'},
       {rel: 'msapplication-TileColor', content: '#9f00a7'},
+      {rel: 'preconnect', href: 'https://img.imageboss.me/'},
+      {rel: 'preconnect', href: 'https://raumgleiter.b-cdn.net/'},
     ],
     script: [],
   },
@@ -135,10 +137,6 @@ export default {
    */
   build: {
     postcss: {
-      // Add plugin names as key and arguments as value
-      // Install them before as dependencies with npm or yarn
-      plugins: {// Disable a plugin by passing false as value
-      },
       preset: {
         // Change the postcss-preset-env settings
         autoprefixer: {
